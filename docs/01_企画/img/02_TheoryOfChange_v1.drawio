@@ -1,0 +1,59 @@
+<mxfile host="app.diagrams.net" agent="work-navigation-app" version="22.0.0">
+  <diagram id="toc02" name="Theory of Change">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="図 02: Theory of Change — Outputs（手段）と Outcomes（変化）と Impact（最終目的）を混同しない。" style="text;align=center;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1320" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend" value="凡例: 各列内の項目は本企画書 §7.1 と一致。Outcomes は §15.1 仮説 H6/H10/H11 と直接結びつく。" style="text;align=left;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="40" y="640" width="1320" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="inputs" value="Inputs&#xa;&#xa;・単一メンテナの開発時間&#xa;・OSS コミュニティ公開&#xa;・導入先の運用工数&#xa;・標準作業3票・Excel 手順書" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F0FE;strokeColor=#1A73E8;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="240" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="activities" value="Activities&#xa;&#xa;・手順 DSL 設計&#xa;・端末アプリ開発&#xa;・メンテナンス Web 開発&#xa;・同期エンジン開発&#xa;・導入先での試行運用" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F0FE;strokeColor=#1A73E8;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8" vertex="1" parent="1">
+          <mxGeometry x="310" y="80" width="240" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="outputs" value="Outputs（=機能、楔）&#xa;&#xa;・段取り替え時の単位作業ナビ&#xa;・差分同期&#xa;・実績記録&#xa;・PDF 印刷出力&#xa;・Excel 取込" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF4E5;strokeColor=#D97706;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8" vertex="1" parent="1">
+          <mxGeometry x="580" y="80" width="240" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="outcomes" value="Outcomes（=変化、仮説）&#xa;&#xa;・段取り替え時間の標準偏差低減（H6）&#xa;・改訂反映時間の短縮（H10）&#xa;・教育属人化の緩和（J-C 副産物）&#xa;&#xa;※検証は §13.6 サイクルタイム集計" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#137333;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8" vertex="1" parent="1">
+          <mxGeometry x="850" y="80" width="240" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="impact" value="Impact（=最終目的）&#xa;&#xa;・ライン稼働率の改善&#xa;　（楔の最終目的）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FCE8E6;strokeColor=#C5221F;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8" vertex="1" parent="1">
+          <mxGeometry x="1120" y="80" width="240" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ea1" style="endArrow=classic;html=1" edge="1" parent="1" source="inputs" target="activities">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ea2" style="endArrow=classic;html=1" edge="1" parent="1" source="activities" target="outputs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ea3" style="endArrow=classic;html=1" edge="1" parent="1" source="outputs" target="outcomes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ea4" style="endArrow=classic;html=1" edge="1" parent="1" source="outcomes" target="impact">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="warn" value="混同禁止: Outputs（機能の存在）≠ Outcomes（行動・状態の変化）≠ Impact（最終的に変えたい世界）" style="text;align=center;fontSize=12;fontStyle=2;fontColor=#C5221F" vertex="1" parent="1">
+          <mxGeometry x="40" y="350" width="1320" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="kill" value="Outcomes が観測されないとき → §15.2 Kill Criteria K2（ばらつき改善せず）が発動" style="text;align=center;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="1320" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
