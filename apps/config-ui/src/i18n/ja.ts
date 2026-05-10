@@ -48,5 +48,13 @@ export const ja = {
     online: 'オンライン',
     offline: 'オフライン',
     aria_label: '通信状態'
+  },
+  // §9.2.2 誤操作予防
+  confirm: {
+    delete_title: '削除します',
+    delete_description_prefix: 'コード ',
+    delete_description_suffix: ' を削除します。元に戻せません。',
+    delete_confirm: '削除する',
+    cancel: '取消'
   }
 } as const;

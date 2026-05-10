@@ -22,6 +22,8 @@ export default defineConfig({
     // jsdom
     environment: 'jsdom',
     // expect グローバル
-    globals: true
+    globals: true,
+    // jest-dom のカスタムマッチャを登録（toBeInTheDocument 等）
+    setupFiles: ['./src/test-setup.ts']
   }
 });

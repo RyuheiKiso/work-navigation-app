@@ -23,7 +23,7 @@ export default defineConfig({
     environment: 'jsdom',
     // グローバル `expect` を有効化する
     globals: true,
-    // セットアップは最小（必要に応じて追加）
-    setupFiles: []
+    // jest-dom のカスタムマッチャを登録（toBeInTheDocument 等）
+    setupFiles: ['./src/test-setup.ts']
   }
 });

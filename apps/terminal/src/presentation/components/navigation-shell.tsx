@@ -7,6 +7,7 @@ import { t, getLocale, setLocale, isRtl, type LocaleKey } from '../../i18n';
 import { logout } from '../../adapter/api-client';
 import { useTaskNavigation } from '../hooks/use-task-navigation';
 import { useOnlineStatus } from '../hooks/use-online-status';
+import { ConfirmDialog } from './confirm-dialog';
 
 export interface NavigationShellProps {
   user: { user_id: string; display_name: string };
@@ -17,6 +18,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
   const [locale, setLocaleState] = useState<LocaleKey>(getLocale());
   const nav = useTaskNavigation();
   const online = useOnlineStatus();
+  const [confirmingAndon, setConfirmingAndon] = useState(false);
 
   return (
     <div
@@ -357,7 +359,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
         </button>
         <button
           type="button"
-          onClick={nav.fireAndon}
+          onClick={() => setConfirmingAndon(true)}
           style={{
             minHeight: 64,
             flex: 1,
@@ -371,6 +373,19 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
           🚨 アンドン
         </button>
       </footer>
+      <ConfirmDialog
+        open={confirmingAndon}
+        title={t('confirm.andon_title')}
+        description={t('confirm.andon_description')}
+        confirmLabel={t('confirm.andon_confirm')}
+        cancelLabel={t('confirm.cancel')}
+        variant="danger"
+        onConfirm={() => {
+          setConfirmingAndon(false);
+          nav.fireAndon();
+        }}
+        onCancel={() => setConfirmingAndon(false)}
+      />
     </div>
   );
 }

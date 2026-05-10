@@ -43,5 +43,12 @@ export const en = {
     online: 'Online',
     offline: 'Offline',
     aria_label: 'Network status'
+  },
+  confirm: {
+    delete_title: 'Delete record',
+    delete_description_prefix: 'Code ',
+    delete_description_suffix: ' will be deleted. This cannot be undone.',
+    delete_confirm: 'Delete',
+    cancel: 'Cancel'
   }
 } as const;

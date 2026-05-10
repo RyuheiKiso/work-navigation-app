@@ -66,5 +66,12 @@ export const ja = {
     online: 'オンライン',
     offline: 'オフライン',
     aria_label: '通信状態'
+  },
+  // §9.2.2 誤操作予防の確認文言
+  confirm: {
+    andon_title: 'アンドンを発火しますか？',
+    andon_description: '班長へ即時に応援要請が送信されます。発火後は取り消しできません。',
+    andon_confirm: '発火する',
+    cancel: '取消'
   }
 } as const;

@@ -59,5 +59,11 @@ export const en = {
     online: 'Online',
     offline: 'Offline',
     aria_label: 'Network status'
+  },
+  confirm: {
+    andon_title: 'Trigger andon?',
+    andon_description: 'Help will be requested from the lead immediately. This cannot be undone.',
+    andon_confirm: 'Trigger',
+    cancel: 'Cancel'
   }
 } as const;

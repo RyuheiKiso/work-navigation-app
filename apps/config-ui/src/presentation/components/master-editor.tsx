@@ -8,6 +8,8 @@ import {
   listParts, upsertPart, deletePart,
   type MasterRow
 } from '../../adapter/api-client';
+import { t } from '../../i18n';
+import { ConfirmDialog } from './confirm-dialog';
 
 export interface MasterEditorProps {
   kind: 'products' | 'equipments' | 'parts';
@@ -26,6 +28,7 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
   const [extra, setExtra] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState<string | null>(null);
 
   const meta = KIND_LABEL[kind];
 
@@ -74,8 +77,7 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
     }
   }
 
-  async function handleDelete(c: string): Promise<void> {
-    if (!confirm(`${c} を削除しますか？`)) return;
+  async function performDelete(c: string): Promise<void> {
     setBusy(true); setError(null);
     try { await deleter(c); await refresh(); } catch (e) { setError((e as Error).message); } finally { setBusy(false); }
   }
@@ -133,7 +135,7 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
                   </button>
                   <button
                     type="button"
-                    onClick={() => void handleDelete(r.code)}
+                    onClick={() => setConfirmingDelete(r.code)}
                     style={{ padding: '4px 8px', background: '#DC3545', color: '#FFFFFF', border: 'none', borderRadius: 4, cursor: 'pointer' }}
                   >
                     削除
@@ -147,6 +149,24 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
           </tbody>
         </table>
       </section>
+      <ConfirmDialog
+        open={confirmingDelete !== null}
+        title={t('confirm.delete_title')}
+        description={
+          t('confirm.delete_description_prefix') +
+          (confirmingDelete ?? '') +
+          t('confirm.delete_description_suffix')
+        }
+        confirmLabel={t('confirm.delete_confirm')}
+        cancelLabel={t('confirm.cancel')}
+        variant="danger"
+        onConfirm={() => {
+          const code = confirmingDelete;
+          setConfirmingDelete(null);
+          if (code) void performDelete(code);
+        }}
+        onCancel={() => setConfirmingDelete(null)}
+      />
     </div>
   );
 }
