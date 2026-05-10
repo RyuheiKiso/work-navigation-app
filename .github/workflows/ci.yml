@@ -112,6 +112,19 @@ jobs:
         run: bash scripts/lint-file-size.sh
 
   # ----------------------------------------------------------------------
+  # 行コメント lint（CLAUDE.md コメント方針）
+  # 各ソースファイルのモジュール doc コメント有無と placeholder 検出。
+  # ----------------------------------------------------------------------
+  line-comments-lint:
+    name: 行コメント lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+      - name: scripts/lint-line-comments.sh
+        run: bash scripts/lint-line-comments.sh
+
+  # ----------------------------------------------------------------------
   # 用語集 lint（§28 同義語禁止規約）
   # ----------------------------------------------------------------------
   glossary-lint:
