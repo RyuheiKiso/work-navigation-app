@@ -2,8 +2,10 @@
 // 共通の確認ダイアログ。手袋・濡れ手・騒音下での誤タップが致命的にならないよう、
 // 破壊的操作 (アンドン発火、タスク完了、削除など) の前に必ず差し挟む。
 // `window.confirm()` は a11y 不全（フォーカストラップ無し、screenreader 対応不安定）のため使わない。
+// 配色は tokens/access 経由でテーマ可変。danger は palette.danger、normal は palette.brand を accent に。
 
 import { useEffect, useRef } from 'react';
+import { palette, radius, fontSize, fontWeight, lineHeight, space, elevation } from '../../tokens/access';
 
 export type ConfirmVariant = 'danger' | 'normal';
 
@@ -39,14 +41,15 @@ export function ConfirmDialog(props: ConfirmDialogProps): JSX.Element | null {
   if (!props.open) return null;
 
   const variant: ConfirmVariant = props.variant ?? 'normal';
-  const accent = variant === 'danger' ? '#DC3545' : '#28A745';
+  const accent = variant === 'danger' ? palette.danger.default : palette.brand.default;
 
   return (
     <div
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(13,17,23,0.55)',
+        // scrim — 操作対象を奥に退ける半透明オーバーレイ。トークン化対象外（CSS 変数化は別途）
+        background: 'rgba(13, 17, 23, 0.55)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -63,35 +66,42 @@ export function ConfirmDialog(props: ConfirmDialogProps): JSX.Element | null {
         aria-labelledby="confirm-dialog-title"
         aria-describedby="confirm-dialog-desc"
         style={{
-          background: '#FFFFFF',
-          padding: 24,
-          borderRadius: 16,
-          minWidth: 320,
-          maxWidth: 480,
-          boxShadow: '0 10px 25px rgba(0,0,0,0.25)'
+          background: palette.surface,
+          color: palette.fg,
+          padding: space[5],
+          borderRadius: radius.large,
+          minWidth: '320px',
+          maxWidth: '480px',
+          boxShadow: elevation[3]
         }}
       >
-        <h2 id="confirm-dialog-title" style={{ marginTop: 0, fontSize: 20, color: accent }}>
+        <h2
+          id="confirm-dialog-title"
+          style={{ marginTop: 0, fontSize: fontSize.subtitle, color: accent, fontWeight: fontWeight.semibold }}
+        >
           {props.title}
         </h2>
-        <p id="confirm-dialog-desc" style={{ fontSize: 14, lineHeight: 1.6, color: '#212529' }}>
+        <p
+          id="confirm-dialog-desc"
+          style={{ fontSize: fontSize.body, lineHeight: lineHeight.relaxed, color: palette.fg }}
+        >
           {props.description}
         </p>
-        <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', gap: space[3], marginTop: space[5], justifyContent: 'flex-end' }}>
           <button
             ref={cancelRef}
             type="button"
             onClick={props.onCancel}
             style={{
-              minHeight: 48,
-              minWidth: 96,
-              padding: '8px 16px',
-              background: '#FFFFFF',
-              color: '#212529',
-              border: '1px solid #6C757D',
-              borderRadius: 8,
+              minHeight: '48px',
+              minWidth: '96px',
+              padding: `${space[2]} ${space[4]}`,
+              background: palette.surface,
+              color: palette.fg,
+              border: `1px solid ${palette.borderStrong}`,
+              borderRadius: radius.medium,
               cursor: 'pointer',
-              fontSize: 14
+              fontSize: fontSize.body
             }}
           >
             {props.cancelLabel}
@@ -100,16 +110,16 @@ export function ConfirmDialog(props: ConfirmDialogProps): JSX.Element | null {
             type="button"
             onClick={props.onConfirm}
             style={{
-              minHeight: 48,
-              minWidth: 96,
-              padding: '8px 16px',
+              minHeight: '48px',
+              minWidth: '96px',
+              padding: `${space[2]} ${space[4]}`,
               background: accent,
-              color: '#FFFFFF',
+              color: palette.white,
               border: 'none',
-              borderRadius: 8,
+              borderRadius: radius.medium,
               cursor: 'pointer',
-              fontSize: 14,
-              fontWeight: 600
+              fontSize: fontSize.body,
+              fontWeight: fontWeight.semibold
             }}
           >
             {props.confirmLabel}
