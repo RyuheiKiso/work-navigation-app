@@ -30,6 +30,8 @@ tracing.workspace = true
 chrono = { version = "0.4", features = ["serde"] }
 # Base64URL（HS256 トークン検証用）
 base64 = "0.22"
+# UUIDv7 ベースのリクエスト ID 生成
+uuid = { workspace = true }
 
 [lints]
 workspace = true

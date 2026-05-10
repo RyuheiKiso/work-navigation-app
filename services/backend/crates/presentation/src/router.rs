@@ -3,7 +3,7 @@
 //! 対応 §: ロードマップ §7.3 §10.3.1 §10.5 §11.4.1
 
 use axum::{
-    middleware::from_fn_with_state,
+    middleware::{from_fn, from_fn_with_state},
     routing::{delete, get, post, put},
     Router,
 };
@@ -16,6 +16,7 @@ use crate::{
     handler_audit, handler_auth, handler_dashboard, handler_flows, handler_master,
     handler_records, handler_tasks,
     middleware_auth::require_session,
+    middleware_request_id::request_id,
 };
 
 #[must_use]
@@ -58,5 +59,7 @@ where
         .layer(from_fn_with_state(session_factory, require_session))
         .with_state(state);
 
-    public.merge(protected)
+    // 全ルートに request_id ミドルウェアを挟む。
+    // 認証より外側で発行することで、401/403 のレスポンスにも ID が乗る。
+    public.merge(protected).layer(from_fn(request_id))
 }
