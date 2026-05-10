@@ -362,14 +362,17 @@ export const TOKENS = {
       "display":  { "value": "32px" }
     },
     "lineHeight": {
-      "tight":  { "value": "1.2" },
-      "normal": { "value": "1.5" },
-      "loose":  { "value": "1.75" }
+      "tight":   { "value": "1.2" },
+      "snug":    { "value": "1.4", "_meta": { "note": "日本語見出し向け（24/32px）。tight 1.2 では下端が窮屈、normal 1.5 では冗長になる中間" } },
+      "normal":  { "value": "1.5" },
+      "relaxed": { "value": "1.6", "_meta": { "note": "日本語本文向け。長文の可読性を上げる" } },
+      "loose":   { "value": "1.75" }
     },
     "weight": {
-      "regular": { "value": 400 },
-      "medium":  { "value": 500 },
-      "bold":    { "value": 700 }
+      "regular":  { "value": 400 },
+      "medium":   { "value": 500 },
+      "semibold": { "value": 600, "_meta": { "note": "見出しの強調と CTA を区別するための中間ウェイト。bold は andon／display 専用に温存" } },
+      "bold":     { "value": 700 }
     },
     "letterSpacing": {
       "tight":  { "value": "-0.01em" },

@@ -102,12 +102,15 @@ export const fontSize = {
 export const fontWeight = {
   regular: f.weight.regular.value,
   medium: f.weight.medium.value,
+  semibold: f.weight.semibold.value,
   bold: f.weight.bold.value
 } as const;
 
 export const lineHeight = {
   tight: f.lineHeight.tight.value,
+  snug: f.lineHeight.snug.value,
   normal: f.lineHeight.normal.value,
+  relaxed: f.lineHeight.relaxed.value,
   loose: f.lineHeight.loose.value
 } as const;
 
