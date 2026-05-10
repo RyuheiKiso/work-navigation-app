@@ -29,6 +29,10 @@ function buildBaseVars(): string {
     `--wna-c-n-700: ${c.neutral['700'].value}`,
     `--wna-c-n-800: ${c.neutral['800'].value}`,
     `--wna-c-n-900: ${c.neutral['900'].value}`,
+    // brand — CTA／リンク／フォーカス誘導の主役色（semantic.success との重複を避ける）
+    `--wna-c-brand-subtle: ${c.brand.primary.subtle.value}`,
+    `--wna-c-brand-default: ${c.brand.primary.default.value}`,
+    `--wna-c-brand-strong: ${c.brand.primary.strong.value}`,
     // semantics
     `--wna-c-success-subtle: ${c.semantic.success.subtle.value}`,
     `--wna-c-success-default: ${c.semantic.success.default.value}`,
@@ -82,6 +86,9 @@ function buildOutdoorVars(): string {
     `--wna-c-warning-strong: ${c.outdoor.warning_high.value}`,
     `--wna-c-danger-strong: ${c.outdoor.danger_high.value}`,
     `--wna-c-info-strong: ${c.semantic.info.strong.value}`,
+    // 屋外で青が飛びやすいため strong 相当を default にも流用
+    `--wna-c-brand-default: ${c.outdoor.brand_high.value}`,
+    `--wna-c-brand-strong: ${c.outdoor.brand_high.value}`,
     `--wna-shadow-1: ${e.outdoor['1'].value}`,
     `--wna-shadow-2: ${e.outdoor['2'].value}`,
     // 屋外は反射でグレーが白く飛ぶため背景を真白に固定
@@ -114,6 +121,9 @@ function buildDarkVars(): string {
     `--wna-c-danger-strong: ${c.semantic.danger.subtle.value}`,
     `--wna-c-info-subtle: ${c.semantic.info.strong.value}`,
     `--wna-c-info-strong: ${c.semantic.info.subtle.value}`,
+    // 暗背景上で brand 系も役割逆転（subtle/strong 入替）
+    `--wna-c-brand-subtle: ${c.brand.primary.strong.value}`,
+    `--wna-c-brand-strong: ${c.brand.primary.subtle.value}`,
     // 暗背景では neutral 階調も役割逆転
     `--wna-c-n-0: ${c.neutral['900'].value}`,
     `--wna-c-n-50: ${c.neutral['800'].value}`,

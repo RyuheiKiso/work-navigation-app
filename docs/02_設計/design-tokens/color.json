@@ -23,6 +23,14 @@
       "800": { "value": "#212529" },
       "900": { "value": "#0D1117" }
     },
+    "brand": {
+      "_meta": { "note": "ブランドアクセント。CTA／リンク／フォーカス誘導の主役色。semantic.success と区別するため青系で固定し、製造業のコーポレート色帯と整合する" },
+      "primary": {
+        "subtle":  { "value": "#E0EFFE" },
+        "default": { "value": "#0066CC" },
+        "strong":  { "value": "#003E7E" }
+      }
+    },
     "semantic": {
       "success": {
         "subtle":  { "value": "#D4EDDA" },
@@ -57,7 +65,8 @@
       "_meta": { "section": "ロードマップ §6.3 屋外 1,000nits 環境向け強コントラスト版" },
       "success_high":  { "value": "#0F5132" },
       "warning_high":  { "value": "#664D03" },
-      "danger_high":   { "value": "#58151C" }
+      "danger_high":   { "value": "#58151C" },
+      "brand_high":    { "value": "#003E7E" }
     }
   }
 }

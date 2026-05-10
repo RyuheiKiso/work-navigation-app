@@ -31,6 +31,12 @@ export const palette = {
     800: cv('c-n-800'),
     900: cv('c-n-900')
   },
+  // ブランドアクセント（CTA／リンク／フォーカス誘導）— success と区別する
+  brand: {
+    subtle: cv('c-brand-subtle'),
+    default: cv('c-brand-default'),
+    strong: cv('c-brand-strong')
+  },
   success: {
     subtle: cv('c-success-subtle'),
     default: cv('c-success-default'),
