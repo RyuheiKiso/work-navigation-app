@@ -16,7 +16,7 @@
     "verbatimModuleSyntax": false,
     "allowJs": false,
     "resolveJsonModule": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals", "vitest-axe/extend-expect"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "src-tauri"]

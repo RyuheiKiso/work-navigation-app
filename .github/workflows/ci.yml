@@ -262,3 +262,15 @@ jobs:
         run: pnpm -r typecheck
       - name: テスト
         run: pnpm -r test
+      - name: カバレッジ計測（§13.2 ベースライン強制）
+        run: pnpm -r coverage
+      - name: カバレッジ成果物のアップロード
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: typescript-coverage
+          path: |
+            apps/*/coverage/lcov.info
+            apps/*/coverage/index.html
+          if-no-files-found: ignore
+          retention-days: 14
