@@ -60,5 +60,11 @@ export const ja = {
   completion: {
     manual: '人手判定',
     photo: '写真証跡'
+  },
+  // §10.6 オフライン耐性: ネットワーク状態の現場可視化
+  network: {
+    online: 'オンライン',
+    offline: 'オフライン',
+    aria_label: '通信状態'
   }
 } as const;

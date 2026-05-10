@@ -103,23 +103,30 @@ export function subscribeLocale(listener: LocaleListener): () => void {
  * 翻訳関数。
  *
  * `t('task.start_button')` のようにドット区切りのキーで参照する。
- * 未登録キーはキー文字列をそのまま返す（§3.6.4 過剰提示／不足提示禁止のため
- * 「キーが見えてしまう」失敗パターンを開発時に検出しやすくする）。
+ * 当該ロケールに無いキーは ja 辞書にフォールバックする（§11.3.1 段階的拡張で
+ * 拡張ロケールが追従できないキーが生じた際もユーザーに「key 文字列」を見せない）。
+ * ja にも無ければ最後にキー文字列を返す（§3.6.4 過剰提示／不足提示禁止の検出用）。
  */
 export function t(key: string): string {
-  // 現在ロケールの辞書を取得
-  const dict = LOCALES[currentLocale] as unknown as Record<string, string>;
-  // ドット区切りで再帰的に解決する
+  // 現在ロケール → ja の順に検索
+  const v = lookup(LOCALES[currentLocale], key);
+  if (v !== undefined) return v;
+  if (currentLocale !== 'ja') {
+    const fallback = lookup(LOCALES.ja, key);
+    if (fallback !== undefined) return fallback;
+  }
+  return key;
+}
+
+function lookup(dict: unknown, key: string): string | undefined {
   const parts = key.split('.');
   let cursor: unknown = dict;
   for (const p of parts) {
     if (cursor && typeof cursor === 'object' && p in (cursor as Record<string, unknown>)) {
       cursor = (cursor as Record<string, unknown>)[p];
     } else {
-      // 未登録: キー文字列を返す
-      return key;
+      return undefined;
     }
   }
-  // 最終値が文字列ならそれを返す
-  return typeof cursor === 'string' ? cursor : key;
+  return typeof cursor === 'string' ? cursor : undefined;
 }

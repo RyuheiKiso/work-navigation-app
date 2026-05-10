@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { t, getLocale, setLocale, isRtl, type LocaleKey } from '../../i18n';
 import { logout } from '../../adapter/api-client';
 import { useTaskNavigation } from '../hooks/use-task-navigation';
+import { useOnlineStatus } from '../hooks/use-online-status';
 
 export interface NavigationShellProps {
   user: { user_id: string; display_name: string };
@@ -15,6 +16,7 @@ export interface NavigationShellProps {
 export function NavigationShell(props: NavigationShellProps): JSX.Element {
   const [locale, setLocaleState] = useState<LocaleKey>(getLocale());
   const nav = useTaskNavigation();
+  const online = useOnlineStatus();
 
   return (
     <div
@@ -45,7 +47,35 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
         <span style={{ color: '#6C757D' }}>
           | 状態: {nav.selectedTaskState} | タスク: {nav.selectedTaskId ?? '未選択'}
         </span>
-        <label style={{ marginLeft: 'auto' }}>
+        <span
+          role="status"
+          aria-label={t('network.aria_label')}
+          aria-live="polite"
+          style={{
+            marginLeft: 'auto',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '4px 10px',
+            borderRadius: 999,
+            fontSize: 12,
+            background: online ? '#D4EDDA' : '#F8D7DA',
+            color: online ? '#155724' : '#721C24',
+            border: '1px solid ' + (online ? '#C3E6CB' : '#F5C6CB')
+          }}
+        >
+          <span
+            aria-hidden="true"
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: online ? '#28A745' : '#DC3545'
+            }}
+          />
+          {online ? t('network.online') : t('network.offline')}
+        </span>
+        <label>
           🌐{' '}
           <select
             value={locale}

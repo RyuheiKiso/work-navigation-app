@@ -11,6 +11,7 @@ import { t, getLocale, setLocale, type LocaleKey, isRtl, LOCALES } from '../../i
 import { useFlowEditor } from '../hooks/use-flow-editor';
 import { publishTrial } from '../utils/publish-trial';
 import type { AutosaveStatus } from '../hooks/use-autosave';
+import { useOnlineStatus } from '../hooks/use-online-status';
 
 const TEMPLATE_CATALOG: ReadonlyArray<readonly [string, string]> = [
   ['自動車：組立', '/templates/automotive/assembly-line.yaml'],
@@ -51,6 +52,7 @@ function autosaveColor(status: AutosaveStatus): string {
 
 export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
   const editor = useFlowEditor(props.initialFlow);
+  const online = useOnlineStatus();
   const [locale, setLocaleState] = useState<LocaleKey>(getLocale());
   const [now, setNow] = useState<number>(() => Date.now());
 
@@ -131,6 +133,33 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
           aria-label={t('setting_ui.autosave_label')}
         >
           {autosaveLabel(editor.autosaveStatus, editor.lastSavedAt, now)}
+        </span>
+        <span
+          role="status"
+          aria-label={t('network.aria_label')}
+          aria-live="polite"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '4px 10px',
+            borderRadius: 999,
+            fontSize: 12,
+            background: online ? '#D4EDDA' : '#F8D7DA',
+            color: online ? '#155724' : '#721C24',
+            border: '1px solid ' + (online ? '#C3E6CB' : '#F5C6CB')
+          }}
+        >
+          <span
+            aria-hidden="true"
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: online ? '#28A745' : '#DC3545'
+            }}
+          />
+          {online ? t('network.online') : t('network.offline')}
         </span>
         <label style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
           🌐

@@ -38,5 +38,10 @@ export const en = {
   completion: {
     manual: 'Manual',
     photo: 'Photo evidence'
+  },
+  network: {
+    online: 'Online',
+    offline: 'Offline',
+    aria_label: 'Network status'
   }
 } as const;
