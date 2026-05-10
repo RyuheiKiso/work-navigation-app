@@ -21,8 +21,6 @@ use crate::app_state::AppState;
 use crate::middleware_auth::AuthContext;
 use crate::middleware_request_id::RequestId;
 
-pub async fn healthz() -> &'static str { "ok" }
-
 /// 共通: ApiError を返す前にリクエスト ID を埋め込む
 fn enrich(err: ApiError, rid: Option<&RequestId>) -> ApiError {
     if let Some(r) = rid {

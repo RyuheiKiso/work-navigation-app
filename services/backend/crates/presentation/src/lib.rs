@@ -10,6 +10,7 @@ pub mod handler_audit;
 pub mod handler_master;
 pub mod handler_flows;
 pub mod handler_dashboard;
+pub mod handler_health;
 pub mod middleware_auth;
 pub mod middleware_request_id;
 pub mod app_state;

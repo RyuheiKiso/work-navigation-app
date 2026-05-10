@@ -13,8 +13,8 @@ use wna_domain::PasswordHasher;
 
 use crate::{
     app_state::AppState,
-    handler_audit, handler_auth, handler_dashboard, handler_flows, handler_master,
-    handler_records, handler_tasks,
+    handler_audit, handler_auth, handler_dashboard, handler_flows, handler_health,
+    handler_master, handler_records, handler_tasks,
     middleware_auth::require_session,
     middleware_request_id::request_id,
 };
@@ -27,7 +27,8 @@ where
     let session_factory: Arc<Hs256SessionFactory> = state.session_factory.clone();
 
     let public = Router::new()
-        .route("/healthz", get(handler_tasks::healthz))
+        .route("/healthz", get(handler_health::healthz))
+        .route("/readyz", get(handler_health::readyz::<H>))
         .route("/auth/login", post(handler_auth::post_login::<H>))
         .with_state(state.clone());
 

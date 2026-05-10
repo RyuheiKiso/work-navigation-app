@@ -32,6 +32,8 @@ chrono = { version = "0.4", features = ["serde"] }
 base64 = "0.22"
 # UUIDv7 ベースのリクエスト ID 生成
 uuid = { workspace = true }
+# /readyz の DB ping
+sqlx = { workspace = true }
 
 [lints]
 workspace = true
