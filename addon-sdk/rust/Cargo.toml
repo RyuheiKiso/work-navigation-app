@@ -1,0 +1,20 @@
+# 対応 §: ロードマップ §17 §17.2 §17.3
+# Rust 一次 SDK。アドオン作者は本 crate を依存に追加し、`#[wna_addon::export]` で API を公開する。
+
+[package]
+name = "wna-addon-sdk"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "work-navigation-app addon SDK (Rust, capability-based, §17.3)"
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

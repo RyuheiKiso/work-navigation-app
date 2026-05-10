@@ -1,0 +1,121 @@
+# 対応 §: ロードマップ §7 §8 §9.4 §9.6
+# 本ファイルは Rust ワークスペース全体のルート設定。
+# クリーンアーキテクチャ（§9.1）に従い services/backend/ 配下を 5 crate に分割し、
+# addon-sdk/rust も同ワークスペースに含めることで依存解決を一元化する。
+
+# Cargo ワークスペース宣言（resolver v2 を使用して edition 2021 以降の解決規則を適用する）
+[workspace]
+# ワークスペースに含めるメンバー crate を列挙する（クリーンアーキ層を物理 crate で分離）
+members = [
+  # ドメイン層（最内層、純粋）
+  "services/backend/crates/domain",
+  # ユースケース層
+  "services/backend/crates/usecase",
+  # ゲートウェイ層（PostgreSQL／DTO）
+  "services/backend/crates/adapter",
+  # プレゼンテーション層（axum REST API）
+  "services/backend/crates/presentation",
+  # インフラ層（main 関数／DI コンテナ）
+  "services/backend/crates/infrastructure",
+  # アドオンランタイム（Wasmtime ホスト、§17.5 §27 F-004）
+  "services/backend/crates/addon-runtime",
+  # アドオン SDK（Rust 一次サポート、§17.2）
+  "addon-sdk/rust",
+  # サンプルアドオン（Hello Step、§17.7 受入観点）
+  "addon-sdk/examples/hello-step",
+  # サンプルアドオン（Slack Notify、§17.7）
+  "addon-sdk/examples/slack-notify",
+  # サンプルアドオン（OPC UA Bridge、§17.7）
+  "addon-sdk/examples/opc-ua-bridge",
+  # CLI クライアントサンプル（§10.3.5 examples/）
+  "examples/cli-client",
+]
+# Tauri 側は独立 toolchain（android-ndk／windows SDK）が必要なため
+# サーバ側ワークスペースから明示的に除外する
+exclude = [
+  "apps/terminal/src-tauri",
+]
+# 依存解決アルゴリズム v2 を使用する（Rust 2021 edition のデフォルト）
+resolver = "2"
+
+# 全 crate 共通のメタデータを宣言する（個々の crate からは workspace = true で参照する）
+[workspace.package]
+# プロジェクトのバージョン（SemVer 2.0.0、§19.3 §32）
+version = "0.1.0"
+# Rust エディション（2024 はまだ stable 未到達のため 2021 を採用）
+edition = "2021"
+# Apache-2.0 ライセンス（ADR-0001／§19.1）
+license = "Apache-2.0"
+# プロジェクトリポジトリ
+repository = "https://github.com/RyuheiKiso/work-navigation-app"
+# 作者表記
+authors = ["work-navigation-app contributors"]
+# プロジェクトの英語説明
+description = "Manufacturing work navigation app (terminal / config UI / backend / addon SDK)"
+# Rust の最低必要バージョン（2026-05 時点で安定し各依存も対応する版）
+rust-version = "1.78"
+
+# ワークスペース全体で共有する依存関係（バージョン解決の重複排除のため一元管理する）
+[workspace.dependencies]
+# axum: REST API ルータ／ハンドラ（presentation 層、§7.3）
+axum = "0.7"
+# tokio: 非同期ランタイム（メモ L26 §8）
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+# serde: シリアライズ／デシリアライズ（DTO で使用）
+serde = { version = "1", features = ["derive"] }
+# serde_json: JSON 入出力（OpenAPI 3.1／§10.3.1 と整合）
+serde_json = "1"
+# sqlx: PostgreSQL 接続（adapter 層）
+# 本番では rustls を有効化する。開発時は WSL2 の C コンパイラ target 解析の問題を避けるため
+# tls 機能を外して runtime-tokio のみとする（接続は内部ネットワーク前提、§1）。
+sqlx = { version = "0.7", default-features = false, features = ["runtime-tokio", "postgres", "uuid", "chrono", "macros", "migrate"] }
+# uuid: UUID v7（DeviceId、§10.6.1）
+uuid = { version = "1", features = ["v7", "serde"] }
+# chrono: UTC ISO 8601（§20.2）
+chrono = { version = "0.4", features = ["serde"] }
+# thiserror: 境界層エラー型の派生
+thiserror = "1"
+# anyhow: アプリ層の合成エラー（境界では thiserror、内側は anyhow に集約）
+anyhow = "1"
+# tracing: 構造化ログ（§16）
+tracing = "0.1"
+# tracing-subscriber: ログ出力ターゲット
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+# proptest: 性質ベーステスト（§13.2）
+proptest = "1"
+
+# リリースビルドの最適化設定（§11.7.2 効率／§5.2 性能目標）
+[profile.release]
+# LTO を有効化してサイズと性能を改善する
+lto = "thin"
+# コード生成ユニットを 1 にしてコンパイル時最適化を強める
+codegen-units = 1
+# パニック時に即座にアボートさせバイナリサイズを削減する
+panic = "abort"
+# シンボルをストリップしてバイナリを縮小する
+strip = "symbols"
+
+# テストプロファイル（性質ベーステストで shrinkage が必要なため debug 情報を保持）
+[profile.test]
+# デバッグ情報を保持する
+debug = true
+
+# clippy lint レベルの一括強制（§9.6 静的解析 warning ゼロ）
+[workspace.lints.clippy]
+# pedantic 群を warn として有効化する
+pedantic = { level = "warn", priority = -1 }
+# nursery 群を warn として有効化する
+nursery = { level = "warn", priority = -1 }
+# unwrap の濫用を禁止する（§11.6 信頼性）
+unwrap_used = "warn"
+# expect の濫用を禁止する
+expect_used = "warn"
+# panic の意図しない発生を禁止する（パブリック API では）
+panic = "warn"
+
+# rustc lint レベル（§9.6 各行コメント率と整合する形でドキュメンテーション必須化）
+[workspace.lints.rust]
+# パブリック API の rustdoc 欠落を warn とする
+missing_docs = "warn"
+# unsafe コードは原則禁止する（必要時は ADR で根拠を残す）
+unsafe_code = "forbid"

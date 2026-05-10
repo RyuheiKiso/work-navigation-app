@@ -1,0 +1,23 @@
+# 対応 §: ロードマップ §17.7 §19.4.2
+# 「30 分で書ける Hello Step」サンプルアドオン（§19.4.2）。
+# 受入観点 §17.7「サンプルアドオン（Hello Step／Slack 通知／OPC UA 連携 の最低 3 種）が動作」の最初の 1 件。
+
+[package]
+name = "wna-addon-hello-step"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Hello Step sample addon for work-navigation-app (§17.7)"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# SDK trait のみに依存する
+wna-addon-sdk = { path = "../../rust" }
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

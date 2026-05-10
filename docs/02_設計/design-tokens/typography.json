@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schemas.style-dictionary.com/v3/schema.json",
+  "_meta": {
+    "name": "typography",
+    "section": "ロードマップ §9.5.1 §11.2.2 §11.3.1",
+    "rationale": "Dynamic Type 連動で 14／16／20／24／32px の 5 段階を提供。CJK／ハングル／ラテンの同高保証はフォント連鎖（fallback chain）で担保し、§11.3 国際化に追従する。"
+  },
+  "font": {
+    "family": {
+      "sans": {
+        "value": ["Inter", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Hebrew", "system-ui", "sans-serif"]
+      },
+      "mono": {
+        "value": ["JetBrains Mono", "Source Han Code JP", "monospace"]
+      },
+      "industrial": {
+        "_meta": { "note": "工業記号（°C・Ω・ねじ等、§11.2.3）。一般フォント未対応時のフォールバック" },
+        "value": ["Noto Sans Symbols 2", "DejaVu Sans", "sans-serif"]
+      }
+    },
+    "size": {
+      "caption":  { "value": "12px" },
+      "body":     { "value": "16px" },
+      "subtitle": { "value": "20px" },
+      "title":    { "value": "24px" },
+      "display":  { "value": "32px" }
+    },
+    "lineHeight": {
+      "tight":  { "value": "1.2" },
+      "normal": { "value": "1.5" },
+      "loose":  { "value": "1.75" }
+    },
+    "weight": {
+      "regular": { "value": 400 },
+      "medium":  { "value": 500 },
+      "bold":    { "value": 700 }
+    },
+    "letterSpacing": {
+      "tight":  { "value": "-0.01em" },
+      "normal": { "value": "0" },
+      "wide":   { "value": "0.05em" }
+    }
+  }
+}

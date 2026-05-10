@@ -1,0 +1,32 @@
+{
+  "name": "work-navigation-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Manufacturing work navigation app monorepo (terminal app / config UI / backend / addon SDK)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RyuheiKiso/work-navigation-app.git"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "build": "pnpm -r build",
+    "dev:terminal": "pnpm --filter @wna/terminal dev",
+    "dev:config-ui": "pnpm --filter @wna/config-ui dev"
+  },
+  "devDependencies": {
+    "typescript": "5.4.5",
+    "vitest": "1.6.0",
+    "@types/node": "20.12.7",
+    "eslint": "9.1.0",
+    "@typescript-eslint/parser": "7.7.0",
+    "@typescript-eslint/eslint-plugin": "7.7.0"
+  }
+}

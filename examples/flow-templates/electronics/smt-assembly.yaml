@@ -1,0 +1,58 @@
+# 対応 §: ロードマップ §10.2.1 §3.1.5.4 §12 ISO 9001 IPC-A-610
+# SMT（Surface Mount Technology）組立フロー。
+
+flow:
+  id: electronics-smt-assembly-v1
+  name: 電子部品 SMT 組立
+  industry: electronics
+  schema_version: 1
+  audit_trail_required: true
+  nodes:
+    - id: start
+      kind: start
+      label: SMT 着手
+    - id: solder_paste_print
+      kind: step
+      label: ソルダーペースト印刷
+      completion_criteria: photo
+      standard_time_seconds: 60
+    - id: pick_and_place
+      kind: step
+      label: 部品実装（マウンタ）
+      completion_criteria: manual
+      standard_time_seconds: 120
+    - id: reflow
+      kind: step
+      label: リフロー炉通過
+      completion_criteria: photo
+      standard_time_seconds: 360
+      ccp_thresholds:
+        # 鉛フリーの典型値
+        peak_temperature_c: 245
+    - id: aoi_inspection
+      kind: step
+      label: AOI（自動光学検査）
+      # AOI 装置からアドオンで取得
+      completion_criteria: photo
+      standard_time_seconds: 30
+    - id: ict_test
+      kind: step
+      label: ICT（インサーキットテスト）
+      completion_criteria: photo
+      standard_time_seconds: 60
+    - id: end
+      kind: end
+      label: SMT 完了
+  edges:
+    - from: start
+      to: solder_paste_print
+    - from: solder_paste_print
+      to: pick_and_place
+    - from: pick_and_place
+      to: reflow
+    - from: reflow
+      to: aoi_inspection
+    - from: aoi_inspection
+      to: ict_test
+    - from: ict_test
+      to: end

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schemas.style-dictionary.com/v3/schema.json",
+  "_meta": {
+    "name": "spacing",
+    "section": "ロードマップ §9.5.1 §11.2 §21 注 6",
+    "rationale": "4px ベース 8 段階。タッチターゲット最小 9mm（§21 注 6）／推奨 11mm を強制するため、`touchTarget.minimum` と `touchTarget.recommended` を別トークンとして固定。"
+  },
+  "space": {
+    "unit": {
+      "0":  { "value": "0px" },
+      "1":  { "value": "4px" },
+      "2":  { "value": "8px" },
+      "3":  { "value": "12px" },
+      "4":  { "value": "16px" },
+      "5":  { "value": "24px" },
+      "6":  { "value": "32px" },
+      "7":  { "value": "48px" },
+      "8":  { "value": "64px" }
+    },
+    "touchTarget": {
+      "minimum":     { "value": "9mm",  "_meta": { "note": "ISO 9241-411／§21 注 6" } },
+      "recommended": { "value": "11mm", "_meta": { "note": "Apple HIG 44pt ≈ 11mm／手袋操作想定" } }
+    },
+    "container": {
+      "compact":  { "value": "320px" },
+      "regular":  { "value": "768px" },
+      "wide":     { "value": "1024px" },
+      "full":     { "value": "100%" }
+    }
+  }
+}

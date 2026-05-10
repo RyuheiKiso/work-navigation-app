@@ -1,0 +1,28 @@
+# 対応 §: ロードマップ §10.3.5 §10.3.1
+# サンプル CLI クライアント。バックエンド REST API の最小操作（healthz／get_task）を呼び出す。
+
+[package]
+name = "wna-cli-client"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Sample CLI client for work-navigation-app backend (§10.3.5)"
+
+[[bin]]
+name = "wna-cli"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+anyhow = { workspace = true }
+
+[dependencies.reqwest]
+version = "0.12"
+# 開発時は WSL2 環境の C コンパイラ問題で rustls/ring がビルド失敗するため、
+# tls 機能を外して json のみ有効化する。本番（Docker）では rustls-tls を再有効化する（§19.3）。
+default-features = false
+features = ["json"]
+
+[lints]
+workspace = true

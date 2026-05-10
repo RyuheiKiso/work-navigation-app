@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schemas.style-dictionary.com/v3/schema.json",
+  "_meta": {
+    "name": "haptic",
+    "section": "ロードマップ §9.5.4 §11.2.3",
+    "rationale": "Android／Windows のハプティック API 差を吸収する共通カテゴリ。騒音下では音の代替として優先される。端末がハプティック非搭載の場合はビジュアルフラッシュへフォールバックする（§11.2.3 二重化）。"
+  },
+  "haptic": {
+    "light": {
+      "value": {
+        "intensity": "weak",
+        "pattern_ms": [20],
+        "purpose": "タッチ受領"
+      }
+    },
+    "confirm": {
+      "value": {
+        "intensity": "medium",
+        "pattern_ms": [50],
+        "purpose": "ステップ完了"
+      }
+    },
+    "warning": {
+      "value": {
+        "intensity": "strong",
+        "pattern_ms": [50, 80, 50],
+        "purpose": "警告"
+      }
+    },
+    "danger": {
+      "value": {
+        "intensity": "strong",
+        "pattern_ms": [80, 120, 80, 120, 80],
+        "purpose": "危険操作前"
+      }
+    },
+    "policy": {
+      "fallback_visual_flash": { "value": true, "_meta": { "note": "ハプティック非搭載端末では §11.2.3 二重化に従い視覚で代替" } },
+      "fallback_sound_when_silent": { "value": true, "_meta": { "note": "音がミュートのとき強度を上げてハプティックで補完（§9.5.4）" } }
+    }
+  }
+}

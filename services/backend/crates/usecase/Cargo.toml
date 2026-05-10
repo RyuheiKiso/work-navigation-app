@@ -1,0 +1,27 @@
+# 対応 §: ロードマップ §9.1 §9.4
+# usecase 層 crate。domain にのみ依存し、副作用は trait 経由で外側に委譲する。
+
+[package]
+name = "wna-usecase"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "work-navigation-app usecase layer"
+
+[dependencies]
+# 内側の domain 層へ依存する（依存方向は内→外のみ、§9.4）
+wna-domain = { path = "../domain" }
+# 合成エラー用（境界より内側で使う）
+anyhow.workspace = true
+# 構造化ログ
+tracing.workspace = true
+
+[dev-dependencies]
+# 性質ベーステスト（§13.2）
+proptest.workspace = true
+# 非同期テストランナー（テスト用 Mutex も含めて sync を有効化）
+tokio = { workspace = true, features = ["macros", "rt", "sync"] }
+
+[lints]
+workspace = true

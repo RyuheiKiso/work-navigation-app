@@ -1,0 +1,23 @@
+# 対応 §: ロードマップ §3 §9.1 §9.4
+# 最内層 crate。標準ライブラリのみに依存し、純粋関数中心で構成する（§9.4）。
+
+[package]
+name = "wna-domain"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "work-navigation-app domain layer (Task / Step / Procedure / Process / Record)"
+
+# §9.4 副作用は境界層に局在化、ドメイン層は純粋関数中心で構成する。
+# 標準ライブラリのみに依存し、外部 crate を持ち込まないことで依存逆転を強制する。
+
+[dependencies]
+# 標準ライブラリのみ。serde や uuid もここでは使わない（境界 crate に集約）。
+
+[dev-dependencies]
+# 性質ベーステスト（§13.2）
+proptest.workspace = true
+
+[lints]
+workspace = true

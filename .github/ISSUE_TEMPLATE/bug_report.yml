@@ -1,0 +1,85 @@
+name: バグ報告
+description: 動作不良・期待挙動との差異を報告する
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## バグ報告
+
+        ロードマップ §22.4 是正フロー対象。再現手順・期待挙動・実際挙動を必ず記入してください。
+
+        セキュリティ脆弱性は本テンプレートでは報告しないでください（公開時点で攻撃される）。
+        [SECURITY.md](../../SECURITY.md) に従い GitHub Security Advisories から報告してください。
+
+  - type: input
+    id: version
+    attributes:
+      label: 影響を受けるバージョン
+      description: 例 v0.1.0／main の <短縮 SHA>
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: コンポーネント
+      multiple: true
+      options:
+        - 端末アプリ（Android）
+        - 端末アプリ（Windows）
+        - 設定 Web UI
+        - バックエンド（API）
+        - アドオン SDK／公式アドオン
+        - ドキュメント
+        - その他
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 再現手順
+      description: 1. ...  2. ...  3. ... の形式で。
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待される挙動
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の挙動
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 環境情報
+      description: |
+        - OS／バージョン
+        - 端末機種（§6.4 最小要件機種に該当する場合は記載）
+        - ネットワーク状態（オンライン／オフライン）
+        - 関連アドオンとそのバージョン
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: ログ・スクリーンショット
+      description: 機微情報を除いて添付。エラーコード（§20.1）があれば併記。
+
+  - type: checkboxes
+    id: links
+    attributes:
+      label: 関連リンク
+      options:
+        - label: 既存 Issue／Discussions を検索した
+          required: true
+        - label: 該当する場合 §27 FMEA／§29 リスク登録簿への影響を評価した
+        - label: 該当する場合 §31 SLO／SLI への影響を評価した

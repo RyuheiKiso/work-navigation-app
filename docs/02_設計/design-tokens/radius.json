@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schemas.style-dictionary.com/v3/schema.json",
+  "_meta": {
+    "name": "radius",
+    "section": "ロードマップ §9.5.1",
+    "rationale": "0／4／8／16px の 4 段階。重要操作は 8px、危険操作は 0px（剛性表現で誤タップを抑止）。装飾的な大きい角丸は採用しない。"
+  },
+  "radius": {
+    "surface": {
+      "none":   { "value": "0px",  "_meta": { "note": "危険操作・確定操作（§9.2.2 誤操作予防）" } },
+      "small":  { "value": "4px",  "_meta": { "note": "通常コンテナ" } },
+      "medium": { "value": "8px",  "_meta": { "note": "重要操作（CTA／保存／公開）" } },
+      "large":  { "value": "16px", "_meta": { "note": "モーダル・カード上段" } }
+    },
+    "pill": {
+      "value": "9999px",
+      "_meta": { "note": "ステータスチップ等の楕円形バッジ用" }
+    }
+  }
+}

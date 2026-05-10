@@ -1,0 +1,56 @@
+name: LLM 出力誤りの是正
+description: §18.5.1 ハルシネーション・誤出力の検出を起票する
+labels: ["llm-error"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ロードマップ §18.5「LLM 主導開発のトレーサビリティ」に従い、誤出力の検出と是正を行います。
+        §22.4 是正フロー → §22.1 サイクル集計の対象です。
+
+  - type: input
+    id: target
+    attributes:
+      label: 対象ファイル／行
+      description: 例 `docs/04_運用/fmea.md:120-130`
+    validations:
+      required: true
+
+  - type: textarea
+    id: incorrect
+    attributes:
+      label: 誤った記述
+    validations:
+      required: true
+
+  - type: textarea
+    id: corrected
+    attributes:
+      label: 正しい記述（または訂正案）
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: 一次資料の出典
+      description: §18.2 で許容される情報源に該当する URL／規格 ID を記載
+
+  - type: dropdown
+    id: model_session
+    attributes:
+      label: 関連 LLM セッション
+      description: `docs/llm-sessions/` のいずれかを選択（不明なら「不明」）
+      options:
+        - 2026-05-10-docs-bootstrap.md
+        - 不明
+        - その他
+
+  - type: textarea
+    id: prevention
+    attributes:
+      label: 再発防止策
+      description: |
+        - リンク切れ検出の追加
+        - 出典必須化の徹底
+        - モデル世代交代時の再評価対象に追加 等

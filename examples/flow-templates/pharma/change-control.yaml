@@ -1,0 +1,70 @@
+# 対応 §: ロードマップ §10.2.1 §12 §22.4
+# 変更管理フロー（GMP Annex 11 §10）。
+# フロー定義の改訂を承認・展開する経路。
+
+flow:
+  id: pharma-change-control-v1
+  name: 医薬品 変更管理
+  industry: pharma
+  schema_version: 1
+  category: governance
+  audit_trail_required: true
+  e_signature_required: true
+  nodes:
+    - id: start
+      kind: start
+      label: 変更要求受領
+    - id: impact_assessment
+      kind: step
+      label: 影響度評価
+      completion_criteria: manual
+      standard_time_seconds: 1800
+      e_signature: required
+    - id: review_decision
+      kind: decision
+      label: 承認判定
+    - id: approve
+      kind: step
+      label: 承認
+      completion_criteria: manual
+      standard_time_seconds: 600
+      e_signature: required
+    - id: reject
+      kind: step
+      label: 差戻し
+      completion_criteria: manual
+      standard_time_seconds: 300
+      e_signature: required
+    - id: trial_publish
+      kind: step
+      label: 試行版発行（パイロット）
+      completion_criteria: manual
+      standard_time_seconds: 600
+    - id: production_promote
+      kind: step
+      label: 本番昇格
+      completion_criteria: manual
+      standard_time_seconds: 600
+      e_signature: required
+    - id: end
+      kind: end
+      label: 変更完了
+  edges:
+    - from: start
+      to: impact_assessment
+    - from: impact_assessment
+      to: review_decision
+    - from: review_decision
+      to: approve
+      condition: approved == true
+    - from: review_decision
+      to: reject
+      condition: approved == false
+    - from: approve
+      to: trial_publish
+    - from: trial_publish
+      to: production_promote
+    - from: production_promote
+      to: end
+    - from: reject
+      to: end

@@ -1,0 +1,18 @@
+# 対応 §: ロードマップ §11.7.2 §14.1
+# Docker ビルドコンテキストを最小化することでビルド時間と SCI（§11.7.3）を抑える。
+
+target/
+**/target/
+node_modules/
+**/node_modules/
+.git/
+.github/
+docs/
+examples/
+*.md
+.env*
+.gitignore
+.editorconfig
+LICENSE
+CHANGELOG.md
+README.md

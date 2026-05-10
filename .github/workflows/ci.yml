@@ -1,0 +1,229 @@
+# 対応 §: ロードマップ §13.2 §9.6 §22 §32
+# 本ワークフローはドキュメント lint を中心とし、コード未実装期の最低限の検査を担う。
+# コード初期実装後に Rust／TypeScript／E2E／性能ベンチ等のジョブを段階的に追加する。
+name: CI
+
+on:
+  push:
+    branches: [main, work]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  # ----------------------------------------------------------------------
+  # ドキュメント整合性検査（コード未実装期に最低限を担保）
+  # ----------------------------------------------------------------------
+  docs-integrity:
+    name: ドキュメント整合性
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+
+      - name: Markdown lint（markdownlint-cli2）
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            **/*.md
+            !**/node_modules/**
+            !**/target/**
+
+      - name: ロードマップ §34 参照ファイル存在確認
+        shell: bash
+        run: |
+          set -euo pipefail
+          # ロードマップ §34 で参照される派生ドキュメントの存在検査
+          required=(
+            "docs/01_企画/至高KPI.md"
+            "docs/01_企画/最小要件機種.md"
+            "docs/02_設計/glossary-ja.md"
+            "docs/02_設計/glossary-en.md"
+            "docs/02_設計/設定UI監査.md"
+            "docs/02_設計/design-tokens/README.md"
+            "docs/03_設計/形式化/README.md"
+            "docs/03_設計/形式化/sync.tla"
+            "docs/03_設計/形式化/hsm-task.puml"
+            "docs/03_設計/形式化/cpn-sync.md"
+            "docs/03_設計/形式化/invariants.md"
+            "docs/04_運用/コードヘルス.md"
+            "docs/04_運用/カオス演習.md"
+            "docs/04_運用/環境別検証.md"
+            "docs/04_運用/sci-report-template.md"
+            "docs/04_運用/fmea.md"
+            "docs/04_運用/risk-register.md"
+            "docs/04_運用/slo-dashboard.md"
+            "docs/04_運用/rollback.md"
+            "docs/04_運用/migration-template.md"
+            "docs/04_運用/mutation-report-template.md"
+            "docs/adr/README.md"
+            "docs/adr/0000-template.md"
+            "docs/adr/deferred/README.md"
+            "docs/llm-sessions/2026-05-10-docs-bootstrap.md"
+            "docs/governance/financial-report-template.md"
+            "docs/community/capstone-themes.md"
+          )
+          missing=0
+          for f in "${required[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "::error file=$f::必須ドキュメントが存在しない（ロードマップ §34 整合）"
+              missing=$((missing+1))
+            fi
+          done
+          if [ "$missing" -gt 0 ]; then
+            exit 1
+          fi
+
+  # ----------------------------------------------------------------------
+  # Conventional Commits 強制（CLAUDE.md / ADR-0011）
+  # ----------------------------------------------------------------------
+  commit-lint:
+    name: Conventional Commits
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: commitlint 実行
+        run: |
+          npx --yes -p @commitlint/cli@19 -p @commitlint/config-conventional@19 \
+            commitlint --from origin/${{ github.base_ref }} --to HEAD --verbose
+
+  # ----------------------------------------------------------------------
+  # ファイル行数 lint（§9.4 §9.6 ／ ルート CLAUDE.md）
+  # ----------------------------------------------------------------------
+  file-size-lint:
+    name: ファイル行数 lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+      - name: scripts/lint-file-size.sh
+        run: bash scripts/lint-file-size.sh
+
+  # ----------------------------------------------------------------------
+  # 用語集 lint（§28 同義語禁止規約）
+  # ----------------------------------------------------------------------
+  glossary-lint:
+    name: 用語集 lint
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+      - name: scripts/glossary-lint.sh
+        run: bash scripts/glossary-lint.sh
+
+  # ----------------------------------------------------------------------
+  # 出典欠落 lint（§2.2 §18.5）
+  # ----------------------------------------------------------------------
+  rationale-lint:
+    name: 出典欠落 lint
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    continue-on-error: true
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: scripts/lint-rationale.sh
+        env:
+          BASE_REF: origin/${{ github.base_ref }}
+        run: bash scripts/lint-rationale.sh
+
+  # ----------------------------------------------------------------------
+  # リンク切れ lint（§18.5.2）
+  # ----------------------------------------------------------------------
+  links-check:
+    name: リンク切れ lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+      - name: scripts/check-links.sh
+        run: bash scripts/check-links.sh
+
+  # ----------------------------------------------------------------------
+  # 遅延 ADR の期日超過検査（§33.4）
+  # ----------------------------------------------------------------------
+  deferred-lint:
+    name: 遅延 ADR lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+      - name: scripts/lint-deferred.sh
+        run: bash scripts/lint-deferred.sh
+
+  # ----------------------------------------------------------------------
+  # SLI／SLO ↔ FMEA／risk-register 双方向リンク lint（§31.5）
+  # ----------------------------------------------------------------------
+  observability-link-lint:
+    name: 観測性リンク lint
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+      - name: scripts/observability-link-lint.sh
+        run: bash scripts/observability-link-lint.sh
+
+  # ----------------------------------------------------------------------
+  # Rust ビルド・テスト・clippy（§9.6 §13.2）
+  # ----------------------------------------------------------------------
+  rust:
+    name: Rust ビルド／テスト／clippy
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+      - name: Rust toolchain セットアップ
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - name: cargo cache
+        uses: Swatinem/rust-cache@v2
+      - name: cargo check
+        run: cargo check --workspace --all-targets
+      - name: cargo clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: cargo fmt
+        run: cargo fmt --all -- --check
+      - name: cargo test
+        run: cargo test --workspace
+
+  # ----------------------------------------------------------------------
+  # TypeScript 型検査・テスト（§9.6 §13.2）
+  # ----------------------------------------------------------------------
+  typescript:
+    name: TypeScript 型検査／テスト
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+      - name: pnpm セットアップ
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: 依存インストール
+        run: pnpm install --frozen-lockfile
+      - name: 型検査
+        run: pnpm -r typecheck
+      - name: テスト
+        run: pnpm -r test

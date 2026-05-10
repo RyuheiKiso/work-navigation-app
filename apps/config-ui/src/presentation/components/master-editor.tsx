@@ -1,0 +1,152 @@
+// 対応 §: ロードマップ §10.2.1（マスタ編集） §10.3.6 RACI
+// 製品／設備／部材の最小 CRUD 画面（汎用）。
+
+import { useEffect, useState } from 'react';
+import {
+  listProducts, upsertProduct, deleteProduct,
+  listEquipments, upsertEquipment, deleteEquipment,
+  listParts, upsertPart, deletePart,
+  type MasterRow
+} from '../../adapter/api-client';
+
+export interface MasterEditorProps {
+  kind: 'products' | 'equipments' | 'parts';
+}
+
+const KIND_LABEL: Record<MasterEditorProps['kind'], { title: string; extraLabel: string }> = {
+  products: { title: '製品マスタ', extraLabel: '業界（任意）' },
+  equipments: { title: '設備マスタ', extraLabel: '設置場所（任意）' },
+  parts: { title: '部材マスタ', extraLabel: '単位（任意）' }
+};
+
+export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
+  const [rows, setRows] = useState<MasterRow[]>([]);
+  const [code, setCode] = useState('');
+  const [name, setName] = useState('');
+  const [extra, setExtra] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  const meta = KIND_LABEL[kind];
+
+  const fetcher = async (): Promise<MasterRow[]> => {
+    if (kind === 'products') return listProducts();
+    if (kind === 'equipments') return listEquipments();
+    return listParts();
+  };
+  const upserter = async (row: MasterRow): Promise<void> => {
+    if (kind === 'products') return upsertProduct(row);
+    if (kind === 'equipments') return upsertEquipment(row);
+    return upsertPart(row);
+  };
+  const deleter = async (c: string): Promise<void> => {
+    if (kind === 'products') return deleteProduct(c);
+    if (kind === 'equipments') return deleteEquipment(c);
+    return deletePart(c);
+  };
+
+  async function refresh(): Promise<void> {
+    setError(null);
+    try {
+      setRows(await fetcher());
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  }
+
+  useEffect(() => { void refresh(); /* eslint-disable-next-line */ }, [kind]);
+
+  async function handleSubmit(e: React.FormEvent): Promise<void> {
+    e.preventDefault();
+    if (!code.trim() || !name.trim()) {
+      setError('コードと名前は必須です');
+      return;
+    }
+    setBusy(true); setError(null);
+    try {
+      await upserter({ code, name, extra: extra.trim() === '' ? null : extra });
+      setCode(''); setName(''); setExtra('');
+      await refresh();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleDelete(c: string): Promise<void> {
+    if (!confirm(`${c} を削除しますか？`)) return;
+    setBusy(true); setError(null);
+    try { await deleter(c); await refresh(); } catch (e) { setError((e as Error).message); } finally { setBusy(false); }
+  }
+
+  return (
+    <div style={{ padding: 24 }}>
+      <h1>{meta.title}</h1>
+
+      <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, marginBottom: 16, boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
+        <h3 style={{ marginTop: 0 }}>新規・更新</h3>
+        <form onSubmit={(e) => void handleSubmit(e)} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: 8, alignItems: 'end' }}>
+          <label style={{ fontSize: 13 }}>
+            コード
+            <input value={code} onChange={(e) => setCode(e.target.value)} style={{ width: '100%', padding: 8 }} />
+          </label>
+          <label style={{ fontSize: 13 }}>
+            名前
+            <input value={name} onChange={(e) => setName(e.target.value)} style={{ width: '100%', padding: 8 }} />
+          </label>
+          <label style={{ fontSize: 13 }}>
+            {meta.extraLabel}
+            <input value={extra} onChange={(e) => setExtra(e.target.value)} style={{ width: '100%', padding: 8 }} />
+          </label>
+          <button type="submit" disabled={busy} style={{ minHeight: 36, padding: '8px 16px', background: '#28A745', color: '#FFFFFF', border: 'none', borderRadius: 6 }}>
+            保存
+          </button>
+        </form>
+        {error && <div style={{ marginTop: 8, padding: 8, background: '#F8D7DA', color: '#721C24', borderRadius: 4 }} role="alert">{error}</div>}
+      </section>
+
+      <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
+        <h3 style={{ marginTop: 0 }}>登録済み（{rows.length} 件）</h3>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr style={{ background: '#F8F9FA' }}>
+              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>コード</th>
+              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>名前</th>
+              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>{meta.extraLabel}</th>
+              <th style={{ padding: 8, borderBottom: '1px solid #DEE2E6' }}>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.code}>
+                <td style={{ padding: 8, borderBottom: '1px solid #F1F3F5' }}><code>{r.code}</code></td>
+                <td style={{ padding: 8, borderBottom: '1px solid #F1F3F5' }}>{r.name}</td>
+                <td style={{ padding: 8, borderBottom: '1px solid #F1F3F5', color: '#6C757D' }}>{r.extra ?? '—'}</td>
+                <td style={{ padding: 8, borderBottom: '1px solid #F1F3F5', textAlign: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => { setCode(r.code); setName(r.name); setExtra(r.extra ?? ''); }}
+                    style={{ padding: '4px 8px', marginRight: 4, background: '#17A2B8', color: '#FFFFFF', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                  >
+                    編集
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void handleDelete(r.code)}
+                    style={{ padding: '4px 8px', background: '#DC3545', color: '#FFFFFF', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                  >
+                    削除
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {rows.length === 0 && (
+              <tr><td colSpan={4} style={{ padding: 16, textAlign: 'center', color: '#6C757D' }}>未登録</td></tr>
+            )}
+          </tbody>
+        </table>
+      </section>
+    </div>
+  );
+}

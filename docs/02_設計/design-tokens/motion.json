@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schemas.style-dictionary.com/v3/schema.json",
+  "_meta": {
+    "name": "motion",
+    "section": "ロードマップ §9.5.1 §9.5.2 §21 注 2",
+    "rationale": "100ms 以下は知覚同期、240ms 以上は離脱の境界（§21 注 2）。意味的モーションは 6 カテゴリ、装飾的な弾性アニメは現場では認知妨害のため不採用。prefers-reduced-motion 時は装飾モーションを 0ms 化し、情報モーションのみ維持。"
+  },
+  "motion": {
+    "duration": {
+      "instant":  { "value": "0ms" },
+      "short":    { "value": "80ms" },
+      "standard": { "value": "160ms" },
+      "long":     { "value": "240ms" }
+    },
+    "ease": {
+      "standard":   { "value": "cubic-bezier(0.4, 0.0, 0.2, 1)" },
+      "decelerated": { "value": "cubic-bezier(0.0, 0.0, 0.2, 1)" },
+      "accelerated": { "value": "cubic-bezier(0.4, 0.0, 1.0, 1.0)" },
+      "emphasized":  { "value": "cubic-bezier(0.2, 0.0, 0.0, 1.0)", "_meta": { "note": "Material Design 3 emphasized" } }
+    },
+    "category": {
+      "_meta": { "note": "意味的モーションの 6 カテゴリ（§9.5.2）" },
+      "enter":      { "value": { "duration": "{motion.duration.short.value}",    "ease": "{motion.ease.decelerated.value}" } },
+      "exit":       { "value": { "duration": "{motion.duration.short.value}",    "ease": "{motion.ease.accelerated.value}" } },
+      "transition": { "value": { "duration": "{motion.duration.standard.value}", "ease": "{motion.ease.emphasized.value}" } },
+      "stateChange": { "value": { "duration": "{motion.duration.short.value}",   "ease": "{motion.ease.standard.value}" } },
+      "success":    { "value": { "duration": "{motion.duration.standard.value}", "ease": "{motion.ease.decelerated.value}" } },
+      "fail":       { "value": { "duration": "{motion.duration.long.value}",     "ease": "{motion.ease.standard.value}" } }
+    },
+    "reducedMotion": {
+      "_meta": { "note": "prefers-reduced-motion: reduce のとき装飾モーションを 0ms 化（§9.5.2）" },
+      "decoration": { "value": "0ms" },
+      "information": { "value": "{motion.duration.short.value}" }
+    }
+  }
+}

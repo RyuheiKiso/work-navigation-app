@@ -1,0 +1,15 @@
+{
+  "name": "@wna/addon-sdk-as",
+  "version": "0.1.0",
+  "private": true,
+  "description": "work-navigation-app addon SDK (AssemblyScript) — corresponds to roadmap §17.2 §17.3",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "asc assembly/index.ts --target release",
+    "test": "node --version"
+  },
+  "devDependencies": {
+    "assemblyscript": "0.27.29"
+  }
+}

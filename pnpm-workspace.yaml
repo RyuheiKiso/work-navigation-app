@@ -1,0 +1,9 @@
+# 対応 §: ロードマップ §7 §8 §14.1
+# pnpm workspaces のメンバー宣言。apps/ 配下と addon-sdk の AssemblyScript 部分を含める。
+packages:
+  # 端末作業ナビアプリ（Tauri+React、§7.1）
+  - 'apps/terminal'
+  # 設定 Web UI（React、§7.2）
+  - 'apps/config-ui'
+  # アドオン SDK の AssemblyScript 二次サポート（§17.2）
+  - 'addon-sdk/assemblyscript'

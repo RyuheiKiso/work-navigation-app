@@ -1,0 +1,49 @@
+# 対応 §: ロードマップ §10.2.1 §12 HACCP CCP §3.1.5.4
+# 加熱工程（CCP）の温度・時間記録フロー。
+
+flow:
+  id: food-cooking-ccp-v1
+  name: 食品 加熱工程（CCP）
+  industry: food
+  schema_version: 1
+  audit_trail_required: true
+  nodes:
+    - id: start
+      kind: start
+      label: 加熱開始
+    - id: pre_heat_check
+      kind: step
+      label: 機器予熱確認
+      completion_criteria: photo
+      standard_time_seconds: 300
+    - id: heat_to_temp
+      kind: step
+      label: 加熱（中心温度 75°C 以上 1 分以上）
+      completion_criteria: photo
+      standard_time_seconds: 600
+      critical_control_point: true
+      ccp_thresholds:
+        # HACCP CCP の規定値（食肉類の標準）
+        min_core_temperature_c: 75
+        min_holding_seconds: 60
+    - id: cool
+      kind: step
+      label: 冷却（90 分以内に 10°C 以下）
+      completion_criteria: photo
+      standard_time_seconds: 5400
+      critical_control_point: true
+      ccp_thresholds:
+        max_cooling_seconds: 5400
+        target_temperature_c: 10
+    - id: end
+      kind: end
+      label: 加熱・冷却完了
+  edges:
+    - from: start
+      to: pre_heat_check
+    - from: pre_heat_check
+      to: heat_to_temp
+    - from: heat_to_temp
+      to: cool
+    - from: cool
+      to: end
