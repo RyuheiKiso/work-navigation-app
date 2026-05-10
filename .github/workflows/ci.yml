@@ -98,6 +98,28 @@ jobs:
         run: |
           npx --yes -p @commitlint/cli@19 -p @commitlint/config-conventional@19 \
             commitlint --from origin/${{ github.base_ref }} --to HEAD --verbose
+      - name: 無情報サブジェクト検出
+        # CLAUDE.md「本文は WHAT ではなく WHY」に反する典型例を機械的に拒否する。
+        # 既存コミット履歴は対象外（PR 範囲のみ走査）。
+        run: |
+          set -euo pipefail
+          subjects=$(git log --no-merges --format='%s' origin/${{ github.base_ref }}..HEAD)
+          if [ -z "$subjects" ]; then
+            echo "no commits in range"
+            exit 0
+          fi
+          BAD='^(feat|fix|refactor|chore|docs|test|perf|ci|build|style|revert)(\([^)]+\))?!?: *(新しい機能を追加|機能追加|更新|変更を加える|変更を追加|修正|修正を加える|改善|軽微な修正|wip|WIP)\.?$'
+          violations=0
+          while IFS= read -r s; do
+            if printf '%s' "$s" | grep -Eq "$BAD"; then
+              echo "::error ::無情報なサブジェクトが検出されました: $s"
+              violations=$((violations + 1))
+            fi
+          done <<< "$subjects"
+          if [ "$violations" -gt 0 ]; then
+            echo "PR の commit メッセージは何が／なぜ変わったかを 1 行で書いてください"
+            exit 1
+          fi
 
   # ----------------------------------------------------------------------
   # ファイル行数 lint（§9.4 §9.6 ／ ルート CLAUDE.md）
