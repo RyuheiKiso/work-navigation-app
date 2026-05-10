@@ -2,10 +2,13 @@
 // CTA の階層を可視化するため、完了 (xl, primary) を中央 60%、中断と Andon を補助で並べる。
 // アンドンは danger variant で角丸を 0 に固定（剛性表現で誤タップ抑止、§9.2.2）。
 // ボタン内に `<kbd>` チップでショートカット可視化（覚える前から目に入る）。
+// 完了 CTA は HoldConfirmButton で 800ms 押し続け確定 — 手袋・揺れ環境での
+// 誤タップを物理閾値で抑止しつつ、キーボード Enter は意図性が高いため即発火。
 
 import { space } from '../../../tokens/access';
 import { Icon } from '../icon/icon';
 import { Button } from '../primitives/button';
+import { HoldConfirmButton } from '../primitives/hold-confirm-button';
 
 interface ButtonContentProps {
   icon: JSX.Element;
@@ -72,13 +75,20 @@ export function NavigationActionBar(props: NavigationActionBarProps): JSX.Elemen
           shortcut={props.suspendShortcut}
         />
       </Button>
-      <Button variant="primary" size="xl" block onClick={props.onComplete} disabled={completeDisabled}>
+      <HoldConfirmButton
+        variant="primary"
+        size="xl"
+        block
+        holdMs={800}
+        onHoldComplete={props.onComplete}
+        disabled={completeDisabled}
+      >
         <ButtonContent
           icon={<Icon name="check" size={32} strokeWidth={3} />}
           label={props.completeLabel}
           shortcut={props.completeShortcut}
         />
-      </Button>
+      </HoldConfirmButton>
       <Button variant="danger" size="lg" block onClick={props.onAndon}>
         <ButtonContent
           icon={<Icon name="andon-tower" size={24} />}
