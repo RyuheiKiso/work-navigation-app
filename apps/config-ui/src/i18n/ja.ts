@@ -25,7 +25,15 @@ export const ja = {
   },
   // §10.2.2 14 観点に対応する文言
   setting_ui: {
-    autosave_indicator: '10 秒ごとに自動保存しています',
+    autosave_label: '自動保存',
+    autosave_just_now: 'たった今保存しました',
+    autosave_seconds_ago: '{n} 秒前に保存しました',
+    autosave_minutes_ago: '{n} 分前に保存しました',
+    autosave_saving: '保存中…',
+    autosave_failed: '自動保存に失敗しました',
+    autosave_idle: '編集が反映されると自動保存します',
+    draft_restored: '前回の編集内容を復元しました',
+    discard_draft: '復元を破棄して初期状態に戻す',
     rollback_link: '前のバージョンに戻す',
     save_draft: '下書きに残す',
     impact_count_prefix: '影響件数: '

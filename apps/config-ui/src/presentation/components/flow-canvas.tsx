@@ -3,13 +3,14 @@
 // ドメイン状態と HSM 検証は `useFlowEditor` フックに委譲し、
 // 試行版発行は `publishTrial` ユーティリティで API を叩く。
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { type Flow } from '../../domain/flow';
 import { t, getLocale, setLocale, type LocaleKey, isRtl, LOCALES } from '../../i18n';
 import { useFlowEditor } from '../hooks/use-flow-editor';
 import { publishTrial } from '../utils/publish-trial';
+import type { AutosaveStatus } from '../hooks/use-autosave';
 
 const TEMPLATE_CATALOG: ReadonlyArray<readonly [string, string]> = [
   ['自動車：組立', '/templates/automotive/assembly-line.yaml'],
@@ -31,10 +32,33 @@ export interface FlowCanvasProps {
   onPublishTrial?: (flow: Flow) => void;
 }
 
+function autosaveLabel(status: AutosaveStatus, savedAt: number | null, now: number): string {
+  if (status === 'saving') return t('setting_ui.autosave_saving');
+  if (status === 'error') return t('setting_ui.autosave_failed');
+  if (savedAt === null) return t('setting_ui.autosave_idle');
+  const diffSec = Math.max(0, Math.floor((now - savedAt) / 1000));
+  if (diffSec < 5) return t('setting_ui.autosave_just_now');
+  if (diffSec < 60) return t('setting_ui.autosave_seconds_ago', { n: diffSec });
+  const diffMin = Math.floor(diffSec / 60);
+  return t('setting_ui.autosave_minutes_ago', { n: diffMin });
+}
+
+function autosaveColor(status: AutosaveStatus): string {
+  if (status === 'error') return '#DC3545';
+  if (status === 'saving') return '#6C757D';
+  return '#28A745';
+}
+
 export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
   const editor = useFlowEditor(props.initialFlow);
   const [locale, setLocaleState] = useState<LocaleKey>(getLocale());
-  const [autosaveAt] = useState<Date>(new Date());
+  const [now, setNow] = useState<number>(() => Date.now());
+
+  // 経過秒の見え方だけ刻むため軽量タイマー。状態には触らないので autosave への影響なし。
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(Date.now()), 5000);
+    return () => window.clearInterval(id);
+  }, []);
 
   async function handleLoadTemplate(path: string): Promise<void> {
     try {
@@ -100,8 +124,13 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
           {t('flow.nodes_label')} {editor.nodes.length} ／{' '}
           {t('flow.edges_label')} {editor.edges.length}
         </span>
-        <span style={{ color: '#28A745', marginLeft: 'auto' }}>
-          {t('setting_ui.autosave_indicator')}（{autosaveAt.toLocaleTimeString()}）
+        <span
+          style={{ color: autosaveColor(editor.autosaveStatus), marginLeft: 'auto' }}
+          role="status"
+          aria-live="polite"
+          aria-label={t('setting_ui.autosave_label')}
+        >
+          {autosaveLabel(editor.autosaveStatus, editor.lastSavedAt, now)}
         </span>
         <label style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
           🌐
@@ -177,6 +206,46 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
       </aside>
 
       <section style={{ gridArea: 'canvas', position: 'relative' }}>
+        {editor.restoredFromDraft && (
+          <div
+            role="status"
+            aria-live="polite"
+            style={{
+              position: 'absolute',
+              top: 8,
+              left: 8,
+              right: 8,
+              zIndex: 10,
+              padding: '8px 12px',
+              borderRadius: 8,
+              background: '#FFF3CD',
+              color: '#856404',
+              border: '1px solid #FFEEBA',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              boxShadow: '0 2px 4px rgba(0,0,0,0.08)'
+            }}
+          >
+            <span style={{ flex: 1 }}>↩️ {t('setting_ui.draft_restored')}</span>
+            <button
+              type="button"
+              onClick={() => editor.discardDraft()}
+              style={{
+                minHeight: 32,
+                padding: '4px 12px',
+                background: 'transparent',
+                color: '#856404',
+                border: '1px solid #856404',
+                borderRadius: 6,
+                cursor: 'pointer',
+                fontSize: 12
+              }}
+            >
+              {t('setting_ui.discard_draft')}
+            </button>
+          </div>
+        )}
         <ReactFlow
           nodes={editor.nodes}
           edges={editor.edges}

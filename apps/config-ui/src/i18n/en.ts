@@ -22,7 +22,15 @@ export const en = {
     dirty_indicator: 'Unsaved changes'
   },
   setting_ui: {
-    autosave_indicator: 'Autosaving every 10 seconds',
+    autosave_label: 'Autosave',
+    autosave_just_now: 'Saved just now',
+    autosave_seconds_ago: 'Saved {n} seconds ago',
+    autosave_minutes_ago: 'Saved {n} minutes ago',
+    autosave_saving: 'Saving…',
+    autosave_failed: 'Autosave failed',
+    autosave_idle: 'Autosaves on edit',
+    draft_restored: 'Restored previous edits',
+    discard_draft: 'Discard restored draft',
     rollback_link: 'Revert to previous version',
     save_draft: 'Save as draft',
     impact_count_prefix: 'Impact: '

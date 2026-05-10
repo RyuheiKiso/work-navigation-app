@@ -47,8 +47,8 @@ export function isRtl(locale?: string): boolean {
   return RTL_LOCALES.includes(target);
 }
 
-/** ドット区切りキーで翻訳文字列を取得する */
-export function t(key: string): string {
+/** ドット区切りキーで翻訳文字列を取得する。`{name}` 形式のプレースホルダは params から差し込む */
+export function t(key: string, params?: Readonly<Record<string, string | number>>): string {
   // 現在ロケールの辞書を取得
   const dict = LOCALES[currentLocale] as unknown as Record<string, unknown>;
   const parts = key.split('.');
@@ -61,6 +61,9 @@ export function t(key: string): string {
       return key;
     }
   }
-  // 最終値が文字列ならそれを返す
-  return typeof cursor === 'string' ? cursor : key;
+  if (typeof cursor !== 'string') return key;
+  if (!params) return cursor;
+  return cursor.replace(/\{(\w+)\}/g, (_, name: string) =>
+    name in params ? String(params[name]) : `{${name}}`
+  );
 }
