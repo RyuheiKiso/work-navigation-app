@@ -69,16 +69,34 @@ export type Dictionary = typeof ja;
 /** 現在のロケール（デフォルトは ja） */
 let currentLocale: LocaleKey = 'ja';
 
+/** ロケール変更を購読するコールバック */
+type LocaleListener = (locale: LocaleKey) => void;
+const localeListeners: Set<LocaleListener> = new Set();
+
 /** ロケールを切り替える */
 export function setLocale(locale: LocaleKey): void {
-  // ロケールを更新
+  // 同値変更で購読側を不要に走らせない
+  if (currentLocale === locale) return;
   currentLocale = locale;
+  // §11.3.1 RTL レーン含むレイアウト副作用 (例: document.documentElement.dir) を購読側で同期する
+  localeListeners.forEach((l) => l(locale));
 }
 
 /** 現在のロケールを取得 */
 export function getLocale(): LocaleKey {
   // 内部状態を返す
   return currentLocale;
+}
+
+/**
+ * ロケール変更の購読。返り値の関数で購読解除する。
+ * `<html lang|dir>` 属性同期や数値・日付フォーマッタの差し替えに用いる。
+ */
+export function subscribeLocale(listener: LocaleListener): () => void {
+  localeListeners.add(listener);
+  return () => {
+    localeListeners.delete(listener);
+  };
 }
 
 /**

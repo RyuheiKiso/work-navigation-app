@@ -1,8 +1,8 @@
 // 対応 §: ロードマップ §11.3 §13.1
 // i18n 単体テスト。
 
-import { describe, it, expect, beforeEach } from 'vitest';
-import { setLocale, t, getLocale } from './index';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { setLocale, t, getLocale, subscribeLocale } from './index';
 
 describe('i18n', () => {
   // 各テスト前にデフォルトロケールへ戻す
@@ -76,6 +76,38 @@ describe('i18n', () => {
     expect(t('term.task')).toBe('Tâche');
     setLocale('pt');
     expect(t('term.task')).toBe('Tarefa');
+  });
+
+  // ロケール変更の購読
+  it('notifies subscribers on locale change', () => {
+    const listener = vi.fn();
+    const unsubscribe = subscribeLocale(listener);
+    setLocale('en');
+    setLocale('ar');
+    expect(listener).toHaveBeenCalledTimes(2);
+    expect(listener).toHaveBeenNthCalledWith(1, 'en');
+    expect(listener).toHaveBeenNthCalledWith(2, 'ar');
+    unsubscribe();
+  });
+
+  // 同値変更は subscribers を起こさない
+  it('skips notifying subscribers when locale does not change', () => {
+    setLocale('ja');
+    const listener = vi.fn();
+    const unsubscribe = subscribeLocale(listener);
+    setLocale('ja');
+    expect(listener).not.toHaveBeenCalled();
+    unsubscribe();
+  });
+
+  // 解除後はもう呼ばれない
+  it('stops notifying after unsubscribe', () => {
+    const listener = vi.fn();
+    const unsubscribe = subscribeLocale(listener);
+    setLocale('en');
+    unsubscribe();
+    setLocale('zh');
+    expect(listener).toHaveBeenCalledTimes(1);
   });
 
   // ar/he の作業＋ RTL 判定

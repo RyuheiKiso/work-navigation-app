@@ -5,10 +5,13 @@ import { useEffect, useState } from 'react';
 import { LoginScreen } from './presentation/components/login-screen';
 import { NavigationShell } from './presentation/components/navigation-shell';
 import { getCurrentUser } from './adapter/api-client';
+import { useDocumentLocale } from './presentation/hooks/use-document-locale';
 
 /** ルート */
 export function App(): JSX.Element {
   const [user, setUser] = useState<{ user_id: string; display_name: string } | null>(null);
+  // ログイン画面段階から RTL/フォント選択を正しく動作させる
+  useDocumentLocale();
 
   useEffect(() => {
     const u = getCurrentUser();
