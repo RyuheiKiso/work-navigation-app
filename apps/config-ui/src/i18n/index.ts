@@ -17,16 +17,30 @@ export type LocaleKey = keyof typeof LOCALES;
 /** 翻訳辞書の型（ja を正とする） */
 export type Dictionary = typeof ja;
 
-/** 現在のロケール（デフォルトは ja） */
-let currentLocale: LocaleKey = 'ja';
+const LOCALE_STORAGE_KEY = 'wna.config-ui.locale';
+
+function readPersistedLocale(): LocaleKey {
+  try {
+    const v = globalThis.localStorage?.getItem(LOCALE_STORAGE_KEY);
+    if (v && (v as LocaleKey) in LOCALES) return v as LocaleKey;
+  } catch {
+    // localStorage アクセス失敗は無視
+  }
+  return 'ja';
+}
+
+/** 現在のロケール（永続化済み、または ja） */
+let currentLocale: LocaleKey = readPersistedLocale();
 
 /** ロケールを切り替える */
 export function setLocale(locale: LocaleKey | string): void {
   // 未対応ロケールは ja にフォールバックする（§11.3.1 段階的拡張）
-  if ((locale as LocaleKey) in LOCALES) {
-    currentLocale = locale as LocaleKey;
-  } else {
-    currentLocale = 'ja';
+  const next: LocaleKey = (locale as LocaleKey) in LOCALES ? (locale as LocaleKey) : 'ja';
+  currentLocale = next;
+  try {
+    globalThis.localStorage?.setItem(LOCALE_STORAGE_KEY, next);
+  } catch {
+    // 失敗しても UI は止めない
   }
 }
 

@@ -6,7 +6,10 @@ import { setLocale, t } from './index';
 
 describe('config-ui i18n', () => {
   // 各テスト前にデフォルトへ戻す
-  beforeEach(() => setLocale('ja'));
+  beforeEach(() => {
+    localStorage.removeItem('wna.config-ui.locale');
+    setLocale('ja');
+  });
 
   it('returns Japanese for fall-back locale', () => {
     expect(t('flow.publish_trial_button')).toBe('試行版を発行する');
@@ -19,5 +22,10 @@ describe('config-ui i18n', () => {
 
   it('returns key as-is when missing', () => {
     expect(t('does.not.exist')).toBe('does.not.exist');
+  });
+
+  it('persists the chosen locale to localStorage', () => {
+    setLocale('en');
+    expect(localStorage.getItem('wna.config-ui.locale')).toBe('en');
   });
 });

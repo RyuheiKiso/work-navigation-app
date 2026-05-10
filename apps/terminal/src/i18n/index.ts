@@ -66,8 +66,22 @@ export type LocaleKey = keyof typeof LOCALES;
 /** 翻訳辞書の型（ja を正とする） */
 export type Dictionary = typeof ja;
 
-/** 現在のロケール（デフォルトは ja） */
-let currentLocale: LocaleKey = 'ja';
+/** localStorage の保存キー */
+const LOCALE_STORAGE_KEY = 'wna.terminal.locale';
+
+/** localStorage から永続化済みロケールを読む。jsdom 等で localStorage が無くても安全 */
+function readPersistedLocale(): LocaleKey {
+  try {
+    const v = globalThis.localStorage?.getItem(LOCALE_STORAGE_KEY);
+    if (v && (v as LocaleKey) in LOCALES) return v as LocaleKey;
+  } catch {
+    // localStorage アクセス失敗は無視
+  }
+  return 'ja';
+}
+
+/** 現在のロケール（永続化された値、または ja） */
+let currentLocale: LocaleKey = readPersistedLocale();
 
 /** ロケール変更を購読するコールバック */
 type LocaleListener = (locale: LocaleKey) => void;
@@ -78,6 +92,12 @@ export function setLocale(locale: LocaleKey): void {
   // 同値変更で購読側を不要に走らせない
   if (currentLocale === locale) return;
   currentLocale = locale;
+  // 永続化（次回起動時に restore する）
+  try {
+    globalThis.localStorage?.setItem(LOCALE_STORAGE_KEY, locale);
+  } catch {
+    // 失敗しても UI は止めない
+  }
   // §11.3.1 RTL レーン含むレイアウト副作用 (例: document.documentElement.dir) を購読側で同期する
   localeListeners.forEach((l) => l(locale));
 }

@@ -7,6 +7,7 @@ import { setLocale, t, getLocale, subscribeLocale } from './index';
 describe('i18n', () => {
   // 各テスト前にデフォルトロケールへ戻す
   beforeEach(() => {
+    localStorage.removeItem('wna.terminal.locale');
     setLocale('ja');
   });
 
@@ -76,6 +77,12 @@ describe('i18n', () => {
     expect(t('term.task')).toBe('Tâche');
     setLocale('pt');
     expect(t('term.task')).toBe('Tarefa');
+  });
+
+  // 永続化: setLocale で localStorage に書かれる
+  it('persists the chosen locale to localStorage', () => {
+    setLocale('ar');
+    expect(localStorage.getItem('wna.terminal.locale')).toBe('ar');
   });
 
   // ロケール変更の購読
