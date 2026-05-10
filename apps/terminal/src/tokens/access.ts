@@ -10,6 +10,7 @@ const s = TOKENS.spacing.space;
 const f = TOKENS.typography.font;
 const r = TOKENS.radius.radius;
 const m = TOKENS.motion.motion;
+const d = TOKENS.density.density;
 
 const cv = (name: string): string => `var(--wna-${name})`;
 
@@ -129,6 +130,33 @@ export const elevation = {
   outdoor1: cv('shadow-1'),
   outdoor2: cv('shadow-2')
 } as const;
+
+// 配置文脈ごとの情報密度（compact=班長俯瞰／cozy=Web編集／comfortable=作業者画面）
+export type DensityVariant = 'compact' | 'cozy' | 'comfortable';
+
+export interface DensityValues {
+  touchTarget: string;
+  gap: string;
+  fontScale: number;
+}
+
+export const density: Record<DensityVariant, DensityValues> = {
+  compact: {
+    touchTarget: d.compact.touchTarget.value,
+    gap: d.compact.gap.value,
+    fontScale: Number(d.compact.fontScale.value)
+  },
+  cozy: {
+    touchTarget: d.cozy.touchTarget.value,
+    gap: d.cozy.gap.value,
+    fontScale: Number(d.cozy.fontScale.value)
+  },
+  comfortable: {
+    touchTarget: d.comfortable.touchTarget.value,
+    gap: d.comfortable.gap.value,
+    fontScale: Number(d.comfortable.fontScale.value)
+  }
+};
 
 // §11.2.2 SC 2.4.7 — フォーカスリングはテーマ別に色が変わるため CSS 変数経由
 export const focus = {
