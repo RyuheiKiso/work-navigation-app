@@ -2,6 +2,8 @@
 // 「待ってるのか壊れてるのか分からない」体感低下を防ぐローディング表示。
 // aria-live で screenreader 利用者にも進行中であることを通知する。
 
+import { palette, fontSize, space } from '../../tokens/access';
+
 export interface LoadingStateProps {
   label: string;
   /** 控えめ表示 (リスト内など) */
@@ -9,7 +11,7 @@ export interface LoadingStateProps {
 }
 
 export function LoadingState(props: LoadingStateProps): JSX.Element {
-  const size = props.inline ? 16 : 32;
+  const size = props.inline === true ? 16 : 32;
   return (
     <div
       role="status"
@@ -17,10 +19,10 @@ export function LoadingState(props: LoadingStateProps): JSX.Element {
       style={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: props.inline ? 'flex-start' : 'center',
-        gap: 12,
-        padding: props.inline ? 8 : 24,
-        color: '#6C757D'
+        justifyContent: props.inline === true ? 'flex-start' : 'center',
+        gap: space[3],
+        padding: props.inline === true ? space[2] : space[5],
+        color: palette.neutral[600]
       }}
     >
       <span
@@ -28,14 +30,14 @@ export function LoadingState(props: LoadingStateProps): JSX.Element {
         style={{
           width: size,
           height: size,
-          border: '3px solid #DEE2E6',
-          borderTopColor: '#28A745',
+          border: `3px solid ${palette.neutral[200]}`,
+          borderTopColor: palette.success.default,
           borderRadius: '50%',
           animation: 'wna-spin 0.9s linear infinite',
           display: 'inline-block'
         }}
       />
-      <span style={{ fontSize: props.inline ? 12 : 14 }}>{props.label}</span>
+      <span style={{ fontSize: props.inline === true ? fontSize.caption : fontSize.body }}>{props.label}</span>
       <style>{`@keyframes wna-spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );

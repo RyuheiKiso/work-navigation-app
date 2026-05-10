@@ -25,6 +25,39 @@ impl PostgresCredentialRepository {
         // pool を保持
         Self { pool }
     }
+
+    /// 認証情報を upsert する（seed／管理操作専用の補助 API）
+    ///
+    /// `CredentialRepository` trait には載せない。
+    /// trait に upsert を入れると本番 DI でも書き換え経路が露出するため、
+    /// 書き込みは inherent に閉じて呼び出し側を限定する（§11.4 信頼境界）。
+    ///
+    /// # Errors
+    /// 接続失敗・制約違反等で sqlx エラーを返す。
+    pub async fn upsert_credential(
+        &self,
+        user_id: &str,
+        display_name: &str,
+        password_hash_phc: &str,
+        enabled: bool,
+    ) -> Result<(), PostgresRepositoryError> {
+        sqlx::query(
+            "INSERT INTO credentials (user_id, display_name, enabled, password_hash) \
+             VALUES ($1, $2, $3, $4) \
+             ON CONFLICT (user_id) DO UPDATE SET \
+               display_name = EXCLUDED.display_name, \
+               enabled = EXCLUDED.enabled, \
+               password_hash = EXCLUDED.password_hash, \
+               updated_at = NOW()",
+        )
+        .bind(user_id)
+        .bind(display_name)
+        .bind(enabled)
+        .bind(password_hash_phc)
+        .execute(&self.pool)
+        .await?;
+        Ok(())
+    }
 }
 
 impl CredentialRepository for PostgresCredentialRepository {

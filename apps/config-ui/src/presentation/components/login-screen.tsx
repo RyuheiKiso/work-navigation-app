@@ -10,9 +10,26 @@ export interface LoginScreenProps {
   onLoggedIn(user: { user_id: string; display_name: string }): void;
 }
 
+/**
+ * Vite の `import.meta.env` から既定値を読む。
+ * - VITE_DEMO_MODE=true のときだけ user_id/password の既定値を埋める
+ * - 本番ビルドでは Vite が .env.* を読まないため既定値は出ない
+ *   （設定 UI 用の既定は班長想定で `charlie`、terminal 用は `alice`）
+ */
+function readDemoDefaults(): { userId: string; password: string; isDemo: boolean } {
+  const env = (import.meta as { env?: Record<string, string | undefined> }).env ?? {};
+  const isDemo = env.VITE_DEMO_MODE === 'true';
+  return {
+    userId: isDemo ? env.VITE_DEMO_USER_ID ?? 'charlie' : '',
+    password: isDemo ? env.VITE_DEMO_PASSWORD ?? 'hello-world' : '',
+    isDemo
+  };
+}
+
 export function LoginScreen(props: LoginScreenProps): JSX.Element {
-  const [userId, setUserId] = useState('charlie');
-  const [password, setPassword] = useState('hello-world');
+  const demo = readDemoDefaults();
+  const [userId, setUserId] = useState(demo.userId);
+  const [password, setPassword] = useState(demo.password);
   const [backend, setBackend] = useState(getBackendUrl());
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -48,6 +65,18 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
       >
         <h1 style={{ fontSize: 24, marginTop: 0 }}>⚙️ 設定 UI ログイン</h1>
         <p style={{ color: '#6C757D', fontSize: 13 }}>work-navigation-app 設定 Web UI</p>
+        {demo.isDemo && (
+          <div
+            role="status"
+            style={{
+              marginTop: 8, padding: '6px 10px', borderRadius: 6,
+              background: '#FFF3CD', color: '#856404', border: '1px solid #FFEEBA',
+              fontSize: 12, fontWeight: 600
+            }}
+          >
+            ⚠ デモモード: 本番ビルドでは既定値は表示されません
+          </div>
+        )}
         <label style={{ display: 'block', marginTop: 16, fontSize: 14 }}>
           バックエンド URL
           <input value={backend} onChange={(e) => setBackend(e.target.value)}
@@ -78,9 +107,11 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
           }}>
           {busy ? '...' : 'ログイン'}
         </button>
-        <p style={{ marginTop: 16, fontSize: 12, color: '#6C757D' }}>
-          デモ: alice / bob / charlie （パスワード: hello-world）
-        </p>
+        {demo.isDemo && (
+          <p style={{ marginTop: 16, fontSize: 12, color: '#6C757D' }}>
+            デモ: alice / bob / charlie （パスワード: hello-world）
+          </p>
+        )}
       </form>
     </main>
   );

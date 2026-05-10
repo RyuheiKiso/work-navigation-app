@@ -54,14 +54,41 @@ export const ja = {
     andon_default_message: '部材切れ — 班長に応援要請しました',
     suspend_default_message: '一時中断中',
     next_action_prefix: '次の動作',
-    overrun_label: '超過'
+    overrun_label: '超過',
+    standard_time_prefix: '標準時間',
+    progress_aria_label: '作業全体の進捗',
+    peek_next_title: '次の動作',
+    peek_next_end: '次の動作はありません'
+  },
+  // メディアスロット文言
+  media: {
+    image: '写真',
+    video: '動画',
+    diagram: '図面'
+  },
+  // ショートカット
+  shortcut: {
+    complete: 'ステップを完了',
+    suspend_resume: '中断 / 再開を切替',
+    andon: 'アンドンを発火',
+    toggle_task_drawer: 'タスク一覧を開閉',
+    toggle_step_map: 'ステップマップを開閉',
+    cycle_theme: 'テーマを循環 (standard → outdoor → dark → auto)',
+    show_help: 'ショートカット一覧を表示',
+    close_dialogs: 'ダイアログを閉じる',
+    help_title: 'キーボードショートカット',
+    close_label: '閉じる'
   },
   // ヘッダ・シェル共通
   shell: {
     logout: 'ログアウト',
     state_prefix: '状態',
     task_id_prefix: 'タスク',
-    task_id_unselected: '未選択'
+    task_id_unselected: '未選択',
+    toggle_task_drawer: 'タスク一覧の表示切替',
+    toggle_step_map_drawer: 'ステップマップの表示切替',
+    theme_label: '表示モード',
+    shortcuts_label: 'ショートカット一覧'
   },
   // ログイン画面
   login: {

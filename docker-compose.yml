@@ -48,6 +48,8 @@ services:
       DATABASE_URL: postgres://wna:wna_dev_password@postgres:5432/wna
       RUST_LOG: info
       WNA_LISTEN_ADDR: 0.0.0.0:8080
+      # デモ／開発用の固定値（本番では Secret Manager から注入する。ADR-0010）
+      WNA_SESSION_SECRET: demo-session-secret-please-replace-in-production-32bytes
     # REST API ポートをホストへ公開する（§5.2 性能目標を満たすか確認）
     ports:
       - "8080:8080"

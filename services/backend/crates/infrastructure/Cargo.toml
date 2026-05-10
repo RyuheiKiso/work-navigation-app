@@ -32,6 +32,8 @@ tracing-subscriber.workspace = true
 anyhow.workspace = true
 # thiserror（ConfigError 派生）
 thiserror.workspace = true
+# clap: CLI サブコマンド分岐（serve / seed）
+clap = { version = "4", features = ["derive"] }
 
 [lints]
 workspace = true

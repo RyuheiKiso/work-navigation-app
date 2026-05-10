@@ -217,6 +217,38 @@ impl PostgresMasterRepository {
         Ok(())
     }
 
+    /// タスクの表示メタ（タイトル／フロー／担当者）を一括更新する。
+    ///
+    /// `0003_master_data.sql` で追加された ALTER 由来の補助カラムを埋める用途。
+    /// Aggregate ルートの値ではなく「班長監視ビュー（§10.3.6）の射影」専用のため
+    /// `TaskRepository::save` には含めず、本リポジトリの inherent に置く。
+    ///
+    /// # Errors
+    /// sqlx エラーを返す。`task_id` 未存在は無視（影響行 0 件）。
+    pub async fn update_task_meta(
+        &self,
+        task_id: &str,
+        title: Option<&str>,
+        flow_id: Option<&str>,
+        responsible_user: Option<&str>,
+    ) -> Result<(), PostgresRepositoryError> {
+        sqlx::query(
+            "UPDATE tasks SET \
+               title = $1, \
+               flow_id = $2, \
+               responsible_user = $3, \
+               updated_at = NOW() \
+             WHERE id = $4",
+        )
+        .bind(title)
+        .bind(flow_id)
+        .bind(responsible_user)
+        .bind(task_id)
+        .execute(&self.pool)
+        .await?;
+        Ok(())
+    }
+
     // ===== フロー =====
     pub async fn list_flows(&self) -> Result<Vec<FlowSummary>, PostgresRepositoryError> {
         let rows: Vec<(String, i32, String, String, Option<String>)> = sqlx::query_as(

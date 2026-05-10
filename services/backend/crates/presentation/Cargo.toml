@@ -19,6 +19,8 @@ wna-adapter = { path = "../adapter" }
 # axum（middleware feature を有効化）
 axum = { workspace = true, features = ["macros"] }
 tower = "0.4"
+# CORS ミドルウェア（dev 時にフロント dev server からの cross-origin を許可するため）
+tower-http = { version = "0.5", features = ["cors"] }
 # tokio
 tokio.workspace = true
 # serde

@@ -51,13 +51,38 @@ export const en = {
     andon_default_message: 'Out of parts — help requested from lead',
     suspend_default_message: 'Suspended',
     next_action_prefix: 'Next action',
-    overrun_label: 'Overrun'
+    overrun_label: 'Overrun',
+    standard_time_prefix: 'Std. time',
+    progress_aria_label: 'Overall task progress',
+    peek_next_title: 'Next step',
+    peek_next_end: 'No upcoming step'
+  },
+  media: {
+    image: 'Photo',
+    video: 'Video',
+    diagram: 'Diagram'
+  },
+  shortcut: {
+    complete: 'Complete current step',
+    suspend_resume: 'Suspend / Resume',
+    andon: 'Trigger andon',
+    toggle_task_drawer: 'Toggle task list',
+    toggle_step_map: 'Toggle step map',
+    cycle_theme: 'Cycle theme (standard → outdoor → dark → auto)',
+    show_help: 'Show shortcut help',
+    close_dialogs: 'Close dialogs',
+    help_title: 'Keyboard shortcuts',
+    close_label: 'Close'
   },
   shell: {
     logout: 'Log out',
     state_prefix: 'State',
     task_id_prefix: 'Task',
-    task_id_unselected: 'unselected'
+    task_id_unselected: 'unselected',
+    toggle_task_drawer: 'Toggle task list',
+    toggle_step_map_drawer: 'Toggle step map',
+    theme_label: 'Theme',
+    shortcuts_label: 'Shortcuts'
   },
   login: {
     title: 'Log in',

@@ -3,11 +3,13 @@
 //! 対応 §: ロードマップ §7.3 §10.3.1 §10.5 §11.4.1
 
 use axum::{
+    http::{header, HeaderValue, Method},
     middleware::{from_fn, from_fn_with_state},
     routing::{delete, get, post, put},
     Router,
 };
 use std::sync::Arc;
+use tower_http::cors::CorsLayer;
 use wna_adapter::Hs256SessionFactory;
 use wna_domain::PasswordHasher;
 
@@ -60,7 +62,19 @@ where
         .layer(from_fn_with_state(session_factory, require_session))
         .with_state(state);
 
+    // dev 時にフロント dev server (Vite 1420/1421) からの cross-origin 要求を許可する。
+    // 本番では同一オリジン（リバースプロキシ配下）で配信する想定のため、限定列挙で十分。
+    let cors = CorsLayer::new()
+        .allow_origin([
+            HeaderValue::from_static("http://localhost:1420"),
+            HeaderValue::from_static("http://localhost:1421"),
+            HeaderValue::from_static("http://127.0.0.1:1420"),
+            HeaderValue::from_static("http://127.0.0.1:1421"),
+        ])
+        .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE, Method::OPTIONS])
+        .allow_headers([header::CONTENT_TYPE, header::AUTHORIZATION]);
+
     // 全ルートに request_id ミドルウェアを挟む。
     // 認証より外側で発行することで、401/403 のレスポンスにも ID が乗る。
-    public.merge(protected).layer(from_fn(request_id))
+    public.merge(protected).layer(cors).layer(from_fn(request_id))
 }

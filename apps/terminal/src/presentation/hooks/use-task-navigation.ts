@@ -63,6 +63,8 @@ export interface TaskNavigation {
   /** ErrorPanel から呼ぶ手動再試行 */
   retryTasks(): Promise<void>;
   dismissError(): void;
+  /** ステップ完了が成功した瞬間に増分するカウンタ。CelebrationOverlay の trigger に渡す */
+  successCounter: number;
 }
 
 export function useTaskNavigation(): TaskNavigation {
@@ -77,6 +79,7 @@ export function useTaskNavigation(): TaskNavigation {
   const [tasksLoading, setTasksLoading] = useState<boolean>(true);
   const [stepsLoading, setStepsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [successCounter, setSuccessCounter] = useState<number>(0);
   const voiceInputRef = useRef<HTMLInputElement | null>(null);
   const lamportRef = useRef<number>(0);
 
@@ -192,6 +195,7 @@ export function useTaskNavigation(): TaskNavigation {
         elapsed_sec: Math.floor((Date.now() - stepStartedAt) / 1000)
       });
       triggerFeedback('success');
+      setSuccessCounter((n) => n + 1);
       await refreshSteps();
       setStepStartedAt(Date.now());
       const after = await listSteps(selectedTaskId);
@@ -291,6 +295,7 @@ export function useTaskNavigation(): TaskNavigation {
     tasksLoading,
     stepsLoading,
     retryTasks: fetchTasksOnce,
-    dismissError: () => setError(null)
+    dismissError: () => setError(null),
+    successCounter
   };
 }

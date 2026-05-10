@@ -4,6 +4,7 @@
 // `window.confirm()` は a11y 不全（フォーカストラップ無し、screenreader 対応不安定）のため使わない。
 
 import { useEffect, useRef } from 'react';
+import { palette, fontSize, fontWeight, radius, space, elevation } from '../../tokens/access';
 
 export type ConfirmVariant = 'danger' | 'normal';
 
@@ -39,7 +40,7 @@ export function ConfirmDialog(props: ConfirmDialogProps): JSX.Element | null {
   if (!props.open) return null;
 
   const variant: ConfirmVariant = props.variant ?? 'normal';
-  const accent = variant === 'danger' ? '#DC3545' : '#28A745';
+  const accent = variant === 'danger' ? palette.danger.default : palette.success.default;
 
   return (
     <div
@@ -63,21 +64,27 @@ export function ConfirmDialog(props: ConfirmDialogProps): JSX.Element | null {
         aria-labelledby="confirm-dialog-title"
         aria-describedby="confirm-dialog-desc"
         style={{
-          background: '#FFFFFF',
-          padding: 24,
-          borderRadius: 16,
+          background: palette.white,
+          padding: space[5],
+          borderRadius: radius.large,
           minWidth: 320,
           maxWidth: 480,
-          boxShadow: '0 10px 25px rgba(0,0,0,0.25)'
+          boxShadow: elevation[4]
         }}
       >
-        <h2 id="confirm-dialog-title" style={{ marginTop: 0, fontSize: 20, color: accent }}>
+        <h2
+          id="confirm-dialog-title"
+          style={{ marginTop: 0, fontSize: fontSize.subtitle, fontWeight: fontWeight.bold, color: accent }}
+        >
           {props.title}
         </h2>
-        <p id="confirm-dialog-desc" style={{ fontSize: 14, lineHeight: 1.6, color: '#212529' }}>
+        <p
+          id="confirm-dialog-desc"
+          style={{ fontSize: fontSize.body, lineHeight: 1.6, color: palette.neutral[800] }}
+        >
           {props.description}
         </p>
-        <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', gap: space[3], marginTop: space[5], justifyContent: 'flex-end' }}>
           <button
             ref={cancelRef}
             type="button"
@@ -85,13 +92,13 @@ export function ConfirmDialog(props: ConfirmDialogProps): JSX.Element | null {
             style={{
               minHeight: 48,
               minWidth: 96,
-              padding: '8px 16px',
-              background: '#FFFFFF',
-              color: '#212529',
-              border: '1px solid #6C757D',
-              borderRadius: 8,
+              padding: `${space[2]} ${space[4]}`,
+              background: palette.white,
+              color: palette.neutral[800],
+              border: `1px solid ${palette.neutral[500]}`,
+              borderRadius: radius.medium,
               cursor: 'pointer',
-              fontSize: 14
+              fontSize: fontSize.body
             }}
           >
             {props.cancelLabel}
@@ -102,14 +109,15 @@ export function ConfirmDialog(props: ConfirmDialogProps): JSX.Element | null {
             style={{
               minHeight: 48,
               minWidth: 96,
-              padding: '8px 16px',
+              padding: `${space[2]} ${space[4]}`,
               background: accent,
-              color: '#FFFFFF',
+              color: palette.white,
               border: 'none',
-              borderRadius: 8,
+              // §9.2.2 危険操作の角丸 0
+              borderRadius: variant === 'danger' ? radius.none : radius.medium,
               cursor: 'pointer',
-              fontSize: 14,
-              fontWeight: 600
+              fontSize: fontSize.body,
+              fontWeight: fontWeight.bold
             }}
           >
             {props.confirmLabel}

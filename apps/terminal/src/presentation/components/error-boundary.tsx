@@ -5,6 +5,8 @@
 
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { t } from '../../i18n';
+import { palette, fontSize, fontWeight, radius, space, fontStack } from '../../tokens/access';
+import { Icon } from './icon/icon';
 
 export interface ErrorBoundaryProps {
   children: ReactNode;
@@ -48,29 +50,33 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: 24,
-          background: '#F8D7DA',
-          color: '#721C24',
-          fontFamily: 'Inter, "Noto Sans JP", system-ui, sans-serif'
+          padding: space[5],
+          background: palette.danger.subtle,
+          color: palette.danger.strong,
+          fontFamily: fontStack
         }}
       >
-        <div style={{ maxWidth: 480, textAlign: 'center' }}>
-          <h1 style={{ fontSize: 24, marginTop: 0 }}>{t('error.boundary_title')}</h1>
-          <p style={{ fontSize: 16, lineHeight: 1.6 }}>{t('error.boundary_description')}</p>
+        <div style={{ maxWidth: 480, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: space[3] }}>
+          <Icon name="warning-triangle" size={48} color={palette.danger.default} />
+          <h1 style={{ margin: 0, fontSize: fontSize.title, fontWeight: fontWeight.bold }}>
+            {t('error.boundary_title')}
+          </h1>
+          <p style={{ margin: 0, fontSize: fontSize.body, lineHeight: 1.6 }}>{t('error.boundary_description')}</p>
           <button
             type="button"
             onClick={this.handleReload}
             style={{
               minHeight: 48,
               minWidth: 160,
-              marginTop: 24,
-              padding: '12px 24px',
-              background: '#721C24',
-              color: '#FFFFFF',
+              marginTop: space[3],
+              padding: `${space[3]} ${space[5]}`,
+              background: palette.danger.strong,
+              color: palette.white,
               border: 'none',
-              borderRadius: 8,
+              borderRadius: radius.medium,
               cursor: 'pointer',
-              fontSize: 16
+              fontSize: fontSize.body,
+              fontWeight: fontWeight.medium
             }}
           >
             {t('error.reload')}

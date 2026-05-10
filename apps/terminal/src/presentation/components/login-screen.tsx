@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { login, getBackendUrl, setBackendUrl } from '../../adapter/api-client';
 import { toApiError } from '../../adapter/api-error';
 import { t } from '../../i18n';
+import { palette, fontSize, fontWeight, radius, space, elevation, fontStack } from '../../tokens/access';
+import { Icon } from './icon/icon';
 
 export interface LoginScreenProps {
   onLoggedIn(user: { user_id: string; display_name: string }): void;
@@ -50,6 +52,17 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
     }
   }
 
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: space[3],
+    fontSize: fontSize.body,
+    marginTop: space[1],
+    border: `1px solid ${palette.neutral[300]}`,
+    borderRadius: radius.medium,
+    background: palette.white,
+    color: palette.neutral[900]
+  };
+
   return (
     <main
       style={{
@@ -57,77 +70,93 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
-        background: '#F8F9FA',
-        fontFamily: 'Inter, "Noto Sans JP", system-ui, sans-serif'
+        background: palette.neutral[50],
+        fontFamily: fontStack
       }}
     >
       <form
         onSubmit={(e) => void handleSubmit(e)}
         style={{
           width: 400,
-          padding: 32,
-          background: '#FFFFFF',
-          borderRadius: 16,
-          boxShadow: '0 10px 25px rgba(13,17,23,0.10)'
+          padding: space[6],
+          background: palette.white,
+          borderRadius: radius.large,
+          boxShadow: elevation[3]
         }}
       >
-        <h1 style={{ fontSize: 24, marginTop: 0 }}>🔐 {t('login.title')}</h1>
-        <p style={{ color: '#6C757D', fontSize: 13 }}>{t('login.subtitle')}</p>
+        <h1
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: space[2],
+            margin: 0,
+            fontSize: fontSize.title,
+            fontWeight: fontWeight.bold,
+            color: palette.neutral[900]
+          }}
+        >
+          <Icon name="lock-closed" size={28} color={palette.info.default} />
+          {t('login.title')}
+        </h1>
+        <p style={{ color: palette.neutral[600], fontSize: fontSize.caption, marginTop: space[1] }}>
+          {t('login.subtitle')}
+        </p>
         {demo.isDemo && (
           <div
             role="status"
             style={{
-              marginTop: 8,
-              padding: '6px 10px',
-              borderRadius: 6,
-              background: '#FFF3CD',
-              color: '#856404',
-              border: '1px solid #FFEEBA',
-              fontSize: 12,
-              fontWeight: 600
+              marginTop: space[2],
+              padding: `${space[2]} ${space[3]}`,
+              borderRadius: radius.medium,
+              background: palette.warning.subtle,
+              color: palette.warning.strong,
+              border: `1px solid ${palette.warning.default}`,
+              fontSize: fontSize.caption,
+              fontWeight: fontWeight.bold,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: space[2]
             }}
           >
-            ⚠ {t('login.demo_banner')}
+            <Icon name="warning-triangle" size={16} color={palette.warning.strong} />
+            {t('login.demo_banner')}
           </div>
         )}
-        <label style={{ display: 'block', marginTop: 16, fontSize: 14 }}>
+        <label style={{ display: 'block', marginTop: space[4], fontSize: fontSize.caption, color: palette.neutral[700] }}>
           {t('login.backend_url_label')}
-          <input
-            value={backend}
-            onChange={(e) => setBackend(e.target.value)}
-            style={{ width: '100%', padding: 10, fontSize: 14, marginTop: 4 }}
-          />
+          <input value={backend} onChange={(e) => setBackend(e.target.value)} style={inputStyle} />
         </label>
-        <label style={{ display: 'block', marginTop: 12, fontSize: 14 }}>
+        <label style={{ display: 'block', marginTop: space[3], fontSize: fontSize.caption, color: palette.neutral[700] }}>
           {t('login.user_id_label')}
           <input
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
             autoComplete="username"
-            style={{ width: '100%', padding: 10, fontSize: 16, marginTop: 4 }}
+            style={inputStyle}
           />
         </label>
-        <label style={{ display: 'block', marginTop: 12, fontSize: 14 }}>
+        <label style={{ display: 'block', marginTop: space[3], fontSize: fontSize.caption, color: palette.neutral[700] }}>
           {t('login.password_label')}
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
-            style={{ width: '100%', padding: 10, fontSize: 16, marginTop: 4 }}
+            style={inputStyle}
           />
         </label>
         {error && (
           <div
-            style={{
-              marginTop: 12,
-              padding: 10,
-              background: '#F8D7DA',
-              color: '#721C24',
-              borderRadius: 6,
-              fontSize: 13
-            }}
             role="alert"
+            style={{
+              marginTop: space[3],
+              padding: space[3],
+              background: palette.danger.subtle,
+              color: palette.danger.strong,
+              borderRadius: radius.medium,
+              fontSize: fontSize.caption,
+              border: `1px solid ${palette.danger.default}`
+            }}
           >
             {error}
           </div>
@@ -138,20 +167,21 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
           style={{
             width: '100%',
             minHeight: 48,
-            marginTop: 16,
-            padding: 12,
-            fontSize: 16,
-            background: busy ? '#ADB5BD' : '#28A745',
-            color: '#FFFFFF',
+            marginTop: space[4],
+            padding: space[3],
+            fontSize: fontSize.body,
+            background: busy ? palette.neutral[400] : palette.success.default,
+            color: palette.white,
             border: 'none',
-            borderRadius: 8,
-            cursor: busy ? 'wait' : 'pointer'
+            borderRadius: radius.medium,
+            cursor: busy ? 'wait' : 'pointer',
+            fontWeight: fontWeight.medium
           }}
         >
           {busy ? t('login.submit_busy') : t('login.submit')}
         </button>
         {demo.isDemo && (
-          <p style={{ marginTop: 16, fontSize: 12, color: '#6C757D' }}>
+          <p style={{ marginTop: space[4], fontSize: fontSize.caption, color: palette.neutral[600] }}>
             {t('login.demo_users')}
           </p>
         )}

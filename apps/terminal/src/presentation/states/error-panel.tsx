@@ -4,6 +4,8 @@
 
 import { useState } from 'react';
 import { t } from '../../i18n';
+import { palette, fontSize, fontWeight, radius, space } from '../../tokens/access';
+import { Icon } from '../components/icon/icon';
 
 export interface ErrorPanelProps {
   /** すでに t() 済みのユーザー向けメッセージ */
@@ -24,20 +26,22 @@ export function ErrorPanel(props: ErrorPanelProps): JSX.Element {
       role="alert"
       aria-live="assertive"
       style={{
-        padding: 12,
-        background: '#F8D7DA',
-        color: '#721C24',
-        borderRadius: 8,
-        border: '1px solid #F5C6CB',
+        padding: space[3],
+        background: palette.danger.subtle,
+        color: palette.danger.strong,
+        borderRadius: radius.medium,
+        border: `1px solid ${palette.danger.default}`,
         display: 'grid',
-        gap: 8
+        gap: space[2]
       }}
     >
-      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-        <span aria-hidden="true">⚠️</span>
-        <span style={{ flex: 1, fontSize: props.inline ? 13 : 14 }}>{props.message}</span>
+      <div style={{ display: 'flex', gap: space[2], alignItems: 'flex-start' }}>
+        <Icon name="warning-triangle" size={20} color={palette.danger.default} />
+        <span style={{ flex: 1, fontSize: props.inline === true ? fontSize.caption : fontSize.body }}>
+          {props.message}
+        </span>
       </div>
-      <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: space[2], justifyContent: 'flex-end', flexWrap: 'wrap' }}>
         {props.detail !== undefined && (
           <button
             type="button"
@@ -63,12 +67,12 @@ export function ErrorPanel(props: ErrorPanelProps): JSX.Element {
         <pre
           style={{
             margin: 0,
-            padding: 8,
-            background: '#FFFFFF',
-            color: '#495057',
-            fontSize: 11,
+            padding: space[2],
+            background: palette.white,
+            color: palette.neutral[700],
+            fontSize: fontSize.caption,
             overflow: 'auto',
-            borderRadius: 4
+            borderRadius: radius.small
           }}
         >
           {props.detail}
@@ -80,23 +84,23 @@ export function ErrorPanel(props: ErrorPanelProps): JSX.Element {
 
 const detailButtonStyle: React.CSSProperties = {
   minHeight: 32,
-  padding: '4px 10px',
+  padding: `${space[1]} ${space[3]}`,
   background: 'transparent',
-  color: '#721C24',
-  border: '1px solid #721C24',
-  borderRadius: 6,
+  color: palette.danger.strong,
+  border: `1px solid ${palette.danger.strong}`,
+  borderRadius: radius.medium,
   cursor: 'pointer',
-  fontSize: 12
+  fontSize: fontSize.caption
 };
 
 const primaryButtonStyle: React.CSSProperties = {
   minHeight: 32,
-  padding: '4px 12px',
-  background: '#721C24',
-  color: '#FFFFFF',
+  padding: `${space[1]} ${space[3]}`,
+  background: palette.danger.strong,
+  color: palette.white,
   border: 'none',
-  borderRadius: 6,
+  borderRadius: radius.medium,
   cursor: 'pointer',
-  fontSize: 12,
-  fontWeight: 600
+  fontSize: fontSize.caption,
+  fontWeight: fontWeight.bold
 };

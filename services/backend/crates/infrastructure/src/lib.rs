@@ -6,6 +6,9 @@
 
 // 子モジュール
 pub mod config;
+// CLI サブコマンド実装（serve / seed）
+pub mod commands;
 
 // 代表型を再エクスポート
 pub use config::{AppConfig, ConfigError};
+pub use commands::seed::{run as run_seed, SeedPreset};

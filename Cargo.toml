@@ -53,7 +53,7 @@ authors = ["work-navigation-app contributors"]
 # プロジェクトの英語説明
 description = "Manufacturing work navigation app (terminal / config UI / backend / addon SDK)"
 # Rust の最低必要バージョン（2026-05 時点で安定し各依存も対応する版）
-rust-version = "1.78"
+rust-version = "1.88"
 
 # ワークスペース全体で共有する依存関係（バージョン解決の重複排除のため一元管理する）
 [workspace.dependencies]

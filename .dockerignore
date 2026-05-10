@@ -8,7 +8,6 @@ node_modules/
 .git/
 .github/
 docs/
-examples/
 *.md
 .env*
 .gitignore

@@ -25,6 +25,8 @@ help:
 	@echo "  make build    — 全ビルド"
 	@echo "  make up       — docker compose up -d"
 	@echo "  make down     — docker compose down"
+	@echo "  make demo     — compose up + デモシード投入（§14.2 顧客／社内デモ）"
+	@echo "  make demo-down— compose down -v（デモ DB をリセット）"
 	@echo "  make ci       — CI 相当のローカル実行（§13.2）"
 	@echo "  make clean    — ビルド成果物の削除"
 
@@ -120,6 +122,27 @@ up:
 .PHONY: down
 down:
 	@docker compose down
+
+# ----------------------------------------------------------------------
+# デモセットアップ（§14.2 顧客／社内デモ向けワンコマンド初期化）
+# ----------------------------------------------------------------------
+# `make demo` は compose 起動 → readiness 待機 → wna-backend seed まで一括実行する。
+# adapter 層の upsert API を経由するため、`make demo` 連打でも DB は壊れない（冪等）。
+.PHONY: demo
+demo:
+	@echo -e "$(COLOR_BOLD)== work-navigation-app demo セットアップ ==$(COLOR_RESET)"
+	@bash scripts/seed-demo.sh showcase
+	@echo -e "$(COLOR_GREEN)デモ環境の準備が完了しました。$(COLOR_RESET)"
+	@echo "  端末アプリ: pnpm -F terminal dev"
+	@echo "  設定 UI:    pnpm -F config-ui dev"
+	@echo "  デモ ID:    alice / bob / charlie  (パスワード: hello-world)"
+	@echo "  詳細:       docs/demo.md"
+
+# `make demo-down` はボリューム込みで DB を破棄し、次回 demo を綺麗にやり直す。
+.PHONY: demo-down
+demo-down:
+	@docker compose down -v
+	@echo -e "$(COLOR_GREEN)デモ DB を破棄しました。$(COLOR_RESET)"
 
 # ----------------------------------------------------------------------
 # CI 相当のローカル実行

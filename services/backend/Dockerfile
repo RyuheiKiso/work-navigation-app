@@ -3,7 +3,7 @@
 
 # ---- builder stage ---------------------------------------------------------
 # 安定版の Rust（slim）を使ってビルドする
-FROM rust:1.78-slim AS builder
+FROM rust:1.90-slim AS builder
 
 # 必要な開発ライブラリをインストールする（OpenSSL 等）
 RUN apt-get update && \
