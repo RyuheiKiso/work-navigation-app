@@ -67,6 +67,7 @@ export const en = {
     password_label: 'Password',
     submit: 'Log in',
     submit_busy: 'Working…',
+    demo_banner: 'Demo mode — do not use in production',
     demo_users: 'Demo: alice / bob / charlie (password: hello-world)'
   },
   state: {

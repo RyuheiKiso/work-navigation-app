@@ -72,6 +72,7 @@ export const ja = {
     password_label: 'パスワード',
     submit: 'ログイン',
     submit_busy: '処理中…',
+    demo_banner: 'デモモード — 本番環境では利用しないでください',
     demo_users: 'デモユーザ: alice / bob / charlie（パスワード: hello-world）'
   },
   // 状態名（HSM 状態と一致）
