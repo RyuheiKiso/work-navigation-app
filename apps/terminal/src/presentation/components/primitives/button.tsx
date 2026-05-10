@@ -17,7 +17,11 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   trailingIcon?: ReactNode;
 }
 
-function paint(variant: ButtonVariant, disabled: boolean): { bg: string; fg: string; border: string } {
+// HoldConfirmButton 等の派生実装が同じ paint／dimensions を再利用できるよう export する
+export interface ButtonPaint { bg: string; fg: string; border: string }
+export interface ButtonDimensions { minHeight: string; padding: string; fontSize: string; gap: string }
+
+export function buttonPaint(variant: ButtonVariant, disabled: boolean): ButtonPaint {
   if (disabled) return { bg: palette.neutral[200], fg: palette.neutral[500], border: palette.neutral[200] };
   switch (variant) {
     case 'primary':
@@ -33,7 +37,7 @@ function paint(variant: ButtonVariant, disabled: boolean): { bg: string; fg: str
   }
 }
 
-function dimensions(size: ButtonSize): { minHeight: string; padding: string; fontSize: string; gap: string } {
+export function buttonDimensions(size: ButtonSize): ButtonDimensions {
   switch (size) {
     case 'xl':
       return { minHeight: '88px', padding: `${space[4]} ${space[6]}`, fontSize: fontSize.title, gap: space[3] };
@@ -49,8 +53,8 @@ function dimensions(size: ButtonSize): { minHeight: string; padding: string; fon
 export function Button(props: ButtonProps): JSX.Element {
   const { variant = 'primary', size = 'md', block, leadingIcon, trailingIcon, style, children, ...rest } = props;
   const disabled = props.disabled === true;
-  const c = paint(variant, disabled);
-  const d = dimensions(size);
+  const c = buttonPaint(variant, disabled);
+  const d = buttonDimensions(size);
   const danger = variant === 'danger';
   const merged: CSSProperties = {
     minHeight: d.minHeight,

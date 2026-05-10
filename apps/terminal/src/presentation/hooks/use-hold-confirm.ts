@@ -15,9 +15,9 @@ export interface UseHoldConfirmOptions {
   /** 閾値到達時に 1 回だけ呼ばれる */
   onComplete: () => void;
   /** 閾値未満で離した時に呼ばれる (任意) */
-  onCancel?: () => void;
+  onCancel?: (() => void) | undefined;
   /** ハプティック発火の有無。テスト・低スペック端末で抑止可能 */
-  hapticEnabled?: boolean;
+  hapticEnabled?: boolean | undefined;
 }
 
 export interface PointerHandlers {
