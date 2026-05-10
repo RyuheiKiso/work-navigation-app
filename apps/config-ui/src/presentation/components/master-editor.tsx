@@ -23,11 +23,11 @@ export interface MasterEditorProps {
   kind: 'products' | 'equipments' | 'parts';
 }
 
-const KIND_LABEL: Record<MasterEditorProps['kind'], { title: string; extraLabel: string }> = {
-  products: { title: '製品マスタ', extraLabel: '業界（任意）' },
-  equipments: { title: '設備マスタ', extraLabel: '設置場所（任意）' },
-  parts: { title: '部材マスタ', extraLabel: '単位（任意）' }
-};
+function meta(kind: MasterEditorProps['kind']): { title: string; extraLabel: string } {
+  if (kind === 'products') return { title: t('master.products_title'), extraLabel: t('master.extra_products') };
+  if (kind === 'equipments') return { title: t('master.equipments_title'), extraLabel: t('master.extra_equipments') };
+  return { title: t('master.parts_title'), extraLabel: t('master.extra_parts') };
+}
 
 export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
   const [rows, setRows] = useState<MasterRow[]>([]);
@@ -39,7 +39,7 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
   const [confirmingDelete, setConfirmingDelete] = useState<string | null>(null);
   const [initialLoaded, setInitialLoaded] = useState(false);
 
-  const meta = KIND_LABEL[kind];
+  const m = meta(kind);
 
   const fetcher = async (): Promise<MasterRow[]> => {
     if (kind === 'products') return listProducts();
@@ -77,7 +77,7 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
   async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault();
     if (!code.trim() || !name.trim()) {
-      setError('コードと名前は必須です');
+      setError(t('master.code_and_name_required'));
       return;
     }
     setBusy(true); setError(null);
@@ -99,25 +99,25 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>{meta.title}</h1>
+      <h1>{m.title}</h1>
 
       <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, marginBottom: 16, boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
-        <h3 style={{ marginTop: 0 }}>新規・更新</h3>
+        <h3 style={{ marginTop: 0 }}>{t('master.new_or_update')}</h3>
         <form onSubmit={(e) => void handleSubmit(e)} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: 8, alignItems: 'end' }}>
           <label style={{ fontSize: 13 }}>
-            コード
+            {t('master.code_label')}
             <input value={code} onChange={(e) => setCode(e.target.value)} style={{ width: '100%', padding: 8 }} />
           </label>
           <label style={{ fontSize: 13 }}>
-            名前
+            {t('master.name_label')}
             <input value={name} onChange={(e) => setName(e.target.value)} style={{ width: '100%', padding: 8 }} />
           </label>
           <label style={{ fontSize: 13 }}>
-            {meta.extraLabel}
+            {m.extraLabel}
             <input value={extra} onChange={(e) => setExtra(e.target.value)} style={{ width: '100%', padding: 8 }} />
           </label>
           <button type="submit" disabled={busy} style={{ minHeight: 36, padding: '8px 16px', background: '#28A745', color: '#FFFFFF', border: 'none', borderRadius: 6 }}>
-            保存
+            {t('master.save')}
           </button>
         </form>
         {error && (
@@ -134,14 +134,14 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
       {!initialLoaded && !error && <LoadingState label={t('state_label.loading_master')} />}
 
       <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
-        <h3 style={{ marginTop: 0 }}>登録済み（{rows.length} 件）</h3>
+        <h3 style={{ marginTop: 0 }}>{t('master.registered_count', { n: rows.length })}</h3>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#F8F9FA' }}>
-              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>コード</th>
-              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>名前</th>
-              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>{meta.extraLabel}</th>
-              <th style={{ padding: 8, borderBottom: '1px solid #DEE2E6' }}>操作</th>
+              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>{t('master.code_label')}</th>
+              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>{t('master.name_label')}</th>
+              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>{m.extraLabel}</th>
+              <th style={{ padding: 8, borderBottom: '1px solid #DEE2E6' }}>{t('master.edit')}/{t('master.delete')}</th>
             </tr>
           </thead>
           <tbody>
@@ -156,14 +156,14 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
                     onClick={() => { setCode(r.code); setName(r.name); setExtra(r.extra ?? ''); }}
                     style={{ padding: '4px 8px', marginRight: 4, background: '#17A2B8', color: '#FFFFFF', border: 'none', borderRadius: 4, cursor: 'pointer' }}
                   >
-                    編集
+                    {t('master.edit')}
                   </button>
                   <button
                     type="button"
                     onClick={() => setConfirmingDelete(r.code)}
                     style={{ padding: '4px 8px', background: '#DC3545', color: '#FFFFFF', border: 'none', borderRadius: 4, cursor: 'pointer' }}
                   >
-                    削除
+                    {t('master.delete')}
                   </button>
                 </td>
               </tr>

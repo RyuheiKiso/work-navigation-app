@@ -50,7 +50,8 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
       >
         <strong>📍 {props.user.display_name}（{props.user.user_id}）</strong>
         <span style={{ color: '#6C757D' }}>
-          | 状態: {nav.selectedTaskState} | タスク: {nav.selectedTaskId ?? '未選択'}
+          | {t('shell.state_prefix')}: {nav.selectedTaskState} | {t('shell.task_id_prefix')}:{' '}
+          {nav.selectedTaskId ?? t('shell.task_id_unselected')}
         </span>
         <span
           role="status"
@@ -111,7 +112,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
             cursor: 'pointer'
           }}
         >
-          ログアウト
+          {t('shell.logout')}
         </button>
       </header>
 
@@ -124,7 +125,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
           overflowY: 'auto'
         }}
       >
-        <h3 style={{ fontSize: 14, marginTop: 0 }}>📋 当日のタスク</h3>
+        <h3 style={{ fontSize: 14, marginTop: 0 }}>📋 {t('task.today_list_title')}</h3>
         {nav.tasksLoading && <LoadingState label={t('state_label.loading_tasks')} inline />}
         {!nav.tasksLoading && nav.tasks.length === 0 && (
           <EmptyState
@@ -207,11 +208,11 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
       >
         {nav.andon ? (
           <div>
-            <strong>🚨 アンドン Lv.{nav.andon.severity}</strong>
+            <strong>🚨 {t('task.andon_severity_prefix')}{nav.andon.severity}</strong>
             <p style={{ margin: '4px 0' }}>{nav.andon.message}</p>
           </div>
         ) : (
-          <div>✓ 異常なし</div>
+          <div>✓ {t('task.no_andon')}</div>
         )}
       </section>
 
@@ -229,7 +230,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
           <LoadingState label={t('state_label.loading_steps')} />
         ) : nav.selectedTaskState === 'Idle' || nav.selectedTaskState === 'Ready' ? (
           <div style={{ padding: 24, background: '#FFFFFF', borderRadius: 16 }}>
-            <h2>タスクを開始してください</h2>
+            <h2>{t('task.select_task_prompt')}</h2>
             <button
               type="button"
               onClick={() => void nav.doStartTask()}
@@ -245,7 +246,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
                 cursor: 'pointer'
               }}
             >
-              ▶ 開始
+              ▶ {t('task.start_button_short')}
             </button>
           </div>
         ) : nav.current ? (
@@ -262,11 +263,11 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
               完了条件: {t(`completion.${nav.current.completion_criteria}`)} | 標準時間: {nav.current.standard_time_seconds}s
             </p>
             <p style={{ marginTop: 24, padding: 12, background: '#FFF3CD', borderRadius: 8 }}>
-              ➡ 次の動作: <strong>完了</strong>
+              ➡ {t('task.next_action_prefix')}: <strong>{t('action.complete')}</strong>
             </p>
           </article>
         ) : nav.steps.length > 0 ? (
-          <div style={{ padding: 24, fontSize: 24, color: '#28A745' }}>🎉 全ステップ完了</div>
+          <div style={{ padding: 24, fontSize: 24, color: '#28A745' }}>🎉 {t('task.all_steps_done')}</div>
         ) : (
           <EmptyState icon="📝" title={t('state_label.no_steps_title')} />
         )}
@@ -281,7 +282,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
           overflowY: 'auto'
         }}
       >
-        <h3 style={{ fontSize: 14, marginTop: 0 }}>ステップマップ</h3>
+        <h3 style={{ fontSize: 14, marginTop: 0 }}>{t('task.step_map_title')}</h3>
         <ol>
           {nav.steps.map((s, i) => (
             <li
@@ -297,7 +298,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
           ))}
         </ol>
 
-        <h3 style={{ fontSize: 14 }}>ストレージ</h3>
+        <h3 style={{ fontSize: 14 }}>{t('task.storage_title')}</h3>
         <div
           style={{
             padding: 8,
@@ -308,10 +309,10 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
           使用率 {Math.round(nav.storage.utilization * 100)}% — {nav.storage.status}
         </div>
 
-        <h3 style={{ fontSize: 14 }}>音声コマンド</h3>
+        <h3 style={{ fontSize: 14 }}>{t('task.voice_section_title')}</h3>
         <input
           ref={nav.voiceInputRef}
-          placeholder="開始 / 完了 / 中断"
+          placeholder={t('task.voice_input_placeholder')}
           style={{ width: '100%', padding: 6, marginBottom: 6 }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') nav.handleVoiceCommand();
@@ -322,7 +323,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
           onClick={nav.handleVoiceCommand}
           style={{ minHeight: 36, width: '100%', background: '#17A2B8', color: '#FFFFFF', border: 'none', borderRadius: 6 }}
         >
-          🎙 認識
+          🎙 {t('task.voice_recognize_button')}
         </button>
       </aside>
 
@@ -351,7 +352,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
             cursor: 'pointer'
           }}
         >
-          ✓ 完了する
+          ✓ {t('task.complete_button')}
         </button>
         <button
           type="button"
@@ -367,7 +368,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
             fontSize: 18
           }}
         >
-          {nav.andon ? '▶ 再開' : '⏸ 中断'}
+          {nav.andon ? '▶ ' + t('task.resume_button') : '⏸ ' + t('task.suspend_button')}
         </button>
         <button
           type="button"
@@ -382,7 +383,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
             fontSize: 18
           }}
         >
-          🚨 アンドン
+          🚨 {t('task.andon_button')}
         </button>
       </footer>
       <ConfirmDialog

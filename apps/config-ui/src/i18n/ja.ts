@@ -12,6 +12,33 @@ export const ja = {
     master: 'マスタ',
     addon: 'アドオン'
   },
+  // アプリシェル / ナビゲーション
+  shell: {
+    logout: 'ログアウト',
+    tab_flow: 'フロー編集',
+    tab_products: '製品',
+    tab_equipments: '設備',
+    tab_parts: '部材',
+    tab_audit: '監査ログ',
+    tab_dashboard: '班長監視'
+  },
+  // マスタ画面
+  master: {
+    products_title: '製品マスタ',
+    equipments_title: '設備マスタ',
+    parts_title: '部材マスタ',
+    code_label: 'コード',
+    name_label: '名前',
+    extra_products: '業界（任意）',
+    extra_equipments: '設置場所（任意）',
+    extra_parts: '単位（任意）',
+    new_or_update: '新規・更新',
+    save: '保存',
+    edit: '編集',
+    delete: '削除',
+    code_and_name_required: 'コードと名前は必須です',
+    registered_count: '登録済み（{n} 件）'
+  },
   // フローエディタ画面
   flow: {
     title_prefix: 'フロー: ',

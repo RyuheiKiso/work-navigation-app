@@ -32,7 +32,42 @@ export const en = {
     complete_button: 'Complete',
     completed_label: 'Completed',
     suspended_label: 'Suspended',
-    aria_complete: 'Mark task complete'
+    aria_complete: 'Mark task complete',
+    today_list_title: 'Today’s tasks',
+    select_task_prompt: 'Please start a task',
+    start_button_short: 'Start',
+    suspend_button: 'Suspend',
+    resume_button: 'Resume',
+    andon_button: 'Andon',
+    all_steps_done: 'All steps complete',
+    step_map_title: 'Step map',
+    storage_title: 'Storage',
+    voice_section_title: 'Voice command',
+    voice_input_placeholder: 'start / complete / suspend',
+    voice_recognize_button: 'Recognize',
+    voice_unrecognized: 'Voice command not recognized',
+    no_andon: 'No issues',
+    andon_severity_prefix: 'Andon Lv.',
+    andon_default_message: 'Out of parts — help requested from lead',
+    suspend_default_message: 'Suspended',
+    next_action_prefix: 'Next action',
+    overrun_label: 'Overrun'
+  },
+  shell: {
+    logout: 'Log out',
+    state_prefix: 'State',
+    task_id_prefix: 'Task',
+    task_id_unselected: 'unselected'
+  },
+  login: {
+    title: 'Log in',
+    subtitle: 'work-navigation-app terminal',
+    backend_url_label: 'Backend URL',
+    user_id_label: 'User ID',
+    password_label: 'Password',
+    submit: 'Log in',
+    submit_busy: 'Working…',
+    demo_users: 'Demo: alice / bob / charlie (password: hello-world)'
   },
   state: {
     Idle: 'Idle',

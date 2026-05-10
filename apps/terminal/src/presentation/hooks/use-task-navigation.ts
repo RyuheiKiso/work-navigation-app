@@ -218,7 +218,7 @@ export function useTaskNavigation(): TaskNavigation {
     try {
       const task = await suspendTask(selectedTaskId);
       setSelectedTaskState(task.state);
-      setAndon({ severity: 1, message: '一時中断中' });
+      setAndon({ severity: 1, message: t('task.suspend_default_message') });
       triggerFeedback('input');
       await refreshTasks();
     } catch (e) {
@@ -246,7 +246,7 @@ export function useTaskNavigation(): TaskNavigation {
   }
 
   function fireAndon(): void {
-    setAndon({ severity: 4, message: '部材切れ — 班長に応援要請しました' });
+    setAndon({ severity: 4, message: t('task.andon_default_message') });
     triggerFeedback('warning');
   }
 
@@ -254,7 +254,7 @@ export function useTaskNavigation(): TaskNavigation {
     const v = voiceInputRef.current?.value ?? '';
     const cmd = normalize(v);
     if (!cmd) {
-      setError('音声コマンドが認識できませんでした');
+      setError(t('task.voice_unrecognized'));
       return;
     }
     if (voiceInputRef.current) voiceInputRef.current.value = '';

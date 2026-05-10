@@ -54,10 +54,10 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
           boxShadow: '0 10px 25px rgba(13,17,23,0.10)'
         }}
       >
-        <h1 style={{ fontSize: 24, marginTop: 0 }}>🔐 ログイン</h1>
-        <p style={{ color: '#6C757D', fontSize: 13 }}>work-navigation-app 端末</p>
+        <h1 style={{ fontSize: 24, marginTop: 0 }}>🔐 {t('login.title')}</h1>
+        <p style={{ color: '#6C757D', fontSize: 13 }}>{t('login.subtitle')}</p>
         <label style={{ display: 'block', marginTop: 16, fontSize: 14 }}>
-          バックエンド URL
+          {t('login.backend_url_label')}
           <input
             value={backend}
             onChange={(e) => setBackend(e.target.value)}
@@ -65,7 +65,7 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
           />
         </label>
         <label style={{ display: 'block', marginTop: 12, fontSize: 14 }}>
-          ユーザ ID
+          {t('login.user_id_label')}
           <input
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
@@ -74,7 +74,7 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
           />
         </label>
         <label style={{ display: 'block', marginTop: 12, fontSize: 14 }}>
-          パスワード
+          {t('login.password_label')}
           <input
             type="password"
             value={password}
@@ -114,10 +114,10 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
             cursor: busy ? 'wait' : 'pointer'
           }}
         >
-          {busy ? '...' : 'ログイン'}
+          {busy ? t('login.submit_busy') : t('login.submit')}
         </button>
         <p style={{ marginTop: 16, fontSize: 12, color: '#6C757D' }}>
-          デモユーザ: alice / bob / charlie（パスワード: hello-world）
+          {t('login.demo_users')}
         </p>
       </form>
     </main>

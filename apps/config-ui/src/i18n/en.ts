@@ -11,6 +11,31 @@ export const en = {
     master: 'Master Data',
     addon: 'Addon'
   },
+  shell: {
+    logout: 'Log out',
+    tab_flow: 'Flow editor',
+    tab_products: 'Products',
+    tab_equipments: 'Equipment',
+    tab_parts: 'Parts',
+    tab_audit: 'Audit log',
+    tab_dashboard: 'Lead view'
+  },
+  master: {
+    products_title: 'Product master',
+    equipments_title: 'Equipment master',
+    parts_title: 'Part master',
+    code_label: 'Code',
+    name_label: 'Name',
+    extra_products: 'Industry (optional)',
+    extra_equipments: 'Location (optional)',
+    extra_parts: 'Unit (optional)',
+    new_or_update: 'Create / update',
+    save: 'Save',
+    edit: 'Edit',
+    delete: 'Delete',
+    code_and_name_required: 'Code and name are required',
+    registered_count: 'Registered ({n})'
+  },
   flow: {
     title_prefix: 'Flow: ',
     version_label: 'Version',

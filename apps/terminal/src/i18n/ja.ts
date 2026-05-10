@@ -35,7 +35,44 @@ export const ja = {
     complete_button: '完了する',
     completed_label: '完了済み',
     suspended_label: '中断中',
-    aria_complete: '作業を完了する'
+    aria_complete: '作業を完了する',
+    today_list_title: '当日のタスク',
+    select_task_prompt: 'タスクを開始してください',
+    start_button_short: '開始',
+    suspend_button: '中断',
+    resume_button: '再開',
+    andon_button: 'アンドン',
+    all_steps_done: '全ステップ完了',
+    step_map_title: 'ステップマップ',
+    storage_title: 'ストレージ',
+    voice_section_title: '音声コマンド',
+    voice_input_placeholder: '開始 / 完了 / 中断',
+    voice_recognize_button: '認識',
+    voice_unrecognized: '音声コマンドが認識できませんでした',
+    no_andon: '異常なし',
+    andon_severity_prefix: 'アンドン Lv.',
+    andon_default_message: '部材切れ — 班長に応援要請しました',
+    suspend_default_message: '一時中断中',
+    next_action_prefix: '次の動作',
+    overrun_label: '超過'
+  },
+  // ヘッダ・シェル共通
+  shell: {
+    logout: 'ログアウト',
+    state_prefix: '状態',
+    task_id_prefix: 'タスク',
+    task_id_unselected: '未選択'
+  },
+  // ログイン画面
+  login: {
+    title: 'ログイン',
+    subtitle: 'work-navigation-app 端末',
+    backend_url_label: 'バックエンド URL',
+    user_id_label: 'ユーザ ID',
+    password_label: 'パスワード',
+    submit: 'ログイン',
+    submit_busy: '処理中…',
+    demo_users: 'デモユーザ: alice / bob / charlie（パスワード: hello-world）'
   },
   // 状態名（HSM 状態と一致）
   state: {

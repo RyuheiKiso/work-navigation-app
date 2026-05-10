@@ -9,6 +9,7 @@ import { MasterEditor } from './master-editor';
 import { AuditViewer } from './audit-viewer';
 import { LeadDashboard } from './lead-dashboard';
 import { logout, type DashboardTask } from '../../adapter/api-client';
+import { t } from '../../i18n';
 
 export interface AppShellProps {
   user: { user_id: string; display_name: string };
@@ -38,12 +39,12 @@ export function AppShell(props: AppShellProps): JSX.Element {
   }, []);
 
   const tabs: { key: Tab; label: string; icon: string }[] = [
-    { key: 'flow', label: 'フロー編集', icon: '📐' },
-    { key: 'products', label: '製品', icon: '📦' },
-    { key: 'equipments', label: '設備', icon: '🏭' },
-    { key: 'parts', label: '部材', icon: '🔧' },
-    { key: 'audit', label: '監査ログ', icon: '🛡️' },
-    { key: 'dashboard', label: '班長監視', icon: '📊' }
+    { key: 'flow', label: t('shell.tab_flow'), icon: '📐' },
+    { key: 'products', label: t('shell.tab_products'), icon: '📦' },
+    { key: 'equipments', label: t('shell.tab_equipments'), icon: '🏭' },
+    { key: 'parts', label: t('shell.tab_parts'), icon: '🔧' },
+    { key: 'audit', label: t('shell.tab_audit'), icon: '🛡️' },
+    { key: 'dashboard', label: t('shell.tab_dashboard'), icon: '📊' }
   ];
 
   return (
@@ -84,7 +85,7 @@ export function AppShell(props: AppShellProps): JSX.Element {
               color: '#FFFFFF', border: '1px solid #6C757D', borderRadius: 6, cursor: 'pointer'
             }}
           >
-            ログアウト
+            {t('shell.logout')}
           </button>
         </div>
       </nav>
