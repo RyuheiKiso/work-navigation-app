@@ -322,7 +322,8 @@ export const TOKENS = {
     },
     "touchTarget": {
       "minimum":     { "value": "9mm",  "_meta": { "note": "ISO 9241-411／§21 注 6" } },
-      "recommended": { "value": "11mm", "_meta": { "note": "Apple HIG 44pt ≈ 11mm／手袋操作想定" } }
+      "recommended": { "value": "11mm", "_meta": { "note": "Apple HIG 44pt ≈ 11mm／手袋操作想定" } },
+      "critical":    { "value": "16mm", "_meta": { "note": "破壊的操作の確定（完了確定／アンドン発報）。揺れる搬送台車・濡れ手・厚手手袋でも誤タップしない物理閾値" } }
     },
     "container": {
       "compact":  { "value": "320px" },

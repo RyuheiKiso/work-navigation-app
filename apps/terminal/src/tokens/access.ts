@@ -78,9 +78,10 @@ export const space = {
   6: s.unit['6'].value,
   7: s.unit['7'].value,
   8: s.unit['8'].value,
-  // §21 注 6 タッチターゲット下限／推奨
+  // §21 注 6 タッチターゲット下限／推奨／確定（破壊的操作）
   touchMin: s.touchTarget.minimum.value,
-  touchRecommended: s.touchTarget.recommended.value
+  touchRecommended: s.touchTarget.recommended.value,
+  touchCritical: s.touchTarget.critical.value
 } as const;
 
 export const radius = {
