@@ -14,6 +14,7 @@ import { ConfirmDialog } from './confirm-dialog';
 import { LoadingState } from '../states/loading-state';
 import { EmptyState } from '../states/empty-state';
 import { ErrorPanel } from '../states/error-panel';
+import { palette, radius, fontSize, fontWeight, space, elevation } from '../../tokens/access';
 
 function localize(e: unknown): string {
   return t(toApiError(e).i18nKey());
@@ -98,25 +99,25 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
   }
 
   return (
-    <div style={{ padding: 24 }}>
+    <div style={{ padding: space[5], background: palette.bg, color: palette.fg }}>
       <h1>{m.title}</h1>
 
-      <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, marginBottom: 16, boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
+      <section style={{ background: palette.surface, padding: space[4], borderRadius: radius.medium, marginBottom: space[4], boxShadow: elevation[1] }}>
         <h3 style={{ marginTop: 0 }}>{t('master.new_or_update')}</h3>
-        <form onSubmit={(e) => void handleSubmit(e)} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: 8, alignItems: 'end' }}>
-          <label style={{ fontSize: 13 }}>
+        <form onSubmit={(e) => void handleSubmit(e)} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: space[2], alignItems: 'end' }}>
+          <label style={{ fontSize: fontSize.caption }}>
             {t('master.code_label')}
-            <input value={code} onChange={(e) => setCode(e.target.value)} style={{ width: '100%', padding: 8 }} />
+            <input value={code} onChange={(e) => setCode(e.target.value)} style={{ width: '100%', padding: space[2] }} />
           </label>
-          <label style={{ fontSize: 13 }}>
+          <label style={{ fontSize: fontSize.caption }}>
             {t('master.name_label')}
-            <input value={name} onChange={(e) => setName(e.target.value)} style={{ width: '100%', padding: 8 }} />
+            <input value={name} onChange={(e) => setName(e.target.value)} style={{ width: '100%', padding: space[2] }} />
           </label>
-          <label style={{ fontSize: 13 }}>
+          <label style={{ fontSize: fontSize.caption }}>
             {m.extraLabel}
-            <input value={extra} onChange={(e) => setExtra(e.target.value)} style={{ width: '100%', padding: 8 }} />
+            <input value={extra} onChange={(e) => setExtra(e.target.value)} style={{ width: '100%', padding: space[2] }} />
           </label>
-          <button type="submit" disabled={busy} style={{ minHeight: 36, padding: '8px 16px', background: '#28A745', color: '#FFFFFF', border: 'none', borderRadius: 6 }}>
+          <button type="submit" disabled={busy} style={{ minHeight: '36px', padding: `${space[2]} ${space[4]}`, background: palette.brand.default, color: palette.white, border: 'none', borderRadius: radius.small, fontWeight: fontWeight.semibold, cursor: busy ? 'not-allowed' : 'pointer' }}>
             {t('master.save')}
           </button>
         </form>
@@ -133,35 +134,35 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
 
       {!initialLoaded && !error && <LoadingState label={t('state_label.loading_master')} />}
 
-      <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
+      <section style={{ background: palette.surface, padding: space[4], borderRadius: radius.medium, boxShadow: elevation[1] }}>
         <h3 style={{ marginTop: 0 }}>{t('master.registered_count', { n: rows.length })}</h3>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: '#F8F9FA' }}>
-              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>{t('master.code_label')}</th>
-              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>{t('master.name_label')}</th>
-              <th style={{ padding: 8, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>{m.extraLabel}</th>
-              <th style={{ padding: 8, borderBottom: '1px solid #DEE2E6' }}>{t('master.edit')}/{t('master.delete')}</th>
+            <tr style={{ background: palette.surfaceAlt }}>
+              <th style={{ padding: space[2], textAlign: 'left', borderBottom: `1px solid ${palette.border}` }}>{t('master.code_label')}</th>
+              <th style={{ padding: space[2], textAlign: 'left', borderBottom: `1px solid ${palette.border}` }}>{t('master.name_label')}</th>
+              <th style={{ padding: space[2], textAlign: 'left', borderBottom: `1px solid ${palette.border}` }}>{m.extraLabel}</th>
+              <th style={{ padding: space[2], borderBottom: `1px solid ${palette.border}` }}>{t('master.edit')}/{t('master.delete')}</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.code}>
-                <td style={{ padding: 8, borderBottom: '1px solid #F1F3F5' }}><code>{r.code}</code></td>
-                <td style={{ padding: 8, borderBottom: '1px solid #F1F3F5' }}>{r.name}</td>
-                <td style={{ padding: 8, borderBottom: '1px solid #F1F3F5', color: '#6C757D' }}>{r.extra ?? '—'}</td>
-                <td style={{ padding: 8, borderBottom: '1px solid #F1F3F5', textAlign: 'center' }}>
+                <td style={{ padding: space[2], borderBottom: `1px solid ${palette.neutral[100]}` }}><code>{r.code}</code></td>
+                <td style={{ padding: space[2], borderBottom: `1px solid ${palette.neutral[100]}` }}>{r.name}</td>
+                <td style={{ padding: space[2], borderBottom: `1px solid ${palette.neutral[100]}`, color: palette.fgMuted }}>{r.extra ?? '—'}</td>
+                <td style={{ padding: space[2], borderBottom: `1px solid ${palette.neutral[100]}`, textAlign: 'center' }}>
                   <button
                     type="button"
                     onClick={() => { setCode(r.code); setName(r.name); setExtra(r.extra ?? ''); }}
-                    style={{ padding: '4px 8px', marginRight: 4, background: '#17A2B8', color: '#FFFFFF', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                    style={{ padding: `${space[1]} ${space[2]}`, marginRight: space[1], background: palette.info.default, color: palette.white, border: 'none', borderRadius: radius.small, cursor: 'pointer' }}
                   >
                     {t('master.edit')}
                   </button>
                   <button
                     type="button"
                     onClick={() => setConfirmingDelete(r.code)}
-                    style={{ padding: '4px 8px', background: '#DC3545', color: '#FFFFFF', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                    style={{ padding: `${space[1]} ${space[2]}`, background: palette.danger.default, color: palette.white, border: 'none', borderRadius: radius.small, cursor: 'pointer' }}
                   >
                     {t('master.delete')}
                   </button>
