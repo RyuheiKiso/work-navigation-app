@@ -63,7 +63,18 @@ export const en = {
     },
     boundary_title: 'A display error occurred',
     boundary_description: 'The process was halted as a precaution. Please reload.',
-    reload: 'Reload'
+    reload: 'Reload',
+    retry: 'Retry',
+    dismiss: 'Dismiss',
+    show_detail: 'Details',
+    hide_detail: 'Hide details'
+  },
+  state_label: {
+    loading_tasks: 'Loading tasks…',
+    loading_steps: 'Loading steps…',
+    no_tasks_title: 'No tasks for today',
+    no_tasks_description: 'Tasks will appear here once an administrator assigns them.',
+    no_steps_title: 'This task has no steps'
   },
   completion: {
     manual: 'Manual',

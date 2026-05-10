@@ -72,6 +72,19 @@ export const ja = {
     },
     boundary_title: '画面に異常が発生しました',
     boundary_description: '安全のため処理を中断しました。再読込してください。',
-    reload: '再読込'
+    reload: '再読込',
+    retry: '再試行',
+    dismiss: '閉じる',
+    show_detail: '詳細',
+    hide_detail: '詳細を隠す'
+  },
+  state_label: {
+    loading_master: 'マスタを読込中…',
+    loading_audit: '監査ログを読込中…',
+    loading_dashboard: 'ダッシュボードを読込中…',
+    no_master_title: 'まだ登録がありません',
+    no_master_description: '上のフォームから新規登録してください',
+    no_audit_title: '該当する監査ログはありません',
+    no_dashboard_title: '進行中のタスクはありません'
   }
 } as const;

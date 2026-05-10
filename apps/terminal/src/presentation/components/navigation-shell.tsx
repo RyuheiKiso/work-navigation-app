@@ -8,6 +8,9 @@ import { logout } from '../../adapter/api-client';
 import { useTaskNavigation } from '../hooks/use-task-navigation';
 import { useOnlineStatus } from '../hooks/use-online-status';
 import { ConfirmDialog } from './confirm-dialog';
+import { LoadingState } from '../states/loading-state';
+import { EmptyState } from '../states/empty-state';
+import { ErrorPanel } from '../states/error-panel';
 
 export interface NavigationShellProps {
   user: { user_id: string; display_name: string };
@@ -122,8 +125,14 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
         }}
       >
         <h3 style={{ fontSize: 14, marginTop: 0 }}>📋 当日のタスク</h3>
-        {nav.tasks.length === 0 && (
-          <p style={{ fontSize: 12, color: '#6C757D' }}>タスクがありません</p>
+        {nav.tasksLoading && <LoadingState label={t('state_label.loading_tasks')} inline />}
+        {!nav.tasksLoading && nav.tasks.length === 0 && (
+          <EmptyState
+            icon="📭"
+            title={t('state_label.no_tasks_title')}
+            description={t('state_label.no_tasks_description')}
+            inline
+          />
         )}
         {nav.tasks.map((task) => (
           <button
@@ -208,14 +217,17 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
 
       <main style={{ gridArea: 'main', padding: 24, overflowY: 'auto' }}>
         {nav.error && (
-          <div
-            style={{ padding: 10, marginBottom: 12, background: '#F8D7DA', color: '#721C24', borderRadius: 6 }}
-            role="alert"
-          >
-            ⚠ {nav.error}
+          <div style={{ marginBottom: 12 }}>
+            <ErrorPanel
+              message={nav.error}
+              onRetry={() => void nav.retryTasks()}
+              onDismiss={nav.dismissError}
+            />
           </div>
         )}
-        {nav.selectedTaskState === 'Idle' || nav.selectedTaskState === 'Ready' ? (
+        {nav.stepsLoading ? (
+          <LoadingState label={t('state_label.loading_steps')} />
+        ) : nav.selectedTaskState === 'Idle' || nav.selectedTaskState === 'Ready' ? (
           <div style={{ padding: 24, background: '#FFFFFF', borderRadius: 16 }}>
             <h2>タスクを開始してください</h2>
             <button
@@ -256,7 +268,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
         ) : nav.steps.length > 0 ? (
           <div style={{ padding: 24, fontSize: 24, color: '#28A745' }}>🎉 全ステップ完了</div>
         ) : (
-          <div style={{ padding: 24, color: '#6C757D' }}>このタスクにはステップが設定されていません</div>
+          <EmptyState icon="📝" title={t('state_label.no_steps_title')} />
         )}
       </main>
 

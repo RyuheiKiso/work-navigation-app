@@ -11,6 +11,9 @@ import {
 import { t } from '../../i18n';
 import { toApiError } from '../../adapter/api-error';
 import { ConfirmDialog } from './confirm-dialog';
+import { LoadingState } from '../states/loading-state';
+import { EmptyState } from '../states/empty-state';
+import { ErrorPanel } from '../states/error-panel';
 
 function localize(e: unknown): string {
   return t(toApiError(e).i18nKey());
@@ -34,6 +37,7 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState<string | null>(null);
+  const [initialLoaded, setInitialLoaded] = useState(false);
 
   const meta = KIND_LABEL[kind];
 
@@ -59,10 +63,16 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
       setRows(await fetcher());
     } catch (e) {
       setError(localize(e));
+    } finally {
+      setInitialLoaded(true);
     }
   }
 
-  useEffect(() => { void refresh(); /* eslint-disable-next-line */ }, [kind]);
+  useEffect(() => {
+    setInitialLoaded(false);
+    void refresh();
+    /* eslint-disable-next-line */
+  }, [kind]);
 
   async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault();
@@ -110,8 +120,18 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
             保存
           </button>
         </form>
-        {error && <div style={{ marginTop: 8, padding: 8, background: '#F8D7DA', color: '#721C24', borderRadius: 4 }} role="alert">{error}</div>}
+        {error && (
+          <div style={{ marginTop: 8 }}>
+            <ErrorPanel
+              message={error}
+              onRetry={() => void refresh()}
+              onDismiss={() => setError(null)}
+            />
+          </div>
+        )}
       </section>
+
+      {!initialLoaded && !error && <LoadingState label={t('state_label.loading_master')} />}
 
       <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
         <h3 style={{ marginTop: 0 }}>登録済み（{rows.length} 件）</h3>
@@ -148,8 +168,17 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
                 </td>
               </tr>
             ))}
-            {rows.length === 0 && (
-              <tr><td colSpan={4} style={{ padding: 16, textAlign: 'center', color: '#6C757D' }}>未登録</td></tr>
+            {rows.length === 0 && initialLoaded && !error && (
+              <tr>
+                <td colSpan={4} style={{ padding: 0 }}>
+                  <EmptyState
+                    icon="📦"
+                    title={t('state_label.no_master_title')}
+                    description={t('state_label.no_master_description')}
+                    inline
+                  />
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

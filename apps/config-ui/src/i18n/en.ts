@@ -65,6 +65,19 @@ export const en = {
     },
     boundary_title: 'A display error occurred',
     boundary_description: 'The process was halted as a precaution. Please reload.',
-    reload: 'Reload'
+    reload: 'Reload',
+    retry: 'Retry',
+    dismiss: 'Dismiss',
+    show_detail: 'Details',
+    hide_detail: 'Hide details'
+  },
+  state_label: {
+    loading_master: 'Loading master data…',
+    loading_audit: 'Loading audit log…',
+    loading_dashboard: 'Loading dashboard…',
+    no_master_title: 'No records yet',
+    no_master_description: 'Create one with the form above.',
+    no_audit_title: 'No matching audit entries',
+    no_dashboard_title: 'No tasks in progress'
   }
 } as const;

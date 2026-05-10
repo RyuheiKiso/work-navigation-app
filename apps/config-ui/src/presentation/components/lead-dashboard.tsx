@@ -5,11 +5,15 @@ import { useEffect, useState } from 'react';
 import { listDashboardTasks, type DashboardTask } from '../../adapter/api-client';
 import { toApiError } from '../../adapter/api-error';
 import { t } from '../../i18n';
+import { LoadingState } from '../states/loading-state';
+import { EmptyState } from '../states/empty-state';
+import { ErrorPanel } from '../states/error-panel';
 
 export function LeadDashboard(): JSX.Element {
   const [tasks, setTasks] = useState<DashboardTask[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [auto, setAuto] = useState(true);
+  const [initialLoaded, setInitialLoaded] = useState(false);
 
   async function refresh(): Promise<void> {
     setError(null);
@@ -17,6 +21,8 @@ export function LeadDashboard(): JSX.Element {
       setTasks(await listDashboardTasks());
     } catch (e) {
       setError(t(toApiError(e).i18nKey()));
+    } finally {
+      setInitialLoaded(true);
     }
   }
 
@@ -52,7 +58,17 @@ export function LeadDashboard(): JSX.Element {
       <h1>📊 班長監視ダッシュボード</h1>
       <p style={{ color: '#6C757D' }}>5 秒ごとに自動更新（§3.2.1.2 認知負荷を抑える段階的開示）</p>
 
-      {error && <div style={{ padding: 8, background: '#F8D7DA', color: '#721C24', borderRadius: 4, marginBottom: 12 }} role="alert">{error}</div>}
+      {error && (
+        <div style={{ marginBottom: 12 }}>
+          <ErrorPanel
+            message={error}
+            onRetry={() => void refresh()}
+            onDismiss={() => setError(null)}
+          />
+        </div>
+      )}
+
+      {!initialLoaded && !error && <LoadingState label={t('state_label.loading_dashboard')} />}
 
       <section style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
         <button type="button" onClick={() => setAuto(!auto)} style={{ padding: '8px 16px', background: auto ? '#28A745' : '#6C757D', color: '#FFFFFF', border: 'none', borderRadius: 6, cursor: 'pointer' }}>
@@ -103,8 +119,12 @@ export function LeadDashboard(): JSX.Element {
                 </td>
               </tr>
             ))}
-            {tasks.length === 0 && (
-              <tr><td colSpan={6} style={{ padding: 16, textAlign: 'center', color: '#6C757D' }}>タスク未登録</td></tr>
+            {tasks.length === 0 && initialLoaded && !error && (
+              <tr>
+                <td colSpan={6} style={{ padding: 0 }}>
+                  <EmptyState icon="📊" title={t('state_label.no_dashboard_title')} inline />
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

@@ -69,7 +69,19 @@ export const ja = {
     },
     boundary_title: '画面に異常が発生しました',
     boundary_description: '安全のため処理を中断しました。再読込してください。',
-    reload: '再読込'
+    reload: '再読込',
+    retry: '再試行',
+    dismiss: '閉じる',
+    show_detail: '詳細',
+    hide_detail: '詳細を隠す'
+  },
+  // 共通の状態 UI 文言
+  state_label: {
+    loading_tasks: 'タスクを読込中…',
+    loading_steps: 'ステップを読込中…',
+    no_tasks_title: '今日のタスクはありません',
+    no_tasks_description: '管理者が割り当てを行うと表示されます',
+    no_steps_title: 'このタスクには手順がありません'
   },
   // 完了条件種別
   completion: {

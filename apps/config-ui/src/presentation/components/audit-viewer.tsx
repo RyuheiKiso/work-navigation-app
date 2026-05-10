@@ -5,12 +5,16 @@ import { useEffect, useState } from 'react';
 import { listAudit, type AuditRow } from '../../adapter/api-client';
 import { toApiError } from '../../adapter/api-error';
 import { t } from '../../i18n';
+import { LoadingState } from '../states/loading-state';
+import { EmptyState } from '../states/empty-state';
+import { ErrorPanel } from '../states/error-panel';
 
 export function AuditViewer(): JSX.Element {
   const [rows, setRows] = useState<AuditRow[]>([]);
   const [filter, setFilter] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [initialLoaded, setInitialLoaded] = useState(false);
 
   async function refresh(): Promise<void> {
     setBusy(true); setError(null);
@@ -21,6 +25,7 @@ export function AuditViewer(): JSX.Element {
       setError(t(toApiError(e).i18nKey()));
     } finally {
       setBusy(false);
+      setInitialLoaded(true);
     }
   }
 
@@ -53,7 +58,17 @@ export function AuditViewer(): JSX.Element {
         </button>
       </section>
 
-      {error && <div style={{ padding: 8, background: '#F8D7DA', color: '#721C24', borderRadius: 4, marginBottom: 8 }} role="alert">{error}</div>}
+      {error && (
+        <div style={{ marginBottom: 8 }}>
+          <ErrorPanel
+            message={error}
+            onRetry={() => void refresh()}
+            onDismiss={() => setError(null)}
+          />
+        </div>
+      )}
+
+      {!initialLoaded && busy && <LoadingState label={t('state_label.loading_audit')} />}
 
       <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
         <p style={{ marginTop: 0 }}>
@@ -87,8 +102,12 @@ export function AuditViewer(): JSX.Element {
                 </td>
               </tr>
             ))}
-            {filtered.length === 0 && (
-              <tr><td colSpan={6} style={{ padding: 16, textAlign: 'center', color: '#6C757D' }}>該当ログなし</td></tr>
+            {filtered.length === 0 && initialLoaded && !error && (
+              <tr>
+                <td colSpan={6} style={{ padding: 0 }}>
+                  <EmptyState icon="🛡️" title={t('state_label.no_audit_title')} inline />
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

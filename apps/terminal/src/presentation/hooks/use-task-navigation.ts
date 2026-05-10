@@ -43,6 +43,10 @@ export interface TaskNavigation {
   remaining: number;
   andon: AndonState | null;
   busy: boolean;
+  /** 初回タスク取得中 (UI で LoadingState を出すため) */
+  tasksLoading: boolean;
+  /** 選択タスクのステップ取得中 */
+  stepsLoading: boolean;
   error: string | null;
   elapsedSec: number;
   stdSec: number;
@@ -56,6 +60,9 @@ export interface TaskNavigation {
   doResume(): Promise<void>;
   fireAndon(): void;
   handleVoiceCommand(): void;
+  /** ErrorPanel から呼ぶ手動再試行 */
+  retryTasks(): Promise<void>;
+  dismissError(): void;
 }
 
 export function useTaskNavigation(): TaskNavigation {
@@ -67,6 +74,8 @@ export function useTaskNavigation(): TaskNavigation {
   const [stepStartedAt, setStepStartedAt] = useState<number>(Date.now());
   const [now, setNow] = useState<number>(Date.now());
   const [busy, setBusy] = useState<boolean>(false);
+  const [tasksLoading, setTasksLoading] = useState<boolean>(true);
+  const [stepsLoading, setStepsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const voiceInputRef = useRef<HTMLInputElement | null>(null);
   const lamportRef = useRef<number>(0);
@@ -80,19 +89,25 @@ export function useTaskNavigation(): TaskNavigation {
     []
   );
 
-  useEffect(() => {
-    void (async () => {
-      try {
-        const ts = await listTasks();
-        setTasks(ts);
-        if (ts.length > 0 && !selectedTaskId) {
-          setSelectedTaskId(ts[0]!.id);
-          setSelectedTaskState(ts[0]!.state);
-        }
-      } catch (e) {
-        setError(localize(e));
+  async function fetchTasksOnce(): Promise<void> {
+    setTasksLoading(true);
+    setError(null);
+    try {
+      const ts = await listTasks();
+      setTasks(ts);
+      if (ts.length > 0 && !selectedTaskId) {
+        setSelectedTaskId(ts[0]!.id);
+        setSelectedTaskState(ts[0]!.state);
       }
-    })();
+    } catch (e) {
+      setError(localize(e));
+    } finally {
+      setTasksLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void fetchTasksOnce();
     const tick = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(tick);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,6 +115,7 @@ export function useTaskNavigation(): TaskNavigation {
 
   useEffect(() => {
     if (!selectedTaskId) return;
+    setStepsLoading(true);
     void (async () => {
       try {
         const s = await listSteps(selectedTaskId);
@@ -107,6 +123,8 @@ export function useTaskNavigation(): TaskNavigation {
         setStepStartedAt(Date.now());
       } catch (e) {
         setError(localize(e));
+      } finally {
+        setStepsLoading(false);
       }
     })();
   }, [selectedTaskId]);
@@ -269,6 +287,10 @@ export function useTaskNavigation(): TaskNavigation {
     doSuspend,
     doResume,
     fireAndon,
-    handleVoiceCommand
+    handleVoiceCommand,
+    tasksLoading,
+    stepsLoading,
+    retryTasks: fetchTasksOnce,
+    dismissError: () => setError(null)
   };
 }
