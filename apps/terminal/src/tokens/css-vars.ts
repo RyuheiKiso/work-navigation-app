@@ -91,6 +91,8 @@ function buildOutdoorVars(): string {
     `--wna-c-brand-strong: ${c.outdoor.brand_high.value}`,
     `--wna-shadow-1: ${e.outdoor['1'].value}`,
     `--wna-shadow-2: ${e.outdoor['2'].value}`,
+    `--wna-shadow-3: ${e.outdoor['3'].value}`,
+    `--wna-shadow-4: ${e.outdoor['4'].value}`,
     // 屋外は反射でグレーが白く飛ぶため背景を真白に固定
     `--wna-c-bg: ${c.base.white.value}`,
     `--wna-c-surface: ${c.base.white.value}`,

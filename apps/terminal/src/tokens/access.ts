@@ -134,7 +134,9 @@ export const elevation = {
   4: cv('shadow-4'),
   // 後方互換: 直接屋外シャドウを参照する経路（テーマ未適用環境用）
   outdoor1: cv('shadow-1'),
-  outdoor2: cv('shadow-2')
+  outdoor2: cv('shadow-2'),
+  outdoor3: cv('shadow-3'),
+  outdoor4: cv('shadow-4')
 } as const;
 
 // 配置文脈ごとの情報密度（compact=班長俯瞰／cozy=Web編集／comfortable=作業者画面）

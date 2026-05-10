@@ -124,9 +124,11 @@ export const TOKENS = {
       "4": { "value": "0 20px 25px rgba(13, 17, 23, 0.10), 0 10px 10px rgba(13, 17, 23, 0.04)" }
     },
     "outdoor": {
-      "_meta": { "note": "屋外 1,000nits 下では影が薄く見えるため強コントラスト版（§6.3）" },
+      "_meta": { "note": "屋外 1,000nits 下では影が薄く見えるため強コントラスト版（§6.3）。1〜4 全段を網羅し、3／4 は modal／drawer／celebration で使う" },
       "1": { "value": "0 1px 3px rgba(13, 17, 23, 0.30), 0 1px 4px rgba(13, 17, 23, 0.40)" },
-      "2": { "value": "0 4px 8px rgba(13, 17, 23, 0.30), 0 2px 6px rgba(13, 17, 23, 0.40)" }
+      "2": { "value": "0 4px 8px rgba(13, 17, 23, 0.30), 0 2px 6px rgba(13, 17, 23, 0.40)" },
+      "3": { "value": "0 10px 18px rgba(13, 17, 23, 0.30), 0 4px 8px rgba(13, 17, 23, 0.40)" },
+      "4": { "value": "0 22px 32px rgba(13, 17, 23, 0.30), 0 12px 14px rgba(13, 17, 23, 0.40)" }
     }
   }
 }
