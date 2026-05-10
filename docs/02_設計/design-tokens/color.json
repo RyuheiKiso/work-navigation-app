@@ -55,7 +55,7 @@
     },
     "andon": {
       "_meta": { "section": "ロードマップ §9.3.1 §17 Andon 5 段階" },
-      "level1_normal":   { "value": "#28A745" },
+      "level1_normal":   { "value": "#0F8A4C", "_meta": { "note": "正常状態。semantic.success.default (#28A745) と完全同値だと CTA／成功通知と区別できないため、彩度を下げ深い緑に色相シフト" } },
       "level2_attention": { "value": "#17A2B8" },
       "level3_warning":  { "value": "#FFC107" },
       "level4_alert":    { "value": "#FD7E14" },
