@@ -41,9 +41,9 @@ select:focus-visible,
 textarea:focus-visible,
 [tabindex]:focus-visible,
 [role="button"]:focus-visible {
-  outline: 3px solid var(--wna-c-info-default, #2196F3);
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: var(--wna-focus-ring-width, 3px) var(--wna-focus-ring-style, solid) var(--wna-c-focus-ring, #2196F3);
+  outline-offset: var(--wna-focus-ring-offset, 2px);
+  border-radius: var(--wna-focus-ring-radius, 4px);
 }
 
 @media (forced-colors: active) {

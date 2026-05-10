@@ -130,6 +130,15 @@ export const elevation = {
   outdoor2: cv('shadow-2')
 } as const;
 
+// §11.2.2 SC 2.4.7 — フォーカスリングはテーマ別に色が変わるため CSS 変数経由
+export const focus = {
+  ringWidth: cv('focus-ring-width'),
+  ringOffset: cv('focus-ring-offset'),
+  ringStyle: cv('focus-ring-style'),
+  ringRadius: cv('focus-ring-radius'),
+  ringColor: cv('c-focus-ring')
+} as const;
+
 export const motion = {
   // §21 注 2 100ms 以下＝知覚同期、240ms 以上＝離脱
   durationInstant: m.duration.instant.value,

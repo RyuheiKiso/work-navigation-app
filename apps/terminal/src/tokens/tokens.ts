@@ -92,6 +92,24 @@ export const TOKENS = {
   }
 }
   ,
+  focus:
+{
+  "$schema": "https://schemas.style-dictionary.com/v3/schema.json",
+  "_meta": {
+    "name": "focus",
+    "section": "ロードマップ §11.2.2 WCAG 2.2 SC 2.4.7／§6.3 屋外低視認性",
+    "rationale": "フォーカスリングは視覚障害者・キーボード一級市民・屋外低視認性の 3 条件で 3px 幅・offset 2px を最低要件とする。色はテーマ可変（standard=info.default／outdoor=fg／dark=info.subtle）のため css-vars.ts の --wna-c-focus-ring で切替する。"
+  },
+  "focus": {
+    "ring": {
+      "width":  { "value": "3px",   "_meta": { "note": "WCAG 2.2 SC 2.4.7 強化 — 1px では屋外で視認できない" } },
+      "offset": { "value": "2px",   "_meta": { "note": "要素境界から離してフォーカス枠と背景を区別する" } },
+      "style":  { "value": "solid", "_meta": { "note": "破線・点線は屋外で輪郭が崩れるため不採用" } },
+      "radius": { "value": "4px",   "_meta": { "note": "outline-radius と矛盾しないよう border-radius と合わせる既定値" } }
+    }
+  }
+}
+  ,
   haptic:
 {
   "$schema": "https://schemas.style-dictionary.com/v3/schema.json",

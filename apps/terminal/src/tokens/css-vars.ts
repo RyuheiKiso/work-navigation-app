@@ -8,6 +8,7 @@ import { TOKENS } from './tokens';
 
 const c = TOKENS.color.color;
 const e = TOKENS.elevation.shadow;
+const fc = TOKENS.focus.focus;
 
 // 既定 (standard) — 既存の値をそのまま CSS 変数として宣言する。
 // 名前を短く保つため `var(--wna-c-success-default)` のように圧縮命名。
@@ -60,7 +61,13 @@ function buildBaseVars(): string {
     `--wna-c-fg: ${c.neutral['900'].value}`,
     `--wna-c-fg-muted: ${c.neutral['600'].value}`,
     `--wna-c-border: ${c.neutral['200'].value}`,
-    `--wna-c-border-strong: ${c.neutral['400'].value}`
+    `--wna-c-border-strong: ${c.neutral['400'].value}`,
+    // focus ring (§11.2.2 SC 2.4.7) — width/offset/style はテーマ不変、色はテーマ別に上書き
+    `--wna-focus-ring-width: ${fc.ring.width.value}`,
+    `--wna-focus-ring-offset: ${fc.ring.offset.value}`,
+    `--wna-focus-ring-style: ${fc.ring.style.value}`,
+    `--wna-focus-ring-radius: ${fc.ring.radius.value}`,
+    `--wna-c-focus-ring: ${c.semantic.info.default.value}`
   ].join(';\n  ') + ';';
 }
 
@@ -82,7 +89,9 @@ function buildOutdoorVars(): string {
     `--wna-c-surface: ${c.base.white.value}`,
     `--wna-c-fg: ${c.neutral['900'].value}`,
     `--wna-c-border: ${c.neutral['400'].value}`,
-    `--wna-c-border-strong: ${c.neutral['700'].value}`
+    `--wna-c-border-strong: ${c.neutral['700'].value}`,
+    // 屋外は info 系の青が飛ぶため fg (黒) で最大コントラスト
+    `--wna-c-focus-ring: ${c.neutral['900'].value}`
   ].join(';\n  ') + ';';
 }
 
@@ -116,7 +125,9 @@ function buildDarkVars(): string {
     `--wna-c-n-600: ${c.neutral['200'].value}`,
     `--wna-c-n-700: ${c.neutral['100'].value}`,
     `--wna-c-n-800: ${c.neutral['50'].value}`,
-    `--wna-c-n-900: ${c.neutral['0'].value}`
+    `--wna-c-n-900: ${c.neutral['0'].value}`,
+    // 暗背景上で眩しすぎる info.default を避け、subtle 寄りでコントラスト確保
+    `--wna-c-focus-ring: ${c.semantic.info.subtle.value}`
   ].join(';\n  ') + ';';
 }
 
