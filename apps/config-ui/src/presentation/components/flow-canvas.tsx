@@ -2,6 +2,7 @@
 // React Flow ベースのフローエディタ表示層。
 // ドメイン状態と HSM 検証は `useFlowEditor` フックに委譲し、
 // 試行版発行は `publishTrial` ユーティリティで API を叩く。
+// 配色・余白・角丸・影は tokens/access 経由 — テーマ追従と表記の一貫性を強制する。
 
 import { useEffect, useState } from 'react';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
@@ -13,6 +14,9 @@ import { publishTrial } from '../utils/publish-trial';
 import type { AutosaveStatus } from '../hooks/use-autosave';
 import { useOnlineStatus } from '../hooks/use-online-status';
 import { showToast } from './toast';
+import {
+  palette, radius, fontSize, fontWeight, lineHeight, space, elevation, fontStack
+} from '../../tokens/access';
 
 const TEMPLATE_CATALOG: ReadonlyArray<readonly [string, string]> = [
   ['自動車：組立', '/templates/automotive/assembly-line.yaml'],
@@ -46,9 +50,9 @@ function autosaveLabel(status: AutosaveStatus, savedAt: number | null, now: numb
 }
 
 function autosaveColor(status: AutosaveStatus): string {
-  if (status === 'error') return '#DC3545';
-  if (status === 'saving') return '#6C757D';
-  return '#28A745';
+  if (status === 'error') return palette.danger.default;
+  if (status === 'saving') return palette.fgMuted;
+  return palette.success.default;
 }
 
 export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
@@ -98,31 +102,33 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
         gridTemplateRows: 'auto 1fr',
         gridTemplateAreas: '"toolbar toolbar toolbar" "left canvas right"',
         height: '100vh',
-        fontFamily: 'Inter, "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", system-ui, sans-serif'
+        fontFamily: fontStack,
+        background: palette.bg,
+        color: palette.fg
       }}
       dir={isRtl(locale) ? 'rtl' : 'ltr'}
     >
       <header
         style={{
           gridArea: 'toolbar',
-          padding: '12px 16px',
-          borderBottom: '1px solid #DEE2E6',
-          background: '#F8F9FA',
+          padding: `${space[3]} ${space[4]}`,
+          borderBottom: `1px solid ${palette.border}`,
+          background: palette.bg,
           display: 'flex',
-          gap: 12,
+          gap: space[3],
           alignItems: 'center'
         }}
       >
-        <strong style={{ fontSize: 18 }}>
+        <strong style={{ fontSize: fontSize.subtitle, fontWeight: fontWeight.semibold }}>
           {t('flow.title_prefix')}
           <input
             value={editor.flowName}
             onChange={(e) => editor.setFlowName(e.target.value)}
-            style={{ fontSize: 16, padding: '4px 8px', marginLeft: 8 }}
+            style={{ fontSize: fontSize.body, padding: `${space[1]} ${space[2]}`, marginLeft: space[2] }}
             aria-label="フロー名"
           />
         </strong>
-        <span style={{ color: '#6C757D' }}>
+        <span style={{ color: palette.fgMuted }}>
           {t('flow.version_label')} {props.initialFlow.version} ／{' '}
           {t('flow.nodes_label')} {editor.nodes.length} ／{' '}
           {t('flow.edges_label')} {editor.edges.length}
@@ -142,27 +148,27 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 6,
-            padding: '4px 10px',
-            borderRadius: 999,
-            fontSize: 12,
-            background: online ? '#D4EDDA' : '#F8D7DA',
-            color: online ? '#155724' : '#721C24',
-            border: '1px solid ' + (online ? '#C3E6CB' : '#F5C6CB')
+            gap: space[1],
+            padding: `${space[1]} ${space[3]}`,
+            borderRadius: radius.pill,
+            fontSize: fontSize.caption,
+            background: online ? palette.success.subtle : palette.danger.subtle,
+            color: online ? palette.success.strong : palette.danger.strong,
+            border: `1px solid ${online ? palette.success.default : palette.danger.default}`
           }}
         >
           <span
             aria-hidden="true"
             style={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              background: online ? '#28A745' : '#DC3545'
+              width: '8px',
+              height: '8px',
+              borderRadius: radius.pill,
+              background: online ? palette.success.default : palette.danger.default
             }}
           />
           {online ? t('network.online') : t('network.offline')}
         </span>
-        <label style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+        <label style={{ display: 'flex', gap: space[1], alignItems: 'center' }}>
           🌐
           <select
             value={locale}
@@ -182,25 +188,26 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
       <aside
         style={{
           gridArea: 'left',
-          padding: 12,
-          borderRight: '1px solid #DEE2E6',
-          background: '#FFFFFF',
+          padding: space[3],
+          borderRight: `1px solid ${palette.border}`,
+          background: palette.surface,
           overflowY: 'auto'
         }}
       >
-        <h3 style={{ fontSize: 14, marginTop: 0 }}>ノード追加</h3>
-        <div style={{ display: 'grid', gap: 6 }}>
+        <h3 style={{ fontSize: fontSize.caption, marginTop: 0 }}>ノード追加</h3>
+        <div style={{ display: 'grid', gap: space[1] }}>
           {(['start', 'step', 'decision', 'parallel', 'end'] as const).map((k) => (
             <button
               key={k}
               type="button"
               onClick={() => editor.addNode(k)}
               style={{
-                minHeight: 44,
-                padding: '8px 12px',
-                border: '1px solid #6C757D',
-                borderRadius: 8,
-                background: '#FFFFFF',
+                minHeight: '44px',
+                padding: `${space[2]} ${space[3]}`,
+                border: `1px solid ${palette.borderStrong}`,
+                borderRadius: radius.medium,
+                background: palette.surface,
+                color: palette.fg,
                 cursor: 'pointer',
                 textAlign: 'left'
               }}
@@ -211,22 +218,23 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
           ))}
         </div>
 
-        <h3 style={{ fontSize: 14, marginTop: 24 }}>業界テンプレ</h3>
-        <div style={{ display: 'grid', gap: 6 }}>
+        <h3 style={{ fontSize: fontSize.caption, marginTop: space[5] }}>業界テンプレ</h3>
+        <div style={{ display: 'grid', gap: space[1] }}>
           {TEMPLATE_CATALOG.map(([label, path]) => (
             <button
               key={path}
               type="button"
               onClick={() => void handleLoadTemplate(path)}
               style={{
-                minHeight: 36,
-                padding: '6px 10px',
-                border: '1px solid #17A2B8',
-                borderRadius: 6,
-                background: '#D1ECF1',
+                minHeight: '36px',
+                padding: `${space[1]} ${space[2]}`,
+                border: `1px solid ${palette.info.default}`,
+                borderRadius: radius.small,
+                background: palette.info.subtle,
+                color: palette.info.strong,
                 cursor: 'pointer',
                 textAlign: 'left',
-                fontSize: 12
+                fontSize: fontSize.caption
               }}
             >
               📄 {label}
@@ -242,19 +250,19 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
             aria-live="polite"
             style={{
               position: 'absolute',
-              top: 8,
-              left: 8,
-              right: 8,
+              top: space[2],
+              left: space[2],
+              right: space[2],
               zIndex: 10,
-              padding: '8px 12px',
-              borderRadius: 8,
-              background: '#FFF3CD',
-              color: '#856404',
-              border: '1px solid #FFEEBA',
+              padding: `${space[2]} ${space[3]}`,
+              borderRadius: radius.medium,
+              background: palette.warning.subtle,
+              color: palette.warning.strong,
+              border: `1px solid ${palette.warning.default}`,
               display: 'flex',
               alignItems: 'center',
-              gap: 12,
-              boxShadow: '0 2px 4px rgba(0,0,0,0.08)'
+              gap: space[3],
+              boxShadow: elevation[1]
             }}
           >
             <span style={{ flex: 1 }}>↩️ {t('setting_ui.draft_restored')}</span>
@@ -262,14 +270,14 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
               type="button"
               onClick={() => editor.discardDraft()}
               style={{
-                minHeight: 32,
-                padding: '4px 12px',
+                minHeight: '32px',
+                padding: `${space[1]} ${space[3]}`,
                 background: 'transparent',
-                color: '#856404',
-                border: '1px solid #856404',
-                borderRadius: 6,
+                color: palette.warning.strong,
+                border: `1px solid ${palette.warning.strong}`,
+                borderRadius: radius.small,
                 cursor: 'pointer',
-                fontSize: 12
+                fontSize: fontSize.caption
               }}
             >
               {t('setting_ui.discard_draft')}
@@ -295,28 +303,28 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
       <aside
         style={{
           gridArea: 'right',
-          padding: 12,
-          borderLeft: '1px solid #DEE2E6',
-          background: '#FFFFFF',
+          padding: space[3],
+          borderLeft: `1px solid ${palette.border}`,
+          background: palette.surface,
           overflowY: 'auto'
         }}
       >
-        <h3 style={{ fontSize: 14, marginTop: 0 }}>HSM 検証（§3.4.1）</h3>
+        <h3 style={{ fontSize: fontSize.caption, marginTop: 0 }}>HSM 検証（§3.4.1）</h3>
         {editor.validation && (
           <div
             style={{
-              padding: 12,
-              borderRadius: 8,
-              background: editor.validation.valid ? '#D4EDDA' : '#F8D7DA',
-              color: editor.validation.valid ? '#155724' : '#721C24',
-              marginBottom: 12
+              padding: space[3],
+              borderRadius: radius.medium,
+              background: editor.validation.valid ? palette.success.subtle : palette.danger.subtle,
+              color: editor.validation.valid ? palette.success.strong : palette.danger.strong,
+              marginBottom: space[3]
             }}
           >
             {editor.validation.valid ? '✓ 全条件 OK' : '✗ 違反あり'}
           </div>
         )}
         {editor.validation && !editor.validation.valid && (
-          <ul style={{ paddingLeft: 18, fontSize: 13 }}>
+          <ul style={{ paddingLeft: space[4], fontSize: fontSize.caption }}>
             {editor.validation.unreachable.length > 0 && (
               <li>不到達: {editor.validation.unreachable.join(', ')}</li>
             )}
@@ -340,8 +348,8 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
 
         {editor.selectedNode && (
           <>
-            <h3 style={{ fontSize: 14, marginTop: 16 }}>ノード詳細</h3>
-            <div style={{ fontSize: 13, lineHeight: 1.8 }}>
+            <h3 style={{ fontSize: fontSize.caption, marginTop: space[4] }}>ノード詳細</h3>
+            <div style={{ fontSize: fontSize.caption, lineHeight: lineHeight.loose }}>
               <div><strong>ID:</strong> {editor.selectedNode.id}</div>
               <div><strong>種別:</strong> {editor.selectedNode.kind}</div>
               <div>
@@ -349,7 +357,7 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
                 <input
                   value={editor.selectedNode.label}
                   onChange={(e) => editor.setNodeLabel(editor.selectedNode!.id, e.target.value)}
-                  style={{ width: '100%', padding: '4px 6px' }}
+                  style={{ width: '100%', padding: `${space[1]} ${space[2]}` }}
                 />
               </div>
               <div>
@@ -373,21 +381,22 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
           </>
         )}
 
-        <div style={{ marginTop: 24 }}>
+        <div style={{ marginTop: space[5] }}>
           <button
             type="button"
             onClick={() => void handlePublishTrial()}
             disabled={!editor.validation?.valid}
             style={{
-              minHeight: 44,
+              minHeight: '44px',
               width: '100%',
-              padding: '10px',
-              background: editor.validation?.valid ? '#28A745' : '#ADB5BD',
-              color: '#FFFFFF',
+              padding: space[3],
+              background: editor.validation?.valid ? palette.brand.default : palette.neutral[400],
+              color: palette.white,
               border: 'none',
-              borderRadius: 8,
+              borderRadius: radius.medium,
               cursor: editor.validation?.valid ? 'pointer' : 'not-allowed',
-              fontSize: 14
+              fontSize: fontSize.body,
+              fontWeight: fontWeight.semibold
             }}
             aria-label={t('flow.aria_publish_trial')}
           >
@@ -396,14 +405,14 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
           <button
             type="button"
             style={{
-              minHeight: 36,
+              minHeight: '36px',
               width: '100%',
-              padding: '6px',
-              marginTop: 8,
+              padding: space[2],
+              marginTop: space[2],
               background: 'transparent',
-              color: '#0C5460',
-              border: '1px solid #17A2B8',
-              borderRadius: 6,
+              color: palette.info.strong,
+              border: `1px solid ${palette.info.default}`,
+              borderRadius: radius.small,
               cursor: 'pointer'
             }}
           >
