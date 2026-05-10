@@ -1,16 +1,22 @@
 //! 認証 REST ハンドラ
 //!
-//! 対応 §: ロードマップ §10.5 §11.4.1 §27 F-006
+//! 対応 §: ロードマップ §10.5 §11.4.1 §27 F-006 §20.1
+//!
+//! 失敗は ApiError へ正規化し、UI 側でローカライズ可能にする。
+//! 認証系は user enumeration を避けるため、UserNotFound と PasswordMismatch を
+//! 同じ kind=auth (401 invalid_credentials) に丸める。
 
-use axum::{extract::{Extension, State}, http::StatusCode, Json};
+use axum::{extract::{Extension, State}, Json};
 use serde::{Deserialize, Serialize};
 use wna_adapter::AuditEntry;
 use wna_domain::{PasswordHasher, UserId};
 use wna_usecase::{LoginCommand, LoginError};
 use chrono::Utc;
 
+use crate::api_error::ApiError;
 use crate::app_state::AppState;
 use crate::middleware_auth::AuthContext;
+use crate::middleware_request_id::RequestId;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct LoginRequest {
@@ -25,18 +31,24 @@ pub struct LoginResponse {
     pub session_token: String,
 }
 
+fn enrich(err: ApiError, rid: Option<&RequestId>) -> ApiError {
+    if let Some(r) = rid { err.with_request_id(r.0.clone()) } else { err }
+}
+
 pub async fn post_login<H>(
     State(state): State<AppState<H>>,
+    rid: Option<Extension<RequestId>>,
     Json(req): Json<LoginRequest>,
-) -> Result<Json<LoginResponse>, StatusCode>
+) -> Result<Json<LoginResponse>, ApiError>
 where
     H: PasswordHasher + Send + Sync + Clone + 'static,
 {
-    let user_id = UserId::new(req.user_id.clone()).map_err(|_| StatusCode::BAD_REQUEST)?;
+    let rid_ref = rid.as_ref().map(|e| &e.0);
+    let user_id = UserId::new(req.user_id.clone())
+        .map_err(|_| enrich(ApiError::bad_request("invalid_user_id"), rid_ref))?;
     let cmd = LoginCommand { user_id, plaintext_password: req.password };
     match state.login_uc.execute(cmd).await {
         Ok(session) => {
-            // 監査ログ
             let _ = state.audit_repo.append(&AuditEntry {
                 actor_id: session.user().id().as_str().to_string(),
                 action: "login".to_string(),
@@ -51,7 +63,6 @@ where
             }))
         }
         Err(e) => {
-            // 失敗も監査
             let _ = state.audit_repo.append(&AuditEntry {
                 actor_id: req.user_id.clone(),
                 action: "login_failed".to_string(),
@@ -59,12 +70,24 @@ where
                 terminal_time: Some(Utc::now()),
                 payload: Some("{\"result\":\"deny\"}".to_string()),
             }).await;
-            match e {
-                LoginError::UserNotFound | LoginError::CredentialNotFound => Err(StatusCode::NOT_FOUND),
-                LoginError::AccountDisabled | LoginError::PasswordMismatch => Err(StatusCode::UNAUTHORIZED),
-                _ => Err(StatusCode::INTERNAL_SERVER_ERROR),
-            }
+            Err(enrich(login_error_to_api(e), rid_ref))
         }
+    }
+}
+
+fn login_error_to_api<C, S>(e: LoginError<C, S>) -> ApiError
+where
+    C: std::error::Error + Send + Sync + 'static,
+    S: std::error::Error + Send + Sync + 'static,
+{
+    // user enumeration を避けるため、UserNotFound と PasswordMismatch は
+    // 同一の invalid_credentials へ丸める（タイミング差は usecase 側で吸収）。
+    match e {
+        LoginError::UserNotFound
+        | LoginError::CredentialNotFound
+        | LoginError::PasswordMismatch => ApiError::auth("invalid_credentials"),
+        LoginError::AccountDisabled => ApiError::forbidden("account_disabled"),
+        other => ApiError::server("login_failed").with_detail(format!("{:?}", other)),
     }
 }
 
