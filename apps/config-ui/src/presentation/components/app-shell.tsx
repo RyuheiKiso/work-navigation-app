@@ -10,6 +10,7 @@ import { AuditViewer } from './audit-viewer';
 import { LeadDashboard } from './lead-dashboard';
 import { logout, type DashboardTask } from '../../adapter/api-client';
 import { t } from '../../i18n';
+import { palette, radius, fontSize, fontWeight, space, fontStack } from '../../tokens/access';
 
 export interface AppShellProps {
   user: { user_id: string; display_name: string };
@@ -48,41 +49,48 @@ export function AppShell(props: AppShellProps): JSX.Element {
   ];
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', height: '100vh', fontFamily: 'Inter, "Noto Sans JP", system-ui, sans-serif' }}>
-      <nav style={{ background: '#212529', color: '#FFFFFF', padding: 16, display: 'flex', flexDirection: 'column' }}>
-        <h2 style={{ fontSize: 14, color: '#ADB5BD', marginTop: 0 }}>work-navigation-app</h2>
-        <p style={{ fontSize: 12, color: '#ADB5BD' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', height: '100vh', fontFamily: fontStack }}>
+      <nav style={{ background: palette.neutral[800], color: palette.white, padding: space[4], display: 'flex', flexDirection: 'column' }}>
+        <h2 style={{ fontSize: fontSize.caption, color: palette.neutral[400], marginTop: 0 }}>work-navigation-app</h2>
+        <p style={{ fontSize: fontSize.caption, color: palette.neutral[400] }}>
           👤 {props.user.display_name}<br />
           <small>{props.user.user_id}</small>
         </p>
-        <div style={{ marginTop: 16, display: 'grid', gap: 4 }}>
-          {tabs.map((tb) => (
-            <button
-              key={tb.key}
-              type="button"
-              onClick={() => setTab(tb.key)}
-              style={{
-                padding: '10px 12px',
-                textAlign: 'left',
-                background: tab === tb.key ? '#28A745' : 'transparent',
-                color: '#FFFFFF',
-                border: '1px solid ' + (tab === tb.key ? '#28A745' : '#495057'),
-                borderRadius: 6,
-                cursor: 'pointer',
-                fontSize: 14
-              }}
-            >
-              {tb.icon} {tb.label}
-            </button>
-          ))}
+        <div style={{ marginTop: space[4], display: 'grid', gap: space[1] }}>
+          {tabs.map((tb) => {
+            // active 状態は背景濃淡＋左端アクセントボーダーで二重表現 (§1.11 形+色)
+            const active = tab === tb.key;
+            return (
+              <button
+                key={tb.key}
+                type="button"
+                aria-current={active ? 'page' : undefined}
+                onClick={() => setTab(tb.key)}
+                style={{
+                  padding: `${space[2]} ${space[3]}`,
+                  textAlign: 'left',
+                  background: active ? palette.neutral[700] : 'transparent',
+                  color: palette.white,
+                  border: `1px solid ${active ? palette.neutral[600] : 'transparent'}`,
+                  borderLeft: `4px solid ${active ? palette.brand.default : 'transparent'}`,
+                  borderRadius: radius.small,
+                  cursor: 'pointer',
+                  fontSize: fontSize.caption,
+                  fontWeight: active ? fontWeight.semibold : fontWeight.regular
+                }}
+              >
+                {tb.icon} {tb.label}
+              </button>
+            );
+          })}
         </div>
         <div style={{ marginTop: 'auto' }}>
           <button
             type="button"
             onClick={() => { logout(); props.onLogout(); }}
             style={{
-              width: '100%', padding: 8, fontSize: 13, background: 'transparent',
-              color: '#FFFFFF', border: '1px solid #6C757D', borderRadius: 6, cursor: 'pointer'
+              width: '100%', padding: space[2], fontSize: fontSize.caption, background: 'transparent',
+              color: palette.white, border: `1px solid ${palette.neutral[600]}`, borderRadius: radius.small, cursor: 'pointer'
             }}
           >
             {t('shell.logout')}
