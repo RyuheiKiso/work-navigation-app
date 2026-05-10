@@ -97,8 +97,27 @@ export interface TaskListItem {
   current_step_id: string | null;
   updated_at: string;
 }
+/** 増分同期結果。`since` 経由の呼び出しで 304 が返ると items は null */
+export interface TaskListResult {
+  items: TaskListItem[] | null;
+  /** 次回 listTasks 呼び出しに渡すカーソル */
+  cursor: string | null;
+}
+/** 既存呼び出し互換: 全件取得して配列を返す */
 export async function listTasks(): Promise<TaskListItem[]> {
   return jsonOrThrow<TaskListItem[]>(await authFetch('/tasks'));
+}
+/** 増分取得。since 以降の更新行と Last-Modified カーソルを返す */
+export async function listTasksSince(since: string | null): Promise<TaskListResult> {
+  const path = since ? `/tasks?since=${encodeURIComponent(since)}` : '/tasks';
+  const res = await authFetch(path);
+  if (res.status === 304) {
+    return { items: null, cursor: since };
+  }
+  if (!res.ok) throw ApiError.fromResponse(res);
+  const items = (await res.json()) as TaskListItem[];
+  const lastMod = res.headers.get('Last-Modified');
+  return { items, cursor: lastMod ?? since };
 }
 
 /** タスク取得 */

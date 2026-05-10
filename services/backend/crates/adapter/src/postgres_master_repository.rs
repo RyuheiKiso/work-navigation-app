@@ -179,12 +179,30 @@ impl PostgresMasterRepository {
 
     // ===== タスク一覧（班長監視用） =====
     pub async fn list_tasks(&self) -> Result<Vec<TaskListItem>, PostgresRepositoryError> {
+        self.list_tasks_since(None).await
+    }
+
+    /// 増分同期用：updated_at > cursor の行を新しい順に返す。
+    /// cursor が None なら全件（上限 100）。§10.6 オフライン耐性で端末側の
+    /// 帯域を抑えるために使う。
+    pub async fn list_tasks_since(
+        &self,
+        cursor: Option<DateTime<Utc>>,
+    ) -> Result<Vec<TaskListItem>, PostgresRepositoryError> {
         let rows: Vec<(String, Option<String>, String, String, Option<String>, Option<String>, DateTime<Utc>)> =
-            sqlx::query_as(
-                "SELECT id, title, state, device_id, responsible_user, current_step_id, updated_at \
-                 FROM tasks ORDER BY updated_at DESC LIMIT 100",
-            )
-            .fetch_all(&self.pool).await?;
+            match cursor {
+                Some(c) => sqlx::query_as(
+                    "SELECT id, title, state, device_id, responsible_user, current_step_id, updated_at \
+                     FROM tasks WHERE updated_at > $1 ORDER BY updated_at DESC LIMIT 100",
+                )
+                .bind(c)
+                .fetch_all(&self.pool).await?,
+                None => sqlx::query_as(
+                    "SELECT id, title, state, device_id, responsible_user, current_step_id, updated_at \
+                     FROM tasks ORDER BY updated_at DESC LIMIT 100",
+                )
+                .fetch_all(&self.pool).await?,
+            };
         Ok(rows.into_iter().map(|(id, title, state, device, ru, cs, ut)| TaskListItem {
             id, title, state, device_id: device, responsible_user: ru, current_step_id: cs, updated_at: ut,
         }).collect())

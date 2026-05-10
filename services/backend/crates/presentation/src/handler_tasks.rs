@@ -5,14 +5,16 @@
 //! 失敗時は [`ApiError`] を返し、RFC 7807 problem+json として serialise される。
 
 use axum::{
-    extract::{Extension, Path, State},
+    extract::{Extension, Path, Query, State},
+    http::{header, HeaderMap, HeaderValue, StatusCode},
+    response::{IntoResponse, Response},
     Json,
 };
 use serde::{Deserialize, Serialize};
 use wna_adapter::{AuditEntry, TaskDto};
 use wna_domain::{Evidence, PasswordHasher, TaskId, TaskRepository};
 use wna_usecase::{StartTaskCommand, StartTaskError};
-use chrono::Utc;
+use chrono::{DateTime, Utc};
 
 use crate::api_error::ApiError;
 use crate::app_state::AppState;
@@ -59,19 +61,91 @@ pub struct TaskListItemDto {
     pub updated_at: String,
 }
 
+/// `GET /tasks` の増分同期パラメタ。
+///
+/// `?since=<RFC3339>` を渡すと、その時刻より新しい行だけが返る。
+/// 端末側はレスポンス時のサーバ時刻（または最新 row の updated_at）を
+/// 次回 `since` として使う。
+#[derive(Debug, Deserialize)]
+pub struct ListTasksQuery {
+    pub since: Option<String>,
+}
+
 pub async fn list_tasks<H>(
     State(state): State<AppState<H>>,
     rid: Option<Extension<RequestId>>,
-) -> Result<Json<Vec<TaskListItemDto>>, ApiError>
+    headers: HeaderMap,
+    Query(query): Query<ListTasksQuery>,
+) -> Result<Response, ApiError>
 where H: PasswordHasher + Send + Sync + Clone + 'static {
     let rid_ref = rid.as_ref().map(|e| &e.0);
-    let rows = state.master_repo.list_tasks().await
+
+    // since (クエリ) を優先し、無ければ If-Modified-Since (HTTP) を読む
+    let cursor = parse_since(query.since.as_deref(), &headers)
+        .map_err(|e: &'static str| enrich(ApiError::bad_request("invalid_since").with_detail(e.to_string()), rid_ref))?;
+
+    let rows = state.master_repo.list_tasks_since(cursor).await
         .map_err(|e| enrich(ApiError::server("task_list_failed").with_detail(e.to_string()), rid_ref))?;
-    Ok(Json(rows.into_iter().map(|r| TaskListItemDto {
+
+    // 全 row が cursor 以下なら 304 Not Modified（ボディなし）で帯域節約
+    if cursor.is_some() && rows.is_empty() {
+        let mut h = HeaderMap::new();
+        if let Some(ref r) = rid_ref {
+            if let Ok(v) = r.0.parse() {
+                h.insert(crate::api_error::REQUEST_ID_HEADER, v);
+            }
+        }
+        return Ok((StatusCode::NOT_MODIFIED, h).into_response());
+    }
+
+    let latest = rows.iter().map(|r| r.updated_at).max();
+    let dtos: Vec<TaskListItemDto> = rows.into_iter().map(|r| TaskListItemDto {
         id: r.id, title: r.title, state: r.state, device_id: r.device_id,
         responsible_user: r.responsible_user, current_step_id: r.current_step_id,
         updated_at: r.updated_at.to_rfc3339(),
-    }).collect()))
+    }).collect();
+
+    let mut response = Json(dtos).into_response();
+    if let Some(ts) = latest {
+        // RFC 7232 の Last-Modified は HTTP-date 形式（RFC 7231）が正だが、
+        // 端末側の比較は ISO 8601 で行うため互換のため両方を考慮しやすい RFC3339 を採用する。
+        if let Ok(v) = HeaderValue::from_str(&ts.to_rfc3339()) {
+            response.headers_mut().insert(header::LAST_MODIFIED, v);
+        }
+    }
+    if let Some(r) = rid_ref {
+        if let Ok(v) = r.0.parse::<HeaderValue>() {
+            response
+                .headers_mut()
+                .insert(crate::api_error::REQUEST_ID_HEADER, v);
+        }
+    }
+    Ok(response)
+}
+
+fn parse_since(
+    since_q: Option<&str>,
+    headers: &HeaderMap,
+) -> Result<Option<DateTime<Utc>>, &'static str> {
+    if let Some(s) = since_q {
+        if s.is_empty() {
+            return Ok(None);
+        }
+        let dt = DateTime::parse_from_rfc3339(s).map_err(|_| "since must be RFC3339")?;
+        return Ok(Some(dt.with_timezone(&Utc)));
+    }
+    if let Some(v) = headers.get(header::IF_MODIFIED_SINCE) {
+        if let Ok(s) = v.to_str() {
+            // RFC3339 と HTTP-date の両方を許容する寛容実装
+            if let Ok(dt) = DateTime::parse_from_rfc3339(s) {
+                return Ok(Some(dt.with_timezone(&Utc)));
+            }
+            if let Ok(dt) = DateTime::parse_from_rfc2822(s) {
+                return Ok(Some(dt.with_timezone(&Utc)));
+            }
+        }
+    }
+    Ok(None)
 }
 
 pub async fn start_task<H>(
@@ -206,6 +280,38 @@ where H: PasswordHasher + Send + Sync + Clone + 'static {
         completion_criteria: r.completion_criteria, standard_time_seconds: r.standard_time_seconds,
         done: r.done,
     }).collect()))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parse_since_accepts_query_rfc3339() {
+        let h = HeaderMap::new();
+        let r = parse_since(Some("2026-05-10T10:30:00Z"), &h).unwrap();
+        assert!(r.is_some());
+    }
+
+    #[test]
+    fn parse_since_returns_none_for_empty_query() {
+        let h = HeaderMap::new();
+        assert!(parse_since(Some(""), &h).unwrap().is_none());
+        assert!(parse_since(None, &h).unwrap().is_none());
+    }
+
+    #[test]
+    fn parse_since_falls_back_to_if_modified_since() {
+        let mut h = HeaderMap::new();
+        h.insert(header::IF_MODIFIED_SINCE, "2026-05-10T10:30:00Z".parse().unwrap());
+        assert!(parse_since(None, &h).unwrap().is_some());
+    }
+
+    #[test]
+    fn parse_since_rejects_invalid_query() {
+        let h = HeaderMap::new();
+        assert!(parse_since(Some("not-a-date"), &h).is_err());
+    }
 }
 
 pub async fn mark_step_done<H>(
