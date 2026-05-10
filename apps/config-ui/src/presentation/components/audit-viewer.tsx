@@ -8,6 +8,7 @@ import { t } from '../../i18n';
 import { LoadingState } from '../states/loading-state';
 import { EmptyState } from '../states/empty-state';
 import { ErrorPanel } from '../states/error-panel';
+import { palette, radius, fontSize, space, elevation } from '../../tokens/access';
 
 export function AuditViewer(): JSX.Element {
   const [rows, setRows] = useState<AuditRow[]>([]);
@@ -42,24 +43,24 @@ export function AuditViewer(): JSX.Element {
   });
 
   return (
-    <div style={{ padding: 24 }}>
+    <div style={{ padding: space[5], background: palette.bg, color: palette.fg }}>
       <h1>🛡️ 監査ログ</h1>
-      <p style={{ color: '#6C757D' }}>
+      <p style={{ color: palette.fgMuted }}>
         §11.4.1 INV-07 によりこのログは追記不変。DB トリガで UPDATE／DELETE を物理拒否しています。
       </p>
 
-      <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, marginBottom: 16, display: 'flex', gap: 8, alignItems: 'center', boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
-        <label style={{ flex: 1, fontSize: 13 }}>
+      <section style={{ background: palette.surface, padding: space[4], borderRadius: radius.medium, marginBottom: space[4], display: 'flex', gap: space[2], alignItems: 'center', boxShadow: elevation[1] }}>
+        <label style={{ flex: 1, fontSize: fontSize.caption }}>
           フィルタ（actor / action / target）
-          <input value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: '100%', padding: 8, marginTop: 4 }} />
+          <input value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: '100%', padding: space[2], marginTop: space[1] }} />
         </label>
-        <button type="button" onClick={() => void refresh()} disabled={busy} style={{ minHeight: 36, padding: '8px 16px', background: '#17A2B8', color: '#FFFFFF', border: 'none', borderRadius: 6, alignSelf: 'flex-end' }}>
+        <button type="button" onClick={() => void refresh()} disabled={busy} style={{ minHeight: '36px', padding: `${space[2]} ${space[4]}`, background: palette.info.default, color: palette.white, border: 'none', borderRadius: radius.small, alignSelf: 'flex-end', cursor: busy ? 'not-allowed' : 'pointer' }}>
           {busy ? '...' : '🔄 更新'}
         </button>
       </section>
 
       {error && (
-        <div style={{ marginBottom: 8 }}>
+        <div style={{ marginBottom: space[2] }}>
           <ErrorPanel
             message={error}
             onRetry={() => void refresh()}
@@ -70,34 +71,34 @@ export function AuditViewer(): JSX.Element {
 
       {!initialLoaded && busy && <LoadingState label={t('state_label.loading_audit')} />}
 
-      <section style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, boxShadow: '0 1px 3px rgba(13,17,23,0.10)' }}>
+      <section style={{ background: palette.surface, padding: space[4], borderRadius: radius.medium, boxShadow: elevation[1] }}>
         <p style={{ marginTop: 0 }}>
           表示中: <strong>{filtered.length}</strong> 件 / 総取得 {rows.length} 件
         </p>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: fontSize.caption }}>
           <thead>
-            <tr style={{ background: '#F8F9FA' }}>
-              <th style={{ padding: 6, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>サーバ時刻</th>
-              <th style={{ padding: 6, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>端末時刻</th>
-              <th style={{ padding: 6, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>主体</th>
-              <th style={{ padding: 6, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>操作</th>
-              <th style={{ padding: 6, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>対象</th>
-              <th style={{ padding: 6, textAlign: 'left', borderBottom: '1px solid #DEE2E6' }}>payload</th>
+            <tr style={{ background: palette.surfaceAlt }}>
+              <th style={{ padding: space[1], textAlign: 'left', borderBottom: `1px solid ${palette.border}` }}>サーバ時刻</th>
+              <th style={{ padding: space[1], textAlign: 'left', borderBottom: `1px solid ${palette.border}` }}>端末時刻</th>
+              <th style={{ padding: space[1], textAlign: 'left', borderBottom: `1px solid ${palette.border}` }}>主体</th>
+              <th style={{ padding: space[1], textAlign: 'left', borderBottom: `1px solid ${palette.border}` }}>操作</th>
+              <th style={{ padding: space[1], textAlign: 'left', borderBottom: `1px solid ${palette.border}` }}>対象</th>
+              <th style={{ padding: space[1], textAlign: 'left', borderBottom: `1px solid ${palette.border}` }}>payload</th>
             </tr>
           </thead>
           <tbody>
             {filtered.map((r) => (
               <tr key={r.id}>
-                <td style={{ padding: 6, borderBottom: '1px solid #F1F3F5', whiteSpace: 'nowrap' }}>
+                <td style={{ padding: space[1], borderBottom: `1px solid ${palette.neutral[100]}`, whiteSpace: 'nowrap' }}>
                   {new Date(r.server_time).toLocaleString()}
                 </td>
-                <td style={{ padding: 6, borderBottom: '1px solid #F1F3F5', whiteSpace: 'nowrap', color: '#6C757D' }}>
+                <td style={{ padding: space[1], borderBottom: `1px solid ${palette.neutral[100]}`, whiteSpace: 'nowrap', color: palette.fgMuted }}>
                   {r.terminal_time ? new Date(r.terminal_time).toLocaleString() : '—'}
                 </td>
-                <td style={{ padding: 6, borderBottom: '1px solid #F1F3F5' }}><code>{r.actor_id}</code></td>
-                <td style={{ padding: 6, borderBottom: '1px solid #F1F3F5' }}><code>{r.action}</code></td>
-                <td style={{ padding: 6, borderBottom: '1px solid #F1F3F5' }}>{r.target_id ?? '—'}</td>
-                <td style={{ padding: 6, borderBottom: '1px solid #F1F3F5', maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <td style={{ padding: space[1], borderBottom: `1px solid ${palette.neutral[100]}` }}><code>{r.actor_id}</code></td>
+                <td style={{ padding: space[1], borderBottom: `1px solid ${palette.neutral[100]}` }}><code>{r.action}</code></td>
+                <td style={{ padding: space[1], borderBottom: `1px solid ${palette.neutral[100]}` }}>{r.target_id ?? '—'}</td>
+                <td style={{ padding: space[1], borderBottom: `1px solid ${palette.neutral[100]}`, maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   <small>{r.payload ?? '—'}</small>
                 </td>
               </tr>
