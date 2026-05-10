@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom/client';
 // ルートコンポーネント
 import { App } from './App';
 import { ErrorBoundary } from './presentation/components/error-boundary';
+// :focus-visible / prefers-reduced-motion 等のベースライン CSS
+import './global.css';
 
 // マウント先の要素を取得
 const rootElement = document.getElementById('root');

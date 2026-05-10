@@ -334,7 +334,7 @@ export function NavigationShell(props: NavigationShellProps): JSX.Element {
           background: '#FFFFFF',
           borderTop: '1px solid #DEE2E6',
           display: 'flex',
-          gap: 12
+          gap: 20
         }}
       >
         <button
