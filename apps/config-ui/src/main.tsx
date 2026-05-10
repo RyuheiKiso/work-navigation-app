@@ -9,6 +9,10 @@ import { App } from './App';
 import { ErrorBoundary } from './presentation/components/error-boundary';
 // :focus-visible / prefers-reduced-motion 等のベースライン CSS
 import './global.css';
+// 設計トークンを CSS カスタムプロパティとして注入 (theme 切替・focus ring 等が機能する前提)
+import { injectTokensStyle } from './tokens/css-vars';
+
+injectTokensStyle();
 
 // マウント先取得
 const rootElement = document.getElementById('root');

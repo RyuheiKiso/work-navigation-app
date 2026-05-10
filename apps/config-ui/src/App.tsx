@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import { LoginScreen } from './presentation/components/login-screen';
 import { AppShell } from './presentation/components/app-shell';
+import { ToastHost } from './presentation/components/toast';
 import { getCurrentUser } from './adapter/api-client';
 import { useWebVitals } from './presentation/hooks/use-web-vitals';
 
@@ -15,6 +16,13 @@ export function App(): JSX.Element {
     const u = getCurrentUser();
     if (u) setUser(u);
   }, []);
-  if (!user) return <LoginScreen onLoggedIn={(u) => setUser(u)} />;
-  return <AppShell user={user} onLogout={() => setUser(null)} />;
+  return (
+    <>
+      {user
+        ? <AppShell user={user} onLogout={() => setUser(null)} />
+        : <LoginScreen onLoggedIn={(u) => setUser(u)} />}
+      {/* showToast() からの通知をルートで一括表示。window.alert を撲滅するための土台 */}
+      <ToastHost />
+    </>
+  );
 }

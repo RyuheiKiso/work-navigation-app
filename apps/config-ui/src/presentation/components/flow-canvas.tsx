@@ -12,6 +12,7 @@ import { useFlowEditor } from '../hooks/use-flow-editor';
 import { publishTrial } from '../utils/publish-trial';
 import type { AutosaveStatus } from '../hooks/use-autosave';
 import { useOnlineStatus } from '../hooks/use-online-status';
+import { showToast } from './toast';
 
 const TEMPLATE_CATALOG: ReadonlyArray<readonly [string, string]> = [
   ['自動車：組立', '/templates/automotive/assembly-line.yaml'],
@@ -67,25 +68,25 @@ export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
       await editor.loadTemplate(path);
     } catch (e) {
       // §20.1 エラーメッセージ規約: 人を責めない
-      // eslint-disable-next-line no-alert
-      window.alert(`テンプレ読込に失敗しました（${(e as Error).message}）`);
+      showToast('danger', `テンプレ読込に失敗しました（${(e as Error).message}）`);
     }
   }
 
   async function handlePublishTrial(): Promise<void> {
     if (!editor.validation?.valid) {
-      window.alert('検証エラーがあるため試行版は発行できません（§10.2.3 ブロック）');
+      showToast('warning', '検証エラーがあるため試行版は発行できません（§10.2.3 ブロック）');
       return;
     }
     if (!editor.currentFlow) return;
     try {
       const r = await publishTrial(editor.currentFlow);
-      window.alert(
+      showToast(
+        'success',
         `✓ 試行版発行完了\nflow=${r.flow_id} v${r.version}\nstatus=${r.status}\npilot=${r.pilot_device_ids.join(', ')}`
       );
       props.onPublishTrial?.(editor.currentFlow);
     } catch (e) {
-      window.alert(`発行に失敗しました: ${(e as Error).message}`);
+      showToast('danger', `発行に失敗しました: ${(e as Error).message}`);
     }
   }
 

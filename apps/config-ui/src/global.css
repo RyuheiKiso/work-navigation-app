@@ -1,11 +1,6 @@
 /* 対応 §: ロードマップ §11.2 §9.5 §9.2.2 */
 /* a11y / 誤操作予防 / WCAG 2.1 のキーボード可視性に関するグローバル既定。 */
-/* 既存のインラインスタイルを大きく書き換えずに、ベースラインだけ底上げする。 */
-
-:root {
-  --wna-focus-ring-color: #2196F3;
-  --wna-focus-ring-offset: 2px;
-}
+/* CSS 変数の値は src/tokens/css-vars.ts (injectTokensStyle) が :root に注入する。 */
 
 /* キーボード操作時のみフォーカス可視化（マウスクリックではリングを出さない） */
 :focus {
@@ -19,9 +14,15 @@ select:focus-visible,
 textarea:focus-visible,
 [tabindex]:focus-visible,
 [role="button"]:focus-visible {
-  outline: 3px solid var(--wna-focus-ring-color);
-  outline-offset: var(--wna-focus-ring-offset);
-  border-radius: 4px;
+  outline: var(--wna-focus-ring-width, 3px) var(--wna-focus-ring-style, solid) var(--wna-c-focus-ring, #2196F3);
+  outline-offset: var(--wna-focus-ring-offset, 2px);
+  border-radius: var(--wna-focus-ring-radius, 4px);
+}
+
+/* Toast の登場アニメ — 装飾モーション。prefers-reduced-motion で抑制される */
+@keyframes wna-toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* 高コントラスト環境では outline は OS が引き継ぐ */
