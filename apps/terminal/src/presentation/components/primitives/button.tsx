@@ -21,7 +21,9 @@ function paint(variant: ButtonVariant, disabled: boolean): { bg: string; fg: str
   if (disabled) return { bg: palette.neutral[200], fg: palette.neutral[500], border: palette.neutral[200] };
   switch (variant) {
     case 'primary':
-      return { bg: palette.success.default, fg: palette.white, border: palette.success.default };
+      // §9.5.1 brand を主役色に。完了等「正方向」の CTA は success と区別するため
+      // brand.default を使う。success は完了通知・進捗演出など「結果」の表現に温存。
+      return { bg: palette.brand.default, fg: palette.white, border: palette.brand.default };
     case 'danger':
       return { bg: palette.danger.default, fg: palette.white, border: palette.danger.default };
     case 'warning':
