@@ -56,5 +56,22 @@ export const ja = {
     delete_description_suffix: ' を削除します。元に戻せません。',
     delete_confirm: '削除する',
     cancel: '取消'
+  },
+  // §20.1 API 失敗の分類別ユーザー文言
+  error: {
+    api: {
+      network: 'サーバに接続できません。ネットワークを確認してください',
+      timeout: '応答がありません。少し待ってから再操作してください',
+      auth: 'ログインが切れました。再度ログインしてください',
+      forbidden: '権限がありません。管理者に確認してください',
+      not_found: '対象が見つかりません。一覧を更新してください',
+      conflict: '他の利用者が先に更新しました。最新化してから再操作してください',
+      rate_limited: '操作が混み合っています。少し時間を空けて再試行してください',
+      server: 'サーバ側で問題が発生しました。管理者へ連絡してください',
+      unknown: '不明なエラーが発生しました'
+    },
+    boundary_title: '画面に異常が発生しました',
+    boundary_description: '安全のため処理を中断しました。再読込してください。',
+    reload: '再読込'
   }
 } as const;

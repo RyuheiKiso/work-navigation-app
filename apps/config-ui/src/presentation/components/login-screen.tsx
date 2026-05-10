@@ -3,6 +3,8 @@
 
 import { useState } from 'react';
 import { login, getBackendUrl, setBackendUrl } from '../../adapter/api-client';
+import { toApiError } from '../../adapter/api-error';
+import { t } from '../../i18n';
 
 export interface LoginScreenProps {
   onLoggedIn(user: { user_id: string; display_name: string }): void;
@@ -24,7 +26,7 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
       const u = await login(userId, password);
       props.onLoggedIn({ user_id: u.user_id, display_name: u.display_name });
     } catch (err) {
-      setError((err as Error).message);
+      setError(t(toApiError(err).i18nKey()));
     } finally {
       setBusy(false);
     }

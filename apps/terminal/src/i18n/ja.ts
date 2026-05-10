@@ -54,7 +54,22 @@ export const ja = {
     completion_criteria_not_met: '完了条件が満たされていません',
     invalid_state: '不正な状態遷移です',
     network_offline: 'ネットワークに接続できません',
-    sync_pending: '同期保留中（復旧後に自動同期されます）'
+    sync_pending: '同期保留中（復旧後に自動同期されます）',
+    // §10.5 / §10.6 API 失敗の分類別ユーザー文言
+    api: {
+      network: 'サーバに接続できません。電波・LAN を確認してください',
+      timeout: '応答がありません。少し待ってから再操作してください',
+      auth: 'ログインが切れました。再度ログインしてください',
+      forbidden: '権限がありません。班長に相談してください',
+      not_found: '対象が見つかりません。表示を更新してください',
+      conflict: '他の端末が先に更新しました。最新化してから再操作してください',
+      rate_limited: '操作が混み合っています。少し時間を空けてから再試行してください',
+      server: 'サーバ側で問題が発生しました。班長へ連絡してください',
+      unknown: '不明なエラーが発生しました'
+    },
+    boundary_title: '画面に異常が発生しました',
+    boundary_description: '安全のため処理を中断しました。再読込してください。',
+    reload: '再読込'
   },
   // 完了条件種別
   completion: {

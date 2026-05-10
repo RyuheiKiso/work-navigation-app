@@ -18,7 +18,14 @@ import {
   type StepDto,
   type TaskListItem
 } from '../../adapter/api-client';
+import { toApiError } from '../../adapter/api-error';
+import { t } from '../../i18n';
 import { triggerFeedback } from '../utils/feedback';
+
+/** 例外をユーザー向けの i18n 済み文言に変換する */
+function localize(err: unknown): string {
+  return t(toApiError(err).i18nKey());
+}
 
 export interface AndonState {
   severity: 1 | 2 | 3 | 4 | 5;
@@ -83,7 +90,7 @@ export function useTaskNavigation(): TaskNavigation {
           setSelectedTaskState(ts[0]!.state);
         }
       } catch (e) {
-        setError((e as Error).message);
+        setError(localize(e));
       }
     })();
     const tick = setInterval(() => setNow(Date.now()), 1000);
@@ -99,7 +106,7 @@ export function useTaskNavigation(): TaskNavigation {
         setSteps(s);
         setStepStartedAt(Date.now());
       } catch (e) {
-        setError((e as Error).message);
+        setError(localize(e));
       }
     })();
   }, [selectedTaskId]);
@@ -147,7 +154,7 @@ export function useTaskNavigation(): TaskNavigation {
       triggerFeedback('success');
       await refreshTasks();
     } catch (e) {
-      setError((e as Error).message);
+      setError(localize(e));
       triggerFeedback('fail');
     } finally {
       setBusy(false);
@@ -179,7 +186,7 @@ export function useTaskNavigation(): TaskNavigation {
         await refreshTasks();
       }
     } catch (e) {
-      setError((e as Error).message);
+      setError(localize(e));
       triggerFeedback('fail');
     } finally {
       setBusy(false);
@@ -197,7 +204,7 @@ export function useTaskNavigation(): TaskNavigation {
       triggerFeedback('input');
       await refreshTasks();
     } catch (e) {
-      setError((e as Error).message);
+      setError(localize(e));
     } finally {
       setBusy(false);
     }
@@ -214,7 +221,7 @@ export function useTaskNavigation(): TaskNavigation {
       triggerFeedback('input');
       await refreshTasks();
     } catch (e) {
-      setError((e as Error).message);
+      setError(localize(e));
     } finally {
       setBusy(false);
     }

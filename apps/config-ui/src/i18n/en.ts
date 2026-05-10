@@ -50,5 +50,21 @@ export const en = {
     delete_description_suffix: ' will be deleted. This cannot be undone.',
     delete_confirm: 'Delete',
     cancel: 'Cancel'
+  },
+  error: {
+    api: {
+      network: 'Cannot reach the server. Check your network.',
+      timeout: 'No response. Wait a moment and try again.',
+      auth: 'Your session has expired. Please log in again.',
+      forbidden: 'You do not have permission. Please contact an admin.',
+      not_found: 'The target was not found. Refresh the list.',
+      conflict: 'Another user updated this first. Refresh and try again.',
+      rate_limited: 'Operations are throttled. Please wait briefly and retry.',
+      server: 'A server error occurred. Please contact an admin.',
+      unknown: 'An unknown error occurred.'
+    },
+    boundary_title: 'A display error occurred',
+    boundary_description: 'The process was halted as a precaution. Please reload.',
+    reload: 'Reload'
   }
 } as const;

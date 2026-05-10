@@ -1,6 +1,8 @@
-// 対応 §: ロードマップ §10.5 §10.6 §10.3.1
+// 対応 §: ロードマップ §10.5 §10.6 §10.3.1 §20.1
 // 端末→バックエンドの REST クライアント。
-// セッショントークンを localStorage に永続化して継続ログイン（§10.5.1）。
+// 失敗は全て ApiError へ正規化し、UI 側で `t(error.i18nKey())` でローカライズ可能にする。
+
+import { ApiError } from './api-error';
 
 const TOKEN_KEY = 'wna.session.token';
 const USER_KEY = 'wna.session.user';
@@ -37,14 +39,12 @@ export async function login(
   userId: string,
   password: string
 ): Promise<{ user_id: string; display_name: string; session_token: string }> {
-  const res = await fetch(`${getBackendUrl()}/auth/login`, {
+  const res = await safeFetch(`${getBackendUrl()}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ user_id: userId, password })
   });
-  if (!res.ok) {
-    throw new Error(`ログイン失敗（HTTP ${res.status}）`);
-  }
+  if (!res.ok) throw ApiError.fromResponse(res);
   const json = (await res.json()) as { user_id: string; display_name: string; session_token: string };
   localStorage.setItem(TOKEN_KEY, json.session_token);
   localStorage.setItem(USER_KEY, JSON.stringify({ user_id: json.user_id, display_name: json.display_name }));
@@ -60,13 +60,31 @@ export function logout(): void {
 /** 認証付き fetch */
 async function authFetch(path: string, init: RequestInit = {}): Promise<Response> {
   const token = getToken();
-  if (!token) throw new Error('未ログイン');
+  if (!token) throw new ApiError('auth', null, false, 'no session');
   const headers = new Headers(init.headers);
   headers.set('Authorization', `Bearer ${token}`);
   if (!headers.has('Content-Type') && init.body) {
     headers.set('Content-Type', 'application/json');
   }
-  return fetch(`${getBackendUrl()}${path}`, { ...init, headers });
+  return safeFetch(`${getBackendUrl()}${path}`, { ...init, headers });
+}
+
+/** fetch を ApiError 正規化付きでラップする */
+async function safeFetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
+  try {
+    return await fetch(input, init);
+  } catch (e) {
+    throw ApiError.fromNetwork(e);
+  }
+}
+
+async function jsonOrThrow<T>(res: Response): Promise<T> {
+  if (!res.ok) throw ApiError.fromResponse(res);
+  return (await res.json()) as T;
+}
+
+async function voidOrThrow(res: Response): Promise<void> {
+  if (!res.ok) throw ApiError.fromResponse(res);
 }
 
 /** タスク一覧 */
@@ -80,9 +98,7 @@ export interface TaskListItem {
   updated_at: string;
 }
 export async function listTasks(): Promise<TaskListItem[]> {
-  const res = await authFetch('/tasks');
-  if (!res.ok) throw new Error(`タスク一覧取得失敗（HTTP ${res.status}）`);
-  return (await res.json()) as TaskListItem[];
+  return jsonOrThrow<TaskListItem[]>(await authFetch('/tasks'));
 }
 
 /** タスク取得 */
@@ -94,16 +110,14 @@ export interface TaskDto {
   schema_version: number;
 }
 export async function getTask(id: string): Promise<TaskDto> {
-  const res = await authFetch(`/tasks/${encodeURIComponent(id)}`);
-  if (!res.ok) throw new Error(`タスク取得失敗（HTTP ${res.status}）`);
-  return (await res.json()) as TaskDto;
+  return jsonOrThrow<TaskDto>(await authFetch(`/tasks/${encodeURIComponent(id)}`));
 }
 
 /** タスク開始 */
 export async function startTask(id: string): Promise<TaskDto> {
-  const res = await authFetch(`/tasks/${encodeURIComponent(id)}/start`, { method: 'POST' });
-  if (!res.ok) throw new Error(`開始失敗（HTTP ${res.status}）`);
-  return (await res.json()) as TaskDto;
+  return jsonOrThrow<TaskDto>(
+    await authFetch(`/tasks/${encodeURIComponent(id)}/start`, { method: 'POST' })
+  );
 }
 
 /** タスク完了 */
@@ -111,26 +125,26 @@ export async function completeTask(
   id: string,
   evidence: { manually_marked?: boolean; photo_attached?: boolean }
 ): Promise<TaskDto> {
-  const res = await authFetch(`/tasks/${encodeURIComponent(id)}/complete`, {
-    method: 'POST',
-    body: JSON.stringify(evidence)
-  });
-  if (!res.ok) throw new Error(`完了失敗（HTTP ${res.status}）`);
-  return (await res.json()) as TaskDto;
+  return jsonOrThrow<TaskDto>(
+    await authFetch(`/tasks/${encodeURIComponent(id)}/complete`, {
+      method: 'POST',
+      body: JSON.stringify(evidence)
+    })
+  );
 }
 
 /** タスク中断 */
 export async function suspendTask(id: string): Promise<TaskDto> {
-  const res = await authFetch(`/tasks/${encodeURIComponent(id)}/suspend`, { method: 'POST' });
-  if (!res.ok) throw new Error(`中断失敗（HTTP ${res.status}）`);
-  return (await res.json()) as TaskDto;
+  return jsonOrThrow<TaskDto>(
+    await authFetch(`/tasks/${encodeURIComponent(id)}/suspend`, { method: 'POST' })
+  );
 }
 
 /** タスク再開 */
 export async function resumeTask(id: string): Promise<TaskDto> {
-  const res = await authFetch(`/tasks/${encodeURIComponent(id)}/resume`, { method: 'POST' });
-  if (!res.ok) throw new Error(`再開失敗（HTTP ${res.status}）`);
-  return (await res.json()) as TaskDto;
+  return jsonOrThrow<TaskDto>(
+    await authFetch(`/tasks/${encodeURIComponent(id)}/resume`, { method: 'POST' })
+  );
 }
 
 /** ステップ一覧 */
@@ -143,18 +157,19 @@ export interface StepDto {
   done: boolean;
 }
 export async function listSteps(taskId: string): Promise<StepDto[]> {
-  const res = await authFetch(`/tasks/${encodeURIComponent(taskId)}/steps`);
-  if (!res.ok) throw new Error(`ステップ取得失敗（HTTP ${res.status}）`);
-  return (await res.json()) as StepDto[];
+  return jsonOrThrow<StepDto[]>(
+    await authFetch(`/tasks/${encodeURIComponent(taskId)}/steps`)
+  );
 }
 
 /** ステップを完了マーク */
 export async function markStepDone(taskId: string, stepId: string): Promise<void> {
-  const res = await authFetch(
-    `/tasks/${encodeURIComponent(taskId)}/steps/${encodeURIComponent(stepId)}/done`,
-    { method: 'POST' }
+  return voidOrThrow(
+    await authFetch(
+      `/tasks/${encodeURIComponent(taskId)}/steps/${encodeURIComponent(stepId)}/done`,
+      { method: 'POST' }
+    )
   );
-  if (!res.ok) throw new Error(`ステップ完了失敗（HTTP ${res.status}）`);
 }
 
 /** 実績追記 */
@@ -164,9 +179,10 @@ export async function appendRecord(
   lamport: number,
   payload: Record<string, unknown>
 ): Promise<void> {
-  const res = await authFetch(`/tasks/${encodeURIComponent(taskId)}/records`, {
-    method: 'POST',
-    body: JSON.stringify({ device_id: deviceId, lamport, payload })
-  });
-  if (!res.ok) throw new Error(`実績追記失敗（HTTP ${res.status}）`);
+  return voidOrThrow(
+    await authFetch(`/tasks/${encodeURIComponent(taskId)}/records`, {
+      method: 'POST',
+      body: JSON.stringify({ device_id: deviceId, lamport, payload })
+    })
+  );
 }

@@ -49,7 +49,21 @@ export const en = {
     completion_criteria_not_met: 'Completion criteria not met',
     invalid_state: 'Invalid state transition',
     network_offline: 'Network unreachable',
-    sync_pending: 'Sync pending (will auto-sync upon recovery)'
+    sync_pending: 'Sync pending (will auto-sync upon recovery)',
+    api: {
+      network: 'Cannot reach the server. Check your signal or wired network.',
+      timeout: 'No response. Wait a moment and try again.',
+      auth: 'Your session has expired. Please log in again.',
+      forbidden: 'You do not have permission. Please contact your lead.',
+      not_found: 'The target was not found. Refresh the view.',
+      conflict: 'Another device updated this first. Refresh and try again.',
+      rate_limited: 'Operations are throttled. Please wait briefly and retry.',
+      server: 'A server error occurred. Please contact your lead.',
+      unknown: 'An unknown error occurred.'
+    },
+    boundary_title: 'A display error occurred',
+    boundary_description: 'The process was halted as a precaution. Please reload.',
+    reload: 'Reload'
   },
   completion: {
     manual: 'Manual',

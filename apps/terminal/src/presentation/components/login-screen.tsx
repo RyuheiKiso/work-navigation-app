@@ -3,6 +3,8 @@
 
 import { useState } from 'react';
 import { login, getBackendUrl, setBackendUrl } from '../../adapter/api-client';
+import { toApiError } from '../../adapter/api-error';
+import { t } from '../../i18n';
 
 export interface LoginScreenProps {
   onLoggedIn(user: { user_id: string; display_name: string }): void;
@@ -24,8 +26,8 @@ export function LoginScreen(props: LoginScreenProps): JSX.Element {
       const user = await login(userId, password);
       props.onLoggedIn({ user_id: user.user_id, display_name: user.display_name });
     } catch (err) {
-      // §20.1 「人を責めない」表現
-      setError((err as Error).message);
+      // §20.1 「人を責めない」表現: ApiError 分類経由でユーザー文言を引く
+      setError(t(toApiError(err).i18nKey()));
     } finally {
       setBusy(false);
     }

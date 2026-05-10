@@ -1,5 +1,7 @@
-// 対応 §: ロードマップ §10.2 §10.3.1 §10.5 §11.4.1
-// 設定 UI → バックエンド REST クライアント。
+// 対応 §: ロードマップ §10.2 §10.3.1 §10.5 §11.4.1 §20.1
+// 設定 UI → バックエンド REST クライアント。失敗は ApiError へ正規化する。
+
+import { ApiError } from './api-error';
 
 const TOKEN_KEY = 'wna.session.token';
 const USER_KEY = 'wna.session.user';
@@ -28,12 +30,12 @@ export async function login(
   userId: string,
   password: string
 ): Promise<{ user_id: string; display_name: string; session_token: string }> {
-  const res = await fetch(`${getBackendUrl()}/auth/login`, {
+  const res = await safeFetch(`${getBackendUrl()}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ user_id: userId, password })
   });
-  if (!res.ok) throw new Error(`ログイン失敗（HTTP ${res.status}）`);
+  if (!res.ok) throw ApiError.fromResponse(res);
   const json = (await res.json()) as { user_id: string; display_name: string; session_token: string };
   localStorage.setItem(TOKEN_KEY, json.session_token);
   localStorage.setItem(USER_KEY, JSON.stringify({ user_id: json.user_id, display_name: json.display_name }));
@@ -47,56 +49,61 @@ export function logout(): void {
 
 async function authFetch(path: string, init: RequestInit = {}): Promise<Response> {
   const token = getToken();
-  if (!token) throw new Error('未ログイン');
+  if (!token) throw new ApiError('auth', null, false, 'no session');
   const headers = new Headers(init.headers);
   headers.set('Authorization', `Bearer ${token}`);
   if (!headers.has('Content-Type') && init.body) headers.set('Content-Type', 'application/json');
-  return fetch(`${getBackendUrl()}${path}`, { ...init, headers });
+  return safeFetch(`${getBackendUrl()}${path}`, { ...init, headers });
+}
+
+async function safeFetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
+  try {
+    return await fetch(input, init);
+  } catch (e) {
+    throw ApiError.fromNetwork(e);
+  }
+}
+
+async function jsonOrThrow<T>(res: Response): Promise<T> {
+  if (!res.ok) throw ApiError.fromResponse(res);
+  return (await res.json()) as T;
+}
+
+async function voidOrThrow(res: Response): Promise<void> {
+  if (!res.ok) throw ApiError.fromResponse(res);
 }
 
 // ===== マスタ =====
 export interface MasterRow { code: string; name: string; extra: string | null }
 
 export async function listProducts(): Promise<MasterRow[]> {
-  const r = await authFetch('/master/products');
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return (await r.json()) as MasterRow[];
+  return jsonOrThrow<MasterRow[]>(await authFetch('/master/products'));
 }
 export async function upsertProduct(row: MasterRow): Promise<void> {
-  const r = await authFetch('/master/products', { method: 'PUT', body: JSON.stringify(row) });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return voidOrThrow(await authFetch('/master/products', { method: 'PUT', body: JSON.stringify(row) }));
 }
 export async function deleteProduct(code: string): Promise<void> {
-  const r = await authFetch(`/master/products/${encodeURIComponent(code)}`, { method: 'DELETE' });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return voidOrThrow(await authFetch(`/master/products/${encodeURIComponent(code)}`, { method: 'DELETE' }));
 }
 
 export async function listEquipments(): Promise<MasterRow[]> {
-  const r = await authFetch('/master/equipments');
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return (await r.json()) as MasterRow[];
+  return jsonOrThrow<MasterRow[]>(await authFetch('/master/equipments'));
 }
 export async function upsertEquipment(row: MasterRow): Promise<void> {
-  const r = await authFetch('/master/equipments', { method: 'PUT', body: JSON.stringify(row) });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return voidOrThrow(await authFetch('/master/equipments', { method: 'PUT', body: JSON.stringify(row) }));
 }
 export async function deleteEquipment(code: string): Promise<void> {
-  const r = await authFetch(`/master/equipments/${encodeURIComponent(code)}`, { method: 'DELETE' });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return voidOrThrow(await authFetch(`/master/equipments/${encodeURIComponent(code)}`, { method: 'DELETE' }));
 }
 
 export async function listParts(): Promise<MasterRow[]> {
-  const r = await authFetch('/master/parts');
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return (await r.json()) as MasterRow[];
+  return jsonOrThrow<MasterRow[]>(await authFetch('/master/parts'));
 }
 export async function upsertPart(row: MasterRow): Promise<void> {
-  const r = await authFetch('/master/parts', { method: 'PUT', body: JSON.stringify(row) });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return voidOrThrow(await authFetch('/master/parts', { method: 'PUT', body: JSON.stringify(row) }));
 }
 export async function deletePart(code: string): Promise<void> {
-  const r = await authFetch(`/master/parts/${encodeURIComponent(code)}`, { method: 'DELETE' });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return voidOrThrow(await authFetch(`/master/parts/${encodeURIComponent(code)}`, { method: 'DELETE' }));
 }
 
 // ===== 監査 =====
@@ -110,9 +117,7 @@ export interface AuditRow {
   payload: string | null;
 }
 export async function listAudit(limit = 100): Promise<AuditRow[]> {
-  const r = await authFetch(`/audit?limit=${limit}`);
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return (await r.json()) as AuditRow[];
+  return jsonOrThrow<AuditRow[]>(await authFetch(`/audit?limit=${limit}`));
 }
 
 // ===== 班長ダッシュボード =====
@@ -126,9 +131,7 @@ export interface DashboardTask {
   updated_at: string;
 }
 export async function listDashboardTasks(): Promise<DashboardTask[]> {
-  const r = await authFetch('/dashboard/tasks');
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return (await r.json()) as DashboardTask[];
+  return jsonOrThrow<DashboardTask[]>(await authFetch('/dashboard/tasks'));
 }
 
 // ===== フロー =====
@@ -136,19 +139,17 @@ export interface FlowSummary {
   id: string; version: number; name: string; status: string; industry: string | null;
 }
 export async function listFlows(): Promise<FlowSummary[]> {
-  const r = await authFetch('/flows');
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return (await r.json()) as FlowSummary[];
+  return jsonOrThrow<FlowSummary[]>(await authFetch('/flows'));
 }
 
 export async function publishTrial(
   flowId: string,
   body: { version: number; name: string; industry: string | null; body: unknown; pilot_device_ids: string[] }
 ): Promise<{ flow_id: string; version: number; status: string; pilot_device_ids: string[] }> {
-  const r = await authFetch(`/flows/${encodeURIComponent(flowId)}/trials`, {
-    method: 'POST',
-    body: JSON.stringify(body)
-  });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return (await r.json()) as { flow_id: string; version: number; status: string; pilot_device_ids: string[] };
+  return jsonOrThrow<{ flow_id: string; version: number; status: string; pilot_device_ids: string[] }>(
+    await authFetch(`/flows/${encodeURIComponent(flowId)}/trials`, {
+      method: 'POST',
+      body: JSON.stringify(body)
+    })
+  );
 }

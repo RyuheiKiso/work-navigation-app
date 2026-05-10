@@ -9,7 +9,12 @@ import {
   type MasterRow
 } from '../../adapter/api-client';
 import { t } from '../../i18n';
+import { toApiError } from '../../adapter/api-error';
 import { ConfirmDialog } from './confirm-dialog';
+
+function localize(e: unknown): string {
+  return t(toApiError(e).i18nKey());
+}
 
 export interface MasterEditorProps {
   kind: 'products' | 'equipments' | 'parts';
@@ -53,7 +58,7 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
     try {
       setRows(await fetcher());
     } catch (e) {
-      setError((e as Error).message);
+      setError(localize(e));
     }
   }
 
@@ -71,7 +76,7 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
       setCode(''); setName(''); setExtra('');
       await refresh();
     } catch (err) {
-      setError((err as Error).message);
+      setError(localize(err));
     } finally {
       setBusy(false);
     }
@@ -79,7 +84,7 @@ export function MasterEditor({ kind }: MasterEditorProps): JSX.Element {
 
   async function performDelete(c: string): Promise<void> {
     setBusy(true); setError(null);
-    try { await deleter(c); await refresh(); } catch (e) { setError((e as Error).message); } finally { setBusy(false); }
+    try { await deleter(c); await refresh(); } catch (e) { setError(localize(e)); } finally { setBusy(false); }
   }
 
   return (

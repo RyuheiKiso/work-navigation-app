@@ -3,6 +3,8 @@
 
 import { useEffect, useState } from 'react';
 import { listDashboardTasks, type DashboardTask } from '../../adapter/api-client';
+import { toApiError } from '../../adapter/api-error';
+import { t } from '../../i18n';
 
 export function LeadDashboard(): JSX.Element {
   const [tasks, setTasks] = useState<DashboardTask[]>([]);
@@ -14,7 +16,7 @@ export function LeadDashboard(): JSX.Element {
     try {
       setTasks(await listDashboardTasks());
     } catch (e) {
-      setError((e as Error).message);
+      setError(t(toApiError(e).i18nKey()));
     }
   }
 

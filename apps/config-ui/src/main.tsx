@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 // ルート
 import { App } from './App';
+import { ErrorBoundary } from './presentation/components/error-boundary';
 
 // マウント先取得
 const rootElement = document.getElementById('root');
@@ -20,6 +21,8 @@ const root = ReactDOM.createRoot(rootElement);
 // レンダリング
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );

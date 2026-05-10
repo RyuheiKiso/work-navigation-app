@@ -3,6 +3,8 @@
 
 import { useEffect, useState } from 'react';
 import { listAudit, type AuditRow } from '../../adapter/api-client';
+import { toApiError } from '../../adapter/api-error';
+import { t } from '../../i18n';
 
 export function AuditViewer(): JSX.Element {
   const [rows, setRows] = useState<AuditRow[]>([]);
@@ -16,7 +18,7 @@ export function AuditViewer(): JSX.Element {
       const r = await listAudit(200);
       setRows(r);
     } catch (e) {
-      setError((e as Error).message);
+      setError(t(toApiError(e).i18nKey()));
     } finally {
       setBusy(false);
     }
