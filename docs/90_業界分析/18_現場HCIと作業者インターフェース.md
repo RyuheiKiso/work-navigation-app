@@ -143,3 +143,10 @@ Nielsen (1994) の 10 ヒューリスティックスは製造 UI 評価でも基
 - Mayer, R. E. *Multimedia Learning* (2nd ed.). Cambridge University Press, 2009.
 - ISO 9241-11:2018 *Ergonomics of human-system interaction — Part 11: Usability definitions and concepts*.
 - IEC 60529:2013 *Degrees of protection provided by enclosures (IP Code)*.
+
+## 関連章
+
+- [08_人間工学と作業負荷](./08_人間工学と作業負荷.md) — 身体的人間工学と HCI の統合
+- [12_認知工学と状況認識](./12_認知工学と状況認識.md) — SA 維持のための画面設計
+- [32_自動認識技術とデータ収集設計](./32_自動認識技術とデータ収集設計.md) — 現場 UI とスキャン入力の統合
+- [35_環境耐性と防爆・クリーンルーム設計](./35_環境耐性と防爆・クリーンルーム設計.md) — 環境制約下での UI 設計

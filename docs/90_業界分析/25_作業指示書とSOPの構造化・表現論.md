@@ -198,3 +198,9 @@ DITA 等の厳格な構造化は、初期導入コストと継続的な維持コ
 - Hackos, J. T. *Information Development: Managing Your Documentation Projects, Portfolio, and People*. Wiley, 2007.
 - Sweller, J., van Merriënboer, J. J. G., & Paas, F. "Cognitive architecture and instructional design." *Educational Psychology Review*, 10(3), 1998.
 - International Aerospace Quality Group. *AS9100 Rev D: Quality Management Systems — Requirements for Aviation, Space, and Defense Organizations*. SAE International, 2016.
+
+## 関連章
+
+- [19_電子チェックリストと手順遵守の科学](./19_電子チェックリストと手順遵守の科学.md) — SOP とチェックリスト化の関係
+- [34_多言語化・外国人労働者と読み書き能力差](./34_多言語化・外国人労働者と読み書き能力差.md) — 多言語 SOP 設計
+- [28_不適合と手順改訂のフィードバックループ](./28_不適合と手順改訂のフィードバックループ.md) — SOP 改訂プロセス
