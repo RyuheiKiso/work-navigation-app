@@ -29,3 +29,13 @@ PostgreSQL
 
 IIS + Windows Server 2022
 WSL2 + Docker
+
+## phaseの取り扱い
+
+個人開発なのでphaseを設けない。
+ver1.0.0をリリースした時点でプロダクションレベルの品質を目指す。
+
+## ポリシー
+
+妥協は禁止する。
+完璧かつ至高を目指す。
