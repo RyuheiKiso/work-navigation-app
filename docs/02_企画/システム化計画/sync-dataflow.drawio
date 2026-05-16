@@ -1,0 +1,74 @@
+<mxfile>
+  <diagram name="sync-dataflow" id="sync-01">
+    <mxGraphModel dx="900" dy="620" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="オフライン同期データフロー" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="16" width="400" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="lane-tablet" value="タブレット" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf3fb;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="64" width="380" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="lane-backend" value="バックエンド（Rust + axum + PostgreSQL）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#d79b00;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="780" y="64" width="380" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="offline-note" value="オフライン時:&lt;br&gt;Outbox に蓄積し続け、&lt;br&gt;接続回復まで待機" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeDasharray=6,3;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="560" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" value="ユーザ操作&lt;br&gt;（チェック・スキャン・数値入力）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" value="ローカル SQLite に記録&lt;br&gt;（作業進捗 + 実績データ）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="260" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" value="Outbox テーブルに&lt;br&gt;「送信待ち」イベントを追加" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="400" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" value="Outbox を「送信済み」に更新&lt;br&gt;（同期完了確認）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="620" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="b1" value="Idempotency Key で重複チェック&lt;br&gt;（初回のみ処理）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="820" y="400" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="b2" value="PostgreSQL に保存&lt;br&gt;（Append-only 実績ログ）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="820" y="520" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="b3" value="成功応答を返す&lt;br&gt;（HTTP 200）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="820" y="620" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-t1-t2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="t1" target="t2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-t2-t3" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="t2" target="t3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-t3-b1" value="REST POST（オンライン / 接続回復時）" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1" source="t3" target="b1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="440" />
+              <mxPoint x="600" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-b1-b2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="b1" target="b2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-b2-b3" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="b2" target="b3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-b3-t4" value="成功応答" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1" source="b3" target="t4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="660" />
+              <mxPoint x="600" y="660" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
