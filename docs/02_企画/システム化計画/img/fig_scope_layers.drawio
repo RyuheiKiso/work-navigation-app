@@ -1,0 +1,120 @@
+<mxfile>
+  <diagram name="機能スコープ三区分" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="560" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="機能スコープ三区分 — コア機能 / 対応機能 / 対象外と判断する" style="text;html=1;fontFamily=Helvetica;fontSize=15;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="10" width="900" height="34" as="geometry" />
+        </mxCell>
+
+        <!-- ====== HEADER ROW (y=52, h=50) ====== -->
+        <mxCell id="hA" value="コア機能（必達）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#DAE8FC;align=center;" vertex="1" parent="1">
+          <mxGeometry x="20" y="52" width="382" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hB" value="対応機能" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFE6CC;align=center;" vertex="1" parent="1">
+          <mxGeometry x="402" y="52" width="382" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hC" value="対象外と判断する" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;align=center;" vertex="1" parent="1">
+          <mxGeometry x="784" y="52" width="396" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ====== ROW 1 (y=102, h=46) ====== -->
+        <mxCell id="r1A" value="SOP ナビゲーション（DO-LIST 型）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#DAE8FC;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="102" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r1B" value="ISO 9001 準拠（§7.5 文書化情報）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFE6CC;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="402" y="102" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r1C" value="GMP / ICH Q10（医薬品製造向け規制）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="784" y="102" width="396" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- ====== ROW 2 (y=148, h=46) ====== -->
+        <mxCell id="r2A" value="ステップ完了記録・電子サイン" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#EEF6FD;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="148" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r2B" value="計測器校正管理（計量法 対応）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFF5EB;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="402" y="148" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r2C" value="FDA 21 CFR Part 11（電子記録・電子署名）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FDF0EE;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="784" y="148" width="396" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- ====== ROW 3 (y=194, h=46) ====== -->
+        <mxCell id="r3A" value="証拠付きクリティカルステップ確認" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#DAE8FC;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="194" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r3B" value="スキル・資格マスタ管理" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFE6CC;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="402" y="194" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r3C" value="EU MDR / IVDR / UDI（EU 医療機器規制）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="784" y="194" width="396" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- ====== ROW 4 (y=240, h=46) ====== -->
+        <mxCell id="r4A" value="オフライン動作・Outbox 同期" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#EEF6FD;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="240" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r4B" value="多言語 SOP 表示（やさしい日本語 対応）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFF5EB;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="402" y="240" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r4C" value="IATF 16949 / PPAP / APQP（自動車 OEM 規制）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FDF0EE;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="784" y="240" width="396" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- ====== ROW 5 (y=286, h=46) ====== -->
+        <mxCell id="r5A" value="順方向・逆方向トレサビ照会" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#DAE8FC;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="286" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r5B" value="WCAG 2.1 AA 準拠 UI（手袋・夜勤対応）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFE6CC;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="402" y="286" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r5C" value="HACCP / AS9100（食品・航空宇宙規制）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="784" y="286" width="396" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- ====== ROW 6 (y=332, h=46) ====== -->
+        <mxCell id="r6A" value="不適合・CAPA・Kaizen Teian 起票" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#EEF6FD;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="332" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r6B" value="ISO 45001 安全報告（対応）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFF5EB;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="402" y="332" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r6C" value="AI / ML 自動判断・異常検知・RAG" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FDF0EE;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="784" y="332" width="396" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- ====== ROW 7 (y=378, h=46) ====== -->
+        <mxCell id="r7A" value="SOP 版管理・承認フロー・廃止管理" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#DAE8FC;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="378" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r7B" value="RBAC アクセス制御（役割別権限）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFE6CC;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="402" y="378" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r7C" value="PLC / IoT センサ直接制御（OT 領域）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="784" y="378" width="396" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- ====== ROW 8 (y=424, h=46) ====== -->
+        <mxCell id="r8A" value="ALCOA+ 準拠 Append-only イベントログ" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#EEF6FD;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="424" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r8B" value="電子帳票出力（CSV / PDF）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFF5EB;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="402" y="424" width="382" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="r8C" value="JCSS 一次標準への直接トレース" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FDF0EE;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="784" y="424" width="396" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- ====== FOOTER NOTE ====== -->
+        <mxCell id="footer" value="判断基準 ▶ コア=Navigation×Traceability の二大価値を直接実現する機能（必達）／対応=規制・安全・倫理の必要十分な周辺機能（ISO 9001 + ALCOA+ 核）／対象外=ver1.0.0 スコープ外と明示（根拠は 03 章に記載）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=2;align=left;fillColor=none;strokeColor=none;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="20" y="484" width="1160" height="36" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
