@@ -1,0 +1,93 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="業務シナリオ（To-Be フロー）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="16" width="500" height="32" as="geometry" />
+        </mxCell>
+        <!-- フロー上部（通常経路） -->
+        <mxCell id="s1" value="作業指示受信" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="30" y="330" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" value="作業ナビゲーション実行&#xa;（手順表示・写真記録・QR）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="230" y="330" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="作業結果記録&#xa;（ALCOA+準拠・タイムスタンプ）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="460" y="330" width="180" height="60" as="geometry" />
+        </mxCell>
+        <!-- 品質判定菱形 -->
+        <mxCell id="s4" value="品質&#xa;判定" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="690" y="315" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" value="作業完了報告&#xa;（管理者通知）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="880" y="330" width="170" height="60" as="geometry" />
+        </mxCell>
+        <!-- 不適合経路（下部） -->
+        <mxCell id="s6" value="不適合報告&#xa;（原因・写真・ロット紐付け）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="660" y="490" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" value="CAPA登録&#xa;（8D・根本原因・是正措置）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="460" y="490" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s8" value="Kaizen Teian投稿&#xa;（ボトムアップ提案）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="260" y="490" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s9" value="手順改訂&#xa;（版管理・有効日設定）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="490" width="180" height="60" as="geometry" />
+        </mxCell>
+        <!-- 通常経路矢印 -->
+        <mxCell id="e1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s1" target="s2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s2" target="s3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s3" target="s4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4_yes" value="合格" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;" edge="1" source="s4" target="s5" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- 不適合経路矢印 -->
+        <mxCell id="e4_no" value="不適合" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;" edge="1" source="s4" target="s6" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s6" target="s7" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s7" target="s8" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s8" target="s9" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- ループバック: 手順改訂 → 作業指示受信 -->
+        <mxCell id="e8" value="改訂後再開" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=10;" edge="1" source="s9" target="s1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="630" />
+              <mxPoint x="30" y="630" />
+              <mxPoint x="30" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- 注釈 -->
+        <mxCell id="note_alcoa" value="ALCOA+: Attributable / Contemporaneous / Original / Accurate 原則に準拠" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#666666;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="30" y="730" width="700" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="note_capa" value="CAPA: Corrective and Preventive Action（ISO 9001:2015 箇条10.2）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#666666;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="30" y="756" width="700" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
