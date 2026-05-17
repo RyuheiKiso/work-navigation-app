@@ -1,0 +1,87 @@
+<mxfile>
+  <diagram name="Step タイプ拡張" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="拡張可能 Step エンジン — Step タイプ定義スキーマと 6 種のカスタム例" style="text;html=1;fontFamily=Helvetica;fontSize=15;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="14" width="900" height="34" as="geometry" />
+        </mxCell>
+
+        <!-- 左カラム: 標準 Step タイプ（変更不可）-->
+        <mxCell id="std_zone" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="60" width="340" height="530" as="geometry" />
+        </mxCell>
+        <mxCell id="std_lbl" value="標準 Step タイプ（変更不可・コア）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="72" width="340" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="std_bool" value="boolean_check&#xa;（合否判定）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="std_num" value="numeric_input&#xa;（数値入力）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="std_photo" value="photo_capture&#xa;（写真撮影）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="std_text" value="text_input&#xa;（テキスト記入）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="360" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="std_note" value="計画 02 章で確定した 4 タイプ。&#xa;アドオンによる変更・削除不可。" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=2;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="30" y="445" width="320" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- 右カラム: カスタム Step タイプ -->
+        <mxCell id="cust_zone" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d79b00;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="380" y="60" width="800" height="530" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_lbl" value="カスタム Step タイプ（step_type_definition テーブルへの JSON 登録で追加）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="380" y="72" width="800" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- 左列 (x=400) -->
+        <mxCell id="cust_slider" value="slider_range&#xa;（範囲入力 / トルク・荷重）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="400" y="120" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_comp" value="composite_check&#xa;（複合チェック / 複数確認項目）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="400" y="200" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_color" value="color_chart&#xa;（色見本インデックス比較）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="400" y="280" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 右列 (x=700) -->
+        <mxCell id="cust_sign" value="signature&#xa;（担当者サイン）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="700" y="120" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_list" value="custom_list&#xa;（工場固有の選択肢セット）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="700" y="200" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_qr" value="barcode_scan&#xa;（QR / バーコードスキャン）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="700" y="280" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- JSON DSL 例 -->
+        <mxCell id="dsl_box" value='JSON 定義例（color_chart タイプ）:&#xa;{ "name": "color_chart", "version": "1.0.0",&#xa;  "input_field": { "type": "integer", "min": 1, "max": 20, "ui_hint": "number_picker" },&#xa;  "validators": [{ "rule": { "&gt;=": [{"var":"value"}, 1] }, "message": {"ja":"1番以上"} }],&#xa;  "alcoa_attribution": true }' style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;spacingLeft=8;spacingTop=6;verticalAlign=top;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="370" width="575" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- eval 禁止注記 -->
+        <mxCell id="eval_note" value="eval / Function constructor 禁止 — JSON Logic（宣言的ロジック）のみ許容。外部 API 呼び出し禁止。" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="500" width="575" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 下段原則 -->
+        <mxCell id="note_offline" value="Offline-First 維持&#xa;定義 JSON を SQLite にキャッシュ&#xa;→ Wi-Fi 断絶時もカスタム Step が動作する" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="20" y="620" width="370" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="note_alcoa" value="ALCOA+ 整合: カスタム Step の入力値・スキップ記録は&#xa;標準 Step と同一の Append-only イベントストアに格納する（18 章参照）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="400" y="620" width="780" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
