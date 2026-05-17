@@ -1,0 +1,104 @@
+<mxfile>
+  <diagram name="SCR-MA-003" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" height="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="header" value="マスタメンテ APP | 製品一覧" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="header-label" value="SCR-MA-003 製品一覧 (Web APP)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="0" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="search-box" value="製品名 / 型番で検索..." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#666666;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="54" width="300" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-new" value="新規作成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="54" width="110" height="30" as="geometry" />
+        </mxCell>
+        <!-- Table header -->
+        <mxCell id="th-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="104" width="1120" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="th-pid" value="製品ID" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="104" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="th-pname" value="製品名" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="104" width="300" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="th-model" value="型番" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="500" y="104" width="200" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="th-sop" value="紐付き SOP" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="700" y="104" width="220" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="th-status" value="状態" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="920" y="104" width="240" height="36" as="geometry" />
+        </mxCell>
+        <!-- Row 1 -->
+        <mxCell id="r1-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="1120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-pid" value="PRD-001" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-pname" value="精密ギアボックス Type-A" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="210" y="140" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-model" value="GB-A-2024" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="500" y="140" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-sop" value="SOP-001" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="700" y="140" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-status" value="公開中" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="960" y="147" width="80" height="26" as="geometry" />
+        </mxCell>
+        <!-- Row 2 -->
+        <mxCell id="r2-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="1120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-pid" value="PRD-002" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-pname" value="ポンプユニット Type-B" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="210" y="180" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-model" value="PU-B-2024" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="500" y="180" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-sop" value="SOP-002" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="700" y="180" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-status" value="下書き" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="960" y="187" width="80" height="26" as="geometry" />
+        </mxCell>
+        <!-- Row 3 -->
+        <mxCell id="r3-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="1120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-pid" value="PRD-003" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-pname" value="センサーモジュール Type-C" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="210" y="220" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-model" value="SM-C-2024" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="500" y="220" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-sop" value="未割当" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="700" y="220" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-status" value="廃止" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="960" y="227" width="80" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="page-note" value="全 3 件 / ページ: 1 / 1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=right;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="900" y="280" width="260" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

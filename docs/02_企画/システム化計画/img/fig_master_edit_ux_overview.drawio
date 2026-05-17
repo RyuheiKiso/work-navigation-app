@@ -1,0 +1,96 @@
+<mxfile>
+  <diagram name="マスタ編集者体験 UX 概観" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="マスタ編集者体験設計 — 4 つのストレスポイントと解消策" style="text;html=1;fontFamily=Helvetica;fontSize=15;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="100" y="14" width="1000" height="34" as="geometry" />
+        </mxCell>
+
+        <!-- Stress boxes (top row) -->
+        <mxCell id="s_loss" value="&lt;b&gt;喪失恐怖&lt;/b&gt;&#xa;編集中の作業が消える" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="60" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="s_break" value="&lt;b&gt;破壊恐怖&lt;/b&gt;&#xa;変更後の影響が不明" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="320" y="60" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="s_repeat" value="&lt;b&gt;反復疲労&lt;/b&gt;&#xa;類似 SOP の手作業コピー" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="610" y="60" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="s_dsl" value="&lt;b&gt;DSL 学習負担&lt;/b&gt;&#xa;JSON Logic の記述コスト" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="900" y="60" width="260" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows: stress → first solution (straight vertical, no labels) -->
+        <mxCell id="arr_loss" edge="1" source="s_loss" target="r1_1" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr_break" edge="1" source="s_break" target="r2_1" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr_repeat" edge="1" source="s_repeat" target="r3_1" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr_dsl" edge="1" source="s_dsl" target="r4_1" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Column 1: Solutions for 喪失恐怖 -->
+        <mxCell id="r1_1" value="Draft First&#xa;（全編集はドラフト保存・公開で有効化）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="200" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_2" value="Auto-Save 30s + Undo/Redo 50 steps&#xa;（喪失ゼロ・誤操作からの即時復元）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="270" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_3" value="Diff Always Visible + Keyboard-First&#xa;（常時差分表示・ショートカット全操作対応）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="340" width="260" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Column 2: Solutions for 破壊恐怖 -->
+        <mxCell id="r2_1" value="参照整合性ガード&#xa;（削除対象の影響範囲を事前一覧表示）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="320" y="200" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_2" value="削除前 dry-run&#xa;（影響件数をシミュレーション・実行前確認）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="320" y="270" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_3" value="参照中削除ブロック&#xa;（cascade 削除禁止・明示的解除必須）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="320" y="340" width="260" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Column 3: Solutions for 反復疲労 -->
+        <mxCell id="r3_1" value="CSV/Excel 双方向&#xa;（インポート/エクスポート・プレビュー必須）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="610" y="200" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_2" value="SOP テンプレートライブラリ + クローン&#xa;（既存 SOP からの派生作成）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="610" y="270" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_3" value="差分一括適用&#xa;（複数 SOP への共通変更を一括実行）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="610" y="340" width="260" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Column 4: Solutions for DSL 学習負担 -->
+        <mxCell id="r4_1" value="ビジュアル DSL エディタ&#xa;（演算子パレット・変数ピッカーで組み立て）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="900" y="200" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="r4_2" value="DAG ビジュアライザ&#xa;（条件分岐フローをノード＆エッジで可視化）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="900" y="270" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="r4_3" value="プレビュー実行&#xa;（サンプル値で条件評価を即時確認）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="900" y="340" width="260" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom notes -->
+        <mxCell id="note_5inv" value="5 不変条件（全マスタ編集に適用）: ① Draft First ② Diff Always Visible ③ Auto-Save 30s ④ Keyboard-First ⑤ Undo/Redo 50 steps" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;spacingLeft=8;spacingTop=6;verticalAlign=middle;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="420" width="740" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="note_alcoa" value="ALCOA+ 整合: 全編集操作は master_edit_event に Append-only 記録。DELETE / UPDATE を API レベルで禁止（計画 19 章 §9 参照）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;spacingLeft=8;spacingTop=6;verticalAlign=middle;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="780" y="420" width="400" height="55" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

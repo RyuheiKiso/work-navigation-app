@@ -1,0 +1,93 @@
+<mxfile>
+  <diagram name="Step完了シーケンス" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="Step 完了シーケンス" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="10" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Actor header boxes -->
+        <mxCell id="h_op" value="作業員" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="120" y="55" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="h_app" value="ハンディ APP" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="500" y="55" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="h_be" value="バックエンド" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="880" y="55" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Lifelines (dashed) -->
+        <mxCell id="ll_op" value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="h_op">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_app" value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="h_app">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_be" value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="h_be">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="970" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message arrows (horizontal) -->
+        <!-- Step 1: 作業員 → APP -->
+        <mxCell id="msg1" value="1. Step完了ボタン押下" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="155" as="sourcePoint" />
+            <mxPoint x="590" y="155" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 2: APP → Backend -->
+        <mxCell id="msg2" value="2. StepRecord 作成リクエスト" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="215" as="sourcePoint" />
+            <mxPoint x="970" y="215" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 3: Backend → APP -->
+        <mxCell id="msg3" value="3. ALCOA+ 検証 OK" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="970" y="275" as="sourcePoint" />
+            <mxPoint x="590" y="275" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 4: APP → 作業員 -->
+        <mxCell id="msg4" value="4. 次 Step 解放表示" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="335" as="sourcePoint" />
+            <mxPoint x="210" y="335" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 5: APP → Backend -->
+        <mxCell id="msg5" value="5. Outbox イベント登録" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="415" as="sourcePoint" />
+            <mxPoint x="970" y="415" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 6: Backend → APP -->
+        <mxCell id="msg6" value="6. Outbox 受付 ACK" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="970" y="495" as="sourcePoint" />
+            <mxPoint x="590" y="495" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Step labels on left margin -->
+        <mxCell id="lbl_seq" value="① Step完了&#xa;② StepRecord作成&#xa;③ ALCOA+検証&#xa;④ 次Step解放&#xa;⑤ Outbox登録&#xa;⑥ ACK返却" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="145" width="100" height="360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,110 @@
+<mxfile>
+  <diagram name="STRIDE" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="STRIDE脅威モデル – トラストバウンダリ" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="14" width="600" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- ===== TB-001: ハンディ端末 ↔ Backend (top-left) ===== -->
+        <mxCell id="tb1_border" value="TB-001" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;strokeStyle=dashed;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="20" y="56" width="540" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="tb1_handy" value="ハンディ端末" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="120" width="140" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="tb1_backend" value="Backend API" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="380" y="120" width="140" height="44" as="geometry" />
+        </mxCell>
+        <!-- Arrow without label -->
+        <mxCell id="tb1_arrow" value="" style="endArrow=classic;startArrow=classic;endFill=1;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="190" y="142" as="sourcePoint" />
+            <mxPoint x="380" y="142" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Protocol label as separate text vertex -->
+        <mxCell id="tb1_proto" value="TLS 1.3" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="265" y="128" width="60" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="tb1_threat" value="脅威: Spoofing / Tampering&#xa;対策: JWT Bearer トークン, HMAC署名" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="500" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- ===== TB-002: Web APP ↔ Backend (top-right) ===== -->
+        <mxCell id="tb2_border" value="TB-002" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;strokeStyle=dashed;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="620" y="56" width="540" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="tb2_webapp" value="Web APP" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="650" y="120" width="140" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="tb2_backend" value="Backend API" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="980" y="120" width="140" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="tb2_arrow" value="" style="endArrow=classic;startArrow=classic;endFill=1;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="790" y="142" as="sourcePoint" />
+            <mxPoint x="980" y="142" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tb2_proto" value="TLS 1.3" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="865" y="128" width="60" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="tb2_threat" value="脅威: Spoofing / Tampering&#xa;対策: JWT Bearer, CSRF Token, SameSite Cookie" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="638" y="220" width="510" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- ===== TB-003: Backend ↔ 親機 (bottom-left) ===== -->
+        <mxCell id="tb3_border" value="TB-003" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;strokeStyle=dashed;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="20" y="420" width="540" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="tb3_backend" value="Backend API" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="484" width="140" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="tb3_parent" value="親機（外部）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="380" y="484" width="140" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="tb3_arrow" value="" style="endArrow=classic;startArrow=classic;endFill=1;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="190" y="506" as="sourcePoint" />
+            <mxPoint x="380" y="506" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tb3_proto" value="mTLS / OAuth2.1" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="235" y="492" width="120" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="tb3_threat" value="脅威: Spoofing / Repudiation&#xa;対策: mTLS証明書検証, HMAC Idempotency-Key" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="38" y="588" width="510" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- ===== TB-004: Backend ↔ PostgreSQL (bottom-right) ===== -->
+        <mxCell id="tb4_border" value="TB-004" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;strokeStyle=dashed;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="620" y="420" width="540" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="tb4_backend" value="Backend API" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="650" y="484" width="140" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="tb4_pg" value="PostgreSQL" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="980" y="484" width="140" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="tb4_arrow" value="" style="endArrow=classic;startArrow=classic;endFill=1;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="790" y="506" as="sourcePoint" />
+            <mxPoint x="980" y="506" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tb4_proto" value="Internal Network" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="835" y="492" width="120" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="tb4_threat" value="脅威: Tampering / Info Disclosure&#xa;対策: DB専用ユーザ, ネットワーク分離, TLS接続" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="636" y="588" width="510" height="36" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

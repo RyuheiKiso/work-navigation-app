@@ -1,0 +1,104 @@
+<mxfile>
+  <diagram name="夜勤引継ぎフロー" id="page-1">
+    <mxGraphModel pageWidth="1200" pageHeight="700" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="夜勤引継ぎフロー（シフト交代）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="32" as="geometry" />
+        </mxCell>
+        <!-- レーン背景 -->
+        <mxCell id="lane1_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d79b00;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="0" y="80" width="1200" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="lane2_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="0" y="350" width="1200" height="250" as="geometry" />
+        </mxCell>
+        <!-- レーンラベル -->
+        <mxCell id="lbl1" value="退勤者" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="10" y="195" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl2" value="着任者" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="10" y="460" width="80" height="20" as="geometry" />
+        </mxCell>
+        <!-- 退勤者ステップ -->
+        <mxCell id="d1" value="仕掛品&#xa;状況確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="165" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="プレースキーパー&#xa;更新" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="320" y="165" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="I-PASS引継ぎ書&#xa;作成" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="540" y="165" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="電子サイン&#xa;（退勤者）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="760" y="165" width="140" height="60" as="geometry" />
+        </mxCell>
+        <!-- 着任者ステップ -->
+        <mxCell id="a1" value="引継ぎ書&#xa;受取・確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="760" y="430" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="プレースキーパー&#xa;確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="960" y="430" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="作業再開" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="430" width="80" height="60" as="geometry" />
+        </mxCell>
+        <!-- 退勤者内矢印 -->
+        <mxCell id="ed12" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="d1" target="d2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="195" />
+              <mxPoint x="320" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ed23" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="d2" target="d3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="195" />
+              <mxPoint x="540" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ed34" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="d3" target="d4" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="195" />
+              <mxPoint x="760" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- 着任者内矢印 -->
+        <mxCell id="ea12" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="a1" target="a2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="460" />
+              <mxPoint x="960" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ea23" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="a2" target="a3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1100" y="460" />
+              <mxPoint x="1080" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- レーン間引継ぎ矢印 d4→a1 -->
+        <mxCell id="ehandover" value="引継ぎ" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" edge="1" source="d4" target="a1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="330" />
+              <mxPoint x="830" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,214 @@
+<mxfile>
+  <diagram name="ハンディ APP 画面遷移図" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="ハンディ APP 画面遷移図" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="16" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-HA-001 ログイン -->
+        <mxCell id="s001" value="SCR-HA-001&#xa;ログイン" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="500" y="60" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-HA-002 ホーム -->
+        <mxCell id="s002" value="SCR-HA-002&#xa;ホーム" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="500" y="160" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-HA-003 QRスキャン -->
+        <mxCell id="s003" value="SCR-HA-003&#xa;QRスキャン" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="340" y="270" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-HA-004 SOP一覧 -->
+        <mxCell id="s004" value="SCR-HA-004&#xa;SOP一覧" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="660" y="270" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-HA-005 Step実行 -->
+        <mxCell id="s005" value="SCR-HA-005&#xa;Step実行" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="500" y="380" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Side branches row 1: SCR-HA-006, 007, 008, 009 -->
+        <mxCell id="s006" value="SCR-HA-006" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="500" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s007" value="SCR-HA-007" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="210" y="500" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s008" value="SCR-HA-008" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="360" y="500" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s009" value="SCR-HA-009" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="510" y="500" width="120" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Side branches row 2: SCR-HA-010, 011, 013, 014 -->
+        <mxCell id="s010" value="SCR-HA-010" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="660" y="500" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s011" value="SCR-HA-011" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="810" y="500" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s013" value="SCR-HA-013" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="960" y="500" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s014" value="SCR-HA-014" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="390" width="120" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Edges -->
+        <!-- s001 → s002 -->
+        <mxCell id="e01" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s001" target="s002" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- s002 → s003 -->
+        <mxCell id="e02" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s002" target="s003" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="185" />
+              <mxPoint x="420" y="295" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s002 → s004 -->
+        <mxCell id="e03" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s002" target="s004" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="185" />
+              <mxPoint x="740" y="295" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s003 → s004 -->
+        <mxCell id="e04" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s003" target="s004" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="295" />
+              <mxPoint x="660" y="295" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s004 → s005 -->
+        <mxCell id="e05" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s004" target="s005" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="350" />
+              <mxPoint x="580" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s005 → s006 -->
+        <mxCell id="e06" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s005" target="s006" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="430" />
+              <mxPoint x="120" y="430" />
+              <mxPoint x="120" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s005 → s007 -->
+        <mxCell id="e07" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s005" target="s007" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="440" />
+              <mxPoint x="270" y="440" />
+              <mxPoint x="270" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s005 → s008 -->
+        <mxCell id="e08" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s005" target="s008" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="450" />
+              <mxPoint x="420" y="450" />
+              <mxPoint x="420" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s005 → s009 -->
+        <mxCell id="e09" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s005" target="s009" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="430" />
+              <mxPoint x="570" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s005 → s010 -->
+        <mxCell id="e10" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s005" target="s010" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="430" />
+              <mxPoint x="720" y="430" />
+              <mxPoint x="720" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s005 → s011 -->
+        <mxCell id="e11" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s005" target="s011" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="440" />
+              <mxPoint x="870" y="440" />
+              <mxPoint x="870" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s005 → s013 -->
+        <mxCell id="e12" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s005" target="s013" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="450" />
+              <mxPoint x="1020" y="450" />
+              <mxPoint x="1020" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s005 → s014 -->
+        <mxCell id="e13" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s005" target="s014" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="405" />
+              <mxPoint x="1060" y="412" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- s005 → s002 (完了): route right side to avoid s003 and s004 -->
+        <mxCell id="e14" value="完了" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontColor=#333333;fontSize=11;" edge="1" source="s005" target="s002" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="405" />
+              <mxPoint x="880" y="405" />
+              <mxPoint x="880" y="185" />
+              <mxPoint x="660" y="185" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

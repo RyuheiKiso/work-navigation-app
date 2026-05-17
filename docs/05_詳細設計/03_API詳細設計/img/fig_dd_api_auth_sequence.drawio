@@ -1,0 +1,100 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="JWT 認証シーケンス（API-auth-001/002）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="18" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- Lifeline headers: Client x=60, Backend x=480, PostgreSQL x=900 -->
+        <mxCell id="lh_client" value="Client" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="68" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lh_backend" value="Backend" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="480" y="68" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lh_pg" value="PostgreSQL" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="940" y="68" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Lifelines: vertical dashed lines -->
+        <mxCell id="ll_client" value="" style="endArrow=none;html=1;strokeColor=#333333;strokeStyle=dashed;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="108" as="sourcePoint" />
+            <mxPoint x="120" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_backend" value="" style="endArrow=none;html=1;strokeColor=#333333;strokeStyle=dashed;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="108" as="sourcePoint" />
+            <mxPoint x="540" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_pg" value="" style="endArrow=none;html=1;strokeColor=#333333;strokeStyle=dashed;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1020" y="108" as="sourcePoint" />
+            <mxPoint x="1020" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 1: Client -> Backend: POST /auth/login -->
+        <!-- label width: "POST /auth/login" ~140px; distance 420px; 140*1.5=210 OK -->
+        <mxCell id="s1" value="POST /auth/login&#xa;{login_id, password}" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="160" as="sourcePoint" />
+            <mxPoint x="540" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 2: Backend -> PostgreSQL: SELECT -->
+        <mxCell id="s2" value="SELECT user BY login_id" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="230" as="sourcePoint" />
+            <mxPoint x="1020" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 2 response -->
+        <mxCell id="s2r" value="user record" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeStyle=dashed;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1020" y="280" as="sourcePoint" />
+            <mxPoint x="540" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 3: bcrypt annotation (right of backend lifeline, not crossing it) -->
+        <mxCell id="s3_note" value="③ bcrypt verify password" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fffacd;strokeColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="580" y="315" width="240" height="30" as="geometry" />
+        </mxCell>
+        <!-- Step 4: generate JWT annotation -->
+        <mxCell id="s4_note" value="④ generate JWT(sub, roles, exp=+8h)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fffacd;strokeColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="580" y="360" width="290" height="30" as="geometry" />
+        </mxCell>
+        <!-- Step 5: Backend -> PostgreSQL: INSERT auth_log -->
+        <mxCell id="s5" value="INSERT auth_log (TBL-032)" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="420" as="sourcePoint" />
+            <mxPoint x="1020" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 5 ack -->
+        <mxCell id="s5r" value="OK" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeStyle=dashed;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1020" y="470" as="sourcePoint" />
+            <mxPoint x="540" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 6: Backend -> Client: 200 tokens -->
+        <mxCell id="s6" value="200 {access_token, refresh_token}" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="540" as="sourcePoint" />
+            <mxPoint x="120" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Table reference note: far right, not crossing lifelines -->
+        <mxCell id="tbl_note" value="TBL-016: users / TBL-032: auth_logs" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#333333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="580" y="610" width="300" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

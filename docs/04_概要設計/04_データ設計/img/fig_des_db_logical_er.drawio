@@ -1,0 +1,151 @@
+<mxfile>
+  <diagram name="論理ER図（主要エンティティ）" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="論理ER図（主要エンティティ）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="16" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Row 1: processes → operations → sops → steps (top horizontal chain) -->
+        <mxCell id="processes" value="processes" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="operations" value="operations" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sops" value="sops" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="500" y="80" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="steps" value="steps" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="720" y="80" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Row 2: users → work_executions → work_events -->
+        <mxCell id="users" value="users" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="60" y="280" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="wexec" value="work_executions" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="280" y="280" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="wevents" value="work_events" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="520" y="280" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Row 3: evidence_files and measurements (below work_events) -->
+        <mxCell id="evfiles" value="evidence_files" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="420" y="450" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="measurements" value="measurements" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="620" y="450" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Cardinality labels -->
+        <!-- processes (1) → operations (N) -->
+        <mxCell id="er01" value="" style="endArrow=ERmanyToOne;endFill=0;startArrow=ERone;startFill=0;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="processes" target="operations" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl01" value="1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="215" y="68" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl01b" value="N" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="265" y="68" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- operations (1) → sops (N) -->
+        <mxCell id="er02" value="" style="endArrow=ERmanyToOne;endFill=0;startArrow=ERone;startFill=0;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="operations" target="sops" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl02" value="1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="435" y="68" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl02b" value="N" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="486" y="68" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- sops (1) → steps (N) -->
+        <mxCell id="er03" value="" style="endArrow=ERmanyToOne;endFill=0;startArrow=ERone;startFill=0;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="sops" target="steps" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl03" value="1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="655" y="68" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl03b" value="N" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="706" y="68" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- users (1) → work_executions (N) -->
+        <mxCell id="er04" value="" style="endArrow=ERmanyToOne;endFill=0;startArrow=ERone;startFill=0;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="users" target="wexec" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl04" value="1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="215" y="268" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl04b" value="N" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="265" y="268" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- work_executions (1) → work_events (N) -->
+        <mxCell id="er05" value="" style="endArrow=ERmanyToOne;endFill=0;startArrow=ERone;startFill=0;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="wexec" target="wevents" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl05" value="1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="450" y="268" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl05b" value="N" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="506" y="268" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- work_events → evidence_files -->
+        <mxCell id="er06" value="" style="endArrow=ERmanyToOne;endFill=0;startArrow=ERone;startFill=0;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="wevents" target="evfiles" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="380" />
+              <mxPoint x="490" y="380" />
+              <mxPoint x="490" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- work_events → measurements -->
+        <mxCell id="er07" value="" style="endArrow=ERmanyToOne;endFill=0;startArrow=ERone;startFill=0;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="wevents" target="measurements" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="630" y="380" />
+              <mxPoint x="690" y="380" />
+              <mxPoint x="690" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- sops connects to work_executions (FK reference) -->
+        <mxCell id="er08" value="" style="endArrow=ERmanyToOne;endFill=0;startArrow=ERone;startFill=0;html=1;strokeColor=#333333;dashed=1;edgeStyle=none;" edge="1" source="sops" target="wexec" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="165" />
+              <mxPoint x="570" y="210" />
+              <mxPoint x="360" y="210" />
+              <mxPoint x="360" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Legend note -->
+        <mxCell id="legend_note" value="実線: 主要FK関係　点線: 参照関係" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="60" y="650" width="320" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

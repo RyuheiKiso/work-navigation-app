@@ -1,0 +1,184 @@
+<mxfile>
+  <diagram name="ISO25010-IPA6項目マッピング" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="ISO/IEC 25010 ↔ IPA 6大項目 マッピング" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Column headers -->
+        <mxCell id="col_iso_hdr" value="ISO/IEC 25010 品質特性" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="60" y="68" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="col_ipa_hdr" value="IPA 6大非機能要件項目" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="840" y="68" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="col_map_hdr" value="対応関係" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="68" width="220" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- ISO 25010 boxes (net color) - 8 items, y spacing=78 -->
+        <mxCell id="iso1" value="機能適合性&#xa;(Functional Suitability)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="iso2" value="性能効率性&#xa;(Performance Efficiency)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="165" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="iso3" value="互換性 (Compatibility)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="230" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="iso4" value="使用性 (Usability)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="295" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="iso5" value="信頼性 (Reliability)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="360" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="iso6" value="セキュリティ (Security)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="425" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="iso7" value="保守性 (Maintainability)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="490" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="iso8" value="移植性 (Portability)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="555" width="280" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- IPA 6 items (app color) - 6 items, y spacing=88 -->
+        <mxCell id="ipa1" value="可用性" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="860" y="100" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="ipa2" value="性能・拡張性" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="860" y="195" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="ipa3" value="運用・保守性" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="860" y="290" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="ipa4" value="移行性" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="860" y="385" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="ipa5" value="セキュリティ" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="860" y="470" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="ipa6" value="システム環境" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="860" y="555" width="240" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Mapping arrows: solid=完全対応, dashed=部分対応 -->
+        <!-- iso5 信頼性 → ipa1 可用性 (完全) -->
+        <mxCell id="m_iso5_ipa1" value="完全" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontSize=10;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="387" as="sourcePoint" />
+            <mxPoint x="860" y="127" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="600" y="387" />
+              <mxPoint x="600" y="127" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- iso2 性能 → ipa2 性能拡張 (完全) -->
+        <mxCell id="m_iso2_ipa2" value="完全" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontSize=10;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="192" as="sourcePoint" />
+            <mxPoint x="860" y="222" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="600" y="192" />
+              <mxPoint x="600" y="222" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- iso7 保守性 → ipa3 運用保守 (完全) -->
+        <mxCell id="m_iso7_ipa3" value="完全" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontSize=10;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="517" as="sourcePoint" />
+            <mxPoint x="860" y="317" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="620" y="517" />
+              <mxPoint x="620" y="317" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- iso8 移植性 → ipa4 移行性 (完全) -->
+        <mxCell id="m_iso8_ipa4" value="完全" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontSize=10;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="582" as="sourcePoint" />
+            <mxPoint x="860" y="412" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="640" y="582" />
+              <mxPoint x="640" y="412" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- iso6 セキュリティ → ipa5 セキュリティ (完全) -->
+        <mxCell id="m_iso6_ipa5" value="完全" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontSize=10;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="452" as="sourcePoint" />
+            <mxPoint x="860" y="497" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="660" y="452" />
+              <mxPoint x="660" y="497" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- iso3 互換性 → ipa6 システム環境 (部分) -->
+        <mxCell id="m_iso3_ipa6" value="部分" style="endArrow=classic;endFill=1;html=1;strokeColor=#666666;dashed=1;edgeStyle=none;fontSize=10;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="257" as="sourcePoint" />
+            <mxPoint x="860" y="582" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="680" y="257" />
+              <mxPoint x="680" y="582" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- iso1 機能 → ipa3 運用保守 (部分) -->
+        <mxCell id="m_iso1_ipa3" value="部分" style="endArrow=classic;endFill=1;html=1;strokeColor=#666666;dashed=1;edgeStyle=none;fontSize=10;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="127" as="sourcePoint" />
+            <mxPoint x="860" y="317" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="560" y="127" />
+              <mxPoint x="560" y="317" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- iso4 使用性 → ipa6 システム環境 (部分) -->
+        <mxCell id="m_iso4_ipa6" value="部分" style="endArrow=classic;endFill=1;html=1;strokeColor=#666666;dashed=1;edgeStyle=none;fontSize=10;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="322" as="sourcePoint" />
+            <mxPoint x="860" y="582" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="700" y="322" />
+              <mxPoint x="700" y="582" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="leg_solid" value="━ 完全対応" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="460" y="660" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_dash" value="- - 部分対応" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="590" y="660" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_iso" value="ISO列 (net色)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="720" y="657" width="110" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_ipa" value="IPA列 (app色)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="840" y="657" width="110" height="24" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

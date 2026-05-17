@@ -1,0 +1,74 @@
+<mxfile>
+  <diagram name="帳票生成パイプライン" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="帳票生成パイプライン（5 ステップ）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="32" as="geometry" />
+        </mxCell>
+        <!-- Steps (horizontal flow) -->
+        <!-- Step 1 -->
+        <mxCell id="step1" value="① PostgreSQL クエリ&#xa;psql + SQLx" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="180" height="80" as="geometry" />
+        </mxCell>
+        <!-- Step 2 -->
+        <mxCell id="step2" value="② テンプレート&#xa;レンダリング&#xa;(Jinja2 / Tera)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="270" y="340" width="180" height="80" as="geometry" />
+        </mxCell>
+        <!-- Step 3 -->
+        <mxCell id="step3" value="③ PDF デジタル署名&#xa;(WeasyPrint&#xa;+ PKCS#7)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="500" y="340" width="180" height="80" as="geometry" />
+        </mxCell>
+        <!-- Step 4 -->
+        <mxCell id="step4" value="④ SHA-256 ハッシュ&#xa;+ hash_chain_blocks&#xa;INSERT" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="730" y="340" width="200" height="80" as="geometry" />
+        </mxCell>
+        <!-- Step 5 -->
+        <mxCell id="step5" value="⑤ ストレージ保存&#xa;+ 通知送信&#xa;(S3 / local FS)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="980" y="340" width="180" height="80" as="geometry" />
+        </mxCell>
+        <!-- Arrows between steps -->
+        <mxCell id="e_s1_s2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="step1" target="step2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="380" />
+              <mxPoint x="270" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s2_s3" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="step2" target="step3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="380" />
+              <mxPoint x="500" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s3_s4" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="step3" target="step4" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="380" />
+              <mxPoint x="730" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s4_s5" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="step4" target="step5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="930" y="380" />
+              <mxPoint x="980" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- Note below pipeline -->
+        <mxCell id="note_pipeline" value="全ステップは単一トランザクション内で実行。エラー発生時は ROLLBACK し Outbox に再試行エントリを登録する。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="100" y="480" width="1000" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

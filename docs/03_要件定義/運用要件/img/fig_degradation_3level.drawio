@@ -1,0 +1,96 @@
+<mxfile>
+  <diagram name="3段階縮退運用" id="page-1">
+    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="3段階縮退運用" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="16" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Normal operation label -->
+        <mxCell id="normal" value="通常運用" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontFont=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="440" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- Level 1: 一部機能停止 (net色) -->
+        <mxCell id="lv1" value="&lt;b&gt;縮退レベル1&lt;/b&gt;　一部機能停止&lt;br&gt;・Outbox停止&lt;br&gt;・参照のみ可&lt;br&gt;・マスタ改訂禁止" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;verticalAlign=top;align=left;" vertex="1" parent="1">
+          <mxGeometry x="60" y="140" width="440" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Level 2: 参照のみ (app色) -->
+        <mxCell id="lv2" value="&lt;b&gt;縮退レベル2&lt;/b&gt;　参照のみ&lt;br&gt;・SOP閲覧のみ&lt;br&gt;・電子サイン不可" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;verticalAlign=top;align=left;" vertex="1" parent="1">
+          <mxGeometry x="60" y="270" width="440" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Level 3: 紙フォールバック (危険色) -->
+        <mxCell id="lv3" value="&lt;b&gt;縮退レベル3&lt;/b&gt;　紙フォールバック&lt;br&gt;・全システム停止&lt;br&gt;・印刷済SOP使用" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;verticalAlign=top;align=left;" vertex="1" parent="1">
+          <mxGeometry x="60" y="400" width="440" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Activation conditions (right side) -->
+        <mxCell id="cond1" value="&lt;b&gt;発動条件&lt;/b&gt;&lt;br&gt;・単一コンポーネント障害&lt;br&gt;・Outbox処理遅延 &gt; 10分&lt;br&gt;・DBレプリカ遅延" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="640" y="140" width="280" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="cond2" value="&lt;b&gt;発動条件&lt;/b&gt;&lt;br&gt;・複数コンポーネント障害&lt;br&gt;・DB書き込み不可&lt;br&gt;・認証サービス停止" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="640" y="270" width="280" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="cond3" value="&lt;b&gt;発動条件&lt;/b&gt;&lt;br&gt;・全システム障害&lt;br&gt;・ネットワーク完全断&lt;br&gt;・RTO超過時の判断" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="640" y="400" width="280" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Recovery arrow (left side, dashed) - normal → lv1 down direction with left return path -->
+        <!-- Degradation arrows (level 1 → 2 → 3) -->
+        <mxCell id="e-norm-lv1" value="縮退" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="normal" target="lv1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-lv1-lv2" value="縮退" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="lv1" target="lv2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-lv2-lv3" value="縮退" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="lv2" target="lv3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Recovery arrows (left side, dashed) -->
+        <mxCell id="rec-lv2-lv1" value="回復" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;dashed=1;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="lv2" target="lv1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="30" y="320" />
+              <mxPoint x="30" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rec-lv3-lv2" value="回復" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;dashed=1;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="lv3" target="lv2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="20" y="450" />
+              <mxPoint x="20" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rec-lv1-norm" value="回復→通常" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;dashed=1;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="lv1" target="normal" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="190" />
+              <mxPoint x="40" y="84" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Connector lines from levels to conditions -->
+        <mxCell id="e-lv1-c1" value="" style="endArrow=none;html=1;strokeColor=#6c8ebf;dashed=1;edgeStyle=none;" edge="1" source="lv1" target="cond1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-lv2-c2" value="" style="endArrow=none;html=1;strokeColor=#d79b00;dashed=1;edgeStyle=none;" edge="1" source="lv2" target="cond2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-lv3-c3" value="" style="endArrow=none;html=1;strokeColor=#b85450;dashed=1;edgeStyle=none;" edge="1" source="lv3" target="cond3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,206 @@
+<mxfile>
+  <diagram name="SCR-MC-002" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- 白背景 -->
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- サイドバー -->
+        <mxCell id="sidebar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#071226;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="240" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="sb-div1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="12" y="80" width="216" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="sb-div2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="12" y="140" width="216" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="sb-div3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="12" y="200" width="216" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="sb-div4" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="12" y="260" width="216" height="2" as="geometry" />
+        </mxCell>
+        <!-- ヘッダーバー -->
+        <mxCell id="header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="240" y="0" width="960" height="56" as="geometry" />
+        </mxCell>
+        <!-- コンテンツ背景 -->
+        <mxCell id="content-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="240" y="56" width="960" height="744" as="geometry" />
+        </mxCell>
+        <!-- 画面タイトル -->
+        <mxCell id="screen-title" value="SCR-MC-002 ユーザー管理" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="262" y="64" width="300" height="24" as="geometry" />
+        </mxCell>
+        <!-- フィルタバー -->
+        <mxCell id="filter-bar" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="98" width="916" height="44" as="geometry" />
+        </mxCell>
+        <!-- 検索ボックス -->
+        <mxCell id="search-box" value="氏名 / メール検索" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="272" y="109" width="280" height="28" as="geometry" />
+        </mxCell>
+        <!-- ロールフィルタ -->
+        <mxCell id="role-filter" value="ロール: 全て" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="564" y="109" width="140" height="28" as="geometry" />
+        </mxCell>
+        <!-- 状態フィルタ -->
+        <mxCell id="state-filter" value="状態: 全て" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="716" y="109" width="120" height="28" as="geometry" />
+        </mxCell>
+        <!-- 新規追加ボタン -->
+        <mxCell id="btn-add" value="新規追加" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="109" width="92" height="28" as="geometry" />
+        </mxCell>
+        <!-- テーブル枠 -->
+        <mxCell id="table-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="156" width="916" height="508" as="geometry" />
+        </mxCell>
+        <!-- テーブルヘッダー行 -->
+        <mxCell id="th-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="156" width="916" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-name" value="氏名" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="268" y="156" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-email" value="メールアドレス" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="428" y="156" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-role" value="ロール" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="648" y="156" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-login" value="最終ログイン" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="808" y="156" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-status" value="状態" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="988" y="156" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-ops" value="操作" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1068" y="156" width="88" height="40" as="geometry" />
+        </mxCell>
+        <!-- データ行 1 -->
+        <mxCell id="row1-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="196" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row1-name" value="山田 太郎" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="272" y="196" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row1-email" value="yamada@example.com" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="196" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row1-role" value="master_admin" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="196" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row1-login" value="2026-05-17 14:32" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="196" width="172" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row1-status-badge" value="有効" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="994" y="212" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="row1-edit" value="編集" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1072" y="212" width="52" height="24" as="geometry" />
+        </mxCell>
+        <!-- データ行 2 -->
+        <mxCell id="row2-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="252" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row2-name" value="鈴木 花子" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="272" y="252" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row2-email" value="suzuki@example.com" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="252" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row2-role" value="quality_admin" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="252" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row2-login" value="2026-05-16 09:14" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="252" width="172" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row2-status-badge" value="有効" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="994" y="268" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="row2-edit" value="編集" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1072" y="268" width="52" height="24" as="geometry" />
+        </mxCell>
+        <!-- データ行 3 -->
+        <mxCell id="row3-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="308" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row3-name" value="佐藤 次郎" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="272" y="308" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row3-email" value="sato@example.com" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="308" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row3-role" value="system_admin" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="308" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row3-login" value="2026-05-15 17:48" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="308" width="172" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row3-status-badge" value="有効" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="994" y="324" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="row3-edit" value="編集" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1072" y="324" width="52" height="24" as="geometry" />
+        </mxCell>
+        <!-- データ行 4 -->
+        <mxCell id="row4-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="364" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row4-name" value="田中 美咲" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="272" y="364" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row4-email" value="tanaka@example.com" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="364" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row4-role" value="operator" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="364" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row4-login" value="2026-05-17 08:02" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="364" width="172" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row4-status-badge" value="有効" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="994" y="380" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="row4-edit" value="編集" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1072" y="380" width="52" height="24" as="geometry" />
+        </mxCell>
+        <!-- データ行 5 -->
+        <mxCell id="row5-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="420" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row5-name" value="伊藤 健一" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="272" y="420" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row5-email" value="ito@example.com" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="420" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row5-role" value="operator" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="420" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row5-login" value="2026-04-30 13:20" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="420" width="172" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="row5-status-badge" value="無効" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="994" y="436" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="row5-edit" value="編集" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1072" y="436" width="52" height="24" as="geometry" />
+        </mxCell>
+        <!-- ページネーション -->
+        <mxCell id="pagination" value="← 1  2  3  ... →" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="680" width="916" height="44" as="geometry" />
+        </mxCell>
+        <!-- 件数表示 -->
+        <mxCell id="count-txt" value="全 42 件 表示中: 1-5" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=right;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="930" y="736" width="236" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

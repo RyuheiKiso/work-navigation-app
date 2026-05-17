@@ -1,0 +1,91 @@
+<mxfile>
+  <diagram name="SCR-MA-010" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" height="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="header" value="マスタメンテ APP | バージョン差分" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="header-label" value="SCR-MA-010 バージョン差分 (Web APP)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="0" width="400" height="40" as="geometry" />
+        </mxCell>
+        <!-- Component label -->
+        <mxCell id="comp-label" value="VersionDiffViewer (CMP-MA-003)" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="54" width="360" height="28" as="geometry" />
+        </mxCell>
+        <!-- Version selectors -->
+        <mxCell id="ver-left-label" value="比較元:" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="600" y="54" width="70" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="ver-left-box" value="v1.0 ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="678" y="54" width="100" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="ver-right-label" value="比較先:" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="800" y="54" width="70" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="ver-right-box" value="v2.0 ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="878" y="54" width="100" height="28" as="geometry" />
+        </mxCell>
+        <!-- Column headers -->
+        <mxCell id="col-left" value="v1.0 (2026-01-15)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="96" width="540" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="col-right" value="v2.0 (2026-05-17)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="620" y="96" width="540" height="36" as="geometry" />
+        </mxCell>
+        <!-- Unchanged lines -->
+        <mxCell id="u1-left" value="Step 1: 部品確認" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="132" width="540" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="u1-right" value="Step 1: 部品確認" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="620" y="132" width="540" height="36" as="geometry" />
+        </mxCell>
+        <!-- Changed line -->
+        <mxCell id="c1-left" value="Step 2 指示文: 「ネジを締める」" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="168" width="540" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="c1-right" value="Step 2 指示文: 「トルク 8.0 N·m でネジを締める」" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="620" y="168" width="540" height="36" as="geometry" />
+        </mxCell>
+        <!-- Changed line 2 -->
+        <mxCell id="c2-left" value="Step 2 入力タイプ: OK/NG" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="204" width="540" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="c2-right" value="Step 2 入力タイプ: 数値入力 (7.5〜8.5 N·m)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="620" y="204" width="540" height="36" as="geometry" />
+        </mxCell>
+        <!-- Unchanged lines 3 -->
+        <mxCell id="u2-left" value="Step 3: 最終検査" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="240" width="540" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="u2-right" value="Step 3: 最終検査" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="620" y="240" width="540" height="36" as="geometry" />
+        </mxCell>
+        <!-- Legend -->
+        <mxCell id="leg-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-yellow" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="318" width="30" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-yellow-lbl" value="= 変更行" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="100" y="318" width="100" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-white" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="220" y="318" width="30" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-white-lbl" value="= 変更なし行" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="318" width="120" height="24" as="geometry" />
+        </mxCell>
+        <!-- Stats -->
+        <mxCell id="stats" value="変更サマリー: 2行変更 / 2行変更なし  |  変更率: 50%" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="600" height="28" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,134 @@
+<mxfile>
+  <diagram name="条件分岐フロー" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="条件分岐フロー — step_flow_rule による動的 Step 切り替え" style="text;html=1;fontFamily=Helvetica;fontSize=15;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="12" width="900" height="34" as="geometry" />
+        </mxCell>
+
+        <!-- Column headers -->
+        <mxCell id="left_hdr" value="通常フロー（条件なし）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="55" width="320" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="mid_hdr" value="条件成立（value &lt; 5.5）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="420" y="55" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="right_hdr" value="条件不成立（value ≥ 5.5）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="740" y="55" width="280" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Left column: Normal flow steps -->
+        <mxCell id="n_step1" value="Step 001&#xa;初期点検" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="115" width="320" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="n_step2" value="Step 002&#xa;計測（数値入力）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="210" width="320" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="n_step3" value="Step 003&#xa;本締め" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="305" width="320" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="n_step4" value="Step 004&#xa;完了確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="320" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Left column arrows -->
+        <mxCell id="n_arr12" edge="1" source="n_step1" target="n_step2" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n_arr23" edge="1" source="n_step2" target="n_step3" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n_arr34" edge="1" source="n_step3" target="n_step4" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Mid column: Condition TRUE (insert step) -->
+        <mxCell id="a_step1" value="Step 001&#xa;初期点検" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="420" y="115" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="a_step2" value="Step 002&#xa;計測（value = 4.8）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="420" y="210" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="a_cond" value="条件評価: value &lt; 5.5&#xa;→ TRUE（action: insert）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="420" y="295" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a_insert" value="Step 007 補修作業&#xa;（step_flow_rule で挿入）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="420" y="390" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="a_step3" value="Step 003&#xa;本締め" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="420" y="480" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="a_step4" value="Step 004&#xa;完了確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="420" y="570" width="280" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Mid column arrows -->
+        <mxCell id="a_arr12" edge="1" source="a_step1" target="a_step2" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_arr2c" edge="1" source="a_step2" target="a_cond" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_arrc_ins" edge="1" source="a_cond" target="a_insert" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_arrins3" edge="1" source="a_insert" target="a_step3" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_arr34" edge="1" source="a_step3" target="a_step4" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Right column: Condition FALSE (skip step) -->
+        <mxCell id="b_step1" value="Step 001&#xa;初期点検" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="740" y="115" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="b_step2" value="Step 002&#xa;計測（value = 6.2）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="740" y="210" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="b_cond" value="条件評価: value &lt; 5.5&#xa;→ FALSE（action: skip）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="740" y="295" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b_skip_evt" value="step_skipped_by_rule&#xa;イベント記録（Append-only）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="740" y="390" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="b_step3" value="Step 003&#xa;本締め" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="740" y="480" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="b_step4" value="Step 004&#xa;完了確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="740" y="570" width="280" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Right column arrows -->
+        <mxCell id="b_arr12" edge="1" source="b_step1" target="b_step2" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_arr2c" edge="1" source="b_step2" target="b_cond" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_arrc_skip" edge="1" source="b_cond" target="b_skip_evt" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_arrskip3" edge="1" source="b_skip_evt" target="b_step3" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_arr34" edge="1" source="b_step3" target="b_step4" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom notes -->
+        <mxCell id="note_json" value='JSON DSL 例（step_flow_rule）:&#xa;{ "condition": { "source_step": "step_002", "operator": "lt", "value": 5.5 },&#xa;  "action": "insert", "target": "step_007_repair", "priority": 1 }' style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;spacingLeft=8;spacingTop=6;verticalAlign=top;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="650" width="560" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="note_alcoa" value="ALCOA+ 整合: 条件評価結果・スキップ実施時刻を含む step_skipped_by_rule イベントは&#xa;標準 Step と同一の Append-only イベントストアに格納する（記録の欠損として扱わない）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;spacingLeft=8;spacingTop=6;verticalAlign=top;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="600" y="650" width="580" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

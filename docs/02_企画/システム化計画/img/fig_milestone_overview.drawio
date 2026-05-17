@@ -1,0 +1,141 @@
+<mxfile>
+  <diagram name="マイルストーン概要" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="680" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1300" height="680" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="ver1.0.0 開発マイルストーン（M1〜M6）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="14" width="600" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- Milestone boxes: single row, 6 boxes, w=190, h=110 -->
+        <!-- Gap between boxes: 26px -->
+        <!-- M1: x=20 -->
+        <mxCell id="m1_lbl" value="M1" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="56" width="190" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="設計完成&#xa;&#xa;・要件定義書完成&#xa;・概要設計書完成" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#DAE8FC;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="82" width="190" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- M2: x=236 -->
+        <mxCell id="m2_lbl" value="M2" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="236" y="56" width="190" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" value="データ層完成&#xa;&#xa;・DB スキーマ・マイグレーション&#xa;・Rust モデル・CRUD 動作確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#DAE8FC;align=left;" vertex="1" parent="1">
+          <mxGeometry x="236" y="82" width="190" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- M3: x=452 -->
+        <mxCell id="m3_lbl" value="M3" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="452" y="56" width="190" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" value="バックエンド API&#xa;&#xa;・OpenAPI 3.1 仕様書完成&#xa;・全 API cargo test パス" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#D5E8D4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="452" y="82" width="190" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- M4: x=668 -->
+        <mxCell id="m4_lbl" value="M4" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="668" y="56" width="190" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="m4" value="タブレット APP&#xa;&#xa;・全ユースケース（04 章）動作確認&#xa;・E2E テスト（Detox）パス" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#D5E8D4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="668" y="82" width="190" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- M5: x=884 -->
+        <mxCell id="m5_lbl" value="M5" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="884" y="56" width="190" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="m5" value="管理 Web 完成&#xa;&#xa;・全管理機能・UI 設計書完成&#xa;・動作確認済み" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFE6CC;align=left;" vertex="1" parent="1">
+          <mxGeometry x="884" y="82" width="190" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- M6: x=1100 -->
+        <mxCell id="m6_lbl" value="M6" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="56" width="180" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="m6" value="ver1.0.0 リリース&#xa;&#xa;・ALCOA+ 自己監査 通過&#xa;・倫理品質チェック 通過&#xa;・30 日パイロット完了" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="82" width="180" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows between milestones (horizontal, at y=137 = box center) -->
+        <mxCell id="a12" edge="1" parent="1"
+                 style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="137" as="sourcePoint" />
+            <mxPoint x="236" y="137" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a23" edge="1" parent="1"
+                 style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="426" y="137" as="sourcePoint" />
+            <mxPoint x="452" y="137" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a34" edge="1" parent="1"
+                 style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="642" y="137" as="sourcePoint" />
+            <mxPoint x="668" y="137" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a45" edge="1" parent="1"
+                 style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="858" y="137" as="sourcePoint" />
+            <mxPoint x="884" y="137" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a56" edge="1" parent="1"
+                 style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1074" y="137" as="sourcePoint" />
+            <mxPoint x="1100" y="137" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Gate labels under boxes -->
+        <mxCell id="gate1" value="ドキュメント完成度ゲート" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="20" y="200" width="190" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="gate2" value="機能動作確認ゲート" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="452" y="200" width="190" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="gate3" value="リリース判定 7 要件ゲート" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="200" width="180" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Completion criteria boxes -->
+        <mxCell id="doc_gate" value="完了条件（全共通）&#xa;ドキュメント完成 + 機能動作確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="20" y="250" width="480" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="release_gate" value="ver1.0.0 リリース判定 7 要件&#xa;ALCOA+ / 倫理品質 / ユースケース / 縮退運用 / 多言語 / GUI ウィザード / 中断耐性" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="700" y="250" width="580" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Policy box -->
+        <mxCell id="policy" value="方針: phase なし — ver1.0.0 = プロダクションレベル品質 / ドキュメント先行・実装後追いの絶対原則 / ADR で不可逆判断を記録" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="20" y="564" width="1260" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="leg1" value="設計フェーズ" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#DAE8FC;" vertex="1" parent="1">
+          <mxGeometry x="20" y="508" width="130" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="実装フェーズ" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#D5E8D4;" vertex="1" parent="1">
+          <mxGeometry x="166" y="508" width="130" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="統合フェーズ" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFE6CC;" vertex="1" parent="1">
+          <mxGeometry x="312" y="508" width="130" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="リリース" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="458" y="508" width="130" height="28" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

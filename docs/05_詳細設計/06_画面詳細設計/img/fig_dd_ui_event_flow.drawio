@@ -1,0 +1,130 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="UI イベント → アクション → ステート変更フロー" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="250" y="18" width="700" height="32" as="geometry" />
+        </mxCell>
+        <!-- Sync flow (top row) -->
+        <mxCell id="sec_sync" value="同期フロー" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="160" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="user_act" value="User Action&#xa;(tap / input)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="evt_handler" value="Event Handler" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="260" y="110" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="dispatch" value="Dispatch action" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="480" y="110" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="reducer" value="Reducer" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="700" y="110" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="new_state" value="New State" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="920" y="110" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="re_render" value="Re-render" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="220" width="120" height="54" as="geometry" />
+        </mxCell>
+        <!-- Sync edges -->
+        <mxCell id="e_ua_eh" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="137" as="sourcePoint" />
+            <mxPoint x="260" y="137" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_eh_d" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="137" as="sourcePoint" />
+            <mxPoint x="480" y="137" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d_r" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="137" as="sourcePoint" />
+            <mxPoint x="700" y="137" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_r_ns" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="860" y="137" as="sourcePoint" />
+            <mxPoint x="920" y="137" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_ns_rr" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1000" y="164" as="sourcePoint" />
+            <mxPoint x="1120" y="220" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1120" y="164" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- Async flow (lower section) -->
+        <mxCell id="sec_async" value="非同期フロー（API連携）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="330" width="260" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="a_action" value="Async Action&#xa;(thunk / saga)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="260" y="370" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="loading" value="loading state = true&#xa;Dispatch LOADING" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="480" y="370" width="200" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="api_req" value="API Request" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="740" y="370" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="success_state" value="Dispatch SUCCESS&#xa;New state (data)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="740" y="490" width="200" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="error_state" value="Dispatch ERROR&#xa;error state" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="740" y="570" width="200" height="54" as="geometry" />
+        </mxCell>
+        <!-- Async edges -->
+        <mxCell id="e_disp_aa" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="164" as="sourcePoint" />
+            <mxPoint x="340" y="370" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="120" y="397" />
+              <mxPoint x="260" y="397" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_aa_ld" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="397" as="sourcePoint" />
+            <mxPoint x="480" y="397" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_ld_api" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="397" as="sourcePoint" />
+            <mxPoint x="740" y="397" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_api_ok" value="OK" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="424" as="sourcePoint" />
+            <mxPoint x="820" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_api_err" value="ERR" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="900" y="424" as="sourcePoint" />
+            <mxPoint x="940" y="570" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="960" y="424" />
+              <mxPoint x="960" y="570" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

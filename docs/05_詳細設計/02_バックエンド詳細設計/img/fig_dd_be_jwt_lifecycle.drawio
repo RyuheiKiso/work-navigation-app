@@ -1,0 +1,77 @@
+<mxfile>
+  <diagram name="JWT キーローテーションライフサイクル" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="JWT キーローテーションライフサイクル（90日）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- Timeline axis -->
+        <mxCell id="axis" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="400" as="sourcePoint" />
+            <mxPoint x="1140" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Time axis label -->
+        <mxCell id="axis_lbl" value="時間 →" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="408" width="60" height="20" as="geometry" />
+        </mxCell>
+        <!-- KEY-001 active segment: Day 0 to Day 90 -->
+        <mxCell id="key001_bar" value="KEY-001 (RSA-4096) アクティブ" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="540" height="60" as="geometry" />
+        </mxCell>
+        <!-- Day 90 marker (tick above the bars) -->
+        <mxCell id="day90_line" value="Day 90" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=center;verticalAlign=bottom;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="580" y="170" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="day90_tick" value="" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="200" as="sourcePoint" />
+            <mxPoint x="610" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Dual-key grace period: Day 90 to Day 93 -->
+        <mxCell id="grace_bar" value="デュアルキー猶予期間（3日間）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="620" y="320" width="240" height="60" as="geometry" />
+        </mxCell>
+        <!-- KEY-001-next active segment: Day 90 to Day 183 -->
+        <mxCell id="key001next_bar" value="KEY-001-next アクティブ" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="620" y="240" width="480" height="60" as="geometry" />
+        </mxCell>
+        <!-- Day 93 marker: KEY-001 revoked -->
+        <mxCell id="day93_line" value="Day 93&#xa;KEY-001 失効" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=center;verticalAlign=bottom;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="820" y="535" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="day93_tick" value="" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="860" y="410" as="sourcePoint" />
+            <mxPoint x="860" y="535" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- KEY-001 revoked bar -->
+        <mxCell id="key001_revoked" value="KEY-001 失効" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="860" y="320" width="240" height="60" as="geometry" />
+        </mxCell>
+        <!-- Labels on time axis -->
+        <mxCell id="lbl_day0" value="Day 0" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="405" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_day90" value="Day 90" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="590" y="405" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_day93" value="Day 93" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="405" width="60" height="20" as="geometry" />
+        </mxCell>
+        <!-- Legend -->
+        <mxCell id="legend" value="KEY-001: RSA-4096 (初期発行キー) | KEY-001-next: 次世代キー | 猶予期間中は両キーで検証可" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="100" y="620" width="1000" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

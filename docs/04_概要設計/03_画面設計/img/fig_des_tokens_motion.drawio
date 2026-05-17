@@ -1,0 +1,175 @@
+<mxfile>
+  <diagram name="motion-tokens" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="デザイントークン: モーション (duration &amp; easing)" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="14" width="600" height="28" as="geometry" />
+        </mxCell>
+        <!-- Duration header -->
+        <mxCell id="dh" value="Duration トークン" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="52" width="560" height="18" as="geometry" />
+        </mxCell>
+        <!-- Duration table as single rounded box with multiline text -->
+        <mxCell id="dtbl" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2F7;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="24" y="74" width="560" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="dt1" value="duration.fast    120ms    ホバー / フォーカス / ツールチップ" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="36" y="82" width="536" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="dt2" value="duration.base    200ms    ボタンクリック / 入力フィールド変化 / 標準遷移" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="36" y="106" width="536" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="dt3" value="duration.slow    320ms    モーダル開閉 / ドロワー / スライドイン" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="36" y="130" width="536" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="dt4" value="duration.xslow    480ms    ページ遷移 / スケルトン / ローディング" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="36" y="154" width="536" height="16" as="geometry" />
+        </mxCell>
+        <!-- Duration visual bars -->
+        <mxCell id="dbar1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3D8EF0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="36" y="178" width="60" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="dbar1l" value="120ms" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="104" y="176" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="dbar2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3D8EF0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="170" y="178" width="100" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="dbar2l" value="200ms" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="278" y="176" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="dbar3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5BA4F5;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="178" width="160" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="dbar3l" value="320ms" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="508" y="176" width="60" height="18" as="geometry" />
+        </mxCell>
+        <!-- Easing header -->
+        <mxCell id="eh" value="Easing トークン" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="620" y="52" width="556" height="18" as="geometry" />
+        </mxCell>
+        <!-- Easing table as single box -->
+        <mxCell id="etbl" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2F7;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="620" y="74" width="556" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="et1" value="easing.standard      cubic-bezier(0.2, 0, 0, 1.0)      汎用遷移 / フォーム状態変化" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="632" y="82" width="532" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="et2" value="easing.decelerated    cubic-bezier(0.0, 0.0, 0.2, 1.0)    要素登場 / ドロワー開" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="632" y="106" width="532" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="et3" value="easing.accelerated     cubic-bezier(0.4, 0.0, 1.0, 1.0)    要素退場 / ドロワー閉" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="632" y="130" width="532" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="et4" value="easing.emphasized     cubic-bezier(0.05, 0.7, 0.1, 1.0)   強調アニメ / FAB" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="632" y="154" width="532" height="16" as="geometry" />
+        </mxCell>
+        <!-- Easing descriptions -->
+        <mxCell id="en1" value="standard: ゆっくり開始 → 速く終了 (汎用)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="632" y="178" width="532" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="en2" value="decelerated: 速い開始 / accelerated: 速い終了 / emphasized: 強い加減速" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="632" y="198" width="532" height="14" as="geometry" />
+        </mxCell>
+        <!-- Divider -->
+        <mxCell id="d1" value="" style="line;html=1;strokeColor=#333333;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="246" width="1152" height="2" as="geometry" />
+        </mxCell>
+        <!-- Combination guide -->
+        <mxCell id="cg-h" value="組み合わせガイド" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="256" width="300" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="cg1" value="ホバー: fast(120ms) + standard" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="278" width="360" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="cg2" value="ボタン押下: base(200ms) + standard" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="298" width="360" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="cg3" value="モーダル開: slow(320ms) + decelerated" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="318" width="360" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="cg4" value="モーダル閉: slow(320ms) + accelerated" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="338" width="360" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="cg5" value="ページ遷移: xslow(480ms) + emphasized" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="358" width="360" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="cg6" value="Step完了: slow(320ms) + emphasized" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="278" width="360" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="cg7" value="トースト消去: base(200ms) + accelerated" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="298" width="360" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="cg8" value="スキャナー結果: fast(120ms) + standard" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="318" width="360" height="16" as="geometry" />
+        </mxCell>
+        <!-- Divider -->
+        <mxCell id="d2" value="" style="line;html=1;strokeColor=#333333;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="388" width="1152" height="2" as="geometry" />
+        </mxCell>
+        <!-- reduce-motion section -->
+        <mxCell id="rmh" value="prefers-reduced-motion 対応" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="398" width="500" height="18" as="geometry" />
+        </mxCell>
+        <!-- reduce-motion table header -->
+        <mxCell id="rmt-hdr" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EEF2F7;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="24" y="420" width="800" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="rmt-hdr-t" value="通常モード  →  reduce-motion  |  変更方針" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="32" y="420" width="784" height="26" as="geometry" />
+        </mxCell>
+        <!-- reduce-motion rows -->
+        <mxCell id="rm1" value="duration.fast (120ms)  →  0ms  |  アニメ即時化" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="450" width="800" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="rm2" value="duration.base (200ms)  →  0ms  |  アニメ即時化" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="476" width="800" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="rm3" value="transform: translateX  →  opacity フェード  |  空間的移動を非表示→表示に置き換え" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="502" width="800" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="rm4" value="scale / rotate  →  完全無効化  |  animation: none / transition: none" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="528" width="800" height="22" as="geometry" />
+        </mxCell>
+        <!-- CSS code note -->
+        <mxCell id="rm-note" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2F7;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="24" y="562" width="800" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rm-code" value="CSS: @media (prefers-reduced-motion: reduce) {  *, *::before, *::after { animation-duration: 0ms !important; transition-duration: 0ms !important; }  }" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="36" y="574" width="776" height="36" as="geometry" />
+        </mxCell>
+        <!-- Right side: xslow visual + prohibited -->
+        <mxCell id="xslow-vis" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7ABCF7;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="256" width="336" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="xslow-lbl" value="xslow 480ms" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="840" y="276" width="180" height="16" as="geometry" />
+        </mxCell>
+        <!-- Prohibited list -->
+        <mxCell id="proh-h" value="使用禁止モーション" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="840" y="304" width="300" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="proh1" value="spinner (無限ループ回転)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="840" y="326" width="336" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="proh2" value="parallax (スクロール連動視差効果)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="840" y="346" width="336" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="proh3" value="自動ループアニメーション" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="840" y="366" width="336" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="proh4" value="flash / blink 効果" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="840" y="386" width="336" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="proh5" value="理由: 製造現場での集中力低下・安全リスク防止" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="840" y="414" width="336" height="16" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

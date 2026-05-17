@@ -1,0 +1,139 @@
+<mxfile>
+  <diagram name="fig_ts_lint_chain" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="TypeScript Lint/Format チェーン" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="14" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- ========== handy lane (y=100..360) ========== -->
+        <mxCell id="lane_handy_lbl" value="handy (React Native)" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="130" width="200" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- main chain -->
+        <mxCell id="h_tsc" value="tsc --noEmit" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="165" width="120" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="h_eslint" value="ESLint&#xa;(typescript-eslint)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="165" width="130" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="h_prettier" value="Prettier" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="610" y="165" width="100" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- handy-specific: placed in lower band, separate x positions -->
+        <mxCell id="h_rn" value="eslint-plugin-react-native" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="340" y="260" width="140" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="h_expo" value="expo-module-scripts" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="520" y="260" width="130" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- ========== master lane (y=450..700) ========== -->
+        <mxCell id="lane_master_lbl" value="master (React + Vite)" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="480" width="200" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- main chain -->
+        <mxCell id="m_tsc" value="tsc --noEmit" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="510" width="120" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="m_eslint" value="ESLint&#xa;(typescript-eslint)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="510" width="130" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="m_prettier" value="Prettier" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="610" y="510" width="100" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- master-specific: same pattern, different y -->
+        <mxCell id="m_react" value="eslint-plugin-react" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="340" y="598" width="130" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="m_vite" value="Vite 型チェック" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="510" y="598" width="120" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- CI pass box (right side) -->
+        <mxCell id="ci_pass" value="エラー 0 → CI 通過" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="840" y="360" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ========== Edges: handy lane ========== -->
+        <mxCell id="eh1" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="h_tsc" target="h_eslint">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eh2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="h_eslint" target="h_prettier">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- handy-specific: straight down from eslint, separate x -->
+        <mxCell id="eh_rn" value="使用" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="h_eslint" target="h_rn">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="201" />
+              <mxPoint x="410" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eh_expo" value="使用" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="h_prettier" target="h_expo">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="201" />
+              <mxPoint x="660" y="240" />
+              <mxPoint x="585" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- handy → CI pass: route via top -->
+        <mxCell id="eh_ci" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="h_prettier" target="ci_pass">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="183" />
+              <mxPoint x="760" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ========== Edges: master lane ========== -->
+        <mxCell id="em1" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="m_tsc" target="m_eslint">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="em2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="m_eslint" target="m_prettier">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- master-specific: separate x positions, straight down -->
+        <mxCell id="em_react" value="使用" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="m_eslint" target="m_react">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="405" y="546" />
+              <mxPoint x="405" y="598" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="em_vite" value="使用" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="m_prettier" target="m_vite">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="546" />
+              <mxPoint x="660" y="580" />
+              <mxPoint x="570" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- master → CI pass -->
+        <mxCell id="em_ci" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="m_prettier" target="ci_pass">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="528" />
+              <mxPoint x="760" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

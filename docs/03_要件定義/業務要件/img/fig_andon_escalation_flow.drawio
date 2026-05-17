@@ -1,0 +1,124 @@
+<mxfile>
+  <diagram name="アンドンエスカレーション" id="page-1">
+    <mxGraphModel pageWidth="1200" pageHeight="700" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="アンドン エスカレーションフロー" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="32" as="geometry" />
+        </mxCell>
+        <!-- フローノード (縦方向) -->
+        <mxCell id="n1" value="異常発生&#xa;作業員がアンドン発報" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="80" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="現場監督への通知" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="200" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="品質担当へのエスカレーション" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="320" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="CAPA ループ起動" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="440" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="原因分析・是正措置" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="560" width="280" height="60" as="geometry" />
+        </mxCell>
+        <!-- SLO タイムライン (右側) -->
+        <mxCell id="slo1" value="SLO: 即時" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="680" y="97" width="200" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="slo2" value="SLO: ≤ 5 分" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="680" y="217" width="200" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="slo3" value="SLO: P1 ≤ 30 分" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="680" y="337" width="200" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="slo4" value="SLO: ≤ 2 時間" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="680" y="457" width="200" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="slo5" value="SLO: ≤ 5 営業日" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="680" y="577" width="200" height="25" as="geometry" />
+        </mxCell>
+        <!-- 水平接続線 (ノード→SLO) -->
+        <mxCell id="l1" value="" style="endArrow=none;html=1;strokeColor=#333333;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="110" as="sourcePoint" />
+            <mxPoint x="680" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2" value="" style="endArrow=none;html=1;strokeColor=#333333;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="230" as="sourcePoint" />
+            <mxPoint x="680" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l3" value="" style="endArrow=none;html=1;strokeColor=#333333;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="350" as="sourcePoint" />
+            <mxPoint x="680" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l4" value="" style="endArrow=none;html=1;strokeColor=#333333;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="470" as="sourcePoint" />
+            <mxPoint x="680" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l5" value="" style="endArrow=none;html=1;strokeColor=#333333;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="590" as="sourcePoint" />
+            <mxPoint x="680" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- 縦方向矢印 -->
+        <mxCell id="e12" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="n1" target="n2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="490" y="155" />
+              <mxPoint x="490" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e23" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="n2" target="n3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="490" y="275" />
+              <mxPoint x="490" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e34" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="n3" target="n4" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="490" y="395" />
+              <mxPoint x="490" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e45" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="n4" target="n5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="490" y="515" />
+              <mxPoint x="490" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- SOP改訂フィードバック -->
+        <mxCell id="n6" value="SOP改訂・水平展開" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="100" y="560" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e56" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="n5" target="n6" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="590" />
+              <mxPoint x="300" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

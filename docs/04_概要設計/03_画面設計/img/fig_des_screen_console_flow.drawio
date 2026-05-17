@@ -1,0 +1,145 @@
+<mxfile>
+  <diagram name="管理コンソール画面遷移図" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="管理コンソール画面遷移図" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="16" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Hub: SCR-MC-001 ダッシュボード (center) -->
+        <mxCell id="mc001" value="SCR-MC-001&#xa;ダッシュボード" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="480" y="320" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Spokes - positioned around hub -->
+        <!-- Top-left: SCR-MC-002 -->
+        <mxCell id="mc002" value="SCR-MC-002" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="120" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Top: SCR-MC-003 -->
+        <mxCell id="mc003" value="SCR-MC-003" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="390" y="120" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Top-right: SCR-MC-004 -->
+        <mxCell id="mc004" value="SCR-MC-004" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="680" y="120" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Right: SCR-MC-006 -->
+        <mxCell id="mc006" value="SCR-MC-006" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="960" y="200" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom-right: SCR-MC-007 -->
+        <mxCell id="mc007" value="SCR-MC-007" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="960" y="440" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom: SCR-MC-008 -->
+        <mxCell id="mc008" value="SCR-MC-008" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="540" y="560" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom-left: SCR-MC-009 -->
+        <mxCell id="mc009" value="SCR-MC-009" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="440" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-MC-005 XESエクスポート (right of mc004) -->
+        <mxCell id="mc005" value="SCR-MC-005&#xa;XESエクスポート" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="960" y="80" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Hub spoke edges -->
+        <!-- mc001 → mc002 -->
+        <mxCell id="ec01" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="mc001" target="mc002" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="350" />
+              <mxPoint x="170" y="350" />
+              <mxPoint x="170" y="164" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- mc001 → mc003 -->
+        <mxCell id="ec02" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="mc001" target="mc003" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="320" />
+              <mxPoint x="460" y="164" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- mc001 → mc004 -->
+        <mxCell id="ec03" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="mc001" target="mc004" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="320" />
+              <mxPoint x="750" y="164" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- mc001 → mc006 -->
+        <mxCell id="ec04" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="mc001" target="mc006" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="350" />
+              <mxPoint x="1030" y="222" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- mc001 → mc007 -->
+        <mxCell id="ec05" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="mc001" target="mc007" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="370" />
+              <mxPoint x="1030" y="462" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- mc001 → mc008 -->
+        <mxCell id="ec06" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="mc001" target="mc008" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="380" />
+              <mxPoint x="580" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- mc001 → mc009 -->
+        <mxCell id="ec07" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="mc001" target="mc009" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="370" />
+              <mxPoint x="170" y="462" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- mc004 → mc005 -->
+        <mxCell id="ec08" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="mc004" target="mc005" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="142" />
+              <mxPoint x="960" y="105" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,201 @@
+<mxfile>
+  <diagram name="データフロー図（概要）" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="データフロー図（概要）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="420" y="16" width="360" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- External entities (rectangles with double border effect) -->
+        <!-- Handy APP -->
+        <mxCell id="handy" value="ハンディ APP" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="180" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 親機 (master device) -->
+        <mxCell id="oyaki" value="親機&#xa;（マスタメンテ）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="420" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 外部システム -->
+        <mxCell id="ext_sys" value="外部システム" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="300" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- バックアップストレージ -->
+        <mxCell id="backup_store" value="バックアップ&#xa;ストレージ" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="540" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Process circles -->
+        <!-- P1: Step実行 -->
+        <mxCell id="p1" value="P1&#xa;Step実行" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="310" y="160" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- P2: 写真撮影 -->
+        <mxCell id="p2" value="P2&#xa;写真撮影" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="310" y="300" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- P3: マスタ同期 -->
+        <mxCell id="p3" value="P3&#xa;マスタ同期" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="310" y="420" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- P4: Outbox送信 -->
+        <mxCell id="p4" value="P4&#xa;Outbox送信" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="700" y="280" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- P5: バックアップ -->
+        <mxCell id="p5" value="P5&#xa;バックアップ" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="700" y="480" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Data stores (open rectangles / cylinders via shape=mxgraph.flowchart.stored_data) -->
+        <!-- work_events store -->
+        <mxCell id="ds_wevents" value="work_events" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="530" y="178" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- evidence_files store -->
+        <mxCell id="ds_evfiles" value="evidence_files" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="530" y="318" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- SOPs/steps store -->
+        <mxCell id="ds_sops" value="SOPs / steps" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="530" y="438" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Outbox store -->
+        <mxCell id="ds_outbox" value="Outbox" style="shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="530" y="618" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Flow edges -->
+        <!-- handy → p1 -->
+        <mxCell id="ef01" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="handy" target="p1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="200" />
+              <mxPoint x="310" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- handy → p2 -->
+        <mxCell id="ef02" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="handy" target="p2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="240" />
+              <mxPoint x="200" y="340" />
+              <mxPoint x="310" y="340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- p1 → ds_wevents -->
+        <mxCell id="ef03" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="p1" target="ds_wevents" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="200" />
+              <mxPoint x="530" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- p2 → ds_evfiles -->
+        <mxCell id="ef04" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="p2" target="ds_evfiles" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="340" />
+              <mxPoint x="530" y="340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- oyaki → p3 -->
+        <mxCell id="ef05" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="oyaki" target="p3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="450" />
+              <mxPoint x="310" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- p3 → ds_sops -->
+        <mxCell id="ef06" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="p3" target="ds_sops" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="460" />
+              <mxPoint x="530" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ds_wevents → p4 -->
+        <mxCell id="ef07" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ds_wevents" target="p4" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="200" />
+              <mxPoint x="760" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- p4 → ds_outbox: route right side to avoid p5 bbox (700-820, 480-560) -->
+        <mxCell id="ef08" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="p4" target="ds_outbox" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="320" />
+              <mxPoint x="900" y="320" />
+              <mxPoint x="900" y="640" />
+              <mxPoint x="670" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ds_outbox → ext_sys: route along bottom, then up right side, avoiding backup_store (1000-1140, 540-600) -->
+        <mxCell id="ef09" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ds_outbox" target="ext_sys" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="640" />
+              <mxPoint x="960" y="640" />
+              <mxPoint x="960" y="330" />
+              <mxPoint x="1000" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ds_sops → p5 -->
+        <mxCell id="ef10" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ds_sops" target="p5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="460" />
+              <mxPoint x="700" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- p5 → backup_store -->
+        <mxCell id="ef11" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="p5" target="backup_store" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="520" />
+              <mxPoint x="1000" y="570" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

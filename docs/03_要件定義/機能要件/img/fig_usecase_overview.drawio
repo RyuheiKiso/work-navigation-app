@@ -1,0 +1,129 @@
+<mxfile>
+  <diagram name="ユースケース全体図" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="870" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1400" height="870" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="ユースケース全体図" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="500" y="8" width="400" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Actors (left side) -->
+        <mxCell id="actor_op"     value="作業員"      style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fontColor=#333333;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="25" y="55"  width="40" height="60" as="geometry" /></mxCell>
+        <mxCell id="actor_sup"    value="現場監督"    style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fontColor=#333333;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="25" y="205" width="40" height="60" as="geometry" /></mxCell>
+        <mxCell id="actor_qa"     value="品質担当"    style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fontColor=#333333;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="25" y="360" width="40" height="60" as="geometry" /></mxCell>
+        <mxCell id="actor_maint"  value="保全担当"    style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fontColor=#333333;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="25" y="510" width="40" height="60" as="geometry" /></mxCell>
+        <mxCell id="actor_master" value="マスタ&#xa;編集者" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fontColor=#333333;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="25" y="640" width="40" height="60" as="geometry" /></mxCell>
+        <mxCell id="actor_it"     value="IT担当"      style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fontColor=#333333;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fillColor=#f5f5f5;" vertex="1" parent="1"><mxGeometry x="25" y="770" width="40" height="60" as="geometry" /></mxCell>
+
+        <!-- Column headers y=42 -->
+        <mxCell id="hdr1" value="SOPナビゲーション" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="120" y="42" width="155" height="28" as="geometry" /></mxCell>
+        <mxCell id="hdr2" value="証拠記録・アンドン" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1"><mxGeometry x="345" y="42" width="155" height="28" as="geometry" /></mxCell>
+        <mxCell id="hdr3" value="マスタ管理" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="570" y="42" width="155" height="28" as="geometry" /></mxCell>
+        <mxCell id="hdr4" value="同期・監査" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1"><mxGeometry x="795" y="42" width="155" height="28" as="geometry" /></mxCell>
+
+        <!-- Col1 (x=120, right edge 275, gap 276~344) UC y=80,145,210,275,340 -->
+        <mxCell id="uc001" value="UC-001&#xa;作業を開始する"    style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="120" y="80"  width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc002" value="UC-002&#xa;Step手順表示"      style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="120" y="145" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc003" value="UC-003&#xa;Stepを完了する"    style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="120" y="210" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc004" value="UC-004&#xa;作業を中断する"    style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="120" y="275" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc005" value="UC-005&#xa;作業を再開する"    style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="120" y="340" width="155" height="50" as="geometry" /></mxCell>
+
+        <!-- Col2 (x=345, right 500, gap 501~569) UC y=80,145,210,275,340,405,470,535 -->
+        <mxCell id="uc006" value="UC-006&#xa;写真証拠添付"      style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="345" y="80"  width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc007" value="UC-007&#xa;電子サイン記録"    style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="345" y="145" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc008" value="UC-008&#xa;計測値を入力する"  style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="345" y="210" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc009" value="UC-009&#xa;バーコードスキャン" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="345" y="275" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc010" value="UC-010&#xa;アンドン発報"      style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1"><mxGeometry x="345" y="340" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc011" value="UC-011&#xa;アンドン確認"      style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1"><mxGeometry x="345" y="405" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc012" value="UC-012&#xa;不適合を記録する"  style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="345" y="470" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc013" value="UC-013&#xa;CAPA対策を登録"    style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="345" y="535" width="155" height="50" as="geometry" /></mxCell>
+
+        <!-- Col3 (x=570, right 725, gap 726~794) UC y=80,145,210,275,340 -->
+        <mxCell id="uc014" value="UC-014&#xa;SOP Draft作成"     style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="570" y="80"  width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc015" value="UC-015&#xa;SOP Step編集"      style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="570" y="145" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc016" value="UC-016&#xa;参照整合性チェック" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="570" y="210" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc017" value="UC-017&#xa;SOP を公開"         style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="570" y="275" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc018" value="UC-018&#xa;SOP を廃止"         style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="570" y="340" width="155" height="50" as="geometry" /></mxCell>
+
+        <!-- Col4 (x=795, right 950) UC y=80,145,210,275,340,405,470 -->
+        <mxCell id="uc019" value="UC-019&#xa;実績Outbox送信"     style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1"><mxGeometry x="795" y="80"  width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc020" value="UC-020&#xa;ERPへ実績連携"      style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1"><mxGeometry x="795" y="145" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc021" value="UC-021&#xa;マスタを同期する"   style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1"><mxGeometry x="795" y="210" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc022" value="UC-022&#xa;監査ログ参照"       style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1"><mxGeometry x="795" y="275" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc023" value="UC-023&#xa;帳票を出力する"     style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1"><mxGeometry x="795" y="340" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc024" value="UC-024&#xa;ユーザー管理"       style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1"><mxGeometry x="795" y="405" width="155" height="50" as="geometry" /></mxCell>
+        <mxCell id="uc025" value="UC-025&#xa;ロール権限設定"     style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1"><mxGeometry x="795" y="470" width="155" height="50" as="geometry" /></mxCell>
+
+        <!-- ===== CONNECTIONS =====
+          Strategy: All wires approach each UC from the LEFT side (target x=345,570,795).
+          They travel through the inter-column GAPS only (not inside any column).
+
+          Gap columns (no UC vertices):
+            gap01 (actors→col1): x=65~119
+            gap12 (col1→col2):   x=276~344
+            gap23 (col2→col3):   x=501~569
+            gap34 (col3→col4):   x=726~794
+
+          Each wire gets its own unique x-offset in the gap so vertical segments don't overlap.
+          Wires go: actor → down to a y-corridor at bottom (y=620~860) → right through gaps → up to target UC y-center.
+
+          UC y-centers (y+25):
+            col1: uc001=105, uc002=170, uc003=235, uc004=300, uc005=365
+            col2: uc006=105, uc007=170, uc008=235, uc009=300, uc010=365, uc011=430, uc012=495, uc013=560
+            col3: uc014=105, uc015=170, uc016=235, uc017=300, uc018=365
+            col4: uc019=105, uc020=170, uc021=235, uc022=300, uc023=365, uc024=430, uc025=495
+        -->
+
+        <!-- 作業員 (x=25~65, center x=45, center y=85) → col1 UCs: direct left-approach -->
+        <mxCell id="e_op_001" edge="1" source="actor_op" target="uc001" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="85" /><mxPoint x="120" y="85" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_op_002" edge="1" source="actor_op" target="uc002" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="85" /><mxPoint x="65" y="170" /><mxPoint x="120" y="170" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_op_003" edge="1" source="actor_op" target="uc003" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="85" /><mxPoint x="65" y="235" /><mxPoint x="120" y="235" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_op_004" edge="1" source="actor_op" target="uc004" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="85" /><mxPoint x="65" y="300" /><mxPoint x="120" y="300" /></Array></mxGeometry></mxCell>
+
+        <!-- 作業員 → col2 UCs: go down to y=620+, through gap12 at x=310 (col1 right=275, gap ends 344) -->
+        <!-- Each wire uses a unique x in gap12 (276~344): 280,286,292,298,304 -->
+        <mxCell id="e_op_006" edge="1" source="actor_op" target="uc006" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="85" /><mxPoint x="65" y="620" /><mxPoint x="280" y="620" /><mxPoint x="280" y="105" /><mxPoint x="345" y="105" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_op_007" edge="1" source="actor_op" target="uc007" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="85" /><mxPoint x="65" y="628" /><mxPoint x="286" y="628" /><mxPoint x="286" y="170" /><mxPoint x="345" y="170" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_op_008" edge="1" source="actor_op" target="uc008" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="85" /><mxPoint x="65" y="636" /><mxPoint x="292" y="636" /><mxPoint x="292" y="235" /><mxPoint x="345" y="235" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_op_009" edge="1" source="actor_op" target="uc009" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="85" /><mxPoint x="65" y="644" /><mxPoint x="298" y="644" /><mxPoint x="298" y="300" /><mxPoint x="345" y="300" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_op_010" edge="1" source="actor_op" target="uc010" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="85" /><mxPoint x="65" y="652" /><mxPoint x="304" y="652" /><mxPoint x="304" y="365" /><mxPoint x="345" y="365" /></Array></mxGeometry></mxCell>
+
+        <!-- 現場監督 (center y=235) → UC-005 col1: via gap01 -->
+        <mxCell id="e_sup_005" edge="1" source="actor_sup" target="uc005" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="235" /><mxPoint x="65" y="365" /><mxPoint x="120" y="365" /></Array></mxGeometry></mxCell>
+        <!-- 現場監督 → UC-011 col2: via bottom y=660, gap12 x=310 -->
+        <mxCell id="e_sup_011" edge="1" source="actor_sup" target="uc011" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="235" /><mxPoint x="65" y="660" /><mxPoint x="310" y="660" /><mxPoint x="310" y="430" /><mxPoint x="345" y="430" /></Array></mxGeometry></mxCell>
+        <!-- 現場監督 → UC-022 col4: via bottom y=668, gap12 x=316, gap23 x=530, gap34 x=750 -->
+        <mxCell id="e_sup_022" edge="1" source="actor_sup" target="uc022" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="235" /><mxPoint x="65" y="668" /><mxPoint x="750" y="668" /><mxPoint x="750" y="300" /><mxPoint x="795" y="300" /></Array></mxGeometry></mxCell>
+
+        <!-- 品質担当 (center y=390) → UC-012 col2: via bottom y=676, gap12 x=322 -->
+        <mxCell id="e_qa_012" edge="1" source="actor_qa" target="uc012" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="390" /><mxPoint x="65" y="676" /><mxPoint x="322" y="676" /><mxPoint x="322" y="495" /><mxPoint x="345" y="495" /></Array></mxGeometry></mxCell>
+        <!-- 品質担当 → UC-013 col2: via bottom y=684, gap12 x=328 -->
+        <mxCell id="e_qa_013" edge="1" source="actor_qa" target="uc013" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="390" /><mxPoint x="65" y="684" /><mxPoint x="328" y="684" /><mxPoint x="328" y="560" /><mxPoint x="345" y="560" /></Array></mxGeometry></mxCell>
+        <!-- 品質担当 → UC-023 col4: via bottom y=692, gap34 x=755 -->
+        <mxCell id="e_qa_023" edge="1" source="actor_qa" target="uc023" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="390" /><mxPoint x="65" y="692" /><mxPoint x="755" y="692" /><mxPoint x="755" y="365" /><mxPoint x="795" y="365" /></Array></mxGeometry></mxCell>
+
+        <!-- 保全担当 (center y=540) → UC-010 col2: via bottom y=700, gap12 x=334 -->
+        <mxCell id="e_maint_010" edge="1" source="actor_maint" target="uc010" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="540" /><mxPoint x="65" y="700" /><mxPoint x="334" y="700" /><mxPoint x="334" y="365" /><mxPoint x="345" y="365" /></Array></mxGeometry></mxCell>
+        <!-- 保全担当 → UC-023 col4: via bottom y=708, gap34 x=760 -->
+        <mxCell id="e_maint_023" edge="1" source="actor_maint" target="uc023" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="540" /><mxPoint x="65" y="708" /><mxPoint x="760" y="708" /><mxPoint x="760" y="365" /><mxPoint x="795" y="365" /></Array></mxGeometry></mxCell>
+
+        <!-- マスタ編集者 (center y=670) → col3 UCs: via bottom y=716~748, gap23 x=510~560 -->
+        <mxCell id="e_master_014" edge="1" source="actor_master" target="uc014" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="670" /><mxPoint x="65" y="716" /><mxPoint x="510" y="716" /><mxPoint x="510" y="105" /><mxPoint x="570" y="105" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_master_015" edge="1" source="actor_master" target="uc015" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="670" /><mxPoint x="65" y="724" /><mxPoint x="520" y="724" /><mxPoint x="520" y="170" /><mxPoint x="570" y="170" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_master_016" edge="1" source="actor_master" target="uc016" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="670" /><mxPoint x="65" y="732" /><mxPoint x="530" y="732" /><mxPoint x="530" y="235" /><mxPoint x="570" y="235" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_master_017" edge="1" source="actor_master" target="uc017" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="670" /><mxPoint x="65" y="740" /><mxPoint x="540" y="740" /><mxPoint x="540" y="300" /><mxPoint x="570" y="300" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_master_018" edge="1" source="actor_master" target="uc018" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="670" /><mxPoint x="65" y="748" /><mxPoint x="550" y="748" /><mxPoint x="550" y="365" /><mxPoint x="570" y="365" /></Array></mxGeometry></mxCell>
+
+        <!-- IT担当 (center y=800) → col4 UCs: via bottom y=756~788, gap34 x=735~745 -->
+        <mxCell id="e_it_019" edge="1" source="actor_it" target="uc019" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="800" /><mxPoint x="65" y="756" /><mxPoint x="735" y="756" /><mxPoint x="735" y="105" /><mxPoint x="795" y="105" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_it_021" edge="1" source="actor_it" target="uc021" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="800" /><mxPoint x="65" y="764" /><mxPoint x="740" y="764" /><mxPoint x="740" y="235" /><mxPoint x="795" y="235" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_it_024" edge="1" source="actor_it" target="uc024" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="800" /><mxPoint x="65" y="772" /><mxPoint x="745" y="772" /><mxPoint x="745" y="430" /><mxPoint x="795" y="430" /></Array></mxGeometry></mxCell>
+        <mxCell id="e_it_025" edge="1" source="actor_it" target="uc025" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="65" y="800" /><mxPoint x="65" y="780" /><mxPoint x="748" y="780" /><mxPoint x="748" y="495" /><mxPoint x="795" y="495" /></Array></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

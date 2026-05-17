@@ -1,0 +1,164 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- 白背景矩形 -->
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- タイトル -->
+        <mxCell id="title" value="FRG-016〜031 フィードバックコンポーネントカタログ" style="text;html=1;fontFamily=Helvetica;fontSize=15;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="200" y="12" width="800" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- ====== 列1: Toast / Snackbar / Banner ====== -->
+
+        <!-- FRG-016 Toast -->
+        <mxCell id="frg016-label" value="FRG-016 Toast" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="62" width="160" height="16" as="geometry" />
+        </mxCell>
+        <!-- success toast -->
+        <mxCell id="toast-success-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="360" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="toast-success-bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#059669;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="4" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="toast-success-text" value="✓ Step 5 完了しました" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="54" y="97" width="336" height="18" as="geometry" />
+        </mxCell>
+        <!-- danger toast -->
+        <mxCell id="toast-danger-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="144" width="360" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="toast-danger-bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DC2626;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="144" width="4" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="toast-danger-text" value="✗ API エラー（ERR-SYS-001）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="54" y="161" width="336" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- FRG-017 Snackbar -->
+        <mxCell id="frg017-label" value="FRG-017 Snackbar" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="210" width="160" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="snackbar-danger" value="✗ API エラー: 5秒で自動クローズ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="228" width="360" height="52" as="geometry" />
+        </mxCell>
+
+        <!-- FRG-031 Banner -->
+        <mxCell id="frg031-label" value="FRG-031 Banner" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="294" width="160" height="16" as="geometry" />
+        </mxCell>
+        <!-- warning banner -->
+        <mxCell id="banner-warning" value="⚠ 範囲外測定値を確認してください" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#333333;strokeWidth=2;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="312" width="360" height="48" as="geometry" />
+        </mxCell>
+        <!-- info banner -->
+        <mxCell id="banner-info" value="ℹ 情報バナー" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;strokeWidth=2;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="372" width="360" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- ====== 列2: EmptyState / Skeleton ====== -->
+
+        <!-- FRG-020 EmptyState -->
+        <mxCell id="frg020-label" value="FRG-020 EmptyState" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="62" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="empty-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="80" width="320" height="200" as="geometry" />
+        </mxCell>
+        <!-- icon placeholder -->
+        <mxCell id="empty-icon" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="560" y="92" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="empty-heading" value="作業が見つかりません" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="440" y="184" width="320" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="empty-body" value="QR コードをスキャンして開始" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#475569;align=center;" vertex="1" parent="1">
+          <mxGeometry x="440" y="208" width="320" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="empty-cta" value="QR スキャン" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="500" y="232" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- FRG-021 Skeleton -->
+        <mxCell id="frg021-label" value="FRG-021 Skeleton" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="296" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="skel-line1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="316" width="320" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="skel-line2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="340" width="320" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="skel-line3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="364" width="320" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="skel-caption" value="Skeleton: データ取得中のプレースホルダー" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#475569;align=left;" vertex="1" parent="1">
+          <mxGeometry x="440" y="388" width="320" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- ====== 列3: Modal / Drawer ====== -->
+
+        <!-- FRG-014 Modal -->
+        <mxCell id="frg014-label" value="FRG-014 Modal" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="800" y="62" width="160" height="16" as="geometry" />
+        </mxCell>
+        <!-- shadow: offset 4px 灰矩形 -->
+        <mxCell id="modal-shadow" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="804" y="84" width="360" height="240" as="geometry" />
+        </mxCell>
+        <!-- modal body -->
+        <mxCell id="modal-body" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="800" y="80" width="360" height="240" as="geometry" />
+        </mxCell>
+        <!-- title bar -->
+        <mxCell id="modal-titlebar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="800" y="80" width="360" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="modal-title-text" value="確認ダイアログ" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="816" y="94" width="200" height="20" as="geometry" />
+        </mxCell>
+        <!-- modal content -->
+        <mxCell id="modal-content-text" value="この操作を実行しますか？" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="816" y="148" width="328" height="20" as="geometry" />
+        </mxCell>
+        <!-- buttons -->
+        <mxCell id="modal-btn-cancel" value="キャンセル" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2F7;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="816" y="284" width="120" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="modal-btn-ok" value="実行" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="952" y="284" width="120" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="modal-btn-divider" value="" style="line;strokeColor=#333333;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="800" y="272" width="360" height="8" as="geometry" />
+        </mxCell>
+
+        <!-- FRG-015 Drawer -->
+        <mxCell id="frg015-label" value="FRG-015 Drawer" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="800" y="344" width="160" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="drawer-body" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="800" y="364" width="320" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="drawer-header-text" value="右ドロワー (480px): 行クリックで詳細表示" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="816" y="372" width="288" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="drawer-payload-area" value='{ "id": "OP-001", "name": "溶接", "status": "active" }' style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;fontFamily=Courier New;fontSize=10;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="816" y="400" width="288" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="drawer-arrow-hint" value="← 右から出現" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#475569;align=right;" vertex="1" parent="1">
+          <mxGeometry x="800" y="540" width="320" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- フッター -->
+        <mxCell id="footer" value="WorkNav Design System — FRG-016〜031 Feedback Component Catalog | 2026-05-17" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="200" y="758" width="800" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

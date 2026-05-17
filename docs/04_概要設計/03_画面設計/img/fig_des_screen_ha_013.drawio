@@ -1,0 +1,256 @@
+<mxfile>
+  <diagram name="ha_013_andon" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- 白背景 -->
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+
+        <!-- スマートフォン外枠 -->
+        <mxCell id="phone_outer" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=#333333;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="30" width="360" height="740" as="geometry" />
+        </mxCell>
+
+        <!-- 画面エリア（白） -->
+        <mxCell id="phone_screen" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="36" y="36" width="348" height="728" as="geometry" />
+        </mxCell>
+
+        <!-- SafeArea -->
+        <mxCell id="safe_area" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="36" y="36" width="348" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- Header 上部4dp赤帯 -->
+        <mxCell id="header_red_band" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF0000;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="36" y="72" width="348" height="4" as="geometry" />
+        </mxCell>
+
+        <!-- Header -->
+        <mxCell id="header_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="36" y="72" width="348" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- 閉じるボタン -->
+        <mxCell id="close_btn" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="44" y="84" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="close_label" value="x" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="44" y="84" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- タイトル -->
+        <mxCell id="page_title" value="アンドン発報" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="90" y="80" width="246" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- 現在作業情報 -->
+        <mxCell id="work_info_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF0F0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="36" y="128" width="348" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="work_info_t1" value="作業番号: WO-2026-0517-001" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="44" y="134" width="330" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="work_info_t2" value="SCR-HA-005  Step 3 / 12" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="44" y="152" width="330" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="work_info_t3" value="SOP: M10ボルト締め付け v2.1" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="44" y="170" width="330" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- 発報種別グリッド タイトル -->
+        <mxCell id="grid_title" value="発報種別を選択" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="44" y="198" width="200" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- Row1: 品質異常 -->
+        <mxCell id="g_quality" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="36" y="218" width="108" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="g_quality_icon" value="[!]" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="36" y="222" width="108" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="g_quality_label" value="品質異常" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="36" y="262" width="108" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Row1: 設備停止 -->
+        <mxCell id="g_equip" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="150" y="218" width="108" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="g_equip_icon" value="[Wrench]" style="text;html=1;fontFamily=Helvetica;fontSize=13;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="222" width="108" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="g_equip_label" value="設備停止" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="262" width="108" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Row1: 安全 (選択中) -->
+        <mxCell id="g_safety" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="264" y="218" width="108" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="g_safety_icon" value="!" style="text;html=1;fontFamily=Helvetica;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="264" y="222" width="108" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="g_safety_label" value="安全" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="264" y="262" width="108" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="g_safety_check" value="(選択中)" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="264" y="284" width="108" height="12" as="geometry" />
+        </mxCell>
+
+        <!-- Row2: 材料不足 -->
+        <mxCell id="g_material" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="36" y="298" width="108" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="g_material_icon" value="[Box]" style="text;html=1;fontFamily=Helvetica;fontSize=14;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="36" y="302" width="108" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="g_material_label" value="材料不足" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="36" y="342" width="108" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Row2: その他 -->
+        <mxCell id="g_other" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="150" y="298" width="108" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="g_other_icon" value="..." style="text;html=1;fontFamily=Helvetica;fontSize=18;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="302" width="108" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="g_other_label" value="その他" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="342" width="108" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Row2: 空欄（予備） -->
+        <mxCell id="g_empty" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;arcSize=8;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="264" y="298" width="108" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="g_empty_label" value="(予備)" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="264" y="320" width="108" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- 説明入力エリア タイトル -->
+        <mxCell id="desc_title" value="状況説明（任意・推奨）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="44" y="382" width="240" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- 説明入力エリア -->
+        <mxCell id="desc_area" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="36" y="402" width="348" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="desc_placeholder" value="状況を説明してください（任意・推奨120文字）" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="44" y="412" width="330" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="desc_counter" value="0 / 120" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=right;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="294" y="460" width="84" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- 送信先 -->
+        <mxCell id="recipient" value="送信先: 田中監督 (090-XXXX-XXXX)" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="44" y="492" width="330" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- FooterCTA -->
+        <mxCell id="footer_cta_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="36" y="516" width="348" height="88" as="geometry" />
+        </mxCell>
+
+        <!-- 発報ボタン -->
+        <mxCell id="andon_report_btn" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF0000;strokeColor=#333333;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="36" y="520" width="348" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="andon_icon_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#333333;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="530" width="28" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="andon_icon_text" value="[Siren]" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="50" y="530" width="28" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="andon_report_label" value="アンドンを発報する" style="text;html=1;fontFamily=Helvetica;fontSize=15;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="84" y="520" width="290" height="64" as="geometry" />
+        </mxCell>
+
+        <!-- 仕様注記レーン -->
+        <mxCell id="spec_title" value="仕様注記" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="10" width="200" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="spec_div1" value="" style="endArrow=none;html=1;strokeColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="36" as="sourcePoint" />
+            <mxPoint x="1180" y="36" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="s1_h" value="● 閉じるボタン(×) 追加" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="44" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_d" value="旧設計「離脱導線なし」の問題を解消。Header左端に40dp×40dpの×ボタンを配置。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="64" width="720" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s2_h" value="● Header上部4dp赤帯" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="90" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_d" value="緊急識別用。Headerを赤一色にせず閉じるボタン・タイトルの視認性を確保。fillColor=#FF0000" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="110" width="720" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3_h" value="● 現在作業情報エリア" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="136" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_d" value="fillColor=#FFF0F0 / WO番号+Step+SOP名の3行。発報前に文脈を確認させる。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="156" width="720" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4_h" value="● 発報種別グリッド 2×3" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="220" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_d1" value="旧設計「縦1列5行×80dp」→ 新設計「2×3グリッド 108×74dp」(物理的整合性)" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="240" width="720" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_d2" value="選択中の種別: fillColor=#1E3A5F で差別化。赤一色塗りつぶし禁止。テキストは#333333" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="260" width="720" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_d3" value="予備セル: dashed=1 で未割当を視覚区別。種別追加時に使用。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="280" width="720" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5_h" value="● 説明入力エリア" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="390" width="240" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s5_d1" value="旧「必須500文字」→ 新「任意＋推奨120文字」（緊急発報遅延リスク解消）" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="410" width="720" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s5_d2" value="文字数カウンタ: リアルタイム表示 0/120 / placeholder色#475569(AA適合)" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="430" width="720" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s6_h" value="● FooterCTA 発報ボタン" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="520" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s6_d1" value="fillColor=#FF0000 / Sirenアイコン(左端) + テキスト(中央右) / 15pt太字" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="540" width="720" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s6_d2" value="種別未選択時はdisabled(opacity:0.5)。種別選択後に有効化。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="560" width="720" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s6_d3" value="AndonButton不要: この画面がアンドン発報専用のためFAB不要" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="580" width="720" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="spec_div2" value="" style="endArrow=none;html=1;strokeColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="724" as="sourcePoint" />
+            <mxPoint x="1180" y="724" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="screen_id" value="画面ID: SCR-HA-013  アンドン発報（ハイファイワイヤーフレーム）" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="734" width="720" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

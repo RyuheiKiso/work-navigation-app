@@ -1,0 +1,36 @@
+<mxfile>
+  <diagram name="マスタPublishシーケンス" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="マスタ Publish シーケンス" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="10" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Actor headers -->
+        <mxCell id="h_me"  value="マスタ編集者" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="80"  y="55" width="180" height="50" as="geometry" /></mxCell>
+        <mxCell id="h_app" value="マスタ APP"   style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="490" y="55" width="180" height="50" as="geometry" /></mxCell>
+        <mxCell id="h_be"  value="バックエンド"  style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1"><mxGeometry x="900" y="55" width="180" height="50" as="geometry" /></mxCell>
+
+        <!-- Lifelines -->
+        <mxCell id="ll_me"  value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="170" y="105" as="sourcePoint" /><mxPoint x="170" y="660" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ll_app" value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="580" y="105" as="sourcePoint" /><mxPoint x="580" y="660" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ll_be"  value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="990" y="105" as="sourcePoint" /><mxPoint x="990" y="660" as="targetPoint" /></mxGeometry></mxCell>
+
+        <!-- Messages -->
+        <mxCell id="msg1" value="1. Draft 公開申請" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="170" y="148" as="sourcePoint" /><mxPoint x="580" y="148" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="msg2" value="2. 参照整合性チェックリクエスト" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="580" y="208" as="sourcePoint" /><mxPoint x="990" y="208" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="msg3" value="3. チェック OK" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="990" y="268" as="sourcePoint" /><mxPoint x="580" y="268" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="msg4" value="4. 承認確認ダイアログ表示" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="580" y="328" as="sourcePoint" /><mxPoint x="170" y="328" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="msg5" value="5. 承認（Approve）操作" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="170" y="398" as="sourcePoint" /><mxPoint x="580" y="398" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="msg6" value="6. DRAFT → PUBLISHED 遷移リクエスト" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="580" y="468" as="sourcePoint" /><mxPoint x="990" y="468" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="msg7" value="7. バージョン確定（番号付与）" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="990" y="538" as="sourcePoint" /><mxPoint x="580" y="538" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="msg8" value="8. Publish 完了通知" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="580" y="608" as="sourcePoint" /><mxPoint x="170" y="608" as="targetPoint" /></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

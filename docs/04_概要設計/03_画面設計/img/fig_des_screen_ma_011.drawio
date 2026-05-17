@@ -1,0 +1,70 @@
+<mxfile>
+  <diagram name="SCR-MA-011" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" height="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="header" value="マスタメンテ APP | 廃止処理" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="header-label" value="SCR-MA-011 廃止処理 (Web APP)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="0" width="400" height="40" as="geometry" />
+        </mxCell>
+        <!-- SOP info -->
+        <mxCell id="sop-info" value="廃止対象: SOP-001 組立工程A (v2.0)  |  現在の状態: 公開中" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1120" height="40" as="geometry" />
+        </mxCell>
+        <!-- DryRunResultPanel -->
+        <mxCell id="drp-title" value="DryRunResultPanel (CMP-MA-004) — ドライラン結果" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="600" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="drp-panel" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="158" width="1120" height="240" as="geometry" />
+        </mxCell>
+        <!-- DryRun results -->
+        <mxCell id="drp-r1" value="● 進行中の作業記録への影響: 0件" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="70" y="174" width="500" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="drp-r1-badge" value="影響: 0件" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="600" y="174" width="120" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="drp-r2" value="● 紐付き製品マスタへの影響: 0件" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="70" y="212" width="500" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="drp-r2-badge" value="影響: 0件" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="600" y="212" width="120" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="drp-r3" value="● スケジュール済みタスクへの影響: 0件" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="70" y="250" width="500" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="drp-r3-badge" value="影響: 0件" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="600" y="250" width="120" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="drp-summary" value="ドライランサマリー: 廃止可能 — 全チェック OK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="70" y="302" width="700" height="36" as="geometry" />
+        </mxCell>
+        <!-- Reason input -->
+        <mxCell id="reason-label" value="廃止理由:" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="120" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="reason-box" value="工程改訂により新 SOP-002 に移行のため廃止。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="454" width="1120" height="80" as="geometry" />
+        </mxCell>
+        <!-- Electronic sign pad compact -->
+        <mxCell id="sign-label" value="電子サイン (廃止権限確認):" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="554" width="280" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sign-box" value="[ 署名エリア ]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;dashed=1;dashPattern=6 4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="588" width="360" height="60" as="geometry" />
+        </mxCell>
+        <!-- Deprecate button -->
+        <mxCell id="btn-deprecate" value="廃止確定 (電子サイン付き)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="760" y="596" width="400" height="52" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

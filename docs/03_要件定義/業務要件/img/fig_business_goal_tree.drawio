@@ -1,0 +1,149 @@
+<mxfile>
+  <diagram name="経営目的-業務目的-KPI3段ツリー" id="page-1">
+    <mxGraphModel pageWidth="1200" pageHeight="800" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="経営目的 − 業務目的 − KPI 3段ツリー" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="32" as="geometry" />
+        </mxCell>
+        <!-- L0 ルート -->
+        <mxCell id="l0" value="製造品質と生産効率の両立" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="440" y="70" width="320" height="60" as="geometry" />
+        </mxCell>
+        <!-- L1 3ノード net色 -->
+        <mxCell id="l1a" value="SOP遵守率向上" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="80" y="230" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l1b" value="トレサビ記録完全性" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="470" y="230" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l1c" value="不適合再発防止" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="860" y="230" width="260" height="60" as="geometry" />
+        </mxCell>
+        <!-- L2 KPI infra色 -->
+        <!-- KPI for l1a -->
+        <mxCell id="l2a1" value="Step完了率&#xa;目標: ≥ 98%" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="400" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2a2" value="SOP逸脱率&#xa;目標: ≤ 0.5%" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="220" y="400" width="170" height="60" as="geometry" />
+        </mxCell>
+        <!-- KPI for l1b -->
+        <mxCell id="l2b1" value="記録完全率&#xa;目標: ≥ 99.9%" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="420" y="400" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2b2" value="証拠提出時間&#xa;目標: ≤ 1 時間" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="610" y="400" width="170" height="60" as="geometry" />
+        </mxCell>
+        <!-- KPI for l1c -->
+        <mxCell id="l2c1" value="不適合件数&#xa;目標: 前年比 -30%" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="810" y="400" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2c2" value="CAPA完了率&#xa;目標: ≥ 95%" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="400" width="170" height="60" as="geometry" />
+        </mxCell>
+        <!-- L0 to L1 edges -->
+        <mxCell id="e0a" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="l0" target="l1a" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="160" />
+              <mxPoint x="210" y="160" />
+              <mxPoint x="210" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e0b" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="l0" target="l1b" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="160" />
+              <mxPoint x="600" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e0c" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="l0" target="l1c" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="160" />
+              <mxPoint x="990" y="160" />
+              <mxPoint x="990" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- L1a to L2 -->
+        <mxCell id="ea1" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="l1a" target="l2a1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="330" />
+              <mxPoint x="115" y="330" />
+              <mxPoint x="115" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ea2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="l1a" target="l2a2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="330" />
+              <mxPoint x="305" y="330" />
+              <mxPoint x="305" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- L1b to L2 -->
+        <mxCell id="eb1" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="l1b" target="l2b1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="330" />
+              <mxPoint x="505" y="330" />
+              <mxPoint x="505" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eb2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="l1b" target="l2b2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="330" />
+              <mxPoint x="695" y="330" />
+              <mxPoint x="695" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- L1c to L2 -->
+        <mxCell id="ec1" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="l1c" target="l2c1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="990" y="330" />
+              <mxPoint x="895" y="330" />
+              <mxPoint x="895" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ec2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="l1c" target="l2c2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="990" y="330" />
+              <mxPoint x="1085" y="330" />
+              <mxPoint x="1085" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- 凡例 -->
+        <mxCell id="leg_title" value="凡例" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="600" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_l0" value="経営目的" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="625" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_l1" value="業務目的" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="180" y="625" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_l2" value="業務 KPI" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="300" y="625" width="100" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

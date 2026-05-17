@@ -1,0 +1,281 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="8" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="WorkNav ブランドモチーフ語彙" style="text;html=1;fontFamily=Helvetica;fontSize=15;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="200" y="12" width="800" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Section A: Tessera Logo Structure ===== -->
+        <mxCell id="sa-hdr" value="A. Tessera（テセラ）タイル — ロゴ基本単位" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="52" width="480" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- 2x3 Logo grid: 2 cols x 3 rows, tile=48, gap=8 -->
+        <!-- Col0: x=80, Col1: x=136 -->
+        <!-- Row0: y=84, Row1: y=140, Row2: y=196 -->
+        <mxCell id="t00" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="80" y="84" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t10" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="136" y="84" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t01" value="" style="rounded=1;arcSize=8;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="80" y="140" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t11" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="136" y="140" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t02" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="80" y="196" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t12" value="" style="rounded=1;arcSize=8;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="136" y="196" width="48" height="48" as="geometry" />
+        </mxCell>
+
+        <mxCell id="logo-lbl" value="WorkNav" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#1E3A5F;" vertex="1" parent="1">
+          <mxGeometry x="68" y="256" width="132" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="logo-note" value="2×3 grid | 48dp tiles | 8dp gap | radius.sm=4dp" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="40" y="276" width="192" height="14" as="geometry" />
+        </mxCell>
+
+        <!-- Single tessera unit -->
+        <mxCell id="unit-hdr" value="単体テセラ" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="84" width="120" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="unit-box" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="104" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="unit-note" value="48dp / radius.sm" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="260" y="158" width="120" height="14" as="geometry" />
+        </mxCell>
+
+        <!-- Corner motif example -->
+        <mxCell id="cm-hdr" value="コーナーモチーフ（カード右上）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="84" width="260" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="cm-card" value="" style="rounded=1;arcSize=4;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="104" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="cm-tile" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;opacity=40;" vertex="1" parent="1">
+          <mxGeometry x="572" y="104" width="28" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="cm-card-text" value="カード内コンテンツ" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="420" y="148" width="160" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="cm-note" value="opacity 40% / size 28dp" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="400" y="232" width="200" height="14" as="geometry" />
+        </mxCell>
+
+        <!-- Grid pattern motif -->
+        <mxCell id="gm-hdr" value="グリッドアクセント（背景装飾）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="660" y="84" width="260" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="gm-bg" value="" style="rounded=0;fillColor=#EBF3FE;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="660" y="104" width="200" height="120" as="geometry" />
+        </mxCell>
+        <!-- 4x3 reduced grid tiles -->
+        <mxCell id="gm-t00" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;opacity=15;" vertex="1" parent="1">
+          <mxGeometry x="730" y="140" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gm-t10" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;opacity=15;" vertex="1" parent="1">
+          <mxGeometry x="758" y="140" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gm-t20" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;opacity=15;" vertex="1" parent="1">
+          <mxGeometry x="786" y="140" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gm-t01" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;opacity=15;" vertex="1" parent="1">
+          <mxGeometry x="730" y="168" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gm-t11" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;opacity=15;" vertex="1" parent="1">
+          <mxGeometry x="758" y="168" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gm-t21" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;opacity=15;" vertex="1" parent="1">
+          <mxGeometry x="786" y="168" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gm-note" value="opacity 15% / size 20dp / gap 8dp" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="660" y="232" width="240" height="14" as="geometry" />
+        </mxCell>
+
+        <!-- Divider -->
+        <mxCell id="div1" value="" style="rounded=0;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="1120" height="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Section B: Experience Keywords ===== -->
+        <mxCell id="sb-hdr" value="B. 体験キーワード 5語" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="272" width="320" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Keyword 1: Precise -->
+        <mxCell id="kw1-box" value="" style="rounded=1;arcSize=8;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="304" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="kw1-en" value="Precise" style="text;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="308" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="kw1-jp" value="正確・厳密" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="334" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="kw1-desc" value="手順の抜け漏れゼロ" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="40" y="354" width="200" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="kw1-token" value="brand.primary.900" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="40" y="390" width="200" height="12" as="geometry" />
+        </mxCell>
+
+        <!-- Keyword 2: Calm -->
+        <mxCell id="kw2-box" value="" style="rounded=1;arcSize=8;fillColor=#2E7ADE;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="256" y="304" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="kw2-en" value="Calm" style="text;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="256" y="308" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="kw2-jp" value="冷静・落ち着き" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="256" y="334" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="kw2-desc" value="余白主導の視覚言語" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="256" y="354" width="200" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="kw2-token" value="brand.accent.600" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="256" y="390" width="200" height="12" as="geometry" />
+        </mxCell>
+
+        <!-- Keyword 3: Resilient -->
+        <mxCell id="kw3-box" value="" style="rounded=1;arcSize=8;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="472" y="304" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="kw3-en" value="Resilient" style="text;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="472" y="308" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="kw3-jp" value="回復力・堅牢" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="472" y="334" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="kw3-desc" value="オフライン継続・再試行UX" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="472" y="354" width="200" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="kw3-token" value="brand.accent.500" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="472" y="390" width="200" height="12" as="geometry" />
+        </mxCell>
+
+        <!-- Keyword 4: Dignified -->
+        <mxCell id="kw4-box" value="" style="rounded=1;arcSize=8;fillColor=#EBF3FE;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="688" y="304" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="kw4-en" value="Dignified" style="text;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#1E3A5F;" vertex="1" parent="1">
+          <mxGeometry x="688" y="308" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="kw4-jp" value="品格・威厳" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="688" y="334" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="kw4-desc" value="電子署名・承認フロー" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="688" y="354" width="200" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="kw4-token" value="brand.primary.50 / #EBF3FE" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="688" y="390" width="200" height="12" as="geometry" />
+        </mxCell>
+
+        <!-- Keyword 5: Lucid -->
+        <mxCell id="kw5-box" value="" style="rounded=1;arcSize=8;fillColor=#475569;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="904" y="304" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="kw5-en" value="Lucid" style="text;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="904" y="308" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="kw5-jp" value="明瞭・透明" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="904" y="334" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="kw5-desc" value="証跡・監査ログの透明性" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="904" y="354" width="200" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="kw5-token" value="neutral.500 / #475569" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="904" y="390" width="200" height="12" as="geometry" />
+        </mxCell>
+
+        <!-- Divider 2 -->
+        <mxCell id="div2" value="" style="rounded=0;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="412" width="1120" height="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Section C: Voice and Tone Rules ===== -->
+        <mxCell id="sc-hdr" value="C. ボイス &amp; トーン規定" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="424" width="320" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Good examples column -->
+        <mxCell id="good-hdr" value="OK — 推奨表現" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="452" width="240" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="good-box" value="" style="rounded=1;arcSize=4;fillColor=#D1FAE5;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="472" width="480" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" value="「Step 3 を完了しました」" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="56" y="480" width="448" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" value="「保存できませんでした。ネットワークを確認してください。」" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="56" y="500" width="448" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="g3" value="「このロールを削除しますか？ロールを削除すると元に戻せません。」" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="56" y="520" width="448" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="g4" value="命令形 / 体言止め / 3文構造（状況・理由・行動）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#475569;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="56" y="544" width="448" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Bad examples column -->
+        <mxCell id="bad-hdr" value="NG — 禁止表現" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="560" y="452" width="240" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="bad-box" value="" style="rounded=1;arcSize=4;fillColor=#FEE2E2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="560" y="472" width="480" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="b1" value="「処理が完了しました！」（感嘆符多用）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="576" y="480" width="448" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="b2" value="「エラーが発生しました」（原因・対処なし）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="576" y="500" width="448" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="b3" value="「本当に削除しますか？」（yes/no 二択だけ）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="576" y="520" width="448" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="b4" value="受身形 / 曖昧な原因 / 感嘆符過剰 / 技術用語丸出し" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#475569;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="576" y="544" width="448" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Divider 3 -->
+        <mxCell id="div3" value="" style="rounded=0;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="580" width="1120" height="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Section D: Motif Application Rules ===== -->
+        <mxCell id="sd-hdr" value="D. モチーフ適用ルール" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="592" width="320" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r1" value="テセラタイルは装飾専用 — ナビゲーション要素として使わない" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="618" width="600" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" value="コーナーモチーフは opacity 30-40% — 本文コンテンツより必ず背面に" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="636" width="600" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" value="グリッド背景は section panel 限定 — 主コンテンツ領域での多用禁止" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="654" width="600" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" value="Andon 赤帯にモチーフ非適用 — 信号の純度を保つ" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#DC2626;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="672" width="600" height="14" as="geometry" />
+        </mxCell>
+
+        <mxCell id="footer" value="docs/04_概要設計/03_画面設計/05A_ブランドアイデンティティとデザイン原則.md 参照" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=right;fillColor=none;strokeColor=none;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="600" y="776" width="580" height="14" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
