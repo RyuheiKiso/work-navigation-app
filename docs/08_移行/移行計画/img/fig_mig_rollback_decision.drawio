@@ -1,0 +1,122 @@
+<mxfile>
+  <diagram name="fig_mig_rollback_decision" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="900" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="900" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="ロールバック判定フロー（3 区間）" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="12" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- Start -->
+        <mxCell id="start" value="縮退・障害検出" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#e0e0e0;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="60" width="240" height="60" as="geometry" />
+        </mxCell>
+        <!-- Decision 1: T+0〜T+2h -->
+        <mxCell id="d1_label" value="区間 1: T-0 〜 T+2h" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#666666;align=left;fillColor=none;strokeColor=none;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="30" y="170" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="重大バグ検出 / Go/No-Go 不合格?" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="270" y="160" width="360" height="100" as="geometry" />
+        </mxCell>
+        <!-- D1 outcomes -->
+        <mxCell id="d1_yes" value="ロールバック実行&lt;br&gt;（RB-001〜005）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#AE4132;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="640" y="175" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d1_no" value="継続監視&lt;br&gt;（2h ごとチェック継続）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="270" y="310" width="360" height="60" as="geometry" />
+        </mxCell>
+        <!-- Decision 2: T+2h〜T+24h -->
+        <mxCell id="d2_label" value="区間 2: T+2h 〜 T+24h" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#666666;align=left;fillColor=none;strokeColor=none;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="30" y="410" width="220" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="LEVEL-2/LEVEL-3 縮退検出?" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="270" y="400" width="360" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="d2_yes" value="quality_admin が&lt;br&gt;ロールバック判断" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#AE4132;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="640" y="415" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d2_no" value="継続監視&lt;br&gt;（72h まで継続）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="270" y="550" width="360" height="60" as="geometry" />
+        </mxCell>
+        <!-- Decision 3: T+24h〜 -->
+        <mxCell id="d3_label" value="区間 3: T+24h 〜 並行運用終了" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#666666;align=left;fillColor=none;strokeColor=none;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="30" y="648" width="240" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="作業完了率 95% 未達&lt;br&gt;（4h 以上継続）?" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="270" y="640" width="360" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="d3_yes" value="ロールバック必須候補&lt;br&gt;（MIG-054 対応）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#AE4132;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="640" y="655" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d3_no" value="並行運用完了&lt;br&gt;（カットオーバー実施計画へ）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="270" y="790" width="360" height="60" as="geometry" />
+        </mxCell>
+        <!-- Edges -->
+        <mxCell id="e_start_d1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_d1_yes" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="210" as="sourcePoint" />
+            <mxPoint x="640" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d1_no" value="No" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" source="d1" target="d1_no" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="260" />
+              <mxPoint x="450" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d1no_d2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="d1_no" target="d2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="370" />
+              <mxPoint x="450" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d2_yes" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="450" as="sourcePoint" />
+            <mxPoint x="640" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d2_no" value="No" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" source="d2" target="d2_no" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="500" />
+              <mxPoint x="450" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d2no_d3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="d2_no" target="d3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="610" />
+              <mxPoint x="450" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d3_yes" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="690" as="sourcePoint" />
+            <mxPoint x="640" y="690" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d3_no" value="No" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" source="d3" target="d3_no" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="740" />
+              <mxPoint x="450" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

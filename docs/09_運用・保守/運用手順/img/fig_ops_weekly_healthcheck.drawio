@@ -1,0 +1,61 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="週次ヘルスチェック手順 OPS-PROC-001" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="400" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="s0" value="開始" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="400" y="80" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" value="CHK-001: API ヘルスチェック curl /health → 200 OK" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="160" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" value="CHK-002: PostgreSQL 接続確認 pg_isready" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="260" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="CHK-003: BAT-001 完了確認 job_executions" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="360" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" value="CHK-004: Outbox 滞留確認 pending ≤ 閾値" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="460" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" value="CHK-005: ディスク使用率 ≤ 85%" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="560" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" value="CHK-006: 認証失敗ログ確認 24h 件数" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="660" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" value="maintenance_log に記録" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="400" y="760" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e01" value="" edge="1" source="s0" target="s1" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="" edge="1" source="s1" target="s2" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" value="" edge="1" source="s2" target="s3" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e34" value="" edge="1" source="s3" target="s4" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e45" value="" edge="1" source="s4" target="s5" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e56" value="" edge="1" source="s5" target="s6" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e67" value="" edge="1" source="s6" target="s7" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

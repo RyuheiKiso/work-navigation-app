@@ -1,0 +1,88 @@
+<mxfile>
+  <diagram name="fig_mig_rehearsal_flow" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="600" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="移行リハーサル実施フロー（3 回）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="12" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- Col headers -->
+        <mxCell id="ch1" value="第 1 回リハーサル&lt;br&gt;（手順書検証）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="55" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ch2" value="第 2 回リハーサル&lt;br&gt;（タイム計測・問題解消後）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="55" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ch3" value="第 3 回リハーサル&lt;br&gt;（最終・本番同等条件）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="55" width="300" height="50" as="geometry" />
+        </mxCell>
+        <!-- Col 1 flow -->
+        <mxCell id="r1_a" value="手順書に従い移行手順を実施&lt;br&gt;（ステージング環境）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="130" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_b" value="問題点票の作成&lt;br&gt;（RH-ISSUE-NNN 形式）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="230" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_c" value="問題是正・手順書の改訂" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="330" width="260" height="50" as="geometry" />
+        </mxCell>
+        <!-- Col 2 flow -->
+        <mxCell id="r2_a" value="改訂後の手順書で再実施&lt;br&gt;所要時間を計測する" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="470" y="130" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_b" value="RH-CHK-001〜007 の合否確認&lt;br&gt;残存問題点票の全件是正" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="470" y="230" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_c" value="P1 問題のクローズ確認&lt;br&gt;（全件クローズが第 3 回の前提）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="470" y="330" width="260" height="50" as="geometry" />
+        </mxCell>
+        <!-- Col 3 flow -->
+        <mxCell id="r3_a" value="本番同等条件での最終リハーサル&lt;br&gt;（本番データに近いデータ量）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="890" y="130" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_b" value="7 項目チェック表 全件合格確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="890" y="230" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_c" value="quality_admin によるリハーサル完了宣言&lt;br&gt;（書面署名 / CO-PRE-004 充足）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="890" y="330" width="260" height="50" as="geometry" />
+        </mxCell>
+        <!-- Vertical arrows within cols -->
+        <mxCell id="ea1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="r1_a" target="r1_b" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ea2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="r1_b" target="r1_c" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eb1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="r2_a" target="r2_b" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eb2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="r2_b" target="r2_c" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ec1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="r3_a" target="r3_b" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ec2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="r3_b" target="r3_c" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Horizontal arrows between cols (from bottom of prev to top of next) -->
+        <mxCell id="h_1_2" value="是正完了" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="310" y="430" as="sourcePoint" />
+            <mxPoint x="470" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="h_2_3" value="P1全件クローズ" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="730" y="430" as="sourcePoint" />
+            <mxPoint x="890" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

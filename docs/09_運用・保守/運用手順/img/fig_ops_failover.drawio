@@ -1,0 +1,67 @@
+<mxfile>
+  <diagram name="fig_ops_failover" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="800" pageHeight="960" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="800" height="960" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="Active-Standby 切替手順 OPS-PROC-010" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="100" y="16" width="600" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" value="プライマリ停止確認 ping / docker ps" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="80" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" value="現場監督に LEVEL-3 ペーパー運用移行を通知" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="180" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="スタンバイで最新 BAK から DB 復元" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="280" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" value="WAL 最新まで適用 (PITR)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="380" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" value="API / master-ui コンテナ起動 docker compose up" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="480" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" value="IIS リバプロ upstream 切替 (PowerShell appcmd)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="580" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" value="ヘルスチェック /health 200 OK 確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="680" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s8" value="ハンディ端末再接続率 ≥ 90% 確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="780" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s9" value="ハッシュチェーン整合性確認 &amp; RTO 記録" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="200" y="880" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" source="s1" target="s2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" source="s2" target="s3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" source="s3" target="s4" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" source="s4" target="s5" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" source="s5" target="s6" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" source="s6" target="s7" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" source="s7" target="s8" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" source="s8" target="s9" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

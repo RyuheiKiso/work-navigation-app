@@ -1,0 +1,82 @@
+<mxfile>
+  <diagram name="fig_mig_traceability_chain" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="900" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="900" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="6 段トレーサビリティ連鎖図（Why → Report）" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="100" y="12" width="700" height="32" as="geometry" />
+        </mxCell>
+        <!-- Level 1: Why -->
+        <mxCell id="l1" value="&lt;b&gt;Why（計画）&lt;/b&gt;&lt;br&gt;02_企画/システム化計画/13_データ移行とマスタ初期投入戦略.md" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="100" y="60" width="700" height="60" as="geometry" />
+        </mxCell>
+        <!-- Level 2: What -->
+        <mxCell id="l2" value="&lt;b&gt;What（要件）&lt;/b&gt;&lt;br&gt;MIG-NNN（001〜074） — 03_要件定義/移行要件/ が権威" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="185" width="700" height="60" as="geometry" />
+        </mxCell>
+        <!-- Level 3: Design -->
+        <mxCell id="l3" value="&lt;b&gt;Design（設計）&lt;/b&gt;&lt;br&gt;DES-MIG-NNN（001〜090） — 04_概要設計/09_移行方式設計/ が権威" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="100" y="310" width="700" height="60" as="geometry" />
+        </mxCell>
+        <!-- Level 4: Execute -->
+        <mxCell id="l4" value="&lt;b&gt;Execute（実施）&lt;/b&gt;&lt;br&gt;MIG-X-NNN（001〜200）/ MIG-RH-NNN（001〜020）/ MIG-RB-NNN（001〜015）— 08_移行/ が権威" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="435" width="700" height="60" as="geometry" />
+        </mxCell>
+        <!-- Level 5: Check -->
+        <mxCell id="l5" value="&lt;b&gt;Check（検証）&lt;/b&gt;&lt;br&gt;MIG-CK-NNN（001〜120） — 移行計画/08 + 導入手順/10・13 が権威" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="560" width="700" height="60" as="geometry" />
+        </mxCell>
+        <!-- Level 6: Report -->
+        <mxCell id="l6" value="&lt;b&gt;Report（報告）&lt;/b&gt;&lt;br&gt;MIG-REP-NNN（001〜022） — 導入手順/11・12 + 移行計画/10 + 付録/04 が権威" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="100" y="685" width="700" height="60" as="geometry" />
+        </mxCell>
+        <!-- Forward arrows (solid, right side) -->
+        <mxCell id="f1" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="120" as="sourcePoint" />
+            <mxPoint x="820" y="185" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="245" as="sourcePoint" />
+            <mxPoint x="820" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="370" as="sourcePoint" />
+            <mxPoint x="820" y="435" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f4" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="495" as="sourcePoint" />
+            <mxPoint x="820" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f5" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="620" as="sourcePoint" />
+            <mxPoint x="820" y="685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Back arrows (dashed, left side) -->
+        <mxCell id="b1" value="後方リンク（双方向）" style="endArrow=open;endFill=0;html=1;strokeColor=#333333;dashed=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="745" as="sourcePoint" />
+            <mxPoint x="80" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- MTM label -->
+        <mxCell id="mtm_label" value="付録/01_移行トレーサビリティマトリクス（MTM）&lt;br&gt;が全 6 段の双方向リンクを正典として管理する" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="100" y="800" width="700" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

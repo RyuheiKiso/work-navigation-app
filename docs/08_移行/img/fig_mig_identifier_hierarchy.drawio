@@ -1,0 +1,117 @@
+<mxfile>
+  <diagram name="fig_mig_identifier_hierarchy" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="600" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="08_移行 識別子階層図" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="16" width="400" height="32" as="geometry" />
+        </mxCell>
+        <!-- Level 0: 要件 -->
+        <mxCell id="req" value="&lt;b&gt;MIG-NNN&lt;/b&gt;&lt;br&gt;移行要件（003_要件定義/移行要件/）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="60" width="400" height="60" as="geometry" />
+        </mxCell>
+        <!-- Level 1a: 設計 -->
+        <mxCell id="des" value="&lt;b&gt;DES-MIG-NNN&lt;/b&gt;&lt;br&gt;移行方式設計命題（04_概要設計/09/）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="100" y="200" width="400" height="60" as="geometry" />
+        </mxCell>
+        <!-- Level 1b: タスク -->
+        <mxCell id="tsk" value="&lt;b&gt;MIG-T-NNN&lt;/b&gt;&lt;br&gt;移行タスク識別子（001〜020）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="700" y="200" width="400" height="60" as="geometry" />
+        </mxCell>
+        <!-- Level 2 boxes -->
+        <mxCell id="mx" value="&lt;b&gt;MIG-X-NNN&lt;/b&gt;&lt;br&gt;移行実施手順命題&lt;br&gt;001〜200" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="30" y="360" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mrh" value="&lt;b&gt;MIG-RH-NNN&lt;/b&gt;&lt;br&gt;リハーサル命題&lt;br&gt;001〜020" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="230" y="360" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mrb" value="&lt;b&gt;MIG-RB-NNN&lt;/b&gt;&lt;br&gt;ロールバック命題&lt;br&gt;001〜015" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="430" y="360" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mck" value="&lt;b&gt;MIG-CK-NNN&lt;/b&gt;&lt;br&gt;検証・チェック項目&lt;br&gt;001〜120" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="630" y="360" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mrep" value="&lt;b&gt;MIG-REP-NNN&lt;/b&gt;&lt;br&gt;報告様式項目&lt;br&gt;001〜022" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="830" y="360" width="180" height="80" as="geometry" />
+        </mxCell>
+        <!-- legend boxes -->
+        <mxCell id="leg1" value="参照のみ（採番禁止）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="30" y="520" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="概要設計確定（参照のみ）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="210" y="520" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="08章新規採番" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="390" y="520" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Edges -->
+        <mxCell id="e_req_des" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="req" target="des" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="150" />
+              <mxPoint x="300" y="150" />
+              <mxPoint x="300" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_req_tsk" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="req" target="tsk" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="150" />
+              <mxPoint x="900" y="150" />
+              <mxPoint x="900" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_des_mx" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="des" target="mx" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="290" />
+              <mxPoint x="120" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_des_mrh" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="des" target="mrh" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="290" />
+              <mxPoint x="320" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_des_mrb" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="des" target="mrb" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="290" />
+              <mxPoint x="300" y="330" />
+              <mxPoint x="520" y="330" />
+              <mxPoint x="520" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_des_mck" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="des" target="mck" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="290" />
+              <mxPoint x="400" y="340" />
+              <mxPoint x="720" y="340" />
+              <mxPoint x="720" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_tsk_mrep" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="tsk" target="mrep" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920" y="290" />
+              <mxPoint x="920" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

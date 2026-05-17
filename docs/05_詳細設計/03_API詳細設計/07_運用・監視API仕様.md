@@ -461,6 +461,8 @@ Content-Type: `application/json`。OpenAPI 3.1 準拠の JSON オブジェクト
 
 ---
 
+> **運用手順参照先**: DLQ 復旧の運用手順は `docs/09_運用・保守/障害対応/09_Outbox_DLQ復旧手順.md` に確定した。
+
 **本節で確定した方針**
 - **DLQ 管理（API-ops-001〜002）は system_admin 専用とし、requeue 時に retry_count をリセットして LOG-008 を出力することを確定した。**
 - **ヘルスチェック（API-system-001）はプロセス起動確認のみで DB 接続状態に依存しない liveness probe として確定し、readyz（API-system-002）は DB / Outbox / LDAP の状態を checks オブジェクトで返す readiness probe として確定した。**

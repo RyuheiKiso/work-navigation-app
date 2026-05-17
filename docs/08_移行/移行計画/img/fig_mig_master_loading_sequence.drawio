@@ -1,0 +1,63 @@
+<mxfile>
+  <diagram name="fig_mig_master_loading_sequence" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="900" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="900" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="マスタ初期投入 順序図（DES-MIG-021 実施版）" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="100" y="14" width="700" height="32" as="geometry" />
+        </mxCell>
+        <!-- Step 1: 工程マスタ -->
+        <mxCell id="s1" value="&lt;b&gt;Step 1: 工程マスタ投入&lt;/b&gt;&lt;br&gt;PRE-001〜010 → インポート → POST-001〜005" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="60" width="500" height="60" as="geometry" />
+        </mxCell>
+        <!-- Step 2: 作業マスタ -->
+        <mxCell id="s2" value="&lt;b&gt;Step 2: 作業マスタ投入&lt;/b&gt;&lt;br&gt;（工程に依存 / FK 整合確認必須）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="180" width="500" height="60" as="geometry" />
+        </mxCell>
+        <!-- Step 3: 製品マスタ -->
+        <mxCell id="s3" value="&lt;b&gt;Step 3: 製品マスタ投入&lt;/b&gt;&lt;br&gt;（工程・作業に依存）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="300" width="500" height="60" as="geometry" />
+        </mxCell>
+        <!-- Step 4: ユーザーマスタ -->
+        <mxCell id="s4" value="&lt;b&gt;Step 4: ユーザーマスタ・ロール/スキル投入&lt;/b&gt;&lt;br&gt;（quality_admin アカウントは先行作成済）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="420" width="500" height="60" as="geometry" />
+        </mxCell>
+        <!-- Step 5: SOP -->
+        <mxCell id="s5" value="&lt;b&gt;Step 5: SOP 投入 + 電子承認付与&lt;/b&gt;&lt;br&gt;全 SOP に quality_admin が電子署名（MIG-T-007）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="200" y="540" width="500" height="60" as="geometry" />
+        </mxCell>
+        <!-- Step 6: Step詳細 -->
+        <mxCell id="s6" value="&lt;b&gt;Step 6: Step 詳細（作業手順）の紐付け確認&lt;/b&gt;&lt;br&gt;工程→作業→Step の連鎖 FK 確認 + 10% 目視サンプリング" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="200" y="660" width="500" height="60" as="geometry" />
+        </mxCell>
+        <!-- Final: 品質担当承認 -->
+        <mxCell id="sfin" value="&lt;b&gt;品質担当（quality_admin）による最終承認&lt;/b&gt;&lt;br&gt;MIG-T-006 完了 → Phase M-1 完了条件の充足確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="780" width="500" height="60" as="geometry" />
+        </mxCell>
+        <!-- Arrows between steps -->
+        <mxCell id="e1_2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s1" target="s2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2_3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s2" target="s3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3_4" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s3" target="s4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4_5" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s4" target="s5" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5_6" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s5" target="s6" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6_fin" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s6" target="sfin" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
