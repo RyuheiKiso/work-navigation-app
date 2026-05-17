@@ -1,0 +1,157 @@
+<mxfile>
+  <diagram name="IQC業務フロー" id="page-1">
+    <mxGraphModel pageWidth="1200" pageHeight="760" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="入荷検査業務フロー（BF-07 IQC）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="20" width="560" height="32" as="geometry" />
+        </mxCell>
+        <!-- ===== MAIN FLOW NODES ===== -->
+        <mxCell id="n1" value="入荷ロット受入登録&#xa;（材料・仕入先・Lot番号・数量）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="サンプリング計画解決&#xa;（n・Ac・Re・検査厳しさ確認）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="80" y="200" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="サンプル採取・測定値入力&#xa;（数値・写真・QRスキャン）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="AQL 自動合否判定&#xa;（不良数 vs Ac / Re）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="80" y="440" width="240" height="60" as="geometry" />
+        </mxCell>
+        <!-- Decision diamond -->
+        <mxCell id="d1" value="合否判定" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="120" y="560" width="160" height="80" as="geometry" />
+        </mxCell>
+        <!-- YES branch: PASSED -->
+        <mxCell id="n5" value="PASSED（合格）&#xa;lots.qc_status=PASSED&#xa;後工程解放・ERR-BIZ-016禁止解除" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="400" y="550" width="220" height="80" as="geometry" />
+        </mxCell>
+        <!-- NO branch: 4-type decision -->
+        <mxCell id="n6" value="品質担当が4区分判定&#xa;（SCR-MC-010）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="80" y="700" width="240" height="60" as="geometry" />
+        </mxCell>
+        <!-- ===== TERMINAL NODES (4 types) ===== -->
+        <mxCell id="t1" value="特採（CONCESSION）&#xa;電子サイン+有効範囲+期限&#xa;警告バナー強制表示" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="380" y="640" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" value="選別（SCREENING）&#xa;全数選別→子ロット発行&#xa;合格個体のみ解放" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="600" y="640" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" value="返品（REJECT）&#xa;返品書・仕入先通知&#xa;qc_status=REJECTED" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="820" y="640" width="200" height="80" as="geometry" />
+        </mxCell>
+        <!-- Actor labels -->
+        <mxCell id="a1" value="IQC検査員&#xa;（ハンディAPP）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="56" width="240" height="24" as="geometry" />
+        </mxCell>
+        <!-- SLO annotations -->
+        <mxCell id="slo1" value="品質担当がサンプリング計画を確認" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;fillColor=none;strokeColor=none;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="340" y="218" width="240" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="slo2" value="计画がない場合: CFG-018/019 デフォルト適用" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;fillColor=none;strokeColor=none;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="340" y="243" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="slo3" value="厳しさ自動切替: JIS Z 9015-1 §10" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;fillColor=none;strokeColor=none;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="340" y="268" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="slo4" value="ALCOA+: 二重タイムスタンプ・SHA-256" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;fillColor=none;strokeColor=none;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="340" y="338" width="280" height="24" as="geometry" />
+        </mxCell>
+        <!-- ===== ARROWS ===== -->
+        <!-- n1 → n2 -->
+        <mxCell id="e1" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="140" as="sourcePoint" />
+            <mxPoint x="200" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- n2 → n3 -->
+        <mxCell id="e2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="260" as="sourcePoint" />
+            <mxPoint x="200" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- n3 → n4 -->
+        <mxCell id="e3" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="380" as="sourcePoint" />
+            <mxPoint x="200" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- n4 → d1 -->
+        <mxCell id="e4" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="500" as="sourcePoint" />
+            <mxPoint x="200" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- d1 → n5 (YES / 合格) -->
+        <mxCell id="e5" value="合格" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="600" as="sourcePoint" />
+            <mxPoint x="400" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- d1 → n6 (NO / 不合格) -->
+        <mxCell id="e6" value="不合格" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="640" as="sourcePoint" />
+            <mxPoint x="200" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- n6 → t1 (特採) -->
+        <mxCell id="e7" value="特採" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="720" as="sourcePoint" />
+            <mxPoint x="380" y="700" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="370" y="720" />
+              <mxPoint x="370" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- n6 → t2 (選別) -->
+        <mxCell id="e8" value="選別" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="730" as="sourcePoint" />
+            <mxPoint x="600" y="680" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="582" y="730" />
+              <mxPoint x="582" y="680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- n6 → t3 (返品) - route below t2 at y=745 -->
+        <mxCell id="e9" value="返品" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="745" as="sourcePoint" />
+            <mxPoint x="820" y="720" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="610" y="745" />
+              <mxPoint x="820" y="745" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- Annotation lines (dashed) for SLO notes -->
+        <mxCell id="al1" value="" style="endArrow=none;html=1;strokeColor=#333333;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="230" as="sourcePoint" />
+            <mxPoint x="340" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="al2" value="" style="endArrow=none;html=1;strokeColor=#333333;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="350" as="sourcePoint" />
+            <mxPoint x="340" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
