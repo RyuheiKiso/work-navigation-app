@@ -1,0 +1,47 @@
+<mxfile>
+  <diagram name="中断再開アンドンシーケンス" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1400" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="中断再開 / アンドン シーケンス" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="450" y="10" width="500" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Actor headers -->
+        <mxCell id="h_op"  value="作業員"     style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="80"  y="55" width="160" height="50" as="geometry" /></mxCell>
+        <mxCell id="h_app" value="ハンディ APP" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1"><mxGeometry x="400" y="55" width="160" height="50" as="geometry" /></mxCell>
+        <mxCell id="h_be"  value="バックエンド" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1"><mxGeometry x="730" y="55" width="160" height="50" as="geometry" /></mxCell>
+        <mxCell id="h_sup" value="現場監督"    style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1"><mxGeometry x="1070" y="55" width="160" height="50" as="geometry" /></mxCell>
+
+        <!-- Lifelines -->
+        <mxCell id="ll_op"  value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="160"  y="105" as="sourcePoint" /><mxPoint x="160"  y="660" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ll_app" value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="480"  y="105" as="sourcePoint" /><mxPoint x="480"  y="660" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ll_be"  value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="810"  y="105" as="sourcePoint" /><mxPoint x="810"  y="660" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ll_sup" value="" style="dashed=1;endArrow=none;html=1;strokeColor=#333333;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1150" y="105" as="sourcePoint" /><mxPoint x="1150" y="660" as="targetPoint" /></mxGeometry></mxCell>
+
+        <!-- Section labels -->
+        <mxCell id="sec_suspend" value="【中断シーケンス】" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#b85450;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1"><mxGeometry x="10" y="120" width="180" height="25" as="geometry" /></mxCell>
+        <mxCell id="sec_andon"   value="【アンドンシーケンス】" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#b85450;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1"><mxGeometry x="10" y="380" width="200" height="25" as="geometry" /></mxCell>
+
+        <!-- Separator -->
+        <mxCell id="sep" value="" style="endArrow=none;html=1;strokeColor=#666666;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="10" y="365" as="sourcePoint" /><mxPoint x="1380" y="365" as="targetPoint" /></mxGeometry></mxCell>
+
+        <!-- 中断シーケンス -->
+        <mxCell id="s1" value="1. 中断ボタン押下" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="160" y="165" as="sourcePoint" /><mxPoint x="480" y="165" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="s2" value="2. プレースキーパー記録" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="480" y="230" as="sourcePoint" /><mxPoint x="810" y="230" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="s3" value="3. 中断記録 OK" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="810" y="295" as="sourcePoint" /><mxPoint x="480" y="295" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="s4" value="4. 中断完了表示" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="480" y="340" as="sourcePoint" /><mxPoint x="160" y="340" as="targetPoint" /></mxGeometry></mxCell>
+
+        <!-- アンドンシーケンス -->
+        <mxCell id="a1" value="5. アンドン発報ボタン押下" style="endArrow=classic;endFill=1;html=1;strokeColor=#b85450;fontFamily=Helvetica;fontSize=11;fontColor=#b85450;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="160" y="410" as="sourcePoint" /><mxPoint x="480" y="410" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="a2" value="6. Alert イベント作成" style="endArrow=classic;endFill=1;html=1;strokeColor=#b85450;fontFamily=Helvetica;fontSize=11;fontColor=#b85450;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="480" y="470" as="sourcePoint" /><mxPoint x="810" y="470" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="a3" value="7. プッシュ通知（Alert）" style="endArrow=classic;endFill=1;html=1;strokeColor=#b85450;fontFamily=Helvetica;fontSize=11;fontColor=#b85450;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="810" y="540" as="sourcePoint" /><mxPoint x="1150" y="540" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="a4" value="8. 確認（ACK）応答" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1150" y="610" as="sourcePoint" /><mxPoint x="810" y="610" as="targetPoint" /></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

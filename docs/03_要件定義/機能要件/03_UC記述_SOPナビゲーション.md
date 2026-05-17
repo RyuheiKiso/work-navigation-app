@@ -6,6 +6,8 @@
 
 ## 1. ユースケース記述
 
+図: fig_sequence_step_execution（img/ 配下）を参照
+
 ### UC-001: 作業を開始する
 
 | 項目 | 内容 |

@@ -1,0 +1,98 @@
+<mxfile>
+  <diagram name="外部IFトポロジ" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="外部インタフェース トポロジ図" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="10" width="500" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Central: backend system -->
+        <mxCell id="backend" value="作業ナビゲーションシステム&#xa;（バックエンド）&#xa;Rust + axum + PostgreSQL" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="430" y="320" width="340" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Left: Handy APP -->
+        <mxCell id="handy" value="ハンディ APP&#xa;（タブレット）&#xa;React Native" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="30" y="330" width="180" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Right: ERP/MES -->
+        <mxCell id="erp" value="親機 / ERP・MES" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="990" y="330" width="180" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Top: Master maintenance APP -->
+        <mxCell id="master_app" value="マスタメンテナンス APP&#xa;（PC）React" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="460" y="80" width="240" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom left: AD/LDAP -->
+        <mxCell id="ad" value="認証 AD/LDAP" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="110" y="610" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom center: IoT -->
+        <mxCell id="iot" value="IoT 計測器" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="430" y="610" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom right: Barcode -->
+        <mxCell id="bc" value="バーコードスキャナ" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="690" y="610" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Far right: Print/Label -->
+        <mxCell id="print" value="印刷・ラベル出力" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="940" y="540" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== CONNECTIONS ===== -->
+        <!-- handy ↔ backend: IF-001 (bidirectional) -->
+        <mxCell id="e_hb_out" value="IF-001 REST/WebSocket" style="endArrow=classic;endFill=1;html=1;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" source="handy" target="backend" parent="1">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="210" y="368" /><mxPoint x="430" y="368" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="e_hb_in" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#6c8ebf;edgeStyle=none;" edge="1" source="backend" target="handy" parent="1">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="430" y="378" /><mxPoint x="210" y="378" /></Array></mxGeometry>
+        </mxCell>
+
+        <!-- master_app ↔ backend: IF-002 REST -->
+        <mxCell id="e_ma_out" value="IF-002 REST" style="endArrow=classic;endFill=1;html=1;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" source="master_app" target="backend" parent="1">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="570" y="145" /><mxPoint x="570" y="320" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="e_ma_in" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#6c8ebf;edgeStyle=none;" edge="1" source="backend" target="master_app" parent="1">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="620" y="320" /><mxPoint x="620" y="145" /></Array></mxGeometry>
+        </mxCell>
+
+        <!-- backend → erp: IF-003 Outbox/MQ -->
+        <mxCell id="e_be_erp" value="IF-003 Outbox→MQ" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" source="backend" target="erp" parent="1">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="770" y="365" /><mxPoint x="990" y="365" /></Array></mxGeometry>
+        </mxCell>
+
+        <!-- backend ↔ ad: IF-004 LDAP -->
+        <mxCell id="e_be_ad" value="IF-004 LDAP/OAuth2" style="endArrow=classic;endFill=1;html=1;strokeColor=#666666;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" source="backend" target="ad" parent="1">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="480" y="410" /><mxPoint x="480" y="560" /><mxPoint x="200" y="560" /><mxPoint x="200" y="610" /></Array></mxGeometry>
+        </mxCell>
+
+        <!-- handy ← iot: IF-005 Bluetooth/Serial -->
+        <mxCell id="e_iot_h" value="IF-005 BLE/Serial" style="endArrow=classic;endFill=1;html=1;strokeColor=#666666;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" source="iot" target="handy" parent="1">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="520" y="610" /><mxPoint x="120" y="405" /></Array></mxGeometry>
+        </mxCell>
+
+        <!-- handy ← bc: IF-006 USB HID/BT -->
+        <mxCell id="e_bc_h" value="IF-006 USB HID" style="endArrow=classic;endFill=1;html=1;strokeColor=#666666;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" source="bc" target="handy" parent="1">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="780" y="610" /><mxPoint x="780" y="570" /><mxPoint x="120" y="570" /><mxPoint x="120" y="405" /></Array></mxGeometry>
+        </mxCell>
+
+        <!-- backend → print: IF-007 PrintJob API -->
+        <mxCell id="e_be_pr" value="IF-007 PrintJob API" style="endArrow=classic;endFill=1;html=1;strokeColor=#666666;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" source="backend" target="print" parent="1">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="770" y="390" /><mxPoint x="930" y="390" /><mxPoint x="930" y="540" /><mxPoint x="1030" y="540" /></Array></mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

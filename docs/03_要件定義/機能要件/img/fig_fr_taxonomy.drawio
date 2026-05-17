@@ -1,0 +1,222 @@
+<mxfile>
+  <diagram name="FR分類ツリー" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1400" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="機能要件（FR）分類ツリー" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="500" y="10" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Root node -->
+        <mxCell id="root" value="機能要件（FR）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="590" y="50" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- L1 nodes: 8 categories, evenly spaced across 1400px -->
+        <!-- x positions: 40, 205, 370, 535, 700, 865, 1030, 1195 (width=140, gap=25) -->
+        <mxCell id="l1_nv" value="NV&#xa;SOPナビゲーション" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="30" y="150" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_ev" value="EV&#xa;証拠記録・電子サイン" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="190" y="150" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_st" value="ST&#xa;状態管理" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="150" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_ma" value="MA&#xa;マスタ管理" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="510" y="150" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_sy" value="SY&#xa;同期・連携" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="670" y="150" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_kz" value="KZ&#xa;Kaizen/CAPA" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="830" y="150" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_au" value="AU&#xa;認証認可" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="150" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_ui" value="UI&#xa;UI/UX" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="150" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- L2 nodes: 2 per L1 category -->
+        <!-- NV -->
+        <mxCell id="l2_nv1" value="NV-001&#xa;SOP手順表示" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="10" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_nv2" value="NV-002&#xa;次Step解放制御" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="140" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <!-- EV -->
+        <mxCell id="l2_ev1" value="EV-001&#xa;写真証拠添付" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="170" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_ev2" value="EV-002&#xa;電子サイン記録" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="300" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <!-- ST -->
+        <mxCell id="l2_st1" value="ST-001&#xa;作業ステータス遷移" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="330" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_st2" value="ST-002&#xa;アンドン発報" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="460" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <!-- MA -->
+        <mxCell id="l2_ma1" value="MA-001&#xa;SOP Draft作成" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="490" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_ma2" value="MA-002&#xa;マスタPublish" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="620" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <!-- SY -->
+        <mxCell id="l2_sy1" value="SY-001&#xa;Outboxパターン" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="650" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_sy2" value="SY-002&#xa;冪等性制御" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="780" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <!-- KZ -->
+        <mxCell id="l2_kz1" value="KZ-001&#xa;不適合記録" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="810" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_kz2" value="KZ-002&#xa;CAPA管理" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="940" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <!-- AU -->
+        <mxCell id="l2_au1" value="AU-001&#xa;ロールベース認可" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="970" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_au2" value="AU-002&#xa;PIN/指紋認証" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <!-- UI -->
+        <mxCell id="l2_ui1" value="UI-001&#xa;多言語対応" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_ui2" value="UI-002&#xa;オフライン対応" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="270" width="120" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Root to L1 edges -->
+        <mxCell id="e_root_nv" edge="1" source="root" target="l1_nv" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="115" />
+              <mxPoint x="100" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_ev" edge="1" source="root" target="l1_ev" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="115" />
+              <mxPoint x="260" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_st" edge="1" source="root" target="l1_st" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="115" />
+              <mxPoint x="420" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_ma" edge="1" source="root" target="l1_ma" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="115" />
+              <mxPoint x="580" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_sy" edge="1" source="root" target="l1_sy" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="115" />
+              <mxPoint x="740" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_kz" edge="1" source="root" target="l1_kz" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="115" />
+              <mxPoint x="900" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_au" edge="1" source="root" target="l1_au" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="115" />
+              <mxPoint x="1060" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_ui" edge="1" source="root" target="l1_ui" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="115" />
+              <mxPoint x="1220" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- L1 to L2 edges -->
+        <mxCell id="e_nv_l2a" edge="1" source="l1_nv" target="l2_nv1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_nv_l2b" edge="1" source="l1_nv" target="l2_nv2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ev_l2a" edge="1" source="l1_ev" target="l2_ev1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ev_l2b" edge="1" source="l1_ev" target="l2_ev2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_st_l2a" edge="1" source="l1_st" target="l2_st1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_st_l2b" edge="1" source="l1_st" target="l2_st2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ma_l2a" edge="1" source="l1_ma" target="l2_ma1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ma_l2b" edge="1" source="l1_ma" target="l2_ma2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sy_l2a" edge="1" source="l1_sy" target="l2_sy1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sy_l2b" edge="1" source="l1_sy" target="l2_sy2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_kz_l2a" edge="1" source="l1_kz" target="l2_kz1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_kz_l2b" edge="1" source="l1_kz" target="l2_kz2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_au_l2a" edge="1" source="l1_au" target="l2_au1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_au_l2b" edge="1" source="l1_au" target="l2_au2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ui_l2a" edge="1" source="l1_ui" target="l2_ui1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ui_l2b" edge="1" source="l1_ui" target="l2_ui2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

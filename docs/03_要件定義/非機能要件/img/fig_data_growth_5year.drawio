@@ -1,0 +1,136 @@
+<mxfile>
+  <diagram name="5年データ量推移" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="5年データ量推移（ストレージ容量計画）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Y-axis label -->
+        <mxCell id="yaxis_label" value="ストレージ量" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=none;strokeColor=none;align=center;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="30" y="320" width="100" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Y-axis ticks and labels -->
+        <mxCell id="y0" value="0 GB" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=right;" vertex="1" parent="1">
+          <mxGeometry x="80" y="548" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="y500" value="500 GB" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=right;" vertex="1" parent="1">
+          <mxGeometry x="70" y="428" width="70" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="y1000" value="1,000 GB" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=right;" vertex="1" parent="1">
+          <mxGeometry x="60" y="308" width="80" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="y1500" value="1,500 GB" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=right;" vertex="1" parent="1">
+          <mxGeometry x="60" y="188" width="80" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- Chart area border (axes) -->
+        <mxCell id="axis_v" value="" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="140" as="sourcePoint" />
+            <mxPoint x="150" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="axis_h" value="" style="endArrow=none;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="560" as="sourcePoint" />
+            <mxPoint x="1100" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Grid lines as thin vertex rects (avoid edge/vertex crossing errors) -->
+        <mxCell id="grid_500" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=none;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="150" y="439" width="950" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="grid_1000" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=none;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="150" y="319" width="950" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="grid_1500" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=none;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="150" y="199" width="950" height="2" as="geometry" />
+        </mxCell>
+
+        <!-- Upper limit line at 1.5TB = y=200 -->
+        <mxCell id="limit_line" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=3;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="200" as="sourcePoint" />
+            <mxPoint x="1100" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="limit_label" value="1.5 TB PostgreSQL 上限" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#b85450;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="178" width="180" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Bar 1: 1年目 50GB, height=(50/1500)*360=12px, top=560-12=548 -->
+        <mxCell id="bar1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="190" y="548" width="100" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl1_val" value="50 GB" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="190" y="528" width="100" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl1_yr" value="1年目" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="190" y="565" width="100" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- Bar 2: 2年目 150GB, height=(150/1500)*360=36px, top=560-36=524 -->
+        <mxCell id="bar2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="340" y="524" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl2_val" value="150 GB" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="340" y="504" width="100" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl2_yr" value="2年目" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="340" y="565" width="100" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- Bar 3: 3年目 400GB, height=(400/1500)*360=96px, top=560-96=464 -->
+        <mxCell id="bar3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="490" y="464" width="100" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl3_val" value="400 GB" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="444" width="100" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl3_yr" value="3年目" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="565" width="100" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- Bar 4: 4年目 800GB, height=(800/1500)*360=192px, top=560-192=368 -->
+        <mxCell id="bar4" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="640" y="368" width="100" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl4_val" value="800 GB" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="640" y="348" width="100" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl4_yr" value="4年目" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="640" y="565" width="100" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- Bar 5: 5年目 1500GB, height=(1500/1500)*360=360px, top=560-360=200 -->
+        <mxCell id="bar5" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="790" y="200" width="100" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl5_val" value="1,500 GB (1.5 TB)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="760" y="180" width="160" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl5_yr" value="5年目" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="790" y="565" width="100" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- X-axis label -->
+        <mxCell id="xaxis_label" value="経過年数" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="550" y="600" width="100" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Warning annotation -->
+        <mxCell id="warn_note" value="⚠ 5年目は上限に到達 → 分割・アーカイブ検討" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=2;fontColor=#b85450;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="920" y="250" width="260" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

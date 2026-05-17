@@ -1,0 +1,126 @@
+<mxfile>
+  <diagram name="テストフェーズフロー" id="page-1">
+    <mxGraphModel dx="1100" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="600" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1400" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="テストフェーズフロー" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="500" y="16" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 1: 単体テスト (infra色 #f5f5f5 / #666666) -->
+        <mxCell id="ph1" value="単体テスト" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 2: 結合テスト (net色 #dae8fc / #6c8ebf) -->
+        <mxCell id="ph2" value="結合テスト" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="240" y="200" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 3: システムテスト (app色 #fff2cc / #d79b00) -->
+        <mxCell id="ph3" value="システムテスト" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="440" y="200" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Gate after システムテスト -->
+        <mxCell id="gate-sys" value="合否？" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="640" y="210" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 4: 性能テスト (data色 #e1d5e7 / #9673a6) -->
+        <mxCell id="ph4" value="性能テスト" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="790" y="200" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 5: セキュリティテスト (data色 #e1d5e7 / #9673a6) -->
+        <mxCell id="ph5" value="セキュリティテスト" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="960" y="200" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Gate after セキュリティテスト -->
+        <mxCell id="gate-sec" value="合否？" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="210" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 6: 受入テスト (危険色 #f8cecc / #b85450) -->
+        <mxCell id="ph6" value="受入テスト" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="200" width="70" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Phase arrows -->
+        <mxCell id="e-1-2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ph1" target="ph2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-2-3" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ph2" target="ph3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-3-gs" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ph3" target="gate-sys" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- gate-sys → ph4 (合格) -->
+        <mxCell id="e-gs-4" value="合格" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="gate-sys" target="ph4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- gate-sys → ph3 (不合格 - loopback) -->
+        <mxCell id="e-gs-fail" value="不合格" style="endArrow=classic;endFill=1;html=1;strokeColor=#b85450;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="gate-sys" target="ph3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="690" y="160" />
+              <mxPoint x="520" y="160" />
+              <mxPoint x="520" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-4-5" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ph4" target="ph5" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-5-gsec" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ph5" target="gate-sec" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- gate-sec → ph6 (合格) -->
+        <mxCell id="e-gsec-6" value="合格" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="gate-sec" target="ph6" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- gate-sec → ph5 (不合格 - loopback) -->
+        <mxCell id="e-gsec-fail" value="不合格" style="endArrow=classic;endFill=1;html=1;strokeColor=#b85450;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="gate-sec" target="ph5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1200" y="160" />
+              <mxPoint x="1040" y="160" />
+              <mxPoint x="1040" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Labels under each phase -->
+        <mxCell id="lb1" value="コード単体検証" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="290" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lb2" value="モジュール間連携" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="240" y="290" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lb3" value="E2Eシナリオ検証" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="440" y="290" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lb4" value="SLO達成確認" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="790" y="290" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lb5" value="脆弱性スキャン" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="960" y="290" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lb6" value="受入判定" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1295" y="290" width="80" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

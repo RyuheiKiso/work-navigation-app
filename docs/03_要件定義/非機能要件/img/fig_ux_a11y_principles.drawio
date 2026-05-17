@@ -1,0 +1,105 @@
+<mxfile>
+  <diagram name="UX/A11y原則図" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="工場現場 UX / アクセシビリティ 原則図" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Center circle: 工場現場UX (app color) -->
+        <mxCell id="center" value="工場現場&#xa;UX" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="490" y="270" width="220" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Principle nodes arranged radially -->
+        <!-- Top: 夜勤ダークモード (net color) -->
+        <mxCell id="p_dark" value="夜勤ダークモード&#xa;（OLED対応・目疲れ軽減）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="480" y="80" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Right-top: グローブ操作対応 (infra color) -->
+        <mxCell id="p_glove" value="グローブ操作対応&#xa;（タッチ面積 10mm 以上）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="880" y="180" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Right-bottom: 多言語・やさしい日本語 (net color) -->
+        <mxCell id="p_i18n" value="多言語・やさしい日本語&#xa;（JP/EN/ZH 対応）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="880" y="450" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom: JIS X 8341 (infra color) -->
+        <mxCell id="p_jis" value="JIS X 8341&#xa;アクセシビリティ準拠" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="480" y="560" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Left: 色覚多様性対応 (net color) -->
+        <mxCell id="p_color" value="色覚多様性対応&#xa;（P型/D型シミュレーション）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="310" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Radial arrows from center to each node -->
+        <!-- Center -> Top (dark mode) -->
+        <mxCell id="e_dark" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="270" as="sourcePoint" />
+            <mxPoint x="600" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Center -> Right-top (glove) -->
+        <mxCell id="e_glove" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="305" as="sourcePoint" />
+            <mxPoint x="880" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Center -> Right-bottom (i18n) -->
+        <mxCell id="e_i18n" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="375" as="sourcePoint" />
+            <mxPoint x="880" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Center -> Bottom (JIS) -->
+        <mxCell id="e_jis" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="410" as="sourcePoint" />
+            <mxPoint x="600" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Center -> Left (color) -->
+        <mxCell id="e_color" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="340" as="sourcePoint" />
+            <mxPoint x="320" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Sub-detail labels for each node -->
+        <mxCell id="d_dark" value="輝度自動調整・背景 #1a1a2e" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="480" y="58" width="240" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="d_glove" value="最小タップ 48×48 dp 相当" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="880" y="158" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="d_i18n" value="Unicode NFC / RTL 対応" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="880" y="428" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="d_jis" value="WCAG 2.1 AA 準拠" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="480" y="624" width="240" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="d_color" value="補助線・ハッチング倂用" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="60" y="288" width="260" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
