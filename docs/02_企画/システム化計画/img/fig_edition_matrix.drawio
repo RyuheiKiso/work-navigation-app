@@ -1,0 +1,119 @@
+<mxfile>
+  <diagram name="エディション比較マトリクス" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="720" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="720" as="geometry" />
+        </mxCell>
+
+        <!-- Title -->
+        <mxCell id="title" value="エディション比較マトリクス" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="14" width="900" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- Column header row (y=70, h=50) -->
+        <mxCell id="hdr_feature" value="機能・特性" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="20" y="70" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_solo" value="Solo Edition&#xa;（単独動作）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="310" y="70" width="250" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_connected" value="Connected Edition&#xa;（子機モード対応）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="570" y="70" width="250" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_enterprise" value="Enterprise&#xa;（将来）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="830" y="70" width="250" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Row 1 (y=130): SOP navigation / ALCOA+ recording -->
+        <mxCell id="r1_feat" value="SOP ナビゲーション&#xa;ALCOA+ 準拠記録" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#FFFFFF;strokeColor=#666666;align=left;verticalAlign=middle;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="130" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_solo" value="○" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="310" y="130" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_connected" value="○" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="570" y="130" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_enterprise" value="○" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="830" y="130" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Row 2 (y=210): Offline-First / Local-First -->
+        <mxCell id="r2_feat" value="Offline-First&#xa;Local-First 設計" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#FFFFFF;strokeColor=#666666;align=left;verticalAlign=middle;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="210" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_solo" value="○" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="310" y="210" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_connected" value="○" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="570" y="210" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_enterprise" value="○" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="830" y="210" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Row 3 (y=290): 子機モード READ-ONLY -->
+        <mxCell id="r3_feat" value="子機モード&#xa;READ-ONLY 同期" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#FFFFFF;strokeColor=#666666;align=left;verticalAlign=middle;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="290" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_solo" value="−&#xa;（なし）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=2;fontColor=#666666;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="310" y="290" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_connected" value="○" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="570" y="290" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_enterprise" value="○" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="830" y="290" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Row 4 (y=370): 双方向同期（実績送信） -->
+        <mxCell id="r4_feat" value="双方向同期&#xa;（実績送信）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#FFFFFF;strokeColor=#666666;align=left;verticalAlign=middle;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="370" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r4_solo" value="−&#xa;（なし）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=2;fontColor=#666666;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="310" y="370" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r4_connected" value="△&#xa;（親機 API 対応時）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=2;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="570" y="370" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r4_enterprise" value="○" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="830" y="370" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Row 5 (y=450): マルチサイト -->
+        <mxCell id="r5_feat" value="マルチサイト&#xa;（複数拠点対応）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#FFFFFF;strokeColor=#666666;align=left;verticalAlign=middle;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="450" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r5_solo" value="−&#xa;（なし）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=2;fontColor=#666666;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="310" y="450" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r5_connected" value="−&#xa;（なし）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=2;fontColor=#666666;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="570" y="450" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r5_enterprise" value="△&#xa;（将来オプション）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=2;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="830" y="450" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Legend (y=560) -->
+        <mxCell id="leg_full" value="○ 完全提供" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#6c8ebf;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="20" y="560" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_partial" value="△ 設計余地あり" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="230" y="560" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_none" value="− 非提供" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#666666;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="440" y="560" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Pricing note (y=550) -->
+        <mxCell id="pricing" value="価格方針: 全エディション OSS（MIT ライセンス）で無償提供。&#xa;導入支援・保守・カスタマイズは有償サービスとして別途提供（法人化後）。" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="550" width="480" height="80" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

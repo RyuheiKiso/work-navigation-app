@@ -1,0 +1,117 @@
+<mxfile>
+  <diagram name="親機子機トポロジ" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- 白背景矩形（必須・第一要素） -->
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- タイトル -->
+        <mxCell id="title" value="親機（基幹システム）と子機（本アプリ）のトポロジ" style="text;html=1;fontFamily=Helvetica;fontSize=15;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="150" y="16" width="900" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- 親機ゾーン背景 -->
+        <mxCell id="parent_zone" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="70" width="420" height="540" as="geometry" />
+        </mxCell>
+        <!-- 親機ゾーンラベル -->
+        <mxCell id="parent_lbl" value="親機（基幹システム）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="82" width="420" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- 親機内部ボックス -->
+        <mxCell id="parent_master" value="品目マスタ" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="80" y="150" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="parent_process" value="工程マスタ" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="80" y="240" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="parent_plan" value="生産計画" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="80" y="330" width="180" height="50" as="geometry" />
+        </mxCell>
+        <!-- 親機の役割説明 -->
+        <mxCell id="parent_role" value="マスタの権威（正典）を保有&#xa;生産計画・原価計算を担う" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=2;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="30" y="430" width="400" height="40" as="geometry" />
+        </mxCell>
+        <!-- 外部一意キー説明 -->
+        <mxCell id="ext_key" value="外部一意キー&#xa;（型式 / 機番 / 品目コード）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="80" y="500" width="280" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 中央 REST API ボックス -->
+        <mxCell id="api_box" value="REST API / Webhook&#xa;（OpenAPI 3.1）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="490" y="215" width="220" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 子機ゾーン背景 -->
+        <mxCell id="child_zone" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d79b00;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="760" y="70" width="420" height="540" as="geometry" />
+        </mxCell>
+        <!-- 子機ゾーンラベル -->
+        <mxCell id="child_lbl" value="子機（本アプリ）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="760" y="82" width="420" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- 子機内部ボックス -->
+        <mxCell id="child_sop" value="SOP ナビゲーション" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="860" y="150" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="child_alcoa" value="ALCOA+ 準拠記録" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="860" y="240" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="child_jc" value="Just Culture 支援" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="860" y="330" width="260" height="50" as="geometry" />
+        </mxCell>
+        <!-- 子機の役割説明 -->
+        <mxCell id="child_role" value="作業実績・品質証拠の権威（正典）を保有&#xa;ラストワンマイルの記録に特化" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=2;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="770" y="430" width="400" height="40" as="geometry" />
+        </mxCell>
+        <!-- 子機の実績説明 -->
+        <mxCell id="child_result" value="作業実績 / 測定値 / ALCOA+ 証拠&#xa;（PostgreSQL で正典として保持）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="840" y="500" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- マスタ同期ラベル（矢印の上・y=150） -->
+        <mxCell id="lbl_sync" value="マスタ同期（READ-ONLY）" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="490" y="150" width="220" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- マスタ同期矢印（親機右端→子機左端 y=180） -->
+        <mxCell id="e_sync" edge="1" parent="1"
+                 style="endArrow=classic;endFill=1;html=1;strokeColor=#6c8ebf;strokeWidth=2;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="180" as="sourcePoint" />
+            <mxPoint x="760" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 実績送信矢印（子機左端→親機右端 y=300・破線） -->
+        <mxCell id="e_result" edge="1" parent="1"
+                 style="endArrow=classic;endFill=1;html=1;strokeColor=#d79b00;strokeWidth=2;dashed=1;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="760" y="300" as="sourcePoint" />
+            <mxPoint x="440" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 実績送信ラベル（矢印の下・y=305） -->
+        <mxCell id="lbl_result" value="実績送信（Outbox Pattern）" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="490" y="305" width="220" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- 下部注記: 単独動作モード -->
+        <mxCell id="note_solo" value="▶ 単独動作モード: 基幹システム（親機）が存在しない工場でも本アプリは完全機能する（Offline-First 設計）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#666666;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="20" y="640" width="700" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 下部注記: OT直結非提供 -->
+        <mxCell id="note_ot" value="PLC / OPC-UA 等の OT レイヤ直結は永続非提供&#xa;（IT/OT 境界の意図的保護・構想 11 章 §4）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="740" y="640" width="440" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

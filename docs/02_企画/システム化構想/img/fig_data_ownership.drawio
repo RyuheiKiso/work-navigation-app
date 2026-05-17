@@ -1,0 +1,64 @@
+<mxfile>
+  <diagram name="fig_data_ownership">
+    <mxGraphModel pageWidth="1200" pageHeight="700" background="#FFFFFF">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="bg" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="700" as="geometry"/>
+        </mxCell>
+        <mxCell id="title" value="データオーナーシップと移動権の宣言" style="text;fontFamily=Helvetica;fontColor=#333333;fontStyle=1;fontSize=16;align=center;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="150" y="14" width="900" height="34" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="center_box" value="導入先組織（工場）= データオーナー&#xa;読む / 書く / 移動 / 消去 / 形式変更の権利を保有" style="rounded=0;fontFamily=Helvetica;fontColor=#333333;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d79b00;strokeWidth=3;align=center;" vertex="1" parent="1">
+          <mxGeometry x="420" y="220" width="360" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="target_json" value="OpenAPI 経由 JSON&#xa;（第三段階）" style="rounded=0;fontFamily=Helvetica;fontColor=#333333;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;align=center;" vertex="1" parent="1">
+          <mxGeometry x="900" y="145" width="240" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="arrow_to_json" value="" style="endArrow=classic;startArrow=none;fontFamily=Helvetica;strokeColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="780" y="255" as="sourcePoint"/>
+            <mxPoint x="900" y="180" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="target_sql" value="標準 SQL&#xa;直接アクセス（第一段階）" style="rounded=0;fontFamily=Helvetica;fontColor=#333333;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;align=center;" vertex="1" parent="1">
+          <mxGeometry x="900" y="235" width="240" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="arrow_to_sql" value="" style="endArrow=classic;startArrow=none;fontFamily=Helvetica;strokeColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="780" y="268" as="sourcePoint"/>
+            <mxPoint x="900" y="270" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="target_csv" value="CSV エクスポート&#xa;（第二段階）" style="rounded=0;fontFamily=Helvetica;fontColor=#333333;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;align=center;" vertex="1" parent="1">
+          <mxGeometry x="900" y="325" width="240" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="arrow_to_csv" value="" style="endArrow=classic;startArrow=none;fontFamily=Helvetica;strokeColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="780" y="295" as="sourcePoint"/>
+            <mxPoint x="900" y="345" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="neg_dev" value="開発者 ≠ データオーナー&#xa;Bus Factor=1でも移行不可にしない" style="rounded=0;fontFamily=Helvetica;fontColor=#666666;fontStyle=2;fontSize=11;fillColor=#f5f5f5;strokeColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="50" y="450" width="300" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="neg_parent" value="親機（基幹システム）≠ データオーナー&#xa;実績送信後も PostgreSQL が正典を保持" style="rounded=0;fontFamily=Helvetica;fontColor=#666666;fontStyle=2;fontSize=11;fillColor=#f5f5f5;strokeColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="400" y="450" width="300" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="neg_lock" value="データロックイン禁止&#xa;いつでも全データを移行できる" style="rounded=0;fontFamily=Helvetica;fontColor=#666666;fontStyle=2;fontSize=11;fillColor=#f5f5f5;strokeColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="750" y="450" width="300" height="80" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="schema_note" value="PostgreSQL スキーマ（DDL）は永続的にバージョン管理・公開する。廃止後もスキーマのみで PostgreSQL 直接参照が可能な設計を保証する。（構想 13 章）" style="rounded=1;fontFamily=Helvetica;fontColor=#333333;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="50" y="580" width="1100" height="60" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
