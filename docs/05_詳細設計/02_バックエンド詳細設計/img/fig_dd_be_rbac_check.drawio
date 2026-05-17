@@ -1,0 +1,120 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="RBAC チェックフロー（axum ミドルウェア）" style="text;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="14" width="600" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- Step 1: HTTP Request -->
+        <mxCell id="s1" value="HTTP Request" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="490" y="72" width="220" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Step 2: JwtMiddleware -->
+        <mxCell id="s2" value="JwtMiddleware&#xa;(RS256 署名検証)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="490" y="162" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Step 3: Extract claims -->
+        <mxCell id="s3" value="クレーム抽出&#xa;(claim.sub, claim.roles)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="490" y="262" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Step 4: RequireRole checker -->
+        <mxCell id="s4" value="RequireRole チェッカー" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="490" y="362" width="220" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Step 5: Decision diamond -->
+        <mxCell id="dec" value="claim.roles に&#xa;required_role が含まれる?" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="450" y="454" width="300" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Step 6a: YES path - proceed to handler -->
+        <mxCell id="s5" value="ハンドラ処理へ進む" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="820" y="474" width="220" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Step 6b: NO path - return 403 -->
+        <mxCell id="s6" value="403 Forbidden&#xa;ERR-AUTH-004 返却" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="160" y="474" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Edge s1 -> s2 -->
+        <mxCell id="e1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s1" target="s2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="138" />
+              <mxPoint x="600" y="162" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Edge s2 -> s3 -->
+        <mxCell id="e2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s2" target="s3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="212" />
+              <mxPoint x="600" y="262" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Edge s3 -> s4 -->
+        <mxCell id="e3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s3" target="s4" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="312" />
+              <mxPoint x="600" y="362" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Edge s4 -> dec -->
+        <mxCell id="e4" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="s4" target="dec" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="406" />
+              <mxPoint x="600" y="454" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Edge dec -> s5 (YES, right) -->
+        <mxCell id="e5" value="YES" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" edge="1" source="dec" target="s5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="499" />
+              <mxPoint x="820" y="496" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Edge dec -> s6 (NO, left) -->
+        <mxCell id="e6" value="NO" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" edge="1" source="dec" target="s6" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="499" />
+              <mxPoint x="380" y="499" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- YES/NO edge labels positioned away from edges -->
+        <!-- Label annotations for clarity -->
+        <mxCell id="lbl_yes" value="ロールOK" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="780" y="510" width="70" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_no" value="ロール不足" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="340" y="510" width="80" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

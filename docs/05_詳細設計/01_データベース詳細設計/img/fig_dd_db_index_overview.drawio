@@ -1,0 +1,81 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="インデックス設計概要（IDX-001〜016）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="18" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- Column headers -->
+        <mxCell id="hdr_grp" value="グループ" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="200" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_idx" value="インデックス" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="240" y="70" width="200" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_col" value="対象カラム" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="440" y="70" width="360" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_type" value="種別" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="800" y="70" width="360" height="36" as="geometry" />
+        </mxCell>
+        <!-- Row 1: work_events IDX-001-004 -->
+        <mxCell id="r1_grp" value="work_events" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="40" y="106" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_idx" value="IDX-001&#xa;IDX-002&#xa;IDX-003&#xa;IDX-004" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="106" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_col" value="case_id&#xa;timestamp&#xa;resource_id&#xa;(case_id, timestamp) composite" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="440" y="106" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="r1_type" value="BTREE&#xa;BTREE&#xa;BTREE&#xa;BTREE composite" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="800" y="106" width="360" height="120" as="geometry" />
+        </mxCell>
+        <!-- Row 2: outbox/executions IDX-005-007 -->
+        <mxCell id="r2_grp" value="outbox /&#xa;executions" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="40" y="226" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_idx" value="IDX-005&#xa;IDX-006&#xa;IDX-007" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="226" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_col" value="status (outbox)&#xa;execution_id&#xa;(status, retry_count)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="440" y="226" width="360" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="r2_type" value="BTREE PARTIAL&#xa;BTREE&#xa;BTREE composite" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="800" y="226" width="360" height="90" as="geometry" />
+        </mxCell>
+        <!-- Row 3: master tables IDX-008-012 -->
+        <mxCell id="r3_grp" value="master tables" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="40" y="316" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_idx" value="IDX-008&#xa;IDX-009&#xa;IDX-010&#xa;IDX-011&#xa;IDX-012" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="316" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_col" value="sop_id (sops)&#xa;version_id (master_versions)&#xa;user_id (users)&#xa;step_id (steps)&#xa;operation_id" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="440" y="316" width="360" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="r3_type" value="BTREE&#xa;BTREE&#xa;BTREE&#xa;BTREE&#xa;BTREE" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="800" y="316" width="360" height="110" as="geometry" />
+        </mxCell>
+        <!-- Row 4: special IDX-013, IDX-016 -->
+        <mxCell id="r4_grp" value="special" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="40" y="426" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="r4_idx" value="IDX-013&#xa;IDX-016" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="426" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="r4_col" value="payload (JSONB)&#xa;idempotency_key (UNIQUE)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="440" y="426" width="360" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="r4_type" value="GIN (JSONB)&#xa;BTREE UNIQUE" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="800" y="426" width="360" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

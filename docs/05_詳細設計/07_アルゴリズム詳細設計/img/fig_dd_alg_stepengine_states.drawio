@@ -1,0 +1,97 @@
+<mxfile>
+  <diagram name="WorkExecution ステートマシン" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="WorkExecution ステートマシン（ALG-003）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- States -->
+        <mxCell id="s_notstarted" value="NotStarted" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="340" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s_inprogress" value="InProgress" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="440" y="200" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s_suspended" value="Suspended" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="440" y="460" width="160" height="60" as="geometry" />
+        </mxCell>
+        <!-- Completed: double border via two nested rects -->
+        <mxCell id="s_completed_outer" value="" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="820" y="140" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="s_completed" value="Completed" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="830" y="148" width="160" height="54" as="geometry" />
+        </mxCell>
+        <!-- Cancelled: double border -->
+        <mxCell id="s_cancelled_outer" value="" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="820" y="460" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="s_cancelled" value="Cancelled" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="830" y="468" width="160" height="54" as="geometry" />
+        </mxCell>
+        <!-- Edges -->
+        <!-- NotStarted → InProgress: start_work -->
+        <mxCell id="e1" value="start_work" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="s_notstarted" target="s_inprogress" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="280" />
+              <mxPoint x="440" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- InProgress → Suspended: suspend(reason) -->
+        <mxCell id="e2" value="suspend(reason)" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="s_inprogress" target="s_suspended" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="320" />
+              <mxPoint x="560" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- Suspended → InProgress: resume [auth OK] -->
+        <mxCell id="e3" value="resume [auth OK]" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="s_suspended" target="s_inprogress" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="460" />
+              <mxPoint x="500" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- InProgress → Completed: complete_work [all steps done] -->
+        <mxCell id="e4" value="complete_work [all steps done]" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="s_inprogress" target="s_completed" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="230" />
+              <mxPoint x="830" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- InProgress → Cancelled: cancel [SUPERVISOR only] -->
+        <mxCell id="e5" value="cancel [SUPERVISOR only]" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="s_inprogress" target="s_cancelled" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="230" />
+              <mxPoint x="760" y="360" />
+              <mxPoint x="760" y="495" />
+              <mxPoint x="830" y="495" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- Suspended → Cancelled: cancel [SUPERVISOR only] -->
+        <mxCell id="e6" value="cancel [SUPERVISOR only]" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" source="s_suspended" target="s_cancelled" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="490" />
+              <mxPoint x="830" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

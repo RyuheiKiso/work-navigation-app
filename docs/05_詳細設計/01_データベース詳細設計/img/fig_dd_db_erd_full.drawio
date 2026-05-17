@@ -1,0 +1,146 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="物理 ERD（主要関係）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="18" width="400" height="32" as="geometry" />
+        </mxCell>
+        <!-- Central: work_events TBL-001 -->
+        <mxCell id="we" value="TBL-001&#xa;work_events&#xa;(Append-only)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="480" y="320" width="180" height="60" as="geometry" />
+        </mxCell>
+        <!-- work_executions TBL-005 -->
+        <mxCell id="wex" value="TBL-005&#xa;work_executions" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="180" height="54" as="geometry" />
+        </mxCell>
+        <!-- users TBL-016 -->
+        <mxCell id="users" value="TBL-016&#xa;users" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="80" y="140" width="140" height="54" as="geometry" />
+        </mxCell>
+        <!-- steps TBL-008 -->
+        <mxCell id="steps" value="TBL-008&#xa;steps" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="480" y="140" width="140" height="54" as="geometry" />
+        </mxCell>
+        <!-- evidence_files TBL-009 -->
+        <mxCell id="ev_files" value="TBL-009&#xa;evidence_files" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="480" y="500" width="180" height="54" as="geometry" />
+        </mxCell>
+        <!-- outbox_events TBL-003 -->
+        <mxCell id="outbox" value="TBL-003&#xa;outbox_events" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="800" y="320" width="180" height="54" as="geometry" />
+        </mxCell>
+        <!-- hash_chain_blocks TBL-031 -->
+        <mxCell id="hash" value="TBL-031&#xa;hash_chain_blocks" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="800" y="500" width="180" height="54" as="geometry" />
+        </mxCell>
+        <!-- sops TBL-007 -->
+        <mxCell id="sops" value="TBL-007&#xa;sops" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="800" y="140" width="140" height="54" as="geometry" />
+        </mxCell>
+        <!-- master_versions TBL-004 -->
+        <mxCell id="mver" value="TBL-004&#xa;master_versions" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="650" y="60" width="160" height="54" as="geometry" />
+        </mxCell>
+        <!-- Relationships (no edge labels to avoid distance rule; use separate text labels) -->
+        <!-- work_executions N:1 work_events -->
+        <mxCell id="e_wex_we" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="347" as="sourcePoint" />
+            <mxPoint x="480" y="347" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_wex" value="N:1" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#FFFFFF;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="295" y="360" width="40" height="18" as="geometry" />
+        </mxCell>
+        <!-- users N:1 work_events -->
+        <mxCell id="e_usr_we" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="220" y="167" as="sourcePoint" />
+            <mxPoint x="480" y="330" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="380" y="167" />
+              <mxPoint x="380" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_usr" value="N:1" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#FFFFFF;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="320" y="230" width="40" height="18" as="geometry" />
+        </mxCell>
+        <!-- steps N:1 work_events -->
+        <mxCell id="e_stp_we" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="194" as="sourcePoint" />
+            <mxPoint x="550" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_stp" value="N:1" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#FFFFFF;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="555" y="250" width="40" height="18" as="geometry" />
+        </mxCell>
+        <!-- work_events 1:N evidence_files -->
+        <mxCell id="e_we_ev" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="380" as="sourcePoint" />
+            <mxPoint x="570" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_ev" value="1:N" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#FFFFFF;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="576" y="432" width="40" height="18" as="geometry" />
+        </mxCell>
+        <!-- work_events 1:N outbox_events -->
+        <mxCell id="e_we_out" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="660" y="347" as="sourcePoint" />
+            <mxPoint x="800" y="347" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_out" value="1:N" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#FFFFFF;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="714" y="328" width="40" height="18" as="geometry" />
+        </mxCell>
+        <!-- work_events 1:N hash_chain_blocks -->
+        <mxCell id="e_we_hash" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="660" y="360" as="sourcePoint" />
+            <mxPoint x="890" y="500" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="740" y="360" />
+              <mxPoint x="740" y="470" />
+              <mxPoint x="890" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_hash" value="1:N" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#FFFFFF;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="750" y="452" width="40" height="18" as="geometry" />
+        </mxCell>
+        <!-- sops 1:N master_versions -->
+        <mxCell id="e_sop_mv" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="870" y="140" as="sourcePoint" />
+            <mxPoint x="810" y="114" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_sop_mv" value="1:N" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#FFFFFF;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="900" y="118" width="40" height="18" as="geometry" />
+        </mxCell>
+        <!-- master_versions 1:N steps -->
+        <mxCell id="e_mv_stp" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="87" as="sourcePoint" />
+            <mxPoint x="620" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mv_stp" value="1:N" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#FFFFFF;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="595" y="80" width="40" height="18" as="geometry" />
+        </mxCell>
+        <!-- Append-only note -->
+        <mxCell id="ao_note" value="★ TBL-001 work_events は Append-only" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fffacd;strokeColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="480" y="620" width="320" height="28" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

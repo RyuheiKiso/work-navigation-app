@@ -1,0 +1,79 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="状態管理アーキテクチャ" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="18" width="400" height="32" as="geometry" />
+        </mxCell>
+        <!-- Layer 1: Server state -->
+        <mxCell id="l1_band" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="1120" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_title" value="Layer 1: Server State" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="50" y="88" width="240" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_rq" value="react-query" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="120" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_sop" value="SOP data" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="280" y="120" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_wo" value="work orders" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="500" y="120" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_usr" value="users" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="720" y="120" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1_cache" value="cache / stale-while-revalidate" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="50" y="190" width="300" height="20" as="geometry" />
+        </mxCell>
+        <!-- Layer 2: App state -->
+        <mxCell id="l2_band" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="1120" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_title" value="Layer 2: App State" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="50" y="288" width="240" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_zustand" value="Zustand" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="320" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_undo" value="SOP editor&#xa;undo/redo" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="280" y="320" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_ctx" value="React Context" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="550" y="320" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_auth" value="auth" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="760" y="320" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l2_net" value="network" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="900" y="320" width="120" height="50" as="geometry" />
+        </mxCell>
+        <!-- Layer 3: Local state -->
+        <mxCell id="l3_band" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="500" width="1120" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="l3_title" value="Layer 3: Local State" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="50" y="508" width="240" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="l3_useState" value="useState / useReducer" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="540" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l3_form" value="form inputs" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="340" y="540" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l3_toggle" value="UI toggles" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="560" y="540" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l3_modal" value="modal / dialog state" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="780" y="540" width="180" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

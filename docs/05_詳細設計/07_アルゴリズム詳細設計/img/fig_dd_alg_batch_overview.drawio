@@ -1,0 +1,55 @@
+<mxfile>
+  <diagram name="バッチジョブ概要" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="バッチジョブ（BAT-001〜010）概要" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- Column headers -->
+        <mxCell id="hdr_event" value="イベント駆動 (Event-Driven)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="480" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_sched" value="スケジュール (Scheduled)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="660" y="80" width="480" height="44" as="geometry" />
+        </mxCell>
+        <!-- Event-driven jobs -->
+        <mxCell id="bat002" value="BAT-002&#xa;Outbox dispatch&#xa;ポーリング間隔: 5s" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="80" y="160" width="440" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bat006" value="BAT-006&#xa;帳票生成: 作業完了レポート (on event)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="80" y="260" width="440" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bat007" value="BAT-007&#xa;帳票生成: 不適合報告 (on event)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="80" y="360" width="440" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bat008" value="BAT-008&#xa;帳票生成: 品質証明書 (on event)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="80" y="460" width="440" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bat009" value="BAT-009&#xa;帳票生成: マスタ変更履歴 (on event)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="80" y="560" width="440" height="70" as="geometry" />
+        </mxCell>
+        <!-- Scheduled jobs -->
+        <mxCell id="bat001" value="BAT-001&#xa;ハッシュチェーン検証&#xa;毎週月曜 03:00" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="680" y="160" width="440" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bat003" value="BAT-003&#xa;マスタ同期&#xa;60分ごと" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="680" y="260" width="440" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bat004" value="BAT-004&#xa;PII 匿名化&#xa;毎日" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="680" y="360" width="440" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bat005" value="BAT-005&#xa;バックアップ&#xa;毎日 02:00" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="680" y="460" width="440" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bat010" value="BAT-010&#xa;集計レポート生成&#xa;毎日 06:00" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="680" y="560" width="440" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

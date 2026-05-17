@@ -1,0 +1,63 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="テストピラミッド（詳細設計版）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="18" width="400" height="32" as="geometry" />
+        </mxCell>
+        <!-- Pyramid using trapezoid-like rectangles stacked -->
+        <!-- Bottom: Unit tests = 50 -->
+        <mxCell id="unit" value="Unit Tests (BE 30 + FE 20 = 50)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="160" y="560" width="880" height="80" as="geometry" />
+        </mxCell>
+        <!-- Second: Integration tests = 20 -->
+        <mxCell id="integration" value="Integration Tests (20)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="260" y="460" width="680" height="80" as="geometry" />
+        </mxCell>
+        <!-- Third: E2E tests = 22 -->
+        <mxCell id="e2e" value="E2E Tests (22)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="360" y="360" width="480" height="80" as="geometry" />
+        </mxCell>
+        <!-- Top: ALCOA+ + Security + Performance -->
+        <mxCell id="top" value="ALCOA+ (9) + Security (10) + Performance (5)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="460" y="260" width="280" height="80" as="geometry" />
+        </mxCell>
+        <!-- Side annotations -->
+        <mxCell id="ann_unit" value="合計: 50 cases" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="588" width="120" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ann_int" value="合計: 20 cases" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="960" y="488" width="120" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ann_e2e" value="合計: 22 cases" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="860" y="388" width="120" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ann_top" value="24 cases" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="760" y="288" width="100" height="24" as="geometry" />
+        </mxCell>
+        <!-- Total label -->
+        <mxCell id="total" value="合計 116 テストケース" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="460" y="680" width="280" height="44" as="geometry" />
+        </mxCell>
+        <!-- Legend -->
+        <mxCell id="leg_u" value="Unit" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="60" y="690" width="80" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_i" value="Integration" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="150" y="690" width="80" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_e" value="E2E" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="240" y="690" width="80" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_t" value="ALCOA+/Sec/Perf" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="330" y="690" width="120" height="24" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

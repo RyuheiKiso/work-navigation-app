@@ -1,0 +1,76 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" height="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="SQLite ローカルスキーマ（主要テーブル）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="18" width="500" height="32" as="geometry" />
+        </mxCell>
+        <!-- Table 1: local_work_events -->
+        <mxCell id="t1_hdr" value="local_work_events" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="240" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_body" value="event_id (PK)&#xa;case_id&#xa;activity&#xa;payload&#xa;synced" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="114" width="240" height="100" as="geometry" />
+        </mxCell>
+        <!-- Table 2: local_outbox_events -->
+        <mxCell id="t2_hdr" value="local_outbox_events" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="340" y="80" width="240" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_body" value="id (PK)&#xa;status&#xa;retry_count&#xa;payload" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="340" y="114" width="240" height="84" as="geometry" />
+        </mxCell>
+        <!-- Table 3: local_sops -->
+        <mxCell id="t3_hdr" value="local_sops" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="640" y="80" width="240" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_body" value="sop_id (PK)&#xa;operation_id&#xa;current_version_id&#xa;cached_at" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="640" y="114" width="240" height="84" as="geometry" />
+        </mxCell>
+        <!-- Table 4: local_steps -->
+        <mxCell id="t4_hdr" value="local_steps" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="940" y="80" width="220" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t4_body" value="step_id (PK)&#xa;sop_id (FK)&#xa;step_number&#xa;input_type&#xa;instruction_text" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="940" y="114" width="220" height="100" as="geometry" />
+        </mxCell>
+        <!-- Table 5: local_work_executions -->
+        <mxCell id="t5_hdr" value="local_work_executions" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="40" y="360" width="240" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t5_body" value="execution_id (PK)&#xa;status&#xa;current_step_index" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="394" width="240" height="68" as="geometry" />
+        </mxCell>
+        <!-- Table 6: local_app_settings -->
+        <mxCell id="t6_hdr" value="local_app_settings" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="340" y="360" width="240" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t6_body" value="key (PK)&#xa;value" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="340" y="394" width="240" height="52" as="geometry" />
+        </mxCell>
+        <!-- Relationship: local_sops -> local_steps (1:N) -->
+        <mxCell id="r_sop_step" value="1:N" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="880" y="97" as="sourcePoint" />
+            <mxPoint x="940" y="97" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Relationship: local_work_events -> local_work_executions (FK: case_id/execution_id) -->
+        <mxCell id="r_we_we" value="N:1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="214" as="sourcePoint" />
+            <mxPoint x="160" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Note: SQLite + TypeORM -->
+        <mxCell id="footer_note" value="SQLite + TypeORM  /  React Native ローカルストレージ" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#333333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="340" y="560" width="400" height="34" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,102 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="Step 完了 API シーケンス（API-step-events-001）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="18" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- Lifeline headers -->
+        <mxCell id="lh_ha" value="HA APP" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="68" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lh_be" value="Backend" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="500" y="68" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lh_pg" value="PostgreSQL" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="940" y="68" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Lifelines -->
+        <mxCell id="ll_ha" value="" style="endArrow=none;html=1;strokeColor=#333333;strokeStyle=dashed;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="108" as="sourcePoint" />
+            <mxPoint x="120" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_be" value="" style="endArrow=none;html=1;strokeColor=#333333;strokeStyle=dashed;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="108" as="sourcePoint" />
+            <mxPoint x="560" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_pg" value="" style="endArrow=none;html=1;strokeColor=#333333;strokeStyle=dashed;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1020" y="108" as="sourcePoint" />
+            <mxPoint x="1020" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 1: HA local compute annotation -->
+        <mxCell id="s1_note" value="① compute content_hash, prev_hash (local)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fffacd;strokeColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="140" y="150" width="310" height="30" as="geometry" />
+        </mxCell>
+        <!-- Step 2: HA -> Backend POST /step-events -->
+        <mxCell id="s2" value="POST /step-events&#xa;Idempotency-Key: UUID v7" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="210" as="sourcePoint" />
+            <mxPoint x="560" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 3: Backend -> PostgreSQL check idempotency -->
+        <mxCell id="s3" value="CHECK TBL-035 idempotency" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="270" as="sourcePoint" />
+            <mxPoint x="1020" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s3r" value="not found (new)" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeStyle=dashed;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1020" y="310" as="sourcePoint" />
+            <mxPoint x="560" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 4a: BEGIN TX annotation -->
+        <mxCell id="s4a_note" value="④ BEGIN TX" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fffacd;strokeColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="590" y="345" width="160" height="28" as="geometry" />
+        </mxCell>
+        <!-- Step 4b: Backend -> PostgreSQL INSERT work_events -->
+        <mxCell id="s4b" value="INSERT work_events" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="395" as="sourcePoint" />
+            <mxPoint x="1020" y="395" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 4c: INSERT outbox_events -->
+        <mxCell id="s4c" value="INSERT outbox_events" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="440" as="sourcePoint" />
+            <mxPoint x="1020" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 5: COMMIT annotation -->
+        <mxCell id="s5_note" value="⑤ COMMIT" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#fffacd;strokeColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="590" y="475" width="160" height="28" as="geometry" />
+        </mxCell>
+        <!-- Step 6: Backend -> HA 201 Created -->
+        <mxCell id="s6" value="201 Created" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="540" as="sourcePoint" />
+            <mxPoint x="120" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Table refs -->
+        <mxCell id="tbl_note" value="TBL-035: idempotency_keys&#xa;work_events + outbox_events" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#333333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="590" y="600" width="280" height="44" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
