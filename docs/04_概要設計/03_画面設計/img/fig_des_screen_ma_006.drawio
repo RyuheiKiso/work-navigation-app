@@ -1,0 +1,67 @@
+<mxfile>
+  <diagram name="SCR-MA-006" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- Background page (dimmed) -->
+        <mxCell id="dim-overlay" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=none;opacity=40;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- Modal dialog -->
+        <mxCell id="modal-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="60" width="880" height="660" as="geometry" />
+        </mxCell>
+        <!-- Modal header -->
+        <mxCell id="modal-header" value="SOP プレビュー — SOP-001 組立工程A (v2.0)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="160" y="60" width="880" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="modal-header-label" value="SCR-MA-006 SOP プレビュー (Web APP)" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="540" y="60" width="340" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="modal-close" value="✕" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="992" y="68" width="34" height="28" as="geometry" />
+        </mxCell>
+        <!-- Step progress -->
+        <mxCell id="step-progress" value="Step 2 / 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="540" y="118" width="120" height="32" as="geometry" />
+        </mxCell>
+        <!-- Step display -->
+        <mxCell id="step-box" value="Step 2: 組立作業" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="200" y="168" width="800" height="50" as="geometry" />
+        </mxCell>
+        <!-- Instruction text -->
+        <mxCell id="instr-box" value="指定されたトルク値 (8.0 N·m) でネジを締めてください。&#xa;過締めに注意すること。締め付け後にトルクレンチで確認すること。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="200" y="234" width="800" height="80" as="geometry" />
+        </mxCell>
+        <!-- Input type preview -->
+        <mxCell id="input-label" value="入力タイプ: 数値入力 (単位: N·m, 範囲: 7.5 〜 8.5)" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="328" width="600" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="input-mock" value="[ 数値入力欄 ] _______  N·m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="200" y="366" width="400" height="44" as="geometry" />
+        </mxCell>
+        <!-- Navigation buttons -->
+        <mxCell id="btn-prev" value="◀ 前のStep" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="200" y="628" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-next" value="次のStep ▶" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="628" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Step dots -->
+        <mxCell id="dot1" value="●" style="text;html=1;fontFamily=Helvetica;fontSize=20;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="550" y="586" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dot2" value="○" style="text;html=1;fontFamily=Helvetica;fontSize=20;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="586" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dot3" value="●" style="text;html=1;fontFamily=Helvetica;fontSize=20;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="630" y="586" width="30" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

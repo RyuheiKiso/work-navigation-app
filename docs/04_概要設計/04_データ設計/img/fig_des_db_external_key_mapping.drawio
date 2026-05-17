@@ -1,0 +1,117 @@
+<mxfile>
+  <diagram name="外部キーバインディング設計" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="外部キーバインディング設計" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="16" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Table header: external_key_bindings -->
+        <mxCell id="tbl_hdr" value="external_key_bindings" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="80" width="320" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Table rows -->
+        <mxCell id="row1" value="id  UUID  PK" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;align=left;" vertex="1" parent="1">
+          <mxGeometry x="200" y="120" width="320" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="row2" value="target_table  TEXT  NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;align=left;" vertex="1" parent="1">
+          <mxGeometry x="200" y="154" width="320" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="row3" value="target_id  UUID  NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;align=left;" vertex="1" parent="1">
+          <mxGeometry x="200" y="188" width="320" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="row4" value="system_code  TEXT  NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;align=left;" vertex="1" parent="1">
+          <mxGeometry x="200" y="222" width="320" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="row5" value="bindings  JSONB  NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=3;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;align=left;" vertex="1" parent="1">
+          <mxGeometry x="200" y="256" width="320" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="row6" value="created_at  TIMESTAMPTZ  NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;align=left;" vertex="1" parent="1">
+          <mxGeometry x="200" y="290" width="320" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="row7" value="NOTE: 追記専用（UPDATE/DELETE 禁止）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=2;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;align=left;" vertex="1" parent="1">
+          <mxGeometry x="200" y="324" width="320" height="34" as="geometry" />
+        </mxCell>
+
+        <!-- JSONB structure detail box -->
+        <mxCell id="json_title" value="bindings JSONB 構造" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="620" y="80" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="json_box" value="{&#xa;  &quot;external_system_key&quot;: &quot;ERP-0001&quot;,&#xa;  &quot;internal_uuid&quot;: &quot;550e8400-...&quot;,&#xa;  &quot;bound_at&quot;: &quot;2026-05-17T...&quot;&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="620" y="114" width="360" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: bindings row → json_box -->
+        <mxCell id="ea01" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="row5" target="json_box" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="273" />
+              <mxPoint x="580" y="174" />
+              <mxPoint x="620" y="174" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- External system box -->
+        <mxCell id="ext_box" value="外部システム&#xa;（ERPなど）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="620" y="340" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Internal DB box -->
+        <mxCell id="int_box" value="内部エンティティ&#xa;（UUID）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="820" y="340" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ext → row5: route via left side, far left to avoid row6 label overlap -->
+        <mxCell id="ea02" value="キー登録" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontColor=#333333;fontSize=11;" edge="1" source="ext_box" target="row5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="395" />
+              <mxPoint x="160" y="395" />
+              <mxPoint x="160" y="273" />
+              <mxPoint x="200" y="273" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- int → row5 -->
+        <mxCell id="ea03" value="UUID紐付け" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontColor=#333333;fontSize=11;" edge="1" source="int_box" target="row5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="340" />
+              <mxPoint x="900" y="273" />
+              <mxPoint x="520" y="273" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Append-only annotation -->
+        <mxCell id="ao_note" value="追記専用ポリシー" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="200" y="420" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ao_body" value="INSERT のみ許可&#xa;UPDATE / DELETE 禁止&#xa;論理削除フラグなし&#xa;履歴は積み重ねで表現" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="200" y="454" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow from table to annotation: route right side to avoid ao_note bbox (200-400, 420-450) -->
+        <mxCell id="ea04" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="row7" target="ao_body" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="341" />
+              <mxPoint x="480" y="341" />
+              <mxPoint x="480" y="504" />
+              <mxPoint x="460" y="504" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

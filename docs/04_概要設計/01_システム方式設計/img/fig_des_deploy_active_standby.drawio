@@ -1,0 +1,138 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="Active-Standby 配置設計" style="text;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="400" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- ハンディ端末群 (far left) -->
+        <mxCell id="handy_group" value="ハンディ端末群" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="30" y="360" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Active サーバー (center-left, green).
+             Center: (420, 310). Inner elements x: 340..500, y: 210..390.
+             Left clear corridor: x=310..340. Right clear corridor: x=500..530.
+        -->
+        <mxCell id="active_box" value="Active サーバー" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#333333;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="310" y="150" width="220" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="active_iis" value="IIS" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="210" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="active_docker" value="Docker Compose" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="270" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="active_pg" value="PostgreSQL (primary)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="330" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Standby サーバー (center-right, gray).
+             Center: (770, 310). Inner elements x: 690..850, y: 210..390.
+             Left clear corridor: x=660..690. Right clear corridor: x=850..880.
+        -->
+        <mxCell id="standby_box" value="Standby サーバー" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="660" y="150" width="220" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="standby_iis" value="IIS" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="690" y="210" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="standby_docker" value="Docker Compose" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="690" y="270" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="standby_pg" value="PostgreSQL (standby)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="690" y="330" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 管理PC群 (far right) -->
+        <mxCell id="admin_pcs" value="管理 PC 群" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="990" y="360" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!--
+          Edge: handy -> active_box
+          Source: handy_group center (120, 390)
+          Target: active_box center (420, 310)
+          Route via left corridor (x=315) and top corridor (y=130):
+            (120,390) -> (285,390) -> (285,130) -> (315,130) -> (315,310) -> (420,310)
+          Segment check:
+            S0 (120,390)-(285,390): clear, no boxes at x=120..285, y=390
+            S1 (285,390)-(285,130): x=285, active_box x=310..530. 285<310. clear.
+            S2 (285,130)-(315,130): y=130, above active_box (top=150). clear.
+            S3 (315,130)-(315,310): x=315. active_iis: x=340..500. 315<340. clear. active_docker same. clear.
+            S4 (315,310)-(420,310): y=310 horizontal. active_docker bottom=310. pad: 270.5..309.5. y=310>309.5. clear.
+                active_pg y=330..390. y=310<330. clear. active_iis y=210..250. y=310>250. clear.
+        -->
+        <mxCell id="edge_handy_active" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="handy_group" target="active_box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="285" y="390" />
+              <mxPoint x="285" y="130" />
+              <mxPoint x="315" y="130" />
+              <mxPoint x="315" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!--
+          Edge: admin_pcs -> active_box
+          Source: admin_pcs center (1080, 390)
+          Target: active_box center (420, 310)
+          Route BELOW all boxes then via right corridor of standby:
+            (1080,390) -> (1080,510) -> (645,510) -> (645,130) -> (525,130) -> (525,310) -> (420,310)
+          Segment check:
+            S0 (1080,390)-(1080,510): clear, no boxes at x=1080
+            S1 (1080,510)-(645,510): y=510. standby_box y=150..470. y=510>470. clear.
+            S2 (645,510)-(645,130): x=645. standby_box x=660..880. 645<660. clear. active_box x=310..530. 645>530. clear.
+            S3 (645,130)-(525,130): y=130. above all boxes (top=150). clear.
+            S4 (525,130)-(525,310): x=525. active_iis: x=340..500. 525>500. clear.
+            S5 (525,310)-(420,310): y=310 horizontal. active_docker bottom=309.5 (padded). 310>309.5. clear.
+                active_pg y=330..390. 310<330. clear. active_iis y=210..250. 310>250. clear.
+        -->
+        <mxCell id="edge_admin_active" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1" source="admin_pcs" target="active_box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080" y="510" />
+              <mxPoint x="645" y="510" />
+              <mxPoint x="645" y="130" />
+              <mxPoint x="525" y="130" />
+              <mxPoint x="525" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!--
+          Edge: active_box -> standby_box (WAL replication)
+          Source: active_box center (420, 310)
+          Target: standby_box center (770, 310)
+          Direct distance: 350px. Label width: ~189px. 350 >= 189*1.5=283.5. ✓
+          Route via top corridor avoiding both boxes' inner elements:
+            (420,310) -> (315,310) -> (315,130) -> (655,130) -> (655,310) -> (770,310)
+          Segment check:
+            S0 (420,310)-(315,310): y=310. active_docker bottom padded=309.5. 310>309.5. clear.
+            S1 (315,310)-(315,130): x=315. active_iis,docker,pg: x=340..500. 315<340. clear.
+            S2 (315,130)-(655,130): y=130 above all boxes. clear.
+            S3 (655,130)-(655,310): x=655. standby_box x=660..880. 655<660. clear.
+            S4 (655,310)-(770,310): y=310. standby_docker bottom padded=309.5. 310>309.5. clear.
+        -->
+        <mxCell id="edge_wal" value="WAL ストリーミングレプリケーション" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1" source="active_box" target="standby_box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="310" />
+              <mxPoint x="315" y="130" />
+              <mxPoint x="655" y="130" />
+              <mxPoint x="655" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

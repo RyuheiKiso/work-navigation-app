@@ -1,0 +1,126 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="ネットワーク構成とゾーニング" style="text;html=1;fontFamily=Helvetica;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="400" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- 工場 LAN (Wi-Fi) zone - left, yellow -->
+        <mxCell id="factory_lan" value="工場 LAN (Wi-Fi)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="50" y="200" width="230" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="handy_icon" value="ハンディ端末群" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="85" y="280" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- サーバーゾーン - center, green -->
+        <mxCell id="server_zone" value="サーバーゾーン" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#333333;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="490" y="200" width="220" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="server_box2" value="サーバー" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#d5e8d4;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="530" y="280" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 管理 LAN (有線) zone - right, blue -->
+        <mxCell id="admin_lan" value="管理 LAN (有線)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="920" y="200" width="230" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="pc_icon" value="管理 PC 群" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="955" y="280" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 外部接続 zone - top-center, dotted border -->
+        <mxCell id="external_zone" value="外部接続" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="490" y="60" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="firewall_label" value="ファイアウォール" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="530" y="105" width="140" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- OT ゾーン (永続禁止) - bottom, red fill -->
+        <mxCell id="ot_zone" value="OT ゾーン (永続禁止)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;fillColor=#f8cecc;strokeColor=#333333;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="340" y="560" width="520" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ot_x_label" value="✕ 接続禁止" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="340" y="650" width="520" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows: factory_lan -> server_zone
+             factory_lan center: (165, 300). server_zone center: (600, 300).
+             Direct route: y=300 horizontal. But handy_icon (85,280,160,50: x=85..245) and server_box2 (530,280,140,50: x=530..670) block.
+             Route above zones: from (165,200) top up to y=170, then across to (600,170), then down to (600,200).
+             Source center: (165,300). Via: (165,170), (600,170). Target center: (600,300).
+             S0: (165,300)-(165,170): x=165. factory_lan: x=50..280. y goes from 300 to 170. handy_icon y=280..330. At y=280..330: x=165 in 85..245. CROSSES handy_icon.
+             Route outside factory_lan box on RIGHT side:
+             (165,300) -> (282,300) -> (282,170) -> (600,170) -> (600,200)
+             S0: (165,300)-(282,300): y=300. handy_icon y=280..330: at y=300, in range. Ends at x=282 > 245 (handy_icon right). Passes through handy_icon at x=165..245! CROSSES.
+             Route BELOW factory_lan:
+             (165,300) -> (165,415) -> (480,415) -> (480,300)
+             S0: (165,300)-(165,415): x=165 vertical. handy_icon: y=280..330. CROSSES at y=280..330.
+             Only clear corridor: TOP of factory_lan (above handy_icon at y=280).
+             factory_lan top=200. handy_icon top=280. So y=200..280 is clear in x=50..280.
+             Route: go via top of factory_lan then up above:
+             (165,300) -> (165,250) -> (480,250) -> (480,300)
+             S0: (165,300)-(165,250): x=165. handy_icon y=280..330: at y=280..330 CROSSES at y=280..300.
+             Use corridor at x<85 (left of handy_icon):
+             (165,300) -> (75,300) -> (75,170) -> (480,170) -> (480,300)
+             S0: (165,300)-(75,300): y=300. handy_icon x=85..245. At y=300 (in 280..330 range): passes x=165 to x=85. x=85..165 is inside handy_icon x range. CROSSES.
+             Use corridor at x>245 (right of handy_icon):
+             (165,300) -> (165,250) ... wait handy_icon y=280 starts there.
+             Actually, the issue is every path from (165,300) [inside factory_lan] through the zone hits handy_icon.
+             THE LINTER'S INTERSECTION CHECK CONSIDERS ALL VERTICES. factory_lan does NOT exempt its children from intersection checks of edges whose source/target is NOT a child.
+             Since edge source = factory_lan (not handy_icon), handy_icon is NOT exempted by source/target rule.
+
+             SOLUTION: Don't use source="factory_lan" for the zone boxes.
+             Instead use explicit sourcePoint/targetPoint on the ZONE BOUNDARY (not center):
+             sourcePoint = factory_lan right boundary = (280, 300)
+             targetPoint = server_zone left boundary = (490, 300)
+             Route: (280,300) -> (485,300) -> (490,300)
+             These are all BETWEEN the boxes, no inner elements.
+             Label width check: dist=(490-280)=210px. No label on this edge.
+        -->
+        <mxCell id="edge_factory_server" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="300" as="sourcePoint" />
+            <mxPoint x="490" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Arrow: server_zone -> admin_lan
+             sourcePoint = server_zone right boundary = (710, 300)
+             targetPoint = admin_lan left boundary = (920, 300)
+             Direct horizontal between boxes. Clear. No inner elements in x=710..920, y=300.
+        -->
+        <mxCell id="edge_server_admin" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="300" as="sourcePoint" />
+            <mxPoint x="920" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Arrow: external_zone -> server_zone (top)
+             external_zone bottom: (600, 160). server_zone top: (600, 200).
+             Direct vertical, short path.
+        -->
+        <mxCell id="edge_external_server" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="160" as="sourcePoint" />
+            <mxPoint x="600" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Thick wall / barrier between OT zone and others (visual only - just a label, no edge) -->
+        <mxCell id="ot_wall_label" value="━━━━ 接続禁止境界 ━━━━" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="340" y="520" width="520" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

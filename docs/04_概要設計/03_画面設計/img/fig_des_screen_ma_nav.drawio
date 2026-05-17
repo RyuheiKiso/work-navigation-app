@@ -1,0 +1,144 @@
+<mxfile>
+  <diagram name="マスタメンテ APP ナビゲーション" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="マスタメンテ APP ナビゲーション" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="380" y="16" width="440" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Hub: SCR-MA-001 -->
+        <mxCell id="hub001" value="SCR-MA-001&#xa;プロセス一覧&#xa;(ハブ)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="480" y="300" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Spokes -->
+        <!-- Top-left: SOP一覧 -->
+        <mxCell id="sp001" value="SOP一覧&#xa;(SCR-MA-002)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="180" y="120" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- Top: SOP編集 -->
+        <mxCell id="sp002" value="SOP編集&#xa;(SCR-MA-004)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="500" y="120" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- Top-right: ユーザ管理 -->
+        <mxCell id="sp003" value="ユーザ管理&#xa;(SCR-MA-003)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="820" y="120" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- Right: 承認 -->
+        <mxCell id="sp004" value="承認&#xa;(SCR-MA-008)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="960" y="300" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom-right: 公開 -->
+        <mxCell id="sp005" value="公開&#xa;(SCR-MA-009)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="820" y="520" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom: 廃止 -->
+        <mxCell id="sp006" value="廃止&#xa;(SCR-MA-011)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="500" y="520" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom-left: レポート -->
+        <mxCell id="sp007" value="レポート&#xa;(SCR-MA-012)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="180" y="520" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- Left: 設定 -->
+        <mxCell id="sp008" value="設定&#xa;(SCR-MA-010)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- Hub → Spoke edges (bidirectional) -->
+        <!-- hub → sp001 -->
+        <mxCell id="es01" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="hub001" target="sp001" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="315" />
+              <mxPoint x="260" y="174" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- hub → sp002 -->
+        <mxCell id="es02" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="hub001" target="sp002" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="300" />
+              <mxPoint x="560" y="174" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- hub → sp003 -->
+        <mxCell id="es03" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="hub001" target="sp003" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="315" />
+              <mxPoint x="900" y="174" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- hub → sp004 -->
+        <mxCell id="es04" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="hub001" target="sp004" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="335" />
+              <mxPoint x="960" y="327" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- hub → sp005 -->
+        <mxCell id="es05" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="hub001" target="sp005" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="355" />
+              <mxPoint x="900" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- hub → sp006 -->
+        <mxCell id="es06" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="hub001" target="sp006" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="370" />
+              <mxPoint x="580" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- hub → sp007 -->
+        <mxCell id="es07" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="hub001" target="sp007" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="355" />
+              <mxPoint x="260" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- hub → sp008 -->
+        <mxCell id="es08" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="hub001" target="sp008" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="335" />
+              <mxPoint x="200" y="327" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

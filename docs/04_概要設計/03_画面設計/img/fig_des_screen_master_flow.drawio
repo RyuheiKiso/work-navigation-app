@@ -1,0 +1,129 @@
+<mxfile>
+  <diagram name="マスタメンテ APP 画面遷移図" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="マスタメンテ APP 画面遷移図" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="16" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Main flow: left to right top row -->
+        <!-- SCR-MA-001 プロセス一覧 -->
+        <mxCell id="ma001" value="SCR-MA-001&#xa;プロセス一覧" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="200" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-MA-004 SOP編集 -->
+        <mxCell id="ma004" value="SCR-MA-004&#xa;SOP編集" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="300" y="200" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-MA-007 レビュー依頼 -->
+        <mxCell id="ma007" value="SCR-MA-007&#xa;レビュー依頼" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="540" y="200" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-MA-008 承認 -->
+        <mxCell id="ma008" value="SCR-MA-008&#xa;承認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="780" y="200" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-MA-009 公開 -->
+        <mxCell id="ma009" value="SCR-MA-009&#xa;公開" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="200" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Side screens connected to ma004 -->
+        <!-- SCR-MA-005 -->
+        <mxCell id="ma005" value="SCR-MA-005" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="220" y="360" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-MA-006 -->
+        <mxCell id="ma006" value="SCR-MA-006" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="380" y="360" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-MA-010 -->
+        <mxCell id="ma010" value="SCR-MA-010" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="540" y="360" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- SCR-MA-011 廃止 -->
+        <mxCell id="ma011" value="SCR-MA-011&#xa;廃止" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="360" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Main flow edges -->
+        <!-- ma001 → ma004 -->
+        <mxCell id="em01" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ma001" target="ma004" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ma004 → ma007 -->
+        <mxCell id="em02" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ma004" target="ma007" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ma007 → ma008 -->
+        <mxCell id="em03" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ma007" target="ma008" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ma008 → ma009 -->
+        <mxCell id="em04" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ma008" target="ma009" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ma004 ↔ ma005 -->
+        <mxCell id="em05" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ma004" target="ma005" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="225" />
+              <mxPoint x="290" y="382" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ma004 ↔ ma006 -->
+        <mxCell id="em06" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ma004" target="ma006" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="250" />
+              <mxPoint x="380" y="340" />
+              <mxPoint x="450" y="340" />
+              <mxPoint x="450" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ma004 ↔ ma010 -->
+        <mxCell id="em07" style="endArrow=classic;endFill=1;startArrow=classic;startFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ma004" target="ma010" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="250" />
+              <mxPoint x="460" y="340" />
+              <mxPoint x="610" y="340" />
+              <mxPoint x="610" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ma001 → ma011 -->
+        <mxCell id="em08" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="ma001" target="ma011" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="250" />
+              <mxPoint x="140" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
