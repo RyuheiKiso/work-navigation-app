@@ -1,0 +1,186 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- 白背景矩形 -->
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- タイトル -->
+        <mxCell id="title" value="FRG-001 Button カタログ" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="12" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- === Section A: バリアント × default 状態 === -->
+        <mxCell id="secA-label" value="Section A: バリアント" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="52" width="200" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- primary -->
+        <mxCell id="btn-primary" value="Primary Button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-primary" value="primary" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="82" width="60" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- secondary -->
+        <mxCell id="btn-secondary" value="Secondary Button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2F7;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="126" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-secondary" value="secondary" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="138" width="60" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- ghost -->
+        <mxCell id="btn-ghost" value="Ghost Button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="182" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-ghost" value="ghost" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="194" width="60" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- outline -->
+        <mxCell id="btn-outline" value="Outline Button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="238" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-outline" value="outline" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="250" width="60" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- destructive -->
+        <mxCell id="btn-destructive" value="Destructive Button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E11D48;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="294" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-destructive" value="destructive" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="306" width="70" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- andon -->
+        <mxCell id="btn-andon" value="Andon Button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF0000;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="350" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-andon" value="andon" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="362" width="60" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- === Section B: サイズ比較 === -->
+        <mxCell id="secB-label" value="Section B: サイズ比較（primary）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="52" width="280" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- sm -->
+        <mxCell id="btn-sm" value="Small" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="320" y="76" width="120" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-sm" value="sm: h=28" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="448" y="82" width="80" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- md -->
+        <mxCell id="btn-md" value="Medium" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="320" y="120" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-md" value="md: h=36" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="488" y="130" width="80" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- lg -->
+        <mxCell id="btn-lg" value="Large" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="320" y="172" width="200" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-lg" value="lg: h=44" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="528" y="186" width="80" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- xl -->
+        <mxCell id="btn-xl" value="X-Large" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="320" y="232" width="240" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-xl" value="xl: h=56" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="568" y="252" width="80" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- === Section C: 状態比較 === -->
+        <mxCell id="secC-label" value="Section C: 状態比較（primary md）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="660" y="52" width="300" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- default -->
+        <mxCell id="state-default" value="Default" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="70" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-state-default" value="default" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="828" y="80" width="80" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- hover -->
+        <mxCell id="state-hover" value="Hover" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#193358;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="118" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-state-hover" value="hover" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="828" y="128" width="80" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- focus: outer ring + button -->
+        <mxCell id="state-focus-ring" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2E7ADE;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="656" y="162" width="168" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="state-focus-btn" value="Focus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="166" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-state-focus" value="focus（二重リング）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="828" y="178" width="120" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- active -->
+        <mxCell id="state-active" value="Active" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#132948;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="218" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-state-active" value="active" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="828" y="228" width="80" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- disabled -->
+        <mxCell id="state-disabled" value="Disabled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#333333;fontColor=#666666;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="266" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-state-disabled" value="disabled" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="828" y="276" width="80" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- loading -->
+        <mxCell id="state-loading" value="●●●" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="660" y="314" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl-state-loading" value="loading（スピナー代替）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="828" y="324" width="140" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- === Section D: 仕様まとめ === -->
+        <mxCell id="secD-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="430" width="1160" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="secD-label" value="Section D: 仕様まとめ" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="32" y="438" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="spec-radius" value="・radius: radius.md = 8px" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="32" y="460" width="400" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="spec-touch" value="・最小タッチターゲット: 44dp (HA) / 36px (Web)" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="32" y="480" width="500" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="spec-danger" value="・危険操作: destructive 使用。andon は AndonButton (CMP-HA-008) 専用" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="32" y="500" width="700" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- フッター -->
+        <mxCell id="footer" value="WorkNav Design System — FRG-001 Button Catalog | 2026-05-17" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="300" y="758" width="600" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

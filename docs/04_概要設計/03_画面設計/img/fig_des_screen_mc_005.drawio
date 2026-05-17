@@ -1,0 +1,246 @@
+<mxfile>
+  <diagram name="SCR-MC-005" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- 白背景 -->
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- サイドバー -->
+        <mxCell id="sidebar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#071226;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="240" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="sb-div1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="12" y="80" width="216" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="sb-div2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="12" y="140" width="216" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="sb-div3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="12" y="200" width="216" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="sb-div4" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="12" y="260" width="216" height="2" as="geometry" />
+        </mxCell>
+        <!-- ヘッダーバー -->
+        <mxCell id="header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="240" y="0" width="960" height="56" as="geometry" />
+        </mxCell>
+        <!-- コンテンツ背景 -->
+        <mxCell id="content-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="240" y="56" width="960" height="744" as="geometry" />
+        </mxCell>
+        <!-- 画面タイトル -->
+        <mxCell id="screen-title" value="SCR-MC-005 XES エクスポート" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="262" y="64" width="340" height="24" as="geometry" />
+        </mxCell>
+        <!-- 条件フォーム枠 -->
+        <mxCell id="form-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="100" width="916" height="200" as="geometry" />
+        </mxCell>
+        <!-- フォームラベル: 期間 -->
+        <mxCell id="form-period-lbl" value="期間" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="276" y="116" width="60" height="24" as="geometry" />
+        </mxCell>
+        <!-- DatePicker 開始 -->
+        <mxCell id="date-start" value="2026-05-01" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="116" width="140" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="date-sep" value="〜" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="488" y="116" width="28" height="32" as="geometry" />
+        </mxCell>
+        <!-- DatePicker 終了 -->
+        <mxCell id="date-end" value="2026-05-17" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="520" y="116" width="140" height="32" as="geometry" />
+        </mxCell>
+        <!-- フォームラベル: プロセス -->
+        <mxCell id="form-proc-lbl" value="プロセス" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="276" y="164" width="72" height="24" as="geometry" />
+        </mxCell>
+        <!-- プロセス選択 -->
+        <mxCell id="proc-select" value="全プロセス ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="360" y="164" width="200" height="32" as="geometry" />
+        </mxCell>
+        <!-- フォームラベル: イベント種別 -->
+        <mxCell id="form-event-lbl" value="イベント種別" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="580" y="164" width="96" height="24" as="geometry" />
+        </mxCell>
+        <!-- イベント種別選択 -->
+        <mxCell id="event-select" value="全種別 ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="684" y="164" width="160" height="32" as="geometry" />
+        </mxCell>
+        <!-- フォームラベル: 出力形式 -->
+        <mxCell id="form-fmt-lbl" value="出力形式" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="276" y="212" width="72" height="24" as="geometry" />
+        </mxCell>
+        <!-- Radio: XES -->
+        <mxCell id="radio-xes" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#333333;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="360" y="218" width="12" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="radio-xes-lbl" value="XES" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="378" y="212" width="48" height="24" as="geometry" />
+        </mxCell>
+        <!-- Radio: CSV -->
+        <mxCell id="radio-csv" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="218" width="12" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="radio-csv-lbl" value="CSV" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="458" y="212" width="48" height="24" as="geometry" />
+        </mxCell>
+        <!-- Radio: JSON -->
+        <mxCell id="radio-json" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="520" y="218" width="12" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="radio-json-lbl" value="JSON" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="538" y="212" width="56" height="24" as="geometry" />
+        </mxCell>
+        <!-- XES生成ボタン -->
+        <mxCell id="btn-generate" value="XES 生成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1052" y="220" width="108" height="36" as="geometry" />
+        </mxCell>
+        <!-- 履歴テーブル枠 -->
+        <mxCell id="hist-table" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="316" width="916" height="384" as="geometry" />
+        </mxCell>
+        <!-- 履歴テーブルヘッダー行 -->
+        <mxCell id="ht-th-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="316" width="916" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ht-th-id" value="エクスポートID" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="268" y="316" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ht-th-period" value="期間" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="428" y="316" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ht-th-process" value="プロセス" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="648" y="316" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ht-th-cnt" value="件数" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="808" y="316" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ht-th-status" value="状態" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="888" y="316" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ht-th-dl" value="DL" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="988" y="316" width="80" height="40" as="geometry" />
+        </mxCell>
+        <!-- 履歴行 1 -->
+        <mxCell id="hr1-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="356" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr1-id" value="EXP-0042" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="268" y="356" width="156" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr1-period" value="2026-05-01 〜 2026-05-17" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="356" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr1-proc" value="全プロセス" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="356" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr1-cnt" value="1,284" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="356" width="72" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr1-status" value="完了" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="898" y="372" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="hr1-dl" value="DL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="996" y="372" width="56" height="28" as="geometry" />
+        </mxCell>
+        <!-- 履歴行 2 -->
+        <mxCell id="hr2-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="412" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr2-id" value="EXP-0041" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="268" y="412" width="156" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr2-period" value="2026-04-01 〜 2026-04-30" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="412" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr2-proc" value="組立工程A" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="412" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr2-cnt" value="876" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="412" width="72" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr2-status" value="完了" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="898" y="428" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="hr2-dl" value="DL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="996" y="428" width="56" height="28" as="geometry" />
+        </mxCell>
+        <!-- 履歴行 3 -->
+        <mxCell id="hr3-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="468" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr3-id" value="EXP-0040" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="268" y="468" width="156" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr3-period" value="2026-03-01 〜 2026-03-31" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="468" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr3-proc" value="検査工程B" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="468" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr3-cnt" value="542" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="468" width="72" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr3-status" value="完了" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="898" y="484" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="hr3-dl" value="DL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="996" y="484" width="56" height="28" as="geometry" />
+        </mxCell>
+        <!-- 履歴行 4 -->
+        <mxCell id="hr4-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="524" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr4-id" value="EXP-0039" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="268" y="524" width="156" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr4-period" value="2026-02-01 〜 2026-02-28" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="524" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr4-proc" value="全プロセス" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="524" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr4-cnt" value="2,156" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="524" width="72" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr4-status" value="完了" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="898" y="540" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="hr4-dl" value="DL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="996" y="540" width="56" height="28" as="geometry" />
+        </mxCell>
+        <!-- 履歴行 5 -->
+        <mxCell id="hr5-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="580" width="916" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr5-id" value="EXP-0038" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="268" y="580" width="156" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr5-period" value="2026-01-01 〜 2026-01-31" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="432" y="580" width="212" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr5-proc" value="梱包工程C" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="652" y="580" width="152" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr5-cnt" value="398" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="812" y="580" width="72" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hr5-status" value="処理中" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="898" y="596" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="hr5-dl-disabled" value="DL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="996" y="596" width="56" height="28" as="geometry" />
+        </mxCell>
+        <!-- フッター説明 -->
+        <mxCell id="footer-note" value="※ XES (IEEE eXtensible Event Stream) 形式でプロセスマイニングツールへの連携用エクスポート" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="262" y="756" width="700" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

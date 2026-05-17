@@ -1,0 +1,192 @@
+<mxfile>
+  <diagram name="BLE 接続状態ビジュアル仕様" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="8" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" height="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- タイトル -->
+        <mxCell id="title" value="BLE 接続状態ビジュアル仕様（CMP-HA-002 / 設定画面）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="200" y="20" width="800" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- 副タイトル説明 -->
+        <mxCell id="subdesc" value="5 つの BLE 接続状態ごとの配色・アイコン・トークン定義。ハンディ設定画面 (CMP-HA-002) の BLE ステータスバッジとして使用。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="100" y="58" width="1000" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ===== DISCONNECTED ===== -->
+        <!-- アイコンエリア -->
+        <mxCell id="dc-icon" value="---" style="text;html=1;fontFamily=Helvetica;fontSize=28;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="110" width="160" height="56" as="geometry" />
+        </mxCell>
+        <!-- バッジ矩形 -->
+        <mxCell id="dc-badge" value="DISCONNECTED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="180" width="160" height="48" as="geometry" />
+        </mxCell>
+        <!-- 状態ラベル -->
+        <mxCell id="dc-state" value="Bluetooth Off" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="234" width="160" height="20" as="geometry" />
+        </mxCell>
+        <!-- トークン注記 -->
+        <mxCell id="dc-token" value="bg=#F1F5F9&#xa;text=#333333&#xa;icon=#475569" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="260" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- ===== CONNECTING ===== -->
+        <!-- アイコンエリア -->
+        <mxCell id="co-icon" value="((( )))" style="text;html=1;fontFamily=Helvetica;fontSize=18;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="110" width="160" height="56" as="geometry" />
+        </mxCell>
+        <!-- バッジ矩形 -->
+        <mxCell id="co-badge" value="CONNECTING" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="180" width="160" height="48" as="geometry" />
+        </mxCell>
+        <!-- 状態ラベル -->
+        <mxCell id="co-state" value="Bluetooth + Spinner" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="234" width="160" height="20" as="geometry" />
+        </mxCell>
+        <!-- トークン注記 -->
+        <mxCell id="co-token" value="bg=#EBF3FE&#xa;text=#333333&#xa;icon=#2E7ADE" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="260" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- ===== CONNECTED ===== -->
+        <!-- アイコンエリア -->
+        <mxCell id="cn-icon" value="[B] [CHECK]" style="text;html=1;fontFamily=Helvetica;fontSize=18;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="110" width="160" height="56" as="geometry" />
+        </mxCell>
+        <!-- バッジ矩形 -->
+        <mxCell id="cn-badge" value="CONNECTED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="180" width="160" height="48" as="geometry" />
+        </mxCell>
+        <!-- 状態ラベル -->
+        <mxCell id="cn-state" value="Bluetooth + Check" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="234" width="160" height="20" as="geometry" />
+        </mxCell>
+        <!-- トークン注記 -->
+        <mxCell id="cn-token" value="bg=#ECFDF5&#xa;text=#333333&#xa;icon=#065F46" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="260" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- ===== RECEIVING ===== -->
+        <!-- アイコンエリア -->
+        <mxCell id="rc-icon" value="~~ ACT ~~" style="text;html=1;fontFamily=Helvetica;fontSize=18;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="660" y="110" width="160" height="56" as="geometry" />
+        </mxCell>
+        <!-- バッジ矩形 -->
+        <mxCell id="rc-badge" value="RECEIVING" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F9FF;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="660" y="180" width="160" height="48" as="geometry" />
+        </mxCell>
+        <!-- 状態ラベル -->
+        <mxCell id="rc-state" value="Activity 点滅" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="660" y="234" width="160" height="20" as="geometry" />
+        </mxCell>
+        <!-- トークン注記 -->
+        <mxCell id="rc-token" value="bg=#F0F9FF&#xa;text=#333333&#xa;icon=#0369A1" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="660" y="260" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ERROR ===== -->
+        <!-- アイコンエリア -->
+        <mxCell id="er-icon" value="[!] ERR" style="text;html=1;fontFamily=Helvetica;fontSize=18;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="860" y="110" width="160" height="56" as="geometry" />
+        </mxCell>
+        <!-- バッジ矩形 -->
+        <mxCell id="er-badge" value="ERROR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="860" y="180" width="160" height="48" as="geometry" />
+        </mxCell>
+        <!-- 状態ラベル -->
+        <mxCell id="er-state" value="AlertCircle" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="860" y="234" width="160" height="20" as="geometry" />
+        </mxCell>
+        <!-- トークン注記 -->
+        <mxCell id="er-token" value="bg=#FEF2F2&#xa;text=#333333&#xa;icon=#991B1B" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="860" y="260" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- ===== 状態遷移フロー ===== -->
+        <mxCell id="flow-hdr" value="状態遷移フロー" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="340" width="220" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- フロー: DISCONNECTED → CONNECTING -->
+        <mxCell id="f-dc" value="DISCONNECTED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="370" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f-dc-lbl" value="スキャン開始" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="204" y="378" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f-e1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="f-dc" target="f-co" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f-co" value="CONNECTING" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="290" y="370" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f-co-lbl" value="接続確立" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="434" y="378" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f-e2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="f-co" target="f-cn" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f-cn" value="CONNECTED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="520" y="370" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f-cn-lbl" value="データ受信" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="664" y="378" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f-e3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="f-cn" target="f-rc" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f-rc" value="RECEIVING" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F9FF;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="750" y="370" width="140" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ERROR への遷移（CONNECTINGから） -->
+        <mxCell id="f-er" value="ERROR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;strokeWidth=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="290" y="450" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f-e4-lbl" value="タイムアウト/切断" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="290" y="500" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f-e4" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" source="f-co" target="f-er" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="420" />
+              <mxPoint x="360" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ERROR → DISCONNECTEDへの遷移 -->
+        <mxCell id="f-e5" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" edge="1" source="f-er" target="f-dc" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="470" />
+              <mxPoint x="130" y="470" />
+              <mxPoint x="130" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f-e5-lbl" value="リセット" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="474" width="60" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ===== 詳細仕様表 ===== -->
+        <mxCell id="spec-hdr" value="詳細仕様" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="556" width="200" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="spec-body" value="DISCONNECTED: fillColor=#F1F5F9 / strokeColor=#333333 / fontColor=#333333 / icon: Bluetooth Off&#xa;CONNECTING: fillColor=#EBF3FE / strokeColor=#333333 / fontColor=#333333 / icon: Bluetooth + Spinner (pulse animation)&#xa;CONNECTED: fillColor=#ECFDF5 / strokeColor=#333333 / fontColor=#333333 / icon: Bluetooth + CheckCircle&#xa;RECEIVING: fillColor=#F0F9FF / strokeColor=#333333 / fontColor=#333333 / icon: Activity (点滅アニメーション)&#xa;ERROR: fillColor=#FEF2F2 / strokeColor=#333333 / fontColor=#333333 / icon: AlertCircle (赤 accent)" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="582" width="1080" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 注記 -->
+        <mxCell id="note" value="* アイコンは Lucide React Native ライブラリ使用。点滅・pulse アニメーションは Reanimated で実装。全バッジは strokeColor=#333333 で統一。" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=left;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="60" y="762" width="900" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

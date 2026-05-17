@@ -1,0 +1,181 @@
+<mxfile>
+  <diagram name="SCR-MC-007" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- 白背景 -->
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+
+        <!-- サイドバー -->
+        <mxCell id="sidebar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#071226;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="240" height="800" as="geometry" />
+        </mxCell>
+
+        <!-- サイドバーメニュー項目 -->
+        <mxCell id="menu1" value="ダッシュボード" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="244" y="110" width="160" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="menu2" value="バックアップ状況" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="244" y="138" width="160" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="menu3" value="DLQ 監視" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="244" y="166" width="160" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="menu4" value="ハッシュチェーン検証" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="244" y="194" width="160" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- ヘッダーバー -->
+        <mxCell id="header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="240" y="0" width="960" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- コンテンツ背景 -->
+        <mxCell id="content-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="240" y="56" width="960" height="744" as="geometry" />
+        </mxCell>
+
+        <!-- 画面タイトル -->
+        <mxCell id="screen-title" value="SCR-MC-007 DLQ 監視" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="262" y="64" width="280" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Outbox バッジ -->
+        <mxCell id="badge-outbox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="90" width="200" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="badge-outbox-label" value="Outbox 蓄積: 0 件" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="90" width="200" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- DLQ バッジ -->
+        <mxCell id="badge-dlq" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="476" y="90" width="200" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="badge-dlq-label" value="DLQ: 3 件" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="476" y="90" width="200" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- ポーリング表示 -->
+        <mxCell id="polling-label" value="30秒ポーリング中..." style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="700" y="104" width="200" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- 全件再投入ボタン -->
+        <mxCell id="btn-reinject-all" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1008" y="90" width="132" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-reinject-all-label" value="全件再投入（二段確認）" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1008" y="90" width="132" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- DLQテーブル枠 -->
+        <mxCell id="dlq-table" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="152" width="880" height="450" as="geometry" />
+        </mxCell>
+
+        <!-- テーブルヘッダー行 -->
+        <mxCell id="dlq-table-header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="152" width="880" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-msgid" value="メッセージID" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="270" y="152" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-queue" value="キュー名" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="410" y="152" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-faildt" value="失敗日時" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="530" y="152" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-retry" value="試行回数" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="650" y="152" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-err" value="エラー" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="750" y="152" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="th-ops" value="操作" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="876" y="152" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- DLQ行1 -->
+        <mxCell id="dlq-row1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="192" width="880" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row1-msgid" value="MSG-001" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="270" y="192" width="120" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row1-queue" value="andon-queue" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="410" y="192" width="100" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row1-faildt" value="14:25:01" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="530" y="192" width="100" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row1-retry" value="3 回" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="650" y="192" width="80" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row1-err" value="ERR-EXT-001" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="750" y="192" width="100" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row1-ops" value="再投入  詳細" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="876" y="192" width="120" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- DLQ行2 -->
+        <mxCell id="dlq-row2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="248" width="880" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row2-msgid" value="MSG-002" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="270" y="248" width="120" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row2-queue" value="work-event-queue" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="410" y="248" width="100" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row2-faildt" value="13:58:22" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="530" y="248" width="100" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row2-retry" value="3 回" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="650" y="248" width="80" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row2-err" value="ERR-EXT-003" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="750" y="248" width="100" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row2-ops" value="再投入  詳細" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="876" y="248" width="120" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- DLQ行3 -->
+        <mxCell id="dlq-row3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="304" width="880" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row3-msgid" value="MSG-003" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="270" y="304" width="120" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row3-queue" value="scan-queue" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="410" y="304" width="100" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row3-faildt" value="13:11:45" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="530" y="304" width="100" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row3-retry" value="3 回" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="650" y="304" width="80" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row3-err" value="ERR-EXT-002" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="750" y="304" width="100" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq-row3-ops" value="再投入  詳細" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="876" y="304" width="120" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- 下部注記 -->
+        <mxCell id="dialog-note" value="二段確認: Stage1=件数提示 Modal → Stage2=入力チャレンジ REINJECT → API-ops-002" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="260" y="618" width="740" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

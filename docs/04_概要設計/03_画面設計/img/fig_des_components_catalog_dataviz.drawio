@@ -1,0 +1,303 @@
+<mxfile>
+  <diagram name="データビジュアライゼーションカタログ" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="8" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" height="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="データビジュアライゼーション コンポーネントカタログ（FRG-034 / CMP-MC-001）" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="100" y="16" width="1000" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- FRG-034 Sparkline -->
+        <mxCell id="sp-title" value="FRG-034 Sparkline — KPI カード内ミニチャート" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="56" width="500" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- KPI Card with sparkline -->
+        <mxCell id="kpi-card" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="84" width="240" height="100" as="geometry" />
+        </mxCell>
+        <!-- Left accent bar -->
+        <mxCell id="kpi-bar" value="" style="rounded=0;fillColor=#059669;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="84" width="4" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="kpi-num" value="99.7%" style="text;html=1;fontFamily=Helvetica;fontSize=24;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="56" y="92" width="120" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="kpi-label" value="可用性 SLI" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="56" y="132" width="100" height="18" as="geometry" />
+        </mxCell>
+        <!-- Sparkline (mini line chart: series of small rects to simulate line) -->
+        <mxCell id="sp-bg" value="" style="rounded=0;fillColor=#F8FAFC;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="170" y="100" width="96" height="44" as="geometry" />
+        </mxCell>
+        <!-- Sparkline bars approximating a line -->
+        <mxCell id="sp-b1" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="170" y="130" width="8" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="sp-b2" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="182" y="128" width="8" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="sp-b3" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="194" y="120" width="8" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="sp-b4" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="206" y="115" width="8" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="sp-b5" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="218" y="108" width="8" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="sp-b6" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="230" y="104" width="8" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sp-b7" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="242" y="100" width="8" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="sp-b8" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="254" y="103" width="8" height="41" as="geometry" />
+        </mxCell>
+
+        <!-- KPI Card variations -->
+        <mxCell id="kpi2-card" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="296" y="84" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="kpi2-bar" value="" style="rounded=0;fillColor=#F59E0B;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="296" y="84" width="4" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="kpi2-num" value="280ms" style="text;html=1;fontFamily=Helvetica;fontSize=22;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="312" y="92" width="140" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="kpi2-label" value="API P95 レイテンシ" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="312" y="132" width="140" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="sp2-note" value="警告状態: 左帯 #F59E0B" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="296" y="188" width="240" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- CMP-MC-001 SliGauge -->
+        <mxCell id="sg-title" value="CMP-MC-001 SliGauge — 数値大 + プログレスバー（旧円弧ゲージの代替）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="700" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- SliGauge: Normal -->
+        <mxCell id="sg1-card" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="248" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="sg1-num" value="99.7%" style="text;html=1;fontFamily=Helvetica;fontSize=28;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sg1-label" value="可用性 SLI" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="40" y="302" width="200" height="16" as="geometry" />
+        </mxCell>
+        <!-- Progress bar track -->
+        <mxCell id="sg1-track" value="" style="rounded=1;fillColor=#E2E8F0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="56" y="326" width="168" height="8" as="geometry" />
+        </mxCell>
+        <!-- Progress bar fill (99.7%) -->
+        <mxCell id="sg1-fill" value="" style="rounded=1;fillColor=#059669;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="56" y="326" width="167" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="sg1-state" value="達成: state.success.500" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="200" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- SliGauge: Warning -->
+        <mxCell id="sg2-card" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="256" y="248" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="sg2-num" value="490ms" style="text;html=1;fontFamily=Helvetica;fontSize=28;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="256" y="260" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sg2-label" value="API P95 レイテンシ" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="256" y="302" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="sg2-track" value="" style="rounded=1;fillColor=#E2E8F0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="272" y="326" width="168" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="sg2-fill" value="" style="rounded=1;fillColor=#F59E0B;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="272" y="326" width="130" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="sg2-state" value="警告: state.warning.500 (目標 500ms 近辺)" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="256" y="340" width="200" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- SliGauge: Critical -->
+        <mxCell id="sg3-card" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="472" y="248" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="sg3-num" value="98.8%" style="text;html=1;fontFamily=Helvetica;fontSize=28;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="472" y="260" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sg3-label" value="同期成功率（目標 99.0%）" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="472" y="302" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="sg3-track" value="" style="rounded=1;fillColor=#E2E8F0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="488" y="326" width="168" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="sg3-fill" value="" style="rounded=1;fillColor=#DC2626;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="488" y="326" width="148" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="sg3-state" value="未達: state.danger.500" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="472" y="340" width="200" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Line chart mockup -->
+        <mxCell id="lc-title" value="時系列ラインチャート（MCダッシュボード Row 2）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="500" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-card" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="428" width="640" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-label" value="24h API P95 レイテンシ推移" style="text;html=1;fontFamily=Helvetica;fontSize=11;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="56" y="436" width="300" height="16" as="geometry" />
+        </mxCell>
+        <!-- X axis -->
+        <mxCell id="lc-xaxis" value="" style="rounded=0;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="56" y="596" width="608" height="2" as="geometry" />
+        </mxCell>
+        <!-- Y axis -->
+        <mxCell id="lc-yaxis" value="" style="rounded=0;fillColor=#333333;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="56" y="460" width="2" height="136" as="geometry" />
+        </mxCell>
+        <!-- Line chart bars (simplified to vertical bars at data points) -->
+        <mxCell id="lc-l1" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="80" y="570" width="6" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-l2" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="140" y="560" width="6" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-l3" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="550" width="6" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-l4" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="565" width="6" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-l5" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="320" y="542" width="6" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-l6" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="380" y="558" width="6" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-l7" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="440" y="570" width="6" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-l8" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="500" y="565" width="6" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-l9" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="560" y="555" width="6" height="41" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-l10" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="618" y="562" width="6" height="34" as="geometry" />
+        </mxCell>
+        <!-- Area fill (simplified single wide rect) -->
+        <mxCell id="lc-area" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;opacity=15;" vertex="1" parent="1">
+          <mxGeometry x="56" y="460" width="608" height="136" as="geometry" />
+        </mxCell>
+        <!-- Y axis labels -->
+        <mxCell id="lc-y1" value="500ms" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=right;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="24" y="454" width="30" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-y2" value="250ms" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=right;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="24" y="521" width="30" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-y3" value="0ms" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=right;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="24" y="589" width="30" height="12" as="geometry" />
+        </mxCell>
+        <!-- X axis labels -->
+        <mxCell id="lc-x1" value="00:00" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="64" y="600" width="40" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-x2" value="12:00" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="600" width="40" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="lc-x3" value="24:00" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="610" y="600" width="40" height="12" as="geometry" />
+        </mxCell>
+
+        <!-- Heatmap mockup -->
+        <mxCell id="hm-title" value="時間×ライン ヒートマップ" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="720" y="400" width="300" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="hm-card" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="720" y="428" width="456" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="hm-label" value="ライン × 時間帯 アクティビティ" style="text;html=1;fontFamily=Helvetica;fontSize=11;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="736" y="436" width="300" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Heatmap cells 4 rows × 8 cols -->
+        <mxCell id="hm-c00" value="" style="rounded=0;fillColor=#EBF3FE;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="736" y="470" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c01" value="" style="rounded=0;fillColor=#77AEF1;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="782" y="470" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c02" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="828" y="470" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c03" value="" style="rounded=0;fillColor=#2E7ADE;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="874" y="470" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c04" value="" style="rounded=0;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="920" y="470" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c05" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="966" y="470" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c06" value="" style="rounded=0;fillColor=#77AEF1;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="1012" y="470" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c07" value="" style="rounded=0;fillColor=#EBF3FE;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="1058" y="470" width="44" height="28" as="geometry" /></mxCell>
+
+        <mxCell id="hm-c10" value="" style="rounded=0;fillColor=#EBF3FE;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="736" y="500" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c11" value="" style="rounded=0;fillColor=#9EC5F5;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="782" y="500" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c12" value="" style="rounded=0;fillColor=#5A9DF4;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="828" y="500" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c13" value="" style="rounded=0;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="874" y="500" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c14" value="" style="rounded=0;fillColor=#2E7ADE;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="920" y="500" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c15" value="" style="rounded=0;fillColor=#5A9DF4;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="966" y="500" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c16" value="" style="rounded=0;fillColor=#9EC5F5;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="1012" y="500" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c17" value="" style="rounded=0;fillColor=#EBF3FE;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="1058" y="500" width="44" height="28" as="geometry" /></mxCell>
+
+        <mxCell id="hm-c20" value="" style="rounded=0;fillColor=#C5DCF9;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="736" y="530" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c21" value="" style="rounded=0;fillColor=#77AEF1;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="782" y="530" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c22" value="" style="rounded=0;fillColor=#2264C2;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="828" y="530" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c23" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="874" y="530" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c24" value="" style="rounded=0;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="920" y="530" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c25" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="966" y="530" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c26" value="" style="rounded=0;fillColor=#77AEF1;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="1012" y="530" width="44" height="28" as="geometry" /></mxCell>
+        <mxCell id="hm-c27" value="" style="rounded=0;fillColor=#EBF3FE;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="1058" y="530" width="44" height="28" as="geometry" /></mxCell>
+
+        <!-- Row labels -->
+        <mxCell id="hm-r0" value="ライン1" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=right;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="692" y="476" width="40" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="hm-r1" value="ライン2" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=right;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="692" y="506" width="40" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="hm-r2" value="ライン3" style="text;html=1;fontFamily=Helvetica;fontSize=9;align=right;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="692" y="536" width="40" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Heatmap color legend -->
+        <mxCell id="hm-leg-title" value="凡例（アクティビティ密度）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="736" y="572" width="200" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="hm-leg1" value="" style="rounded=0;fillColor=#EBF3FE;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="736" y="590" width="20" height="14" as="geometry" /></mxCell>
+        <mxCell id="hm-leg1-l" value="低" style="text;html=1;fontFamily=Helvetica;fontSize=9;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="758" y="590" width="16" height="14" as="geometry" /></mxCell>
+        <mxCell id="hm-leg2" value="" style="rounded=0;fillColor=#77AEF1;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="786" y="590" width="20" height="14" as="geometry" /></mxCell>
+        <mxCell id="hm-leg3" value="" style="rounded=0;fillColor=#3D8EF0;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="820" y="590" width="20" height="14" as="geometry" /></mxCell>
+        <mxCell id="hm-leg4" value="" style="rounded=0;fillColor=#2E7ADE;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="854" y="590" width="20" height="14" as="geometry" /></mxCell>
+        <mxCell id="hm-leg5" value="" style="rounded=0;fillColor=#1E3A5F;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="888" y="590" width="20" height="14" as="geometry" /></mxCell>
+        <mxCell id="hm-leg5-l" value="高" style="text;html=1;fontFamily=Helvetica;fontSize=9;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="910" y="590" width="16" height="14" as="geometry" /></mxCell>
+        <mxCell id="hm-note" value="ヒートマップカラー: brand.accent 50→900 の5段グラデーション（EBF3FE→1E3A5F）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="720" y="614" width="456" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Spec notes -->
+        <mxCell id="spec-title" value="実装仕様" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="spec1" value="ラインチャート: SVG ネイティブ描画 / 軸 text.caption / 線 brand.accent.500 1.5px / area opacity 8%" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="684" width="800" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="spec2" value="SliGauge: 数値 text.display.xl / ラベル text.caption / プログレス 8dp 高 / 状態色 success.500 / warning.500 / danger.500" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="704" width="800" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="spec3" value="KPIカード: shadow.1 / radius.md / 左 4px アクセントバー / Sparkline 右下 / tabular-nums 必須" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="724" width="800" height="16" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

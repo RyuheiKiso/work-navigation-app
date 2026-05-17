@@ -4,63 +4,130 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <!-- White background -->
         <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
         </mxCell>
-        <mxCell id="header" value="マスタメンテ APP | 承認サイン" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
-          <mxGeometry x="0" y="0" width="1200" height="40" as="geometry" />
+        <!-- ===== Header ===== -->
+        <mxCell id="header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#071226;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="56" as="geometry" />
         </mxCell>
-        <mxCell id="header-label" value="SCR-MA-008 承認サイン (Web APP)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
-          <mxGeometry x="400" y="0" width="400" height="40" as="geometry" />
+        <mxCell id="hdr-title" value="WorkNav マスタメンテ" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="18" width="180" height="20" as="geometry" />
         </mxCell>
-        <!-- Quality admin badge -->
-        <mxCell id="qa-badge" value="QUALITY ADMIN ONLY" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="980" y="54" width="180" height="36" as="geometry" />
+        <!-- quality_admin badge -->
+        <mxCell id="qa-badge" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="200" y="12" width="160" height="32" as="geometry" />
         </mxCell>
-        <!-- Summary section -->
-        <mxCell id="summary-title" value="変更サマリー" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
-          <mxGeometry x="40" y="54" width="200" height="30" as="geometry" />
+        <mxCell id="qa-badge-t" value="quality_admin 承認レビュー" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="12" width="160" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="summary-box" value="SOP-001 組立工程A&#xa;変更内容: Step 2 指示文の更新 / 入力タイプ変更 (OK/NG → 数値入力)&#xa;変更者: operator_001  |  提出日時: 2026-05-17 10:32  |  レビュー: quality_reviewer_001" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="40" y="90" width="1120" height="70" as="geometry" />
+        <!-- Accent strip -->
+        <mxCell id="accent" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="56" width="1200" height="8" as="geometry" />
         </mxCell>
-        <!-- Diff highlight -->
-        <mxCell id="diff-old" value="旧: 「ネジを締める」 / OK/NG" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
-          <mxGeometry x="40" y="178" width="540" height="40" as="geometry" />
+        <!-- ===== Diff viewer section ===== -->
+        <mxCell id="diff-area" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="64" width="1200" height="400" as="geometry" />
         </mxCell>
-        <mxCell id="diff-new" value="新: 「トルク値 8.0 N·m でネジを締める」 / 数値入力 (7.5〜8.5 N·m)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;" vertex="1" parent="1">
-          <mxGeometry x="620" y="178" width="540" height="40" as="geometry" />
+        <mxCell id="diff-title" value="差分ビューア (Step 全差分)" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="72" width="300" height="20" as="geometry" />
         </mxCell>
-        <!-- Electronic sign pad -->
-        <mxCell id="sign-title" value="ElectronicSignPad — 承認者署名" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
-          <mxGeometry x="40" y="242" width="400" height="30" as="geometry" />
+        <!-- Filter buttons -->
+        <mxCell id="flt-add" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="8" y="100" width="80" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="sign-pad" value="[ 電子サインパッド ]&#xa;&#xa;ここにタッチ / マウスで署名してください" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;verticalAlign=middle;dashed=1;dashPattern=6 4;" vertex="1" parent="1">
-          <mxGeometry x="40" y="282" width="600" height="200" as="geometry" />
+        <mxCell id="flt-add-t" value="追加" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="100" width="80" height="28" as="geometry" />
         </mxCell>
-        <!-- Auth info -->
-        <mxCell id="auth-label" value="承認者 ID:" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
-          <mxGeometry x="700" y="282" width="100" height="30" as="geometry" />
+        <mxCell id="flt-del" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="96" y="100" width="80" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="auth-id" value="quality_admin_001" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="810" y="282" width="300" height="30" as="geometry" />
+        <mxCell id="flt-del-t" value="削除" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="96" y="100" width="80" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="auth-pw-label" value="パスワード:" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
-          <mxGeometry x="700" y="328" width="100" height="30" as="geometry" />
+        <mxCell id="flt-chg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="184" y="100" width="80" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="auth-pw" value="••••••••" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontFamily=Helvetica;fontSize=12;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="810" y="328" width="300" height="30" as="geometry" />
+        <mxCell id="flt-chg-t" value="変更" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="184" y="100" width="80" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="auth-date" value="承認日時: 2026-05-17 14:05" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
-          <mxGeometry x="700" y="374" width="300" height="28" as="geometry" />
+        <!-- Diff rows -->
+        <mxCell id="dr1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="140" width="1200" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="dr1t" value="+ Step 3: 指示文にトルク値 8.0 N·m を追記" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="140" width="800" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="dr2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="184" width="1200" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="dr2t" value="- Step 3: 旧指示文「手で締める」を削除" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="184" width="800" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="dr3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="228" width="1200" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="dr3t" value="~ Step 3: 証拠要件 OK/NG → 数値入力 (7.5〜8.5 N·m)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="228" width="800" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="dr4" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="272" width="1200" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="dr4t" value="+ Step 3: クリティカルフラグ ON に変更" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="272" width="800" height="36" as="geometry" />
+        </mxCell>
+        <!-- ===== dry-run card ===== -->
+        <mxCell id="dry-card" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="472" width="1200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="dry-title" value="dry-run 影響確認: 影響件数 0 件 — 廃止・影響なし" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="488" width="700" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="dry-note" value="影響 &gt; 0 件の場合: state.warning.50 背景 + 詳細テーブル展開" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="512" width="700" height="16" as="geometry" />
+        </mxCell>
+        <!-- ===== Approval actions ===== -->
+        <mxCell id="act-area" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="560" width="1200" height="240" as="geometry" />
+        </mxCell>
+        <!-- Comment field -->
+        <mxCell id="cmt-field" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="8" y="572" width="700" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cmt-ph" value="審査コメントを入力..." style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=top;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="580" width="676" height="60" as="geometry" />
         </mxCell>
         <!-- Approve button -->
-        <mxCell id="btn-approve" value="承認 (電子サイン付き)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="400" y="560" width="400" height="50" as="geometry" />
+        <mxCell id="btn-approve" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="720" y="572" width="160" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-approve-t" value="承認" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="720" y="572" width="160" height="44" as="geometry" />
         </mxCell>
         <!-- Reject button -->
-        <mxCell id="btn-reject" value="差し戻し" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="40" y="560" width="200" height="50" as="geometry" />
+        <mxCell id="btn-reject" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="892" y="572" width="160" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-reject-t" value="差し戻し" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="892" y="572" width="160" height="44" as="geometry" />
+        </mxCell>
+        <!-- ElectronicSignPad drawer description -->
+        <mxCell id="sign-info" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="8" y="668" width="600" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="sign-info-t" value="承認クリック → 右ドロワー (480px) で ElectronicSignPad を表示" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="668" width="584" height="32" as="geometry" />
+        </mxCell>
+        <!-- Spec notes -->
+        <mxCell id="spec1" value="旧 Modal → 新 Drawer: 差分を見ながら署名できる設計" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="714" width="700" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="spec2" value="quality_admin 専用: RBAC ガード JWT + API レベル二重" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="734" width="700" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="spec3" value="干渉 0 件確認後のみ「廃止実行」有効化" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="754" width="700" height="16" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

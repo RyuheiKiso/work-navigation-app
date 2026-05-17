@@ -1,6 +1,6 @@
 <mxfile>
   <diagram name="SCR-MA-006" id="page-1">
-    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" height="800" math="0" shadow="0" background="#FFFFFF">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -16,7 +16,7 @@
           <mxGeometry x="160" y="60" width="880" height="660" as="geometry" />
         </mxCell>
         <!-- Modal header -->
-        <mxCell id="modal-header" value="SOP プレビュー — SOP-001 組立工程A (v2.0)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
+        <mxCell id="modal-header" value="SOP プレビュー — SOP-001 組立工程A (v2.0)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
           <mxGeometry x="160" y="60" width="880" height="44" as="geometry" />
         </mxCell>
         <mxCell id="modal-header-label" value="SCR-MA-006 SOP プレビュー (Web APP)" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
@@ -26,11 +26,11 @@
           <mxGeometry x="992" y="68" width="34" height="28" as="geometry" />
         </mxCell>
         <!-- Step progress -->
-        <mxCell id="step-progress" value="Step 2 / 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
+        <mxCell id="step-progress" value="Step 2 / 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="540" y="118" width="120" height="32" as="geometry" />
         </mxCell>
         <!-- Step display -->
-        <mxCell id="step-box" value="Step 2: 組立作業" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+        <mxCell id="step-box" value="Step 2: 組立作業" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="200" y="168" width="800" height="50" as="geometry" />
         </mxCell>
         <!-- Instruction text -->
@@ -45,7 +45,7 @@
           <mxGeometry x="200" y="366" width="400" height="44" as="geometry" />
         </mxCell>
         <!-- Navigation buttons -->
-        <mxCell id="btn-prev" value="◀ 前のStep" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
+        <mxCell id="btn-prev" value="◀ 前のStep" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="200" y="628" width="160" height="40" as="geometry" />
         </mxCell>
         <mxCell id="btn-next" value="次のStep ▶" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#333333;fontFamily=Helvetica;fontSize=13;fontColor=#333333;" vertex="1" parent="1">

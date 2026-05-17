@@ -1,0 +1,338 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- 白背景矩形 -->
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- タイトル -->
+        <mxCell id="title" value="ダーク &amp; nightShift モード カラートークン対応" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="200" y="12" width="800" height="32" as="geometry" />
+        </mxCell>
+        <!-- テーブルヘッダー背景 -->
+        <mxCell id="hdr-token" value="トークン名" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="20" y="56" width="200" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr-light" value="ライトモード" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="220" y="56" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr-dark" value="ダークモード" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="340" y="56" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr-night" value="nightShift" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="460" y="56" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr-use" value="用途" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="580" y="56" width="600" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Row 1: surface.bg -->
+        <mxCell id="r1-token" value="surface.bg" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="88" width="200" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-light-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="228" y="96" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-light-val" value="#FFFFFF" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="96" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-light-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="220" y="88" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-dark-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0F172A;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="348" y="96" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-dark-val" value="#0F172A" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="368" y="96" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-dark-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="88" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-night-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0B1220;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="468" y="96" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-night-val" value="#0B1220" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="488" y="96" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-night-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="88" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-use" value="画面背景" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="580" y="88" width="600" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Row 2: surface.raised -->
+        <mxCell id="r2-token" value="surface.raised" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="120" width="200" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-light-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="228" y="128" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-light-val" value="#FFFFFF" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="128" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-light-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="220" y="120" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-dark-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="348" y="128" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-dark-val" value="#1E293B" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="368" y="128" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-dark-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="120" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-night-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#131E30;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="468" y="128" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-night-val" value="#131E30" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="488" y="128" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-night-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="120" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-use" value="カード背景" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="580" y="120" width="600" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Row 3: surface.subtle -->
+        <mxCell id="r3-token" value="surface.subtle" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="152" width="200" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-light-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="228" y="160" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-light-val" value="#F8FAFC" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="160" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-light-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="220" y="152" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-dark-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="348" y="160" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-dark-val" value="#1E293B" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="368" y="160" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-dark-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="152" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-night-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A2840;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="468" y="160" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-night-val" value="#1A2840" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="488" y="160" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-night-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="152" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-use" value="セクション区分" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="580" y="152" width="600" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Row 4: text.primary -->
+        <mxCell id="r4-token" value="text.primary" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="184" width="200" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-light-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0F172A;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="228" y="192" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-light-val" value="#0F172A" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="192" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-light-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="220" y="184" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-dark-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="348" y="192" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-dark-val" value="#F1F5F9" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="368" y="192" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-dark-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="184" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-night-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="468" y="192" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-night-val" value="#E2E8F0" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="488" y="192" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-night-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="184" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r4-use" value="主要本文" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="580" y="184" width="600" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Row 5: text.secondary -->
+        <mxCell id="r5-token" value="text.secondary" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="216" width="200" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-light-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#475569;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="228" y="224" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-light-val" value="#475569" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="224" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-light-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="220" y="216" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-dark-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#94A3B8;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="348" y="224" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-dark-val" value="#94A3B8" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="368" y="224" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-dark-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="216" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-night-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7B93AB;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="468" y="224" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-night-val" value="#7B93AB" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="488" y="224" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-night-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="216" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r5-use" value="補助テキスト" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="580" y="216" width="600" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Row 6: text.warning nightShift -->
+        <mxCell id="r6-token" value="text.warning nightShift" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="248" width="200" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r6-light-val" value="—" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="220" y="248" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r6-light-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="220" y="248" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r6-dark-val" value="—" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="340" y="248" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r6-dark-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="248" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r6-night-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5A524;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="468" y="256" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r6-night-val" value="#F5A524" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="488" y="256" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r6-night-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="248" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r6-use" value="夜勤警告（橙黄寄り）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="580" y="248" width="600" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Row 7: state.andon -->
+        <mxCell id="r7-token" value="state.andon" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="280" width="200" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-light-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF0000;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="228" y="288" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-light-val" value="#FF0000" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="248" y="288" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-light-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="220" y="280" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-dark-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF4444;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="348" y="288" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-dark-val" value="#FF4444" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="368" y="288" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-dark-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="340" y="280" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-night-swatch" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF4444;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="468" y="288" width="16" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-night-val" value="#FF4444" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="488" y="288" width="80" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-night-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="280" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="r7-use" value="緊急（赤を保持）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontColor=#333333;fontFamily=Helvetica;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="580" y="280" width="600" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- nightShift 設計原則 セクション -->
+        <mxCell id="principle-title" value="nightShift 設計原則" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="340" width="400" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="principle-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="368" width="1160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="principle-1" value="・彩度を -30% に抑え、純白テキスト禁止（グレア低減）" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="32" y="376" width="700" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="principle-2" value="・warning を橙黄寄り、danger を朱寄りに調整（赤緑色覚依存低減）" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="32" y="400" width="700" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="principle-3" value="・shadow を発光方向ではなく沈降方向に（白面積を 25% 以下に）" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="32" y="424" width="700" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="principle-4" value="・アンドン赤のみ保持（学習済緊急信号）" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="32" y="448" width="700" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- モード説明 -->
+        <mxCell id="mode-desc-title" value="モード説明" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="508" width="400" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="mode-light-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="536" width="360" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="mode-light-label" value="ライトモード" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="540" width="360" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mode-light-desc" value="明るい環境向け。高コントラスト・白背景基調。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="564" width="360" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="mode-dark-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="420" y="536" width="360" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="mode-dark-label" value="ダークモード" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="420" y="540" width="360" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mode-dark-desc" value="暗い環境向け。低輝度背景で目への負担を軽減。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="420" y="564" width="360" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="mode-night-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0B1220;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="820" y="536" width="360" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="mode-night-label" value="nightShift モード" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;align=center;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="820" y="540" width="360" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mode-night-desc" value="夜勤・暗所特化。彩度抑制・グレア防止設計。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="820" y="564" width="360" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- 注意事項 -->
+        <mxCell id="note-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#333333;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="630" width="1160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="note-text" value="注意: ダークモード・nightShift モードのテキスト色（text.primary / text.secondary）はデザインシステムのトークン変数から参照すること。直接 CSS ハードコード禁止。" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=left;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="32" y="642" width="1136" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- フッター -->
+        <mxCell id="footer" value="WorkNav Design System — Dark / nightShift Token Reference | 2026-05-17" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="200" y="758" width="800" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

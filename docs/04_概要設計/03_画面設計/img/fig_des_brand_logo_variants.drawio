@@ -1,0 +1,215 @@
+<mxfile>
+  <diagram name="WorkNav ロゴバリアント" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="8" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" height="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="WorkNav ロゴバリアント規約" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="16" width="400" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- Variant A: Full Color on White -->
+        <mxCell id="va-label" value="A: フルカラー（白背景）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="va-box" value="" style="rounded=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="88" width="360" height="120" as="geometry" />
+        </mxCell>
+        <!-- Symbol pieces row1 -->
+        <mxCell id="va-t1" value="" style="rounded=1;fillColor=#132948;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="80" y="122" width="56" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="va-t2" value="" style="rounded=1;fillColor=#132948;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="144" y="122" width="56" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="va-t3" value="" style="rounded=1;fillColor=#132948;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="208" y="122" width="68" height="22" as="geometry" />
+        </mxCell>
+        <!-- Symbol pieces row2 -->
+        <mxCell id="va-t4" value="" style="rounded=1;fillColor=#6789B9;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="80" y="152" width="56" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="va-t5" value="" style="rounded=1;fillColor=#3E65A2;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="144" y="152" width="56" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="va-t6" value="" style="rounded=1;fillColor=#1E3A5F;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="208" y="152" width="68" height="22" as="geometry" />
+        </mxCell>
+        <!-- Logotype -->
+        <mxCell id="va-logotype" value="WorkNav" style="text;html=1;fontFamily=Helvetica;fontSize=26;fontStyle=1;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#1E3A5F;" vertex="1" parent="1">
+          <mxGeometry x="292" y="122" width="100" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="va-tag" value="現場の一手を、確かな証跡へ。" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="80" y="184" width="320" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="va-use" value="使用場面: ログイン画面・スプラッシュ・印刷物" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="212" width="360" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Variant B: White on Dark (Sidebar/Header) -->
+        <mxCell id="vb-label" value="B: 白抜き（ダーク背景）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="60" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vb-box" value="" style="rounded=1;fillColor=#071226;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="88" width="360" height="120" as="geometry" />
+        </mxCell>
+        <!-- Symbol white -->
+        <mxCell id="vb-t1" value="" style="rounded=1;fillColor=#E2E8F0;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="480" y="122" width="56" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="vb-t2" value="" style="rounded=1;fillColor=#E2E8F0;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="544" y="122" width="56" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="vb-t3" value="" style="rounded=1;fillColor=#E2E8F0;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="608" y="122" width="68" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="vb-t4" value="" style="rounded=1;fillColor=#94A3B8;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="480" y="152" width="56" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="vb-t5" value="" style="rounded=1;fillColor=#CBD5E1;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="544" y="152" width="56" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="vb-t6" value="" style="rounded=1;fillColor=#E2E8F0;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="608" y="152" width="68" height="22" as="geometry" />
+        </mxCell>
+        <!-- Note: logotype text cannot be white, place note instead -->
+        <mxCell id="vb-note" value="WorkNav（テキスト色: #E2E8F0）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="692" y="130" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="vb-use" value="使用場面: サイドバー・ダークヘッダー・ダークモード全般" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="440" y="212" width="360" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Variant C: Monochrome Dark on Light (Print) -->
+        <mxCell id="vc-label" value="C: モノクロ（印刷・FAX 用）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="60" width="320" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vc-box" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="88" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="vc-t1" value="" style="rounded=1;fillColor=#333333;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="872" y="122" width="48" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vc-t2" value="" style="rounded=1;fillColor=#333333;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="928" y="122" width="48" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vc-t3" value="" style="rounded=1;fillColor=#333333;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="984" y="122" width="58" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vc-t4" value="" style="rounded=1;fillColor=#666666;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="872" y="150" width="48" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vc-t5" value="" style="rounded=1;fillColor=#475569;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="928" y="150" width="48" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vc-t6" value="" style="rounded=1;fillColor=#333333;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="984" y="150" width="58" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vc-logotype" value="WorkNav" style="text;html=1;fontFamily=Helvetica;fontSize=22;fontStyle=1;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1052" y="128" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="vc-use" value="使用場面: 印刷・FAX・白黒媒体" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="212" width="320" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Variant D: Symbol Only (Icon) -->
+        <mxCell id="vd-label" value="D: シンボルのみ（アイコン用途・32dp 以下）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="440" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- 3 sizes: 64×64 / 32×32 / 16×16 -->
+        <mxCell id="vd-box-lg" value="" style="rounded=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="288" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-r1" value="" style="rounded=1;fillColor=#132948;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="50" y="302" width="22" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-r2" value="" style="rounded=1;fillColor=#132948;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="76" y="302" width="22" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-r3" value="" style="rounded=1;fillColor=#132948;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="102" y="302" width="11" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-r4" value="" style="rounded=1;fillColor=#6789B9;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="50" y="318" width="22" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-r5" value="" style="rounded=1;fillColor=#3E65A2;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="76" y="318" width="22" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-r6" value="" style="rounded=1;fillColor=#1E3A5F;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="102" y="318" width="11" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-size-lg" value="64dp" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="372" width="80" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- 32dp -->
+        <mxCell id="vd-box-md" value="" style="rounded=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="136" y="296" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-m1" value="" style="rounded=1;fillColor=#132948;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="142" y="306" width="14" height="7" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-m2" value="" style="rounded=1;fillColor=#132948;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="160" y="306" width="14" height="7" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-m3" value="" style="rounded=1;fillColor=#132948;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="176" y="306" width="7" height="7" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-m4" value="" style="rounded=1;fillColor=#6789B9;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="142" y="317" width="14" height="7" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-m5" value="" style="rounded=1;fillColor=#3E65A2;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="160" y="317" width="14" height="7" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-m6" value="" style="rounded=1;fillColor=#1E3A5F;strokeColor=none;arcSize=18;" vertex="1" parent="1">
+          <mxGeometry x="176" y="317" width="7" height="7" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-size-md" value="32dp" style="text;html=1;fontFamily=Helvetica;fontSize=10;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="136" y="372" width="48" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="vd-use" value="シンボルのみバリアントはアイコン（32dp 以下）専用。ロゴタイプ省略可。" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="396" width="500" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Rules section -->
+        <mxCell id="rules-title" value="使用ルール" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="436" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="rule1" value="1. ロゴを変形・回転・再着色してはならない" style="text;html=1;fontFamily=Helvetica;fontSize=11;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="464" width="600" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="rule2" value="2. シンボルとロゴタイプの比率は固定（05A_ § 4 参照）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="484" width="600" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="rule3" value="3. クリアスペース: シンボル高さの 0.5 倍以上を四辺に確保" style="text;html=1;fontFamily=Helvetica;fontSize=11;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="504" width="600" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="rule4" value="4. 最小サイズ: ロゴタイプ含む 48dp 高 / シンボルのみ 24dp 高" style="text;html=1;fontFamily=Helvetica;fontSize=11;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="524" width="600" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="rule5" value="5. 背景が暗色の場合は B バリアント使用（白背景に A バリアント）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="544" width="600" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- Tagline variants -->
+        <mxCell id="tg-title" value="タグライン" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="700" y="436" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="tg-ja" value="日本語: 「現場の一手を、確かな証跡へ。」" style="text;html=1;fontFamily=Helvetica;fontSize=12;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="700" y="464" width="480" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="tg-en" value="英語: Every step, a record of quality." style="text;html=1;fontFamily=Helvetica;fontSize=12;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="700" y="486" width="480" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="tg-note" value="タグラインはロゴタイプの下に小さく添える。省略可（単独使用もOK）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="700" y="508" width="480" height="18" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

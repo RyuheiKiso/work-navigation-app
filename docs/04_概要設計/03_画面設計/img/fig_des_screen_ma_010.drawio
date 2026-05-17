@@ -1,13 +1,13 @@
 <mxfile>
   <diagram name="SCR-MA-010" id="page-1">
-    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" height="800" math="0" shadow="0" background="#FFFFFF">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
         </mxCell>
-        <mxCell id="header" value="マスタメンテ APP | バージョン差分" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
+        <mxCell id="header" value="マスタメンテ APP | バージョン差分" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EBF3FE;strokeColor=#333333;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;align=left;" vertex="1" parent="1">
           <mxGeometry x="0" y="0" width="1200" height="40" as="geometry" />
         </mxCell>
         <mxCell id="header-label" value="SCR-MA-010 バージョン差分 (Web APP)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
@@ -66,7 +66,7 @@
           <mxGeometry x="620" y="240" width="540" height="36" as="geometry" />
         </mxCell>
         <!-- Legend -->
-        <mxCell id="leg-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
+        <mxCell id="leg-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="40" y="300" width="500" height="60" as="geometry" />
         </mxCell>
         <mxCell id="leg-yellow" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#333333;fontColor=#333333;" vertex="1" parent="1">
