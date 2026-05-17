@@ -44,6 +44,8 @@
 | TBL-034 | device_sync_states | EN-024（DeviceSyncState）| 1:1 | 更新可 | 100 行 | Device と同期 |
 | TBL-035 | idempotency_keys | （制御テーブル・EN なし）| — | 制御 | 100 万行（TTL 24h）| 24 時間（自動削除）|
 
+**TBL-025 equipments 拡張注記**: scan_code（スキャン照合 ID）/ tool_subtype（工具/治具サブ種別）/ calibration_due_date（治具点検期限 NULL 許容）を追加保持する。ポカヨケ照合のマスタとして機能する。
+
 ---
 
 ## 2. Append-only テーブルの物理保証
@@ -85,6 +87,7 @@
 - **全 35 物理テーブル（TBL-001〜035）を確定し、全 27 論理エンティティ（EN-001〜027）が ≥1 TBL にマッピングされることを保証した。**
 - **Append-only テーブル 10 件を明示し、PostgreSQL ロール分離によって物理 DELETE/UPDATE を禁止することを設計命題として確定した。**
 - **5 年累積ストレージを約 167GB（DB）と見積もり、NFR-PRF-015（1.5TB 以下）を十分に満足することを確認した。**
+- **TBL-025 equipments に scan_code / tool_subtype / calibration_due_date を追加し、新規 TBL を発行せずに EN-019 Equipment 拡張を確定する。**
 
 ---
 

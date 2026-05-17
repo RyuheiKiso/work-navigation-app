@@ -37,13 +37,16 @@
 
 ## 3. マスタメンテ APP（MOD-FE-MA）
 
+MOD-FE-MA-001（SopEditor）は Step 単体属性の編集を、MOD-FE-MA-002（DslConditionBuilder）は条件式の JSON Logic 編集を、MOD-FE-MA-003（SopFlowEditor）は Step 間の DAG フロー編集を、それぞれ責務分離して担当する。3 モジュールは SCR-MA-004 の SopEditorShell が統合する。
+
 | MOD-ID | 物理名 | ファイルパス | 責務 | 関連 FR | 関連 SCR |
 |---|---|---|---|---|---|
 | MOD-FE-MA-001 | SopEditor | `src/features/sop-editor/` | SOP/Step 編集・Auto-Save | FR-MA-001〜007 | SCR-MA-004/005 |
 | MOD-FE-MA-002 | DslConditionBuilder | `src/features/sop-editor/dsl/` | ビジュアル DSL エディタ・DAG 検証 | FR-MA-004/007 | SCR-MA-006 |
-| MOD-FE-MA-003 | ApprovalWorkflow | `src/features/approval/` | レビュー・承認・公開フロー | FR-MA-008〜010 | SCR-MA-007/008/009 |
-| MOD-FE-MA-004 | MasterVersionDiff | `src/features/sop-editor/diff/` | バージョン差分表示 | FR-MA-013 | SCR-MA-010 |
-| MOD-FE-MA-005 | UserRoleAdmin | `src/features/user-mgmt/` | ユーザー/ロール CRUD | FR-MA-014/015 | — |
+| MOD-FE-MA-003 | SopFlowEditor | `src/features/sop-editor/flow/` | Step ノード/エッジの DAG 編集・循環参照プレフライト・フローシミュレーション | FR-MA-016 | SCR-MA-004 (DAG フローモード) |
+| MOD-FE-MA-004 | ApprovalWorkflow | `src/features/approval/` | レビュー・承認・公開フロー | FR-MA-008〜010 | SCR-MA-007/008/009 |
+| MOD-FE-MA-005 | MasterVersionDiff | `src/features/sop-editor/diff/` | バージョン差分表示 | FR-MA-013 | SCR-MA-010 |
+| MOD-FE-MA-006 | UserRoleAdmin | `src/features/user-mgmt/` | ユーザー/ロール CRUD | FR-MA-014/015 | — |
 
 ---
 
@@ -71,7 +74,7 @@
 ---
 
 **本節で確定した方針**
-- **MOD-BE（7+2）・MOD-FE-HA（8）・MOD-FE-MA（5）・MOD-FE-MC（5）・MOD-SH（4）の計 31 モジュールを確定し、責務・依存関係・担当 FR を一元管理した。**
+- **MOD-BE（7+2）・MOD-FE-HA（8）・MOD-FE-MA（6）・MOD-FE-MC（5）・MOD-SH（4）の計 32 モジュールを確定し、責務・依存関係・担当 FR を一元管理した。**
 - **依存方向はバックエンド: wnav_api → wnav_domain ← wnav_db、フロントエンド: features → shared（一方向）で統一し、循環依存を禁止する。**
 
 ---

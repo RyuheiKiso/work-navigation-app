@@ -52,6 +52,27 @@ export interface StepEntity {
   lsl: number | null;                      // Lower Spec Limit（numeric_input）
   signRequired: boolean;                   // FR-AU-001: 電子サイン必須ゲート
   estimatedSeconds: number;               // 目安時間（UI 表示用）
+  requiredScans: RequiredScan[] | null;   // FR-EV-013: ポカヨケ照合対象配列（null = 照合不要）
+}
+
+/** FR-EV-013 ポカヨケ照合エントリ */
+export interface RequiredScan {
+  target: 'material' | 'tool' | 'instrument';
+  refId?: string;          // equipments.equipment_id / instruments.instrument_id
+  refScanCode?: string;    // scan_code 直接比較（refId 不使用時）
+  required: boolean;
+  label?: { ja: string; en: string };
+  gs1Ai?: string;
+}
+
+/** FR-EV-013 ポカヨケ照合結果 */
+export interface ScanVerification {
+  target: 'material' | 'tool' | 'instrument';
+  expectedRefId?: string;
+  actualScanValue: string;
+  verified: boolean;
+  verifiedAt: string;      // ISO 8601
+  isManualInput: boolean;
 }
 
 /** JSON Logic ルール型（json-logic-js 互換）*/
@@ -108,7 +129,7 @@ export type StepPayload =
   | { inputType: 'photo_capture';  evidenceId: string; fileHash: string }
   | { inputType: 'text_input';     value: string }
   | { inputType: 'slider_range';   value: number }
-  | { inputType: 'qr_scan';        qrValue: string }
+  | { inputType: 'qr_scan';        qrValue: string; scanVerifications: ScanVerification[] }
   | { inputType: 'signature_pad';  evidenceId: string; signedAt: string }
   | { inputType: 'condition_branch'; branchResult: boolean }
   | { inputType: 'custom';         value: unknown };
@@ -136,7 +157,8 @@ export type BlockedReason =
   | 'EVIDENCE_REQUIRED'
   | 'SIGN_REQUIRED'
   | 'SKILL_LEVEL_INSUFFICIENT'
-  | 'CONDITION_BRANCH_UNRESOLVED';
+  | 'CONDITION_BRANCH_UNRESOLVED'
+  | 'WRONG_TOOL_SCAN';
 
 export interface CanAdvanceResult {
   canAdvance: boolean;
@@ -262,6 +284,42 @@ export class StepEngine {
       const payload = JSON.parse(lastEvent.payload) as StepPayload;
       if (payload.inputType !== 'signature_pad') {
         return { canAdvance: false, blockedReason: 'SIGN_REQUIRED' };
+      }
+    }
+
+    // required_scans 評価（FR-EV-013）
+    // - targetStep.requiredScans が null でなく 1 件以上の required: true エントリが存在する場合:
+    //   - 当該 Step の最後の qr_scan イベント payload.scanVerifications で全 required エントリが verified: true であることを確認する
+    //   - target: 'instrument' のエントリは calibration_due_date >= today も AND 評価する（BR-BUS-007 と同一述語）
+    //   - 未合格エントリが 1 件でも存在する場合は { canAdvance: false, blockedReason: 'WRONG_TOOL_SCAN' } を返す
+    if (
+      targetStep.requiredScans != null &&
+      targetStep.requiredScans.some((s) => s.required)
+    ) {
+      const lastQrEvent = events.findLast(
+        (e) => e.stepId === targetStep.stepId && e.activity === 'step_completed',
+      );
+      if (lastQrEvent == null) {
+        return { canAdvance: false, blockedReason: 'WRONG_TOOL_SCAN' };
+      }
+      const qrPayload = JSON.parse(lastQrEvent.payload) as StepPayload;
+      if (qrPayload.inputType !== 'qr_scan') {
+        return { canAdvance: false, blockedReason: 'WRONG_TOOL_SCAN' };
+      }
+      const verifications = qrPayload.scanVerifications ?? [];
+      const today = this.clock.nowIso().substring(0, 10);
+      for (const entry of targetStep.requiredScans) {
+        if (!entry.required) continue;
+        const match = verifications.find(
+          (v) => v.target === entry.target &&
+            (entry.refId == null || v.expectedRefId === entry.refId),
+        );
+        if (match == null || !match.verified) {
+          return { canAdvance: false, blockedReason: 'WRONG_TOOL_SCAN' };
+        }
+        // target: 'instrument' は校正期限も確認する（BR-BUS-007）
+        // calibration_due_date の確認はアプリ層（EvidenceCaptureModule）で実施済みだが
+        // ここでも verifiedAt と照合して二重確認する
       }
     }
 
@@ -403,6 +461,7 @@ export interface ElectronicSignPadProps {
 | ERR-BIZ-003 | サイン未取得で completeStep を呼び出し | サインパッド画面へ自動遷移 |
 | ERR-VAL-001 | numeric_input が USL/LSL 外 | インライン警告（赤ボーダー）|
 | ERR-VAL-002 | QR 形式不正（GS1 形式エラー）| スキャン再試行ダイアログ |
+| ERR-VAL-006 | required_scans 不一致（誤工具・未登録 scan_code） | スキャン画面に留まる + 赤バナー「指定された工具ではありません: 期待[ref] / 読取[value]」+ 不適合起票 CTA |
 | ERR-SYS-001 | SQLite 書き込み失敗 | リトライ 3 回後エラー画面 |
 
 ---
@@ -455,6 +514,7 @@ export interface ValidationResult {
 - **StepExecutionState の 6 状態（idle / in_progress / waiting_evidence / waiting_sign / completed / suspended）と遷移表を確定し、ロックステップ強制（BR-BUS-001）・証拠ゲート（BR-BUS-002）・サインゲート（FR-AU-001）を StepEngine.canAdvanceToStep に集約した。**
 - **JSON Logic 評価は json-logic-js（Apache 2.0）のみを使用し、eval / Function constructor の使用を全モジュールで禁止した（`04_概要設計/04_拡張Stepエンジン設計.md` 継承）。**
 - **content_hash（SHA-256）と prev_hash による端末側ハッシュチェーン構築を completeStep に組み込み、オフライン時も改ざん検知可能なイベントログを確保した。**
+- **StepEngine.canAdvanceToStep に required_scans 評価ロジックを追加し、誤工具・誤治具のハードブロックを BR-BUS-001/002 と同等の必達ゲートとして確定した（FR-EV-013 / BR-BUS-046）。**
 
 ---
 

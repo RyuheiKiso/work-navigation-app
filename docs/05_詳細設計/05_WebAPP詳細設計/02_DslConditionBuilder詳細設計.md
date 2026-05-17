@@ -12,7 +12,7 @@
 | 物理名 | DslConditionBuilder |
 | ファイルパス | `src/features/sop-editor/dsl/` |
 | 関連 FR | FR-MA-004（判定条件設定）・FR-MA-007（DSL 検証）|
-| 関連 SCR | SCR-MA-006（SOP プレビュー・条件確認）|
+| 関連 SCR | SCR-MA-006（SOP プレビュー・条件確認）・SCR-MA-004（DAG フローモードのエッジ条件式 popover として EdgeConditionPopover 内に mount される）|
 | アクセスロール | master_admin |
 
 ---
@@ -183,10 +183,24 @@ DslConditionBuilder (MOD-FE-MA-002)
 
 ---
 
+## 8. SopFlowEditor（MOD-FE-MA-003）との境界
+
+本モジュール DslConditionBuilder は **JSON Logic 条件式（単一の boolean 式ツリー）の編集のみ** を担当する。
+
+- **対象内**: 演算子パレット・変数ピッカー・条件ツリー表示・RAW JSON モード・プレビュー実行
+- **対象外**: Step 間の DAG トポロジ（skip / goto / insert エッジの追加・削除・並べ替え） → MOD-FE-MA-003 が担当する
+
+SopFlowEditor の EdgeConditionPopover は `<DslConditionBuilder value={edge.condition} onChange={...} availableVariables={vars} />` として本コンポーネントをマウントする。`availableVariables` は呼び出し側（EdgeConditionPopover）が source Step の inputType / USL / LSL から組み立てる。
+
+演算子ホワイトリスト（ALLOWED_OPERATORS）と MAX_RULE_DEPTH=5 の制約は、DAG エッジ条件式に対しても適用する。
+
+---
+
 **本節で確定した方針**
 - **JSON Logic の演算子ホワイトリストを `'=='・'!='・'>'・'<'・'>='・'<='・'and'・'or'・'!'・'var'` の 10 種に限定し、型定義・validateDslAst の両層でブロックすることを確定した。**
 - **eval・Function コンストラクタ・動的プロパティアクセス（`[]` 演算子）は型レベルで表現不可能とし、evaluateJsonLogic は純粋な再帰ツリー走査のみで実装することを確定した。**
 - **AST ネスト深さ上限を 10 とし、MAX_DEPTH_EXCEEDED 時は追加ボタン非活性にして UI からそれ以上の深さへの到達を防止することを確定した。**
+- **DslConditionBuilder は条件式 DSL 単体の編集に責務を限定し、Step-DAG フロー編集は MOD-FE-MA-003 SopFlowEditor に分離することを確定した（FR-MA-016）。**
 
 ---
 

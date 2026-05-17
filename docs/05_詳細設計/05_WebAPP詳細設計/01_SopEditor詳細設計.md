@@ -232,6 +232,8 @@ SopEditor (MOD-FE-MA-001)
   AutoSaveIndicator (lastAutoSaveAt 表示)
 ```
 
+DAG フローモード時（FR-MA-016）、SopEditorShell は SopFlowCanvas（CMP-MA-005 / MOD-FE-MA-003）を中央ペインに並列 mount する。Step フォームモードと DAG フローモードの切替は intra-screen 操作であり、TRN を発行しない。
+
 ---
 
 ## 8. エラーハンドリング
@@ -245,10 +247,20 @@ SopEditor (MOD-FE-MA-001)
 
 ---
 
+## 9. SopFlowEditor（MOD-FE-MA-003）との連携
+
+- Step の属性（instructionText / inputType 等）と順序番号は本モジュール SopEditor が単一権威として管理する。SopFlowEditor は `useSopEditorStore` をセレクタで購読して FlowNode 配列を派生させる。
+- エッジ（DAG フロー）は SopFlowEditor が所有し、TBL-030 step_flow_rules に永続化する。SopEditor は TBL-030 を直接操作しない。
+- **Undo/Redo の共有**: 両モジュールは共通の `EditorTimeMachine` が管理する 50 ステップのスナップショット `{ steps, edges }` を使用する。単一タイムマシンとすることで、Step 削除 → エッジ孤立 → Undo の一貫性を保証する。
+- **Auto-Save の共有**: FNC-FE-002 `useAutoSave` に本モジュールと SopFlowEditor の両方を subscriber として登録する。30 秒デバウンスで両モジュールの変更を一括保存する。
+
+---
+
 **本節で確定した方針**
 - **SopEditorState を Zustand ストアで一元管理し、undoStack/redoStack は 50 ステップ上限・先頭破棄方式で実装することを確定した。**
 - **Auto-Save は useEffect + debounce 30 s（FR-MA-005）で実装し、readOnly モード時は無効化する。onSave 失敗時は isDirty を維持してデータ損失を防止する。**
 - **StepDraft の stepId は新規作成時に 'new-{uuid}' 形式の一時 ID を使用し、保存完了後にバックエンドが払い出す永続 UUID に置換する方式を確定した。**
+- **Step-DAG フローの状態は MOD-FE-MA-003 SopFlowEditor に分離し、SopEditor は Step 内容のみを担当する。両モジュールは EditorTimeMachine と Auto-Save トリガを共有することを確定した（FR-MA-016）。**
 
 ---
 

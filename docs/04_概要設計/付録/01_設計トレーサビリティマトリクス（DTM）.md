@@ -8,7 +8,7 @@
 
 ## M1: FR × API（機能要件 → API エンドポイント）
 
-**完全性条件**: Won't 以外の全 86 FR が ≥1 行に出現する
+**完全性条件**: Won't 以外の全 88 FR が ≥1 行に出現する
 
 | FR-ID | FR 名称（要約） | API-ID | 関与種別 |
 |---|---|---|---|
@@ -38,6 +38,8 @@
 | FR-EV-010 | 音声メモ | API-evidences-001 | 副 |
 | FR-EV-011 | 証拠ファイルの SHA-256 ハッシュ | API-evidences-001 | 副 |
 | FR-EV-012 | 証拠ファイルの圧縮・暗号化 | API-evidences-001 | 副 |
+| FR-EV-013 | 工具/治具スキャン照合 | API-step-events-001 | 主（step_completed イベント） |
+| FR-EV-013 | 〃 | API-master-001 | 副（equipments マスタ参照） |
 | FR-ST-001 | 中断理由カテゴリ選択 | API-work-execs-003 | 主 |
 | FR-ST-002 | 中断状態保存 | API-work-execs-003 | 主 |
 | FR-ST-003 | 中断時の電子サイン | API-electronic-signs-001 | 主 |
@@ -65,6 +67,8 @@
 | FR-MA-013 | バージョン差分表示 | API-master-001 | 副 |
 | FR-MA-014 | ユーザー CRUD | API-master-001 | 副 |
 | FR-MA-015 | ロール/スキル割当 | API-master-001 | 副 |
+| FR-MA-016 | Step-DAG ビジュアルフロー編集 | API-master-003 | 主（フロールール保存） |
+| FR-MA-016 | 〃 | API-master-007 | 副（DAG dry-run 検証） |
 | FR-SY-001 | ユーザー認証（JWT） | API-auth-001 | 主 |
 | FR-SY-002 | 子機初回同期（全マスタ Pull） | API-sync-001 | 主 |
 | FR-SY-003 | マスタ差分同期（増分 Pull） | API-sync-001 | 主 |
@@ -153,12 +157,18 @@
 | FR-MA-014 | TBL-016 | users | C,R,U |
 | FR-MA-015 | TBL-019 | user_roles | C,R,U |
 | FR-MA-015 | TBL-020 | user_skills | C,R,U |
+| FR-MA-016 | TBL-030 | step_flow_rules | C,R,U |
+| FR-MA-016 | TBL-008 | steps | R（ノード参照） |
+| FR-MA-016 | TBL-004 | master_versions | R（バージョン整合性） |
+| FR-EV-013 | TBL-025 | equipments | R（scan_code 検索） |
+| FR-EV-013 | TBL-026 | instruments | R（calibration_due_date AND 照合） |
+| FR-EV-013 | TBL-001 | work_events | C（payload.scan_verifications 記録） |
 
 ---
 
 ## M3: UC × SCR（ユースケース → 画面）
 
-**完全性条件**: 全 22 UC が ≥1 SCR に紐づく
+**完全性条件**: 全 23 UC が ≥1 SCR に紐づく
 
 | UC-ID | UC 名称（要約） | SCR-ID | 関与種別 |
 |---|---|---|---|
@@ -195,6 +205,7 @@
 | UC-021 | Outbox 実績同期 | （バックグラウンド処理）| — |
 | UC-022 | サーバー障害時の縮退モード | SCR-HA-015 | 必須 |
 | UC-022 | 〃 | SCR-MC-001 | 条件（ダッシュボード） |
+| UC-026 | 工具/治具スキャン照合 | SCR-HA-003 | 必須 |
 
 ---
 
@@ -212,6 +223,7 @@
 | UC-020 | SEQ-006 | fig_des_seq_webhook_dlq |
 | UC-019 | SEQ-008 | fig_des_seq_master_pull |
 | （バッチ）| SEQ-007 | fig_des_seq_hash_chain_verify |
+| UC-026 | SEQ-009 | 工具/治具スキャン照合シーケンス図（将来追加） |
 
 ---
 
@@ -236,12 +248,13 @@
 | NFR-DQ-001 | 04_データ §05 | ハッシュチェーン（TBL-031, BAT-001）|
 | NFR-UX-009 | 03_画面 §05 | タッチターゲット 72dp（CFG-013）|
 | NFR-AVL-010 | 99（対象外）| 地理冗長: 対象外と判断する（中小製造業コスト制約）|
+| NFR-PRF-003 | 05_WebAPP詳細設計/03_SopFlowEditor 詳細設計 §15 | シミュレーション 200ms 以内（クライアント完結）|
 
 ---
 
 ## M6: BR-BUS × API/ERR（業務ルール → バリデーション/エラー）
 
-**完全性条件**: 全 45 BR-BUS が ≥1 行に出現、または「[非実装]」が明示される
+**完全性条件**: 全 46 BR-BUS が ≥1 行に出現、または「[非実装]」が明示される
 
 | BR-BUS-ID | BR-BUS 名称（要約） | API-ID | バリデーション層 | ERR-ID | 違反時処理 |
 |---|---|---|---|---|---|
@@ -259,7 +272,7 @@
 | BR-BUS-012 | SOP 承認は品質担当ロール限定 | API-master-005 | RBAC | ERR-AUTH-004 | 403 ブロック |
 | BR-BUS-013 | マスタ廃止時も電子サイン必須 | API-master-006 | アプリ層 | ERR-VAL-001 | 422 ブロック |
 | BR-BUS-014 | 改ざん検出時は即時アラート | （BAT-001 検出後）| バッチ | ERR-DB-003 | 500 + アラート |
-| BR-BUS-020 | JSON Logic 準拠の DSL | API-master-003 | アプリ層 | ERR-VAL-003 | 422 ブロック |
+| BR-BUS-020 | JSON Logic 準拠の DSL / 拡張 Step エンジン（FR-MA-016）| API-master-003 | アプリ層 | ERR-VAL-003, ERR-VAL-024 | 422 ブロック |
 | BR-BUS-021 | 演算子ホワイトリスト方式 | API-master-003 | アプリ層 | ERR-VAL-003 | 422 ブロック |
 | BR-BUS-022 | ネスト最大 5 段 | API-master-003 | アプリ層 | ERR-VAL-003 | 422 ブロック |
 | BR-BUS-023 | 副作用禁止（参照のみ） | API-master-003 | アプリ層 | ERR-VAL-003 | 422 ブロック |
@@ -279,6 +292,7 @@
 | BR-BUS-043 | 端末別ロール制限 | API-master-001 | RBAC | ERR-AUTH-004 | 403 |
 | BR-BUS-044 | 退職者の即時無効化 | API-master-014（ユーザー CRUD） | アプリ層 | ERR-AUTH-001 | 401 |
 | BR-BUS-045 | パスワード再発行は system_admin 権限 | API-master-014 | RBAC | ERR-AUTH-004 | 403 |
+| BR-BUS-046 | 誤工具・誤治具ハードブロック | API-step-events-001 | アプリ層（StepEngine.canAdvanceToStep） | ERR-VAL-006 | 422 ブロック |
 
 | BR-BUS-015 | マスタ改訂後の全端末への即時反映 | API-master-010 | アプリ層 | ERR-BIZ-007 | 409 ブロック |
 | BR-BUS-016 | トレサビ照会（ロット/品番から作業記録を検索）| API-reports-002 | アプリ層 | ERR-BIZ-008 | 404 |
@@ -295,6 +309,7 @@
 - **DTM 6 マトリクス（M1〜M6）の初期エントリを記載し、概要設計の各サブ完成とともに全行を埋めることを完成条件とする。**
 - **BR-BUS-029（個人別ランキング）は「[非実装]」として明記し、削除せずに永続管理する。**
 - **FR-UI 系の「クライアント処理」と明記した行は API 不要であることを明示し、サーバーサイド API との責務分離を確定する。**
+- **FR-MA-016（Step-DAG フロー編集）および FR-EV-013（工具/治具スキャン照合）を DTM 全 6 マトリクスに反映し、要件→API→TBL→ERR の追跡可能性を確立した。**
 
 ---
 

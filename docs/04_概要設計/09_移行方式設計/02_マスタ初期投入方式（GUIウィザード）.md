@@ -20,7 +20,7 @@
 
 ### 1-2. ウィザードステップ構成
 
-ウィザードは以下の 7 ステップで構成する。外部キー制約の依存関係順に強制的に進行する。
+ウィザードは以下の 8 ステップで構成する。外部キー制約の依存関係順に強制的に進行する。
 
 | ステップ | 投入対象 | 依存するステップ |
 |---|---|---|
@@ -29,8 +29,9 @@
 | Step 3 | 製品マスタ（products） | なし（Step 1 と並列可） |
 | Step 4 | ユーザーマスタ（users） | なし |
 | Step 5 | ロール・スキルマスタ（user_roles / user_skills） | Step 4（user_id 参照） |
-| Step 6 | SOP マスタ（sops / sop_steps） | Step 1・Step 2（operation_id 参照） |
-| Step 7 | SOP ステップ詳細（step_params） | Step 6（sop_step_id 参照） |
+| Step 6 | 設備マスタ（equipments） | なし（Step 1 と並列可）| scan_code / tool_subtype / calibration_due_date を含む設備・治具 CSV を登録 |
+| Step 7 | SOP マスタ（sops / sop_steps） | Step 1・Step 2（operation_id 参照）・Step 6 |
+| Step 8 | SOP ステップ詳細（step_params） | Step 7（sop_step_id 参照）・Step 6（required_scans の ref_id 解決） |
 
 ---
 
@@ -88,6 +89,18 @@
 | version | バージョン | TEXT | 必須 | セマンティックバージョン形式（例：1.0.0） |
 | author_username | 作成者ログイン ID | TEXT | 必須 | users.username に存在すること |
 
+#### 設備マスタ（equipments）
+
+| フィールド | ラベル | 型 | 必須 | 制約 |
+|---|---|---|---|---|
+| equipment_code | 設備コード | TEXT | 必須 | 重複不可・半角英数字 |
+| equipment_name_ja | 名称（日本語） | TEXT | 必須 | 最大 256 文字 |
+| equipment_type | 種別 | SELECT | 必須 | CONVEYOR / INJECTION_MOLD / ASSEMBLY_JIG / TORQUE_TOOL / FIXTURE_JIG / OTHER |
+| scan_code | スキャンコード | TEXT | 任意 | 重複不可。空欄は照合対象外 |
+| tool_subtype | 工具/治具サブ種別 | SELECT | 任意 | TORQUE_WRENCH / FIXTURE_JIG / DRILL_GUIDE / TEMPLATE / GAUGE / ASSEMBLY_JIG / OTHER |
+| calibration_due_date | 点検期限 | DATE | 任意 | YYYY-MM-DD 形式 |
+| process_no | 主使用工程番号 | TEXT | 任意 | processes.process_code 参照 |
+
 ---
 
 ## 3. バリデーション規則
@@ -105,6 +118,7 @@
 | 文字数制限 | 各フィールドの最大文字数以内であること | 警告（自動修正可） |
 | 日付形式 | YYYY-MM-DD 形式であること | クリティカル |
 | ロール値 | 規定ロール値のいずれかであること | クリティカル |
+| scan_code の重複検出 | equipments テーブル横断で UNIQUE であること（クリティカル）| クリティカル |
 
 ### 3-2. FR-MA-006 の実装方針（プレビュー + 確認 + コミット）
 
@@ -147,6 +161,7 @@
 - マスタ初期投入は GUI 初期構築ウィザードを通じて行い、外部キー制約の依存関係順（工程→作業→製品→ユーザー→ロール/スキル→SOP→ステップ）に強制進行することを確定する。
 - FR-MA-006 の実装として「プレビュー→確認→コミット」の 3 段階フローを採用し、クリティカルエラーが 1 件以上存在する場合はインポートを実行しないことを確定する。
 - インポートはトランザクション単位でロールバック保証し、部分投入を禁止することを確定する。
+- GUI ウィザードに設備・工具・治具マスタの投入ステップを追加し、ポカヨケ運用に必要な scan_code / tool_subtype / calibration_due_date を初期投入で揃えることを確定する（FR-EV-013）。
 
 ---
 

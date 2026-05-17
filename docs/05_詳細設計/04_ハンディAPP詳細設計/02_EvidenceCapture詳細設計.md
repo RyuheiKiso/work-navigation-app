@@ -20,8 +20,18 @@ export interface EvidenceCaptureModule {
     unit: string,
   ): Promise<MeasurementResult>;
 
-  /** FNC-FE-006: QR/バーコードスキャン → GS1 形式検証 → 記録 */
-  scanQrCode(stepId: string): Promise<QrScanResult>;
+  /** FNC-FE-006: QR/バーコードスキャン → GS1 形式検証 → required_scans マルチターゲット照合 → 記録 */
+  scanQrCode(
+    stepId: string,
+    requiredScans: RequiredScan[]
+  ): Promise<MultiTargetScanResult>;
+}
+
+/** FR-EV-013 マルチターゲット照合結果 */
+export interface MultiTargetScanResult {
+  targetResults: ScanVerification[];
+  allRequiredMet: boolean;  // false なら StepEngine は 'WRONG_TOOL_SCAN' を返す
+  rejectedReason?: 'WRONG_TOOL' | 'WRONG_MATERIAL' | 'CALIBRATION_EXPIRED' | 'UNKNOWN_SCAN_CODE';
 }
 
 /** 写真撮影設定（CFG 値は LocalAppSettings から取得） */
@@ -314,6 +324,24 @@ export class QrScanService {
 
 ---
 
+### §4-2 マルチターゲット照合（FNC-FE-006 拡張）
+
+1. スキャン受信後、GS1 AI を解析して target を判定する:
+   - AI '01' / '21' / '00' → target: 'material'（lot_id / serial_number / product_code）
+   - AI '8004' / 社内識別 AI → target: 'tool' または 'instrument'
+2. target が 'material' の場合: 既存の lots テーブル照合ロジック（FR-EV-004）を適用する
+3. target が 'tool' の場合:
+   - equipments テーブルを scan_code でルックアップする
+   - requiredScans で指定された ref_id または ref_scan_code と一致することを検証する
+   - 不一致の場合: MultiTargetScanResult.rejectedReason = 'WRONG_TOOL' として返す
+4. target が 'instrument' の場合:
+   - instruments テーブルを instrument_code でルックアップする
+   - 一致確認後、calibration_due_date >= today を AND 評価する（BR-BUS-007 準拠）
+   - calibration_due_date 期限切れの場合: rejectedReason = 'CALIBRATION_EXPIRED'
+5. 全 required: true エントリが verified: true の場合のみ allRequiredMet = true を返す
+
+---
+
 ## 5. エラーコード対応表
 
 | エラーコード | 発生条件 | UI 対応 |
@@ -323,6 +351,7 @@ export class QrScanService {
 | ERR-VAL-001 | 測定値が USL/LSL 外 | 赤ボーダー + インライン警告メッセージ（入力継続は可能、StepEngine 側でゲート）|
 | ERR-VAL-002 | 未対応バーコード形式 | 「このバーコード形式には対応していません」トースト + 再スキャン |
 | ERR-VAL-005 | GS1 形式不正（BR-BUS-034）| 「GS1 形式が正しくありません」トースト + 再スキャン |
+| ERR-VAL-006 | required_scans 不一致 / 未登録 scan_code | 赤バナー + 期待[ref] / 読取[value] 併記 + 不適合起票 CTA |
 | ERR-SYS-002 | カメラ権限なし | システム設定画面への誘導ダイアログ |
 
 ---
@@ -331,6 +360,7 @@ export class QrScanService {
 - **Exif 除去（BR-BUS-028）は PhotoCaptureService.stripExif にて必ず実施し、SHA-256 は Exif 除去後のバイナリに対して計算することで証拠ファイルの完全性とプライバシー保護を両立した。**
 - **測定値バリデーション（USL/LSL）はフロントエンドで即時フィードバックし、StepEngine.canAdvanceToStep でも証拠ゲートとして二重検証することで BR-BUS-002 を確実に執行する。**
 - **QR/バーコードスキャンの GS1 形式検証（BR-BUS-034）は QrScanService 内で実施し、形式不正時は StepEngine への進行要求を行わずユーザーに再スキャンを促す。**
+- **EvidenceCaptureModule.scanQrCode を required_scans 配列駆動のマルチターゲット照合 API に拡張し、誤工具・誤材料・校正期限切れの 3 種類の拒否理由を明示的に区別することを確定した（FR-EV-013）。**
 
 ---
 
