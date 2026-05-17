@@ -1,0 +1,145 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="760" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="倫理スタンス：支援と監視の意図的分離（行動データ用途三限定）" style="text;html=1;fontFamily=Helvetica;fontSize=15;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="100" y="16" width="1000" height="36" as="geometry" />
+        </mxCell>
+        <!-- Input data box (center-top) -->
+        <mxCell id="input" value="&lt;b&gt;作業ログ（共通データ）&lt;/b&gt;&lt;br&gt;Step記録タイムスタンプ・入力値・EWI発生履歴・写真・電子署名識別情報" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="380" y="60" width="440" height="80" as="geometry" />
+        </mxCell>
+        <!-- Just Culture boundary label (center) -->
+        <mxCell id="jclabel" value="Just Culture 境界 / 目的分離アーキテクチャ" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;fontStyle=3;" vertex="1" parent="1">
+          <mxGeometry x="350" y="180" width="500" height="22" as="geometry" />
+        </mxCell>
+        <!-- Vertical divider line -->
+        <mxCell id="divider" value="" style="endArrow=none;html=1;strokeColor=#333333;strokeWidth=2;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="210" as="sourcePoint" />
+            <mxPoint x="600" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Left: support_header -->
+        <mxCell id="support_header" value="支援用途（許可）" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="100" y="210" width="360" height="26" as="geometry" />
+        </mxCell>
+        <!-- Permitted use boxes (left side) -->
+        <mxCell id="u1" value="&lt;b&gt;①品質保証&lt;/b&gt;&lt;br&gt;ALCOA+準拠の証拠として不適合調査・トレサビ照会に使用" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="255" width="340" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="u2" value="&lt;b&gt;②工程改善&lt;/b&gt;&lt;br&gt;ライン・工程・作業種別単位の集計による工程改善&lt;br&gt;（個人特定しない集計単位が原則）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="380" width="340" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="u3" value="&lt;b&gt;③教育設計&lt;/b&gt;&lt;br&gt;習熟度分析・カリキュラム設計・OJT設計&lt;br&gt;（個人特定は本人同意を前提とする）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="505" width="340" height="80" as="geometry" />
+        </mxCell>
+        <!-- Right: forbidden_header -->
+        <mxCell id="forbidden_header" value="監視用途（永続禁止）" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="740" y="210" width="360" height="26" as="geometry" />
+        </mxCell>
+        <!-- Forbidden boxes (right side) -->
+        <mxCell id="f1" value="✕ 人事評価・昇給・昇格・解雇の根拠への転用" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="760" y="255" width="340" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" value="✕ 個人別生産性ランキング・達成率の&lt;br&gt;上長への自動報告" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="760" y="360" width="340" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" value="✕ 懲罰的目的での監査証跡の利用" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="760" y="465" width="340" height="60" as="geometry" />
+        </mxCell>
+        <!--
+          Edge routing strategy (to avoid crossing target boxes):
+          - Each edge uses a UNIQUE x-coordinate for its vertical descent
+          - Left side (u1,u2,u3): x=200, x=365, x=395 respectively
+          - Right side (f1,f2,f3): x=1000, x=1160, x=1170 respectively
+        -->
+        <!-- e_u1: input → u1. Route: input bottom-left → (200, 160) → (200, 255) → u1 top -->
+        <mxCell id="e_u1" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="140" as="sourcePoint" />
+            <mxPoint x="270" y="255" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="440" y="168" />
+              <mxPoint x="200" y="168" />
+              <mxPoint x="200" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- e_u2: input → u2. Route via x=365 (right of u1 right edge 440) then down past u1 then left to u2 -->
+        <mxCell id="e_u2" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="140" as="sourcePoint" />
+            <mxPoint x="270" y="380" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="440" y="168" />
+              <mxPoint x="460" y="168" />
+              <mxPoint x="460" y="420" />
+              <mxPoint x="270" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- e_u3: input → u3. Route via x=480 down past u1+u2 then left to u3 -->
+        <mxCell id="e_u3" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="140" as="sourcePoint" />
+            <mxPoint x="270" y="505" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="440" y="168" />
+              <mxPoint x="490" y="168" />
+              <mxPoint x="490" y="545" />
+              <mxPoint x="270" y="545" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- e_f1: input → f1. Route: input bottom-right → (1000, 168) → (1000, 255) → f1 top -->
+        <mxCell id="e_f1" value="" style="endArrow=block;endFill=0;html=1;strokeColor=#333333;strokeWidth=2;dashed=1;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="760" y="140" as="sourcePoint" />
+            <mxPoint x="930" y="255" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="760" y="168" />
+              <mxPoint x="1000" y="168" />
+              <mxPoint x="1000" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- e_f2: input → f2. Route via x=1160 (right of f boxes, right edge=1100) down to y=390 then left -->
+        <mxCell id="e_f2" value="" style="endArrow=block;endFill=0;html=1;strokeColor=#333333;strokeWidth=2;dashed=1;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="760" y="140" as="sourcePoint" />
+            <mxPoint x="930" y="360" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="760" y="168" />
+              <mxPoint x="1120" y="168" />
+              <mxPoint x="1120" y="390" />
+              <mxPoint x="930" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- e_f3: input → f3. Route via x=1150 down to y=495 then left -->
+        <mxCell id="e_f3" value="" style="endArrow=block;endFill=0;html=1;strokeColor=#333333;strokeWidth=2;dashed=1;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="760" y="140" as="sourcePoint" />
+            <mxPoint x="930" y="465" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="760" y="168" />
+              <mxPoint x="1150" y="168" />
+              <mxPoint x="1150" y="495" />
+              <mxPoint x="930" y="495" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- Footnote -->
+        <mxCell id="note" value="技術的制約（アクセス権限設計）と制度的制約（就業規則・労使協定）の双方で永続的に担保する" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="150" y="700" width="900" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

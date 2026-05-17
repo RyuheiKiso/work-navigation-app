@@ -1,0 +1,67 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="構造的課題の因果連鎖" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="400" height="36" as="geometry" />
+        </mxCell>
+        <!-- Row 1: two root causes -->
+        <mxCell id="a" value="&lt;b&gt;紙とデジタルの二重管理&lt;/b&gt;&lt;br&gt;事後記入・転記・Contemporaneous違反" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b" value="&lt;b&gt;口伝え依存と暗黙知の私的所有化&lt;/b&gt;&lt;br&gt;Dreyfus熟達者・SECI表出化の失敗" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="860" y="80" width="280" height="70" as="geometry" />
+        </mxCell>
+        <!-- Row 2: intermediate cause -->
+        <mxCell id="c" value="&lt;b&gt;手順とWADの乖離（Procedural Drift）&lt;/b&gt;&lt;br&gt;Work-as-Imagined と Work-as-Done の分裂" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="420" y="240" width="360" height="70" as="geometry" />
+        </mxCell>
+        <!-- Row 3: two consequences -->
+        <mxCell id="d" value="&lt;b&gt;事後改ざんと記録の証拠性破壊&lt;/b&gt;&lt;br&gt;ALCOA+ Original原則の侵食" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="120" y="410" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="&lt;b&gt;デジタルテイラリズム化リスク&lt;/b&gt;&lt;br&gt;Brown・Zuboff・Foucaultが指摘する監視化" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="780" y="410" width="300" height="70" as="geometry" />
+        </mxCell>
+        <!-- Row 4: crisis box -->
+        <mxCell id="f" value="&lt;b&gt;品質・証拠・暗黙知の危機&lt;/b&gt;&lt;br&gt;記録欠落・改ざん・技能断絶・自律性喪失" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#b85450;fillColor=#f8cecc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="580" width="520" height="70" as="geometry" />
+        </mxCell>
+        <!-- Edges -->
+        <!-- a → c: from bottom of a (200, 150) to top-left of c (500, 240) -->
+        <mxCell id="ea_c" value="記録の事後性" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=10;fontColor=#333333;" edge="1" parent="1" source="a" target="c">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- b → c: from bottom of b (1000, 150) to top-right of c (700, 240) -->
+        <mxCell id="eb_c" value="WAI/WAD乖離の拡大" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=10;fontColor=#333333;" edge="1" parent="1" source="b" target="c">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- c → d: from bottom-left of c to top of d -->
+        <mxCell id="ec_d" value="ALCOA+違反の構造化" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=10;fontColor=#333333;" edge="1" parent="1" source="c" target="d">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- c → e2: from bottom-right of c to top of e2 -->
+        <mxCell id="ec_e" value="デジタル化の副作用" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=10;fontColor=#333333;" edge="1" parent="1" source="c" target="e2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- d → f -->
+        <mxCell id="ed_f" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#b85450;edgeStyle=none;" edge="1" parent="1" source="d" target="f">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- e2 → f -->
+        <mxCell id="ee_f" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#b85450;edgeStyle=none;" edge="1" parent="1" source="e2" target="f">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Note -->
+        <mxCell id="note" value="本アプリはこの因果連鎖を技術と倫理の両面から断ち切る" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="250" y="700" width="700" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
