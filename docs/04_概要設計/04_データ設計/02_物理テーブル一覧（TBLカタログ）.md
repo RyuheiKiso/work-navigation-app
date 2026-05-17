@@ -48,6 +48,51 @@
 
 ---
 
+## 1b. IQC / リワーク 追加テーブル（TBL-036〜050）
+
+IQC 機能（機能ランキング 10 位）とリワーク機能（同 9 位）の導入に伴い、TBL-036〜050 を追加する。  
+既存テーブル拡張（TBL-005/007/013/014/024）は §1c に記載する。
+
+| TBL-ID | 物理テーブル名 | 対応 EN | 対応関係 | 種別 | 推定行数/年 | 保存期間 |
+|---|---|---|---|---|---|---|
+| TBL-036 | materials | EN-028 | 1:1 | マスタ（版管理）| 500 行 | 永続 |
+| TBL-037 | suppliers | EN-029 | 1:1 | マスタ（版管理）| 100 行 | 永続 |
+| TBL-038 | incoming_inspections | EN-030 | 1:1 | 限定可変（qc_status のみ更新可）| 5 万行 | 7 年以上 |
+| TBL-039 | sampling_plans | EN-031 | 1:1 | マスタ（版管理・JSONB スナップショット）| 5,000 行 | 永続 |
+| TBL-040 | incoming_inspection_measurements | EN-030（詳細）| 1:N EN-030 | **Append-only** | 100 万行 | 7 年以上 |
+| TBL-041 | concession_approvals | EN-030（承認詳細）| 1:N EN-030 | **Append-only** | 1 万行 | 7 年以上 |
+| TBL-042 | lot_qc_states | EN-030 × EN-021 | 1:1 lots FK | 状態管理（qc_status 更新可）| 50 万行 | lots と同期 |
+| TBL-043 | reworks | EN-032 | 1:1 | 限定可変（status のみ更新可）| 5 万行 | 7 年以上 |
+| TBL-044 | dispositions | EN-033 | 1:1 | **Append-only** | 5 万行 | 7 年以上 |
+| TBL-045 | rework_verifications | EN-034 | 1:1 | **Append-only** | 5 万行 | 7 年以上 |
+| TBL-046 | rework_sop_mapping | EN-035 | 1:1 | マスタ（版管理）| 1,000 行 | 永続 |
+| TBL-047 | reworked_lot_labels | EN-036 | 1:1 | **Append-only** | 5 万行 | 7 年以上 |
+| TBL-048 | rework_cost_records | EN-037 | 1:1 | 集計値（BAT-011 上書き）| 5 万行 | 7 年以上 |
+| TBL-049 | scrap_records | EN-038 | 1:1 | **Append-only** | 5,000 行 | 7 年以上 |
+| TBL-050 | return_to_vendor_records | EN-039 | 1:1 | **Append-only** | 5,000 行 | 7 年以上 |
+
+**TBL-038 incoming_inspections 設計注記**: `qc_status ENUM('PENDING','INSPECTING','PASSED','CONDITIONAL_PASS','SCREENING_REQUIRED','REJECTED','SCRAPPED','RETURNED')` + `severity_state ENUM('NORMAL','TIGHTENED','REDUCED')` を保有。AQL 合否判定は §1-4 の NFR-DQ-005 準拠。
+
+**TBL-039 sampling_plans 設計注記**: `aql_table_snapshot JSONB` に JIS Z 9015-1 サンプル文字表・AQL マスタ表を時点固定で焼き付ける（既存の時点参照原則を踏襲）。
+
+**TBL-044 dispositions 設計注記**: `quality_admin_sign_id FK→electronic_signs` と `supervisor_sign_id FK→electronic_signs` の 2 FK を持つ。DB トリガ `check_disposition_distinct_signers` で 2 つの signer_id が必ず異なることを検証する（NFR-SEC-048）。
+
+**TBL-043 reworks 設計注記**: `rework_type ENUM('TOUCH_UP','REWORK_FULL','SORTING','SCRAP','RETURN')`。`parent_case_id FK→work_executions` と `rework_case_id NULL FK→work_executions` の双方向 FK で ALCOA+ Original 不変性（NFR-DQ-010）を実装する。
+
+---
+
+## 1c. 既存テーブル拡張（IQC/リワーク対応）
+
+| TBL-ID | テーブル名 | 追加列 | 目的 |
+|---|---|---|---|
+| TBL-005 | work_executions | `execution_type ENUM('NORMAL','REWORK','VERIFICATION','IQC') DEFAULT 'NORMAL'`、`source_rework_id NULL FK→reworks`、`source_inspection_id NULL FK→incoming_inspections` | リワーク/IQC 実行との関連付け |
+| TBL-007 | sops | `sop_type ENUM('NORMAL','REWORK','INSPECTION','SCRAP_RECORD','RETURN_RECORD','IQC') DEFAULT 'NORMAL'` | SOP の用途分類 |
+| TBL-013 | nonconformities | `disposition_id NULL FK→dispositions` | ディスポジション判定との連携 |
+| TBL-014 | capas | `rework_summary JSONB` | リワーク結果の CAPA への集約 |
+| TBL-024 | lots | `supplier_id NULL FK→suppliers`、`material_id NULL FK→materials`、`qc_status ENUM`、`rework_history_count INT DEFAULT 0`、`parent_lot_id NULL FK→lots` | 入荷検査結果・リワーク履歴の管理 |
+
+---
+
 ## 2. Append-only テーブルの物理保証
 
 以下のテーブルは `INSERT` のみを許可する。`UPDATE` / `DELETE` は PostgreSQL ロールレベルで禁止する。
@@ -64,6 +109,13 @@
 | TBL-027 | external_key_bindings | `INSERT, SELECT` のみ（廃棄は valid_to 更新のみ）|
 | TBL-031 | hash_chain_blocks | `INSERT, SELECT` のみ |
 | TBL-032 | auth_logs | `INSERT, SELECT` のみ |
+| TBL-040 | incoming_inspection_measurements | `INSERT, SELECT` のみ |
+| TBL-041 | concession_approvals | `INSERT, SELECT` のみ |
+| TBL-044 | dispositions | `INSERT, SELECT` のみ（DB トリガで 2 署名者異一性を検証）|
+| TBL-045 | rework_verifications | `INSERT, SELECT` のみ |
+| TBL-047 | reworked_lot_labels | `INSERT, SELECT` のみ |
+| TBL-049 | scrap_records | `INSERT, SELECT` のみ |
+| TBL-050 | return_to_vendor_records | `INSERT, SELECT` のみ |
 
 詳細は §05（イベントストア設計）と `07_セキュリティ方式設計/07_脆弱性管理.md` で確定する。
 
@@ -84,10 +136,12 @@
 ---
 
 **本節で確定した方針**
-- **全 35 物理テーブル（TBL-001〜035）を確定し、全 27 論理エンティティ（EN-001〜027）が ≥1 TBL にマッピングされることを保証した。**
-- **Append-only テーブル 10 件を明示し、PostgreSQL ロール分離によって物理 DELETE/UPDATE を禁止することを設計命題として確定した。**
-- **5 年累積ストレージを約 167GB（DB）と見積もり、NFR-PRF-015（1.5TB 以下）を十分に満足することを確認した。**
+- **全 50 物理テーブル（TBL-001〜050）を確定し、全 39 論理エンティティ（EN-001〜039）が ≥1 TBL にマッピングされることを保証した。**
+- **Append-only テーブル 17 件を明示し、PostgreSQL ロール分離によって物理 DELETE/UPDATE を禁止することを設計命題として確定した。**
+- **5 年累積ストレージを約 167GB（DB）と見積もり、NFR-PRF-015（1.5TB 以下）を十分に満足することを確認した。**（IQC/リワーク追加分は年 10GB 未満と試算、見積もりは余裕あり）
 - **TBL-025 equipments に scan_code / tool_subtype / calibration_due_date を追加し、新規 TBL を発行せずに EN-019 Equipment 拡張を確定する。**
+- **TBL-036〜050（IQC/リワーク 15 テーブル）を追加。TBL-044 dispositions に DB トリガ `check_disposition_distinct_signers` を設け、NFR-SEC-048（二者電子サイン分離）を物理レベルで保証することを確定する。**
+- **TBL-043 reworks は `parent_case_id` と `rework_case_id` の双方向 FK で ALCOA+ Original 原則（NFR-DQ-010）を実装することを確定する。**
 
 ---
 

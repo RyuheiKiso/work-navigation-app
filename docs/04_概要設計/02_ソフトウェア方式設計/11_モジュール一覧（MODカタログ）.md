@@ -17,6 +17,8 @@
 | MOD-BE-007 | wnav_webhook | `crates/wnav_webhook/` | Webhook 配信・HMAC-SHA256 署名（IF-002）| MOD-BE-004 | IF-002 |
 | MOD-IN-001 | pg_role_init | `src/infra/database/roles/` | DB ロール DDL（app_event_writer 等）| — | NFR-SEC-040 |
 | MOD-IN-002 | docker_compose_config | `docker/` | Docker Compose 定義（バックエンド・PostgreSQL）| — | NFR-ENV |
+| MOD-BE-008 | wnav_iqc | `crates/wnav_iqc/` | IQC BC（入荷ロット管理・AQL 判定・特採/選別・後工程ゲート）| MOD-BE-002/004 | FR-IQ-001〜019 |
+| MOD-BE-009 | wnav_rework | `crates/wnav_rework/` | Rework BC（ディスポジション・リワーク作業・再検査・廃却/返却）| MOD-BE-002/004 | FR-ST-013/014, FR-EV-014/015, FR-MA-017/018 |
 
 ---
 
@@ -32,6 +34,8 @@
 | MOD-FE-HA-006 | AndonKaizenFlow | `src/features/kaizen/` | アンドン発報・不適合登録 | FR-KZ-001〜007 | SCR-HA-013/014 |
 | MOD-FE-HA-007 | ElectronicSignPad | `src/shared/ui/ElectronicSignPad/` | 電子サイン入力 UI（FR-AU-001）| FR-AU-001 | SCR-HA-010 |
 | MOD-FE-HA-008 | LocalDbService | `src/shared/db/` | SQLite + TypeORM 接続・マスタキャッシュ | FR-SY-002〜004 | — |
+| MOD-FE-HA-009 | IqcInspectionFlow | `src/features/iqc-inspection/` | IQC 入荷受入・サンプル測定入力・AQL 結果表示 | FR-IQ-001〜008 | SCR-HA-016/017/018 |
+| MOD-FE-HA-010 | ReworkFlow | `src/features/rework-flow/` | リワーク作業実施・再検査・廃却/返却確認 | FR-ST-014, FR-EV-015, FR-MA-017 | SCR-HA-019〜022 |
 
 ---
 
@@ -47,6 +51,10 @@ MOD-FE-MA-001（SopEditor）は Step 単体属性の編集を、MOD-FE-MA-002（
 | MOD-FE-MA-004 | ApprovalWorkflow | `src/features/approval/` | レビュー・承認・公開フロー | FR-MA-008〜010 | SCR-MA-007/008/009 |
 | MOD-FE-MA-005 | MasterVersionDiff | `src/features/sop-editor/diff/` | バージョン差分表示 | FR-MA-013 | SCR-MA-010 |
 | MOD-FE-MA-006 | UserRoleAdmin | `src/features/user-mgmt/` | ユーザー/ロール CRUD | FR-MA-014/015 | — |
+| MOD-FE-MA-007 | MaterialMasterEditor | `src/features/material-master/` | 材料マスタ CRUD・版管理 | FR-MA-017, FR-IQ-001 | SCR-MA-012 |
+| MOD-FE-MA-008 | SupplierMasterEditor | `src/features/supplier-master/` | 仕入先マスタ CRUD・品質実績リンク | FR-MA-018, FR-IQ-014 | SCR-MA-013 |
+| MOD-FE-MA-009 | SamplingPlanEditor | `src/features/sampling-plan/` | AQL 値・検査水準設定・JSONB スナップショット確認 | FR-IQ-003, FR-IQ-004 | SCR-MA-014 |
+| MOD-FE-MA-010 | ReworkSopEditor | `src/features/rework-sop-editor/` | sop_type=REWORK の SOP 管理・不適合カテゴリマッピング | FR-MA-017, FR-ST-014 | SCR-MA-015/016 |
 
 ---
 
@@ -58,7 +66,11 @@ MOD-FE-MA-001（SopEditor）は Step 単体属性の編集を、MOD-FE-MA-002（
 | MOD-FE-MC-002 | AuditLogViewer | `src/features/audit/` | 監査ログ閲覧・XES エクスポート | FR-AU-004/005 | SCR-MC-004/005 |
 | MOD-FE-MC-003 | HashChainVerifier | `src/features/hash-verify/` | ハッシュチェーン検証結果表示 | FR-AU-006 | SCR-MC-008 |
 | MOD-FE-MC-004 | OutboxMonitor | `src/features/outbox-mon/` | DLQ 監視・手動再投入 | FR-SY-007/008 | SCR-MC-007 |
-| MOD-FE-MC-005 | ReportGenerator | `src/features/reports/` | 帳票出力（RP-001〜006）| RP-001〜006 | SCR-MC-009 |
+| MOD-FE-MC-005 | ReportGenerator | `src/features/reports/` | 帳票出力（RP-001〜010）| RP-001〜010 | SCR-MC-009 |
+| MOD-FE-MC-006 | ConcessionApprovalConsole | `src/features/concession-approval/` | 特採申請一覧・電子サイン・有効期限設定 | FR-IQ-010 | SCR-MC-010 |
+| MOD-FE-MC-007 | IqcDashboard | `src/features/iqc-dashboard/` | 仕入先品質実績・厳しさ状態・不合格率推移（個人別集計禁止）| FR-IQ-014, FR-IQ-015 | SCR-MC-011/012 |
+| MOD-FE-MC-008 | DispositionApprovalConsole | `src/features/disposition-approval/` | ディスポジション判定・品質担当+監督の二者サイン UI | FR-ST-013, FR-EV-014 | SCR-MC-013 |
+| MOD-FE-MC-009 | ReworkTraceabilityViewer | `src/features/rework-trace/` | parent_case_id ↔ rework_case_id 双方向照会・ALCOA+ Original 確認 | FR-KZ-009, FR-KZ-010 | SCR-MC-014/015 |
 
 ---
 
@@ -74,8 +86,9 @@ MOD-FE-MA-001（SopEditor）は Step 単体属性の編集を、MOD-FE-MA-002（
 ---
 
 **本節で確定した方針**
-- **MOD-BE（7+2）・MOD-FE-HA（8）・MOD-FE-MA（6）・MOD-FE-MC（5）・MOD-SH（4）の計 32 モジュールを確定し、責務・依存関係・担当 FR を一元管理した。**
+- **MOD-BE（9+2）・MOD-FE-HA（10）・MOD-FE-MA（10）・MOD-FE-MC（9）・MOD-SH（4）の計 44 モジュールを確定し、責務・依存関係・担当 FR を一元管理した。**
 - **依存方向はバックエンド: wnav_api → wnav_domain ← wnav_db、フロントエンド: features → shared（一方向）で統一し、循環依存を禁止する。**
+- **IQC/リワーク対応で MOD-BE-008（wnav_iqc）・MOD-BE-009（wnav_rework）の 2 BC クレート、MOD-FE-HA-009/010・MOD-FE-MA-007〜010・MOD-FE-MC-006〜009 の計 12 モジュールを追加した。**
 
 ---
 
