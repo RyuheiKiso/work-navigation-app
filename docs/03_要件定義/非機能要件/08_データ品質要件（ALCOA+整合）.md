@@ -93,10 +93,22 @@
 
 図: fig_alcoa_requirement_trace（img/ 配下）を参照
 
+### 1-10. リワーク ALCOA+ Original 不変性
+
+| 要件 ID | NFR-DQ-010 |
+|---|---|
+| 要件名 | リワーク作業時の元 WorkExecution 不可侵性 |
+| 検証可能命題 | リワーク作業実施時に、親 WorkExecution（parent_case_id）の WorkEvent レコードが一切 UPDATE / DELETE されないこと |
+| 受入基準 | リワーク完了後に `SELECT COUNT(*) FROM work_events WHERE execution_id = parent_case_id` の件数が、リワーク開始前と同一であること。リワーク処理は新 `rework_case_id` の WorkExecution に全イベントを記録し、`reworks.parent_case_id` と `reworks.rework_case_id` の双方向 FK で関連付けること |
+| 実装詳細 | `reworks` テーブルの `rework_type ENUM('TOUCH_UP','REWORK_FULL','SORTING','SCRAP','RETURN')`、新 `case_id` 採番（UUID v7）、親子の双方向 FK、`execution_type='REWORK'` 列による分類 |
+| 関連システム機能 | リワーク実施フロー（UC-035〜040）・Append-only 設計・ハッシュチェーン（NFR-SEC-040）|
+| 保持期間 | IQC 検査記録・リワーク作業記録・廃却記録・返却記録は最短 7 年（ISO 9001:2015 §7.5.3 を踏まえ、製品の安全保証期間に合わせた延長も可）。物理削除禁止（ARCHIVED 状態へ遷移のみ）|
+
 **本節で確定した方針**
 - ALCOA+ 9 原則を NFR-DQ-001〜009 として要件 ID 化し、各原則に検証可能命題・受入基準・関連システム機能を確定する。
 - 全 9 要件は DB 制約・アプリケーション実装・E2E テストの 3 層で検証可能な形式で記述することを確定する。
 - NFR-DQ-004（Original）と NFR-SEC-040（ハッシュチェーン）が整合することを本節で確認する。
+- **NFR-DQ-010（リワーク Original 不変性）を確定する**。リワーク実施時に親 WorkExecution を一切変更せず新 case_id で記録する設計原則は、ALCOA+ Original 原則の製造業固有拡張として本要件で明文化する。
 
 ---
 
@@ -169,7 +181,9 @@
 |---|---|---|
 | NFR-DQ-004（Original）| NFR-SEC-040（ハッシュチェーン）| ハッシュチェーンが Original 原則（更新不可性）を補強する |
 | NFR-DQ-004（Original）| NFR-SEC-047（削除禁止）| ElectronicSign の削除禁止が Original 原則を保証する |
+| NFR-DQ-010（リワーク Original 不変性）| NFR-SEC-040（ハッシュチェーン）| リワーク新 case_id でも独立ハッシュチェーンが成立し Original を保証する |
 | NFR-DQ-001（Attributable）| NFR-SEC-045（電子サイン構成要素）| signer_id 必須が Attributable 原則を電子サインに実装する |
+| NFR-DQ-001（Attributable）| NFR-SEC-048（二者電子サイン分離）| ディスポジション判定の決定責任者（quality_admin + supervisor）が Attributable として記録される |
 | NFR-DQ-003（Contemporaneous）| NFR-SEC-045（timestamp 双方保持）| timestamp_device + timestamp_server が Contemporaneous を保証する |
 | NFR-DQ-008（Enduring）| NFR-OPS-030〜033（バックアップ）| バックアップ 3 層が Enduring を実装する |
 

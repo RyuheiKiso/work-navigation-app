@@ -1,0 +1,162 @@
+<mxfile>
+  <diagram name="fig_mig_org_raci" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="600" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="移行体制 RACI チャート" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="12" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- Column headers -->
+        <mxCell id="ch0" value="タスク" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#e0e0e0;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="55" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ch1" value="quality_admin" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="55" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ch2" value="master_admin" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="55" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ch3" value="system_admin" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="55" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ch4" value="現場監督" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="55" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ch5" value="作業員" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="940" y="55" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Row 1 -->
+        <mxCell id="r1l" value="移行計画書の確定・承認" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="20" y="95" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1c1" value="A/R" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="95" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1c2" value="I" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="460" y="95" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1c3" value="C" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="620" y="95" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1c4" value="I" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="780" y="95" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r1c5" value="-" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="940" y="95" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Row 2 -->
+        <mxCell id="r2l" value="マスタデータ作成・Excel入力" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="20" y="135" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2c1" value="A" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="300" y="135" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2c2" value="R" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="135" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2c3" value="C" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="620" y="135" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2c4" value="I" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="780" y="135" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r2c5" value="-" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="940" y="135" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Row 3 -->
+        <mxCell id="r3l" value="インフラ・環境構築" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="20" y="175" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3c1" value="A" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="300" y="175" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3c2" value="-" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="460" y="175" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3c3" value="R" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="175" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3c4" value="I" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="780" y="175" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r3c5" value="-" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="940" y="175" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Row 4 -->
+        <mxCell id="r4l" value="カットオーバー Go/No-Go 判定" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="20" y="215" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r4c1" value="A/R" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="215" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r4c2" value="-" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="460" y="215" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r4c3" value="C/R" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="620" y="215" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r4c4" value="C" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="780" y="215" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r4c5" value="I" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="940" y="215" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Row 5 -->
+        <mxCell id="r5l" value="操作訓練・業務移行計画" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="20" y="255" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r5c1" value="A/R" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="255" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r5c2" value="C" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="460" y="255" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r5c3" value="C" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="620" y="255" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r5c4" value="C" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="780" y="255" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r5c5" value="R（受講）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="940" y="255" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Row 6 -->
+        <mxCell id="r6l" value="移行完了宣言・電子署名" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="20" y="295" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r6c1" value="A/R" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="295" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r6c2" value="-" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="460" y="295" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r6c3" value="C" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="620" y="295" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r6c4" value="C" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="780" y="295" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r6c5" value="I" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="940" y="295" width="160" height="40" as="geometry" />
+        </mxCell>
+        <!-- Legend -->
+        <mxCell id="leg_r" value="R = 実施責任（Responsible）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="20" y="480" width="220" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_a" value="A = 説明責任（Accountable）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="260" y="480" width="220" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_c" value="C = 協議（Consulted）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="500" y="480" width="200" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_i" value="I = 通知（Informed）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="720" y="480" width="200" height="36" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

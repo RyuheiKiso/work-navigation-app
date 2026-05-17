@@ -249,6 +249,66 @@ it('TST-alcoa-009: 3 種エクスポートが全て利用可能', async () => {
 - **TST-alcoa-001〜009 の 9 件は ALCOA+ の 9 属性に 1:1 で対応し、各属性の充足を具体的な SQL・CLI コマンド・API 呼び出しで検証することを確定した。**
 - **TST-alcoa-004（Original）は Append-Only トリガが PostgreSQL セッションからの直接 UPDATE/DELETE を拒否することを確認する。アプリケーション層のバイパスを防ぐ唯一の防御線であり、必須の検証とすることを確定した。**
 - **TST-alcoa-007（Consistent）は破壊的テスト（ブロック改ざん後の検証）を含む。この破壊的テストはテスト環境のみで実行し、`#[sqlx::test]` によるトランザクションロールバックで本番データへの影響を完全に排除することを確定した。**
+- **TST-alcoa-010（リワーク Original 不変性）は NFR-DQ-010 の核心であり、リワーク実施後に親 WorkExecution のイベント数が変化しないことを数値で確認することを確定した。**
+
+---
+
+## 11. TST-alcoa-010: リワーク ALCOA+ Original 不変性（NFR-DQ-010）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-alcoa-010 |
+| テスト観点 | リワーク作業実施時に、元の WorkExecution（parent_case_id）の work_events 件数が変化しないこと |
+| 検証方法 | リワーク実施 API 呼び出し前後で `SELECT COUNT(*) FROM work_events WHERE execution_id = parent_case_id` を比較 |
+| 期待結果 | リワーク実施前後でカウントが一致する（リワークは新 rework_case_id 側に記録される）|
+| 追加確認 1 | `reworks.parent_case_id` が指す WorkExecution の `work_events` に UPDATE/DELETE が行われていないこと |
+| 追加確認 2 | `reworks.rework_case_id` 側の新 WorkExecution に `execution_type='REWORK'` が設定されていること |
+| 対応 FR/NFR | FR-ST-014, NFR-DQ-010, BR-BUS-041 |
+| 根拠規格 | ALCOA+ Original 原則・ISO 9001:2015 §7.5.3 |
+
+```rust
+#[sqlx::test]
+async fn test_tst_alcoa_010_rework_original_invariance(pool: PgPool) {
+    // 親 WorkExecution を設定（10 イベント）
+    let parent_case_id = setup_completed_work_execution(&pool, 10).await;
+
+    // リワーク前のイベント数を記録
+    let before_count: i64 = sqlx::query_scalar!(
+        "SELECT COUNT(*) FROM work_events WHERE execution_id = $1",
+        parent_case_id
+    )
+    .fetch_one(&pool).await.unwrap().unwrap();
+    assert_eq!(before_count, 10);
+
+    // ディスポジション登録 → リワーク開始 → リワーク完了
+    let nc_id = setup_nonconformity(&pool, parent_case_id).await;
+    let disposition_id = create_disposition(&pool, nc_id, "REWORK").await;
+    let rework_id = create_rework(&pool, parent_case_id, disposition_id).await;
+    complete_rework_with_new_case(&pool, rework_id).await;
+
+    // リワーク後のイベント数が変化していないことを確認
+    let after_count: i64 = sqlx::query_scalar!(
+        "SELECT COUNT(*) FROM work_events WHERE execution_id = $1",
+        parent_case_id
+    )
+    .fetch_one(&pool).await.unwrap().unwrap();
+    assert_eq!(before_count, after_count, "ALCOA+ Original: parent case_id の work_events 件数が変化している");
+
+    // rework_case_id 側に新イベントが存在することを確認
+    let rework: Rework = sqlx::query_as!( Rework,
+        "SELECT * FROM reworks WHERE rework_id = $1", rework_id
+    )
+    .fetch_one(&pool).await.unwrap();
+    assert!(rework.rework_case_id.is_some(), "rework_case_id が設定されていない");
+
+    let rework_event_count: i64 = sqlx::query_scalar!(
+        "SELECT COUNT(*) FROM work_events WHERE execution_id = $1",
+        rework.rework_case_id.unwrap()
+    )
+    .fetch_one(&pool).await.unwrap().unwrap();
+    assert!(rework_event_count > 0, "リワーク側 WorkExecution にイベントが存在しない");
+}
+```
 
 ---
 

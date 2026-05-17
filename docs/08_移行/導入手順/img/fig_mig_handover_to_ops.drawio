@@ -1,0 +1,68 @@
+<mxfile>
+  <diagram name="fig_mig_handover_to_ops" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="500" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="500" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="09_運用・保守 への引継ぎ点マップ" style="text;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="12" width="600" height="32" as="geometry" />
+        </mxCell>
+        <!-- Left: 08_移行 -->
+        <mxCell id="left_box" value="&lt;b&gt;08_移行&lt;/b&gt;&lt;br&gt;移行計画 / 導入手順" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;verticalAlign=top;fontStyle=1;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="70" width="380" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="l1" value="移行計画/01_移行実施計画（マスタ）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="130" width="340" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" value="移行計画/10_受入レビューと導入結果評価" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="170" width="340" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l3" value="導入手順/10_カットオーバー後72時間ハイパーケア手順" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="210" width="340" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" value="導入手順/12_運用引継ぎ会議手順（権威書）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;align=left;spacingLeft=6;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="250" width="340" height="30" as="geometry" />
+        </mxCell>
+        <!-- Center: Handover -->
+        <mxCell id="center_box" value="&lt;b&gt;運用引継ぎ会議&lt;/b&gt;&lt;br&gt;（移行完了宣言後 7 日以内）&lt;br&gt;&lt;br&gt;参加者:&lt;br&gt;quality_admin&lt;br&gt;system_admin&lt;br&gt;現場監督" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="450" y="170" width="300" height="180" as="geometry" />
+        </mxCell>
+        <!-- Right: 09_運用・保守 -->
+        <mxCell id="right_box" value="&lt;b&gt;09_運用・保守&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;verticalAlign=top;fontStyle=1;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="70" width="380" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" value="運用手順書（バックアップ・監視）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="810" y="130" width="340" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" value="障害対応手順書（LEVEL-1/2/3 対応）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="810" y="170" width="340" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" value="SCR-MC-001 運用ダッシュボード" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="810" y="210" width="340" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" value="初期警戒運用体制（90 日間）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="810" y="250" width="340" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r5" value="90 日事後レビュー予定（付録/04）" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="810" y="290" width="340" height="30" as="geometry" />
+        </mxCell>
+        <!-- Arrows -->
+        <mxCell id="e_left_center" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;strokeWidth=2;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="260" as="sourcePoint" />
+            <mxPoint x="450" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_center_right" value="" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;strokeWidth=2;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="260" as="sourcePoint" />
+            <mxPoint x="790" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

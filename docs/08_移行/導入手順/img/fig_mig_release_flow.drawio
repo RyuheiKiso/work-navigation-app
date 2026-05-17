@@ -1,0 +1,49 @@
+<mxfile>
+  <diagram name="fig_mig_release_flow" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="800" pageHeight="700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="800" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="本番リリース手順フロー（BE → DB → FE-MA → FE-HA）" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="50" y="12" width="700" height="32" as="geometry" />
+        </mxCell>
+        <!-- Step 1: PostgreSQL -->
+        <mxCell id="step1" value="&lt;b&gt;Step 1: PostgreSQL&lt;/b&gt;&lt;br&gt;docker-compose up -d postgres&lt;br&gt;sqlx migrate run --database-url ...&lt;br&gt;&lt;i&gt;確認: _sqlx_migrations 全件 success=TRUE&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="60" width="400" height="90" as="geometry" />
+        </mxCell>
+        <!-- Step 2: axum -->
+        <mxCell id="step2" value="&lt;b&gt;Step 2: axum バックエンド&lt;/b&gt;&lt;br&gt;docker-compose up -d backend&lt;br&gt;curl /health → 200 OK 確認&lt;br&gt;&lt;i&gt;確認: ポート 8080 疎通&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="200" width="400" height="90" as="geometry" />
+        </mxCell>
+        <!-- Step 3: React master maintenance -->
+        <mxCell id="step3" value="&lt;b&gt;Step 3: マスタメンテ React アプリ&lt;/b&gt;&lt;br&gt;npm run build → IIS ディレクトリに配置&lt;br&gt;ブラウザで HTTPS アクセス確認&lt;br&gt;&lt;i&gt;確認: ログイン画面表示・quality_admin ログイン成功&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="200" y="340" width="400" height="90" as="geometry" />
+        </mxCell>
+        <!-- Step 4: Handy APP -->
+        <mxCell id="step4" value="&lt;b&gt;Step 4: ハンディ APP 配布&lt;/b&gt;&lt;br&gt;Android: EAS Build → APK/AAB 配布&lt;br&gt;iOS: EAS Build → TestFlight/MDM&lt;br&gt;Windows: MSIX 社内配布&lt;br&gt;&lt;i&gt;確認: 全端末で本番 URL 接続 + 作業開始可能&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="200" y="480" width="400" height="110" as="geometry" />
+        </mxCell>
+        <!-- Final: Release announce -->
+        <mxCell id="final" value="&lt;b&gt;リリース完了宣言&lt;/b&gt;&lt;br&gt;quality_admin 署名付きアナウンス&lt;br&gt;全作業員への周知完了" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="200" y="640" width="400" height="50" as="geometry" />
+        </mxCell>
+        <!-- Arrows -->
+        <mxCell id="e1_2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="step1" target="step2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2_3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="step2" target="step3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3_4" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="step3" target="step4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4_fin" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="step4" target="final" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

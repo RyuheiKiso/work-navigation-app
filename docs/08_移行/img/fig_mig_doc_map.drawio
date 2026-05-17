@@ -1,0 +1,31 @@
+<mxfile>
+  <diagram name="fig_mig_doc_map" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="520" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="08_移行 ドキュメントマップ" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="18" width="500" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="box1" value="&lt;b style='font-size:13px;'&gt;移行計画/&lt;/b&gt;&lt;br&gt;&lt;br&gt;01_移行実施計画（マスタ）&lt;br&gt;02_マスタ初期投入実施計画&lt;br&gt;06_カットオーバー実施計画&lt;br&gt;07_ロールバック実施計画&lt;br&gt;08_データ品質確認計画&lt;br&gt;09_利用者教育・移行通知計画&lt;br&gt;10_受入レビューと導入結果評価&lt;br&gt;11_旧システム廃止計画&lt;br&gt;&lt;br&gt;&lt;i&gt;（計13ファイル）&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="70" width="300" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="box2" value="&lt;b style='font-size:13px;'&gt;導入手順/&lt;/b&gt;&lt;br&gt;&lt;br&gt;01_本番環境構築手順&lt;br&gt;03_PostgreSQL初期化手順&lt;br&gt;04_GUI初期構築ウィザード操作手順&lt;br&gt;06_本番リリース手順&lt;br&gt;07_ハンディAPP配布手順（統合）&lt;br&gt;08_カットオーバー手順書&lt;br&gt;10_72時間ハイパーケア手順&lt;br&gt;12_運用引継ぎ会議手順&lt;br&gt;&lt;br&gt;&lt;i&gt;（計14ファイル）&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="450" y="70" width="300" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="box3" value="&lt;b style='font-size:13px;'&gt;付録/&lt;/b&gt;&lt;br&gt;&lt;br&gt;00_変更管理と版数規約&lt;br&gt;01_移行トレーサビリティマトリクス（MTM）&lt;br&gt;02_移行識別子採番台帳&lt;br&gt;03_IPA共通フレームカバレッジ表&lt;br&gt;04_事後レビュー報告書テンプレ&lt;br&gt;05_移行ADR索引&lt;br&gt;&lt;br&gt;&lt;i&gt;（計7ファイル）&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="850" y="70" width="300" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="実施へ" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" source="box1" target="box2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="記録" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" source="box2" target="box3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -33,7 +33,11 @@ def has_white_bg(root: ET.Element) -> bool:
     for rect in rects[:32]:
         x = rect.get("x", "0")
         y = rect.get("y", "0")
-        if x not in ("0", "0.5") or y not in ("0", "0.5"):
+        try:
+            xf, yf = float(x), float(y)
+        except ValueError:
+            continue
+        if xf > 20 or yf > 20:
             continue
         if is_white(rect.get("fill", "")):
             return True

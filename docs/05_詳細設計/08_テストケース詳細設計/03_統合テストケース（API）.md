@@ -230,6 +230,152 @@
 - **TST-intg-001〜020 の 20 統合テストケースを 4 領域（認証・ステップ記録・証拠・SOP ワークフロー）に分類し、HTTP Method/URL・リクエストボディ・期待レスポンス・テスト後 DB 状態を全件確定した。**
 - **TST-intg-006/007/008 はステップ完了・スキップ違反・冪等性の 3 観点を独立したテストケースとして分離し、各ケースがアトミックなトランザクション動作を検証することを確定した。**
 - **TST-intg-009 はハッシュチェーンの prev_hash 連鎖が 3 ブロック以上の連続記録で正しく形成されることを統合テストレベルで確認することを確定した。単体テストでは検証できないデータベース永続化後の連鎖整合性を確認する。**
+- **TST-intg-021〜030（IQC/リワーク 10 件）を追加し、後工程ハードゲート・AQL 判定・Two-Person Integrity の技術的保証を統合テストレベルで確認することを確定した。**
+
+---
+
+## 5. IQC API（TST-intg-021〜025）
+
+### TST-intg-021: 入荷ロット受入登録（ゴールデンパス）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-021 |
+| HTTP | `POST /api/v1/iqc/incoming-inspections` |
+| リクエストボディ | `{"lot_id":"<uuid>","supplier_id":"<uuid>","material_id":"<uuid>","lot_quantity":1000}` |
+| 前提条件 | lot・supplier・material・sampling_plan が存在 |
+| 期待レスポンス | HTTP 201, `{"inspection_id":"<uuid>","sample_size_n":80,"accept_number_ac":3,"reject_number_re":4}` |
+| DB 状態（後）| incoming_inspections に 1 レコード（qc_status=PENDING）|
+| 対応 FR | FR-IQ-001, BR-BUS-032 |
+
+### TST-intg-022: 後工程ハードゲート（ERR-BIZ-015）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-022 |
+| HTTP | `POST /api/v1/work-executions/{id}/events`（材料 QR スキャンイベント）|
+| 前提条件 | lot_qc_states.qc_status = 'REJECTED' |
+| 期待レスポンス | HTTP 409, `{"error":"ERR-BIZ-015","title":"lot_not_qc_passed"}` |
+| DB 状態（後）| work_events に INSERT なし |
+| 対応 FR | FR-IQ-009, BR-BUS-036 |
+
+### TST-intg-023: AQL 判定（PASSED → lot_qc_states 更新）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-023 |
+| HTTP | `POST /api/v1/iqc/incoming-inspections/{id}/judge` |
+| 前提条件 | n=5 のサンプルを全部 defect_flag=false で登録済み（不良数=0 ≤ Ac=1）|
+| 期待レスポンス | HTTP 200, `{"qc_status":"PASSED"}` |
+| DB 状態（後）| lot_qc_states.qc_status = 'PASSED'、incoming_inspections.judged_at が設定される |
+| 対応 FR | FR-IQ-007, FR-IQ-008 |
+
+### TST-intg-024: 特採承認（CONDITIONAL_PASS）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-024 |
+| HTTP | `POST /api/v1/iqc/incoming-inspections/{id}/concession` |
+| 前提条件 | qc_status = 'REJECTED'、quality_admin ロールの電子サイン存在 |
+| 期待レスポンス | HTTP 201, `{"approval_id":"<uuid>","valid_until":"2026-08-31"}` |
+| DB 状態（後）| concession_approvals に Append-only 1 レコード、lot_qc_states.qc_status = 'CONDITIONAL_PASS' |
+| 対応 FR | FR-IQ-010, BR-BUS-037 |
+
+### TST-intg-025: 測定数不足（ERR-VAL-030）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-025 |
+| HTTP | `POST /api/v1/iqc/incoming-inspections/{id}/judge` |
+| 前提条件 | sample_size_n=5 だが measurements が 3 件のみ |
+| 期待レスポンス | HTTP 422, `{"error":"ERR-VAL-030","title":"measurement_count_below_n"}` |
+| 対応 FR | FR-IQ-007 |
+
+---
+
+## 6. リワーク API（TST-intg-026〜030）
+
+### TST-intg-026: ディスポジション登録（ゴールデンパス）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-026 |
+| HTTP | `POST /api/v1/dispositions` |
+| リクエストボディ | `{"nonconformity_id":"<nc>","decision":"REWORK","decision_reason":"修正可能","quality_admin_sign_id":"<qa>","supervisor_sign_id":"<sup>"}` |
+| 前提条件 | 2 つの異なる worker_id の電子サイン存在 |
+| 期待レスポンス | HTTP 201, `{"disposition_id":"<uuid>","decided_at":"<timestamp>"}` |
+| DB 状態（後）| dispositions に Append-only 1 レコード |
+| 対応 FR | FR-ST-013, BR-BUS-040 |
+
+### TST-intg-027: Two-Person Integrity 違反（ERR-BIZ-021）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-027 |
+| HTTP | `POST /api/v1/dispositions` |
+| 前提条件 | quality_admin_sign_id と supervisor_sign_id が同一 worker_id |
+| 期待レスポンス | HTTP 422, `{"error":"ERR-BIZ-021","title":"disposition_same_signer"}` |
+| DB 状態（後）| dispositions に INSERT なし（DB トリガによる拒否）|
+| 対応 NFR | NFR-SEC-048 |
+
+```rust
+#[sqlx::test]
+async fn test_tst_intg_027_two_person_integrity(pool: PgPool) {
+    let same_worker_qa_sign = create_electronic_sign(&pool, "worker_001", "quality_admin").await;
+    let same_worker_sup_sign = create_electronic_sign(&pool, "worker_001", "supervisor").await;
+    // 同一 worker_id で 2 つの電子サインを作成
+
+    let payload = DispositionPayload {
+        nonconformity_id: create_test_nonconformity(&pool).await,
+        decision: "REWORK".to_string(),
+        decision_reason: "テスト判定".to_string(),
+        quality_admin_sign_id: same_worker_qa_sign,
+        supervisor_sign_id: same_worker_sup_sign,
+    };
+
+    let response = app.post("/api/v1/dispositions").json(&payload).await;
+    assert_eq!(response.status(), StatusCode::UNPROCESSABLE_ENTITY);
+
+    let error: ProblemDetails = response.json().await;
+    assert_eq!(error.error_id, "ERR-BIZ-021");
+
+    // DB に INSERT されていないことを確認
+    let count: i64 = sqlx::query_scalar!("SELECT COUNT(*) FROM dispositions")
+        .fetch_one(&pool).await.unwrap().unwrap();
+    assert_eq!(count, 0);
+}
+```
+
+### TST-intg-028: リワーク上限超過（ERR-BIZ-022）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-028 |
+| HTTP | `POST /api/v1/reworks` |
+| 前提条件 | 同一 parent_lot_id に CFG-026（デフォルト 3）件のリワーク完了済み |
+| 期待レスポンス | HTTP 409, `{"error":"ERR-BIZ-022","title":"rework_max_count_exceeded"}` |
+| 対応 FR | FR-ST-014 |
+
+### TST-intg-029: 再検査者同一（ERR-BIZ-023）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-029 |
+| HTTP | `POST /api/v1/rework-verifications` |
+| 前提条件 | リワーク実施者（rework_case_id の worker_id）と同一ユーザーが再検査を試みる |
+| 期待レスポンス | HTTP 422, `{"error":"ERR-BIZ-023","title":"rework_verifier_same_as_worker"}` |
+| 対応 NFR | NFR-SEC-048 |
+
+### TST-intg-030: 廃却記録（Append-only）
+
+| 項目 | 内容 |
+|---|---|
+| TST-ID | TST-intg-030 |
+| HTTP | `POST /api/v1/scrap-records` |
+| 前提条件 | rework.status = 'DISPOSITION_DECIDED' かつ decision = 'SCRAP' |
+| 期待レスポンス | HTTP 201, `{"rework_id":"<uuid>","recorded_at":"<timestamp>"}` |
+| DB 状態（後）| scrap_records に Append-only 1 レコード、reworks.status = 'CLOSED_SCRAP' に更新 |
+| 対応 FR | FR-MA-017, BR-BUS-043 |
 
 ---
 

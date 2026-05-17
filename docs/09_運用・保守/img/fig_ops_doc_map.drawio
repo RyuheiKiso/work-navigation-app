@@ -1,0 +1,87 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="600" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="09 運用・保守 文書マップ" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="400" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="root" value="09_運用・保守" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="450" y="80" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sub_ops" value="運用手順" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="220" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sub_inc" value="障害対応" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="280" y="220" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sub_mnt" value="保守記録" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="500" y="220" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sub_apx" value="付録" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="720" y="220" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="desc_ops" value="OPS-PROC-001〜010" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="60" y="320" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="desc_inc" value="P1〜P4/5フェーズ/RUN" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="280" y="320" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="desc_mnt" value="IPA 4.2.2.a〜f" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="500" y="320" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="desc_apx" value="採番台帳/OTM" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="720" y="320" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e_root_ops" value="" edge="1" source="root" target="sub_ops" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="175" />
+              <mxPoint x="150" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_inc" value="" edge="1" source="root" target="sub_inc" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="175" />
+              <mxPoint x="370" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_mnt" value="" edge="1" source="root" target="sub_mnt" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="175" />
+              <mxPoint x="590" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_apx" value="" edge="1" source="root" target="sub_apx" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="175" />
+              <mxPoint x="810" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_ops_desc" value="" edge="1" source="sub_ops" target="desc_ops" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_inc_desc" value="" edge="1" source="sub_inc" target="desc_inc" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_mnt_desc" value="" edge="1" source="sub_mnt" target="desc_mnt" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_apx_desc" value="" edge="1" source="sub_apx" target="desc_apx" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

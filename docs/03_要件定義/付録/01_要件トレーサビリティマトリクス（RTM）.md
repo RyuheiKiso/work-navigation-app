@@ -97,14 +97,34 @@ RTM の各行は以下の列を持つ。
 | BR-SC-003 | シナリオ: マスタ改訂 | FR-MA-001〜FR-MA-015 | — | TST-001, 受入シナリオ C | 計画 04 章 UC-D | Must | Agreed |
 | BR-SC-004 | シナリオ: アンドン・CAPA クローズ | FR-ST-007〜FR-ST-010, FR-KZ-001〜FR-KZ-008 | NFR-PRF-002 | TST-002, 受入シナリオ D | 計画 04 章 UC-E | Must | Agreed |
 | BR-SC-005 | シナリオ: Outbox オフライン同期 | FR-SY-001〜FR-SY-009 | NFR-AVL-002 | TST-007, 受入シナリオ E | 計画 12 章 Outbox | Must | Agreed |
+| BR-BUS-032 | 入荷ロット受入登録・管理 | FR-IQ-001, FR-IQ-002 | NFR-DQ-010 | テスト計画要 | 計画 06 章 品質管理 | Must | Agreed |
+| BR-BUS-033 | AQL サンプリング計画設定（JIS Z 9015-1） | FR-IQ-003, FR-IQ-004 | NFR-DQ-010 | テスト計画要 | 計画 06 章 品質管理 | Must | Agreed |
+| BR-BUS-034 | サンプル採取・測定値記録（ALCOA+ 準拠） | FR-IQ-005, FR-IQ-006 | NFR-DQ-003, NFR-DQ-010 | テスト計画要 | 計画 06 章 ALCOA+ | Must | Agreed |
+| BR-BUS-035 | AQL 合否自動判定（Ac/Re 判定） | FR-IQ-007, FR-IQ-008 | NFR-DQ-005 | テスト計画要 | 計画 06 章 品質管理 | Must | Agreed |
+| BR-BUS-036 | 後工程ハードゲート（未合格ロット使用禁止） | FR-IQ-009, FR-EV-004 | NFR-SEC-010 | テスト計画要 | 計画 06 章 ALCOA+ Complete | Must | Agreed |
+| BR-BUS-037 | 4 区分判定（特採/選別/返品/廃却） | FR-IQ-010, FR-IQ-011, FR-IQ-012, FR-IQ-013 | NFR-DQ-001 | テスト計画要 | 計画 06 章 品質管理 | Must | Agreed |
+| BR-BUS-038 | 仕入先品質実績管理（個人別集計禁止） | FR-IQ-014, FR-IQ-015 | NFR-ETH-002 | テスト計画要 | 計画 01 章倫理スタンス | Should | Agreed |
+| BR-BUS-039 | 検査厳しさ自動切替（JIS Z 9015-1 §10） | FR-IQ-016, FR-IQ-017 | — | テスト計画要 | 計画 06 章 品質管理 | Should | Agreed |
+| BR-BUS-040 | ディスポジション判定（MRB 二者電子サイン分離） | FR-ST-013, FR-EV-014 | NFR-SEC-048, NFR-DQ-001 | テスト計画要 | 計画 06 章 ALCOA+ Attributable | Must | Agreed |
+| BR-BUS-041 | リワーク作業実施（元 WorkExecution 不可侵） | FR-ST-014, FR-NV-014 | NFR-DQ-010, NFR-DQ-004 | テスト計画要 | 計画 06 章 ALCOA+ Original | Must | Agreed |
+| BR-BUS-042 | 再検査（リワーク実施者と別 worker_id 必須） | FR-EV-015, FR-NV-015 | NFR-SEC-048 | テスト計画要 | 計画 06 章 ALCOA+ Attributable | Must | Agreed |
+| BR-BUS-043 | 廃却処理（Append-only・立会者サイン必須） | FR-MA-017, FR-KZ-009 | NFR-DQ-004, NFR-DQ-010 | テスト計画要 | 計画 06 章 ALCOA+ Original | Must | Agreed |
+| BR-BUS-044 | 仕入先返却処理（追跡番号記録） | FR-MA-018, FR-KZ-010 | NFR-DQ-004 | テスト計画要 | 計画 06 章 ALCOA+ | Must | Agreed |
+| BR-BUS-045 | 修正品 QR ラベル発行（GS1 AI 8003 + AI 91） | FR-EV-013, FR-UI-012 | — | テスト計画要 | 計画 06 章 IQC/リワーク | Must | Agreed |
+| BR-SC-006 | シナリオ: IQC 入荷検査完全フロー（合格→後工程解放） | FR-IQ-001〜FR-IQ-009 | NFR-DQ-010 | テスト計画要 | 計画 06 章 品質管理 | Must | Agreed |
+| BR-SC-007 | シナリオ: IQC 不合格→特採承認フロー | FR-IQ-007, FR-IQ-010 | NFR-DQ-001, NFR-SEC-045 | テスト計画要 | 計画 06 章 品質管理 | Must | Agreed |
+| BR-SC-008 | シナリオ: IQC 不合格→選別実施フロー | FR-IQ-011 | NFR-DQ-004 | テスト計画要 | 計画 06 章 品質管理 | Should | Agreed |
+| BR-SC-009 | シナリオ: IQC 不合格→仕入先返品フロー | FR-IQ-012 | NFR-DQ-004 | テスト計画要 | 計画 06 章 品質管理 | Should | Agreed |
+| BR-SC-010 | シナリオ: リワーク完全フロー（ディスポジション→修正→再検査→CLOSED） | FR-ST-013, FR-ST-014, FR-EV-014, FR-EV-015, FR-NV-014, FR-NV-015 | NFR-SEC-048, NFR-DQ-010 | テスト計画要 | 計画 06 章 ALCOA+ | Must | Agreed |
 
 ---
 
 **本節で確定した方針**
-- RTM サンプルを BR-BUS-001〜031・BR-SC-001〜005 の 36 行として確定する。
+- RTM を BR-BUS-001〜045・BR-SC-001〜010 の 56 行として拡張確定する。
 - 全行に BR-ID・FR-ID・NFR-ID・TST-ID・上流リンク・MoSCoW・状態の 7 列を付与することを確定する。
 - 禁止実装要件（BR-BUS-029）も RTM に含め、Must（禁止）として明示することを確定する。
-- BR-BUS-031（工具/治具スキャン照合）を追加し、RTM の BR 行数を 36 に拡張した。
+- BR-BUS-032〜039（IQC 8 件）・BR-BUS-040〜045（リワーク 6 件）・BR-SC-006〜010（シナリオ 5 件）を追加し、RTM を 56 行に拡張した。
+- 新要件に NFR-SEC-048（二者電子サイン分離）・NFR-DQ-010（リワーク Original 不変性）を紐付けた。
 
 ---
 

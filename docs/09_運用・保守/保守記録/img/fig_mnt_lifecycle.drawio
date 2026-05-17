@@ -1,0 +1,55 @@
+<mxfile>
+  <diagram name="fig_mnt_lifecycle" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="760" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="IPA 共通フレーム 2013 保守プロセス（4.2.2）ライフサイクル" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="200" y="16" width="800" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="4.2.2.a 保守プロセス開始準備&#xa;保守計画・体制・ツール準備" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="350" y="68" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="4.2.2.b 問題把握及び修正分析&#xa;PROB-NNN 起票・影響分析" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="168" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="4.2.2.c 修正の実施&#xa;コード修正・テスト・マイグレーション" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="268" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="4.2.2.d 保守レビュー受入れ&#xa;7 日クーリング・受入判定" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="368" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="4.2.2.e 移行（本番移行）&#xa;STG 5 項目 PASS・GO 判定" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="468" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value="4.2.2.f ソフトウェア廃棄&#xa;旧版廃棄・データ 7 年保全" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="350" y="568" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" value="評価・フィードバック → 次の保守サイクルへ" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="350" y="668" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" source="n1" target="n2" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" source="n2" target="n3" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" source="n3" target="n4" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" source="n4" target="n5" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" source="n5" target="n6" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" source="n6" target="n7" parent="1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
