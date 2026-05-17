@@ -1,0 +1,155 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="Expo OTA フロー" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="14" width="400" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="start" value="変更の種類？" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="500" y="60" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Branch A: JS/TS コード変更 label -->
+        <mxCell id="lbl_branch_js" value="JS/TS コード変更" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="160" y="74" width="160" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Branch B: ネイティブモジュール変更 label -->
+        <mxCell id="lbl_branch_native" value="ネイティブモジュール変更" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="860" y="74" width="200" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Branch C: SDK メジャーアップ label -->
+        <mxCell id="lbl_branch_sdk" value="SDK メジャーアップ" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="860" y="220" width="200" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Path A step 1: eas update -->
+        <mxCell id="a1" value="eas update&#xa;--branch production" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="120" y="180" width="200" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- Path A step 2: Expo Runtime -->
+        <mxCell id="a2" value="Expo Runtime が受信" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="120" y="310" width="200" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Path A step 3: apply -->
+        <mxCell id="a3" value="次回起動時に適用" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="120" y="430" width="200" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Path B step 1: eas build -->
+        <mxCell id="b1" value="eas build&#xa;--platform &lt;OS&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="880" y="180" width="200" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- Path B step 2: Store review -->
+        <mxCell id="b2" value="ストア審査" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="880" y="310" width="200" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Path B step 3: user update -->
+        <mxCell id="b3" value="ユーザーが更新" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="880" y="430" width="200" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Path C: SDK major up -> same as B -->
+        <mxCell id="c_arrow_lbl" value="（同上 ストア審査経由）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=2;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="840" y="340" width="240" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Edges -->
+        <!-- start -> a1 (left) -->
+        <mxCell id="e_start_a1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="a1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="100" />
+              <mxPoint x="220" y="100" />
+              <mxPoint x="220" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- start -> b1 (right) -->
+        <mxCell id="e_start_b1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="b1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="100" />
+              <mxPoint x="980" y="100" />
+              <mxPoint x="980" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- a1 -> a2 -->
+        <mxCell id="e_a1_a2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="a1" target="a2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- a2 -> a3 -->
+        <mxCell id="e_a2_a3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="a2" target="a3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="396" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- b1 -> b2 -->
+        <mxCell id="e_b1_b2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="b1" target="b2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="980" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- b2 -> b3 -->
+        <mxCell id="e_b2_b3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="b2" target="b3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="980" y="396" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- SDK major up note - separate branch arrow from start going down-right -->
+        <mxCell id="e_start_c" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;dashed=1;" edge="1" source="start" target="b2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="140" />
+              <mxPoint x="1120" y="140" />
+              <mxPoint x="1120" y="332" />
+              <mxPoint x="1080" y="332" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- SDK major up label at branch point -->
+        <mxCell id="lbl_sdk_arrow" value="SDK メジャーアップ" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="840" y="124" width="180" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legbg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="620" width="440" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="実線: 通常フロー　点線: SDK メジャーアップ（ネイティブ変更と同経路）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="52" y="638" width="420" height="32" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

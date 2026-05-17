@@ -1,0 +1,210 @@
+<mxfile>
+  <diagram name="title" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="レビューチェックリストフロー（PR 作成前 Self-Review）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="250" y="14" width="700" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="start" value="PR 作成前 Self-Review 開始" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="460" y="60" width="280" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Checklist items (left column: 1-4, right column: 5-8) -->
+        <!-- Left column: items 1-4 -->
+        <mxCell id="c1" value="[ ] 1. 設計準拠&#xa;（05_詳細設計との整合）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="160" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" value="[ ] 2. アーキテクチャ不変原則&#xa;（Offline-First / Append-only 等）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="230" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="[ ] 3. コーディング規約&#xa;（実装ドキュメント 01〜05 章）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="300" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" value="[ ] 4. セキュリティ&#xa;（RBAC / 入力検証 / シークレット非露出）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="370" width="280" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Right column: items 5-8 -->
+        <mxCell id="c5" value="[ ] 5. 単体テスト&#xa;（カバレッジ目標達成）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;" vertex="1" parent="1">
+          <mxGeometry x="820" y="160" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" value="[ ] 6. ドキュメント&#xa;（コメント / ADR 更新）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;" vertex="1" parent="1">
+          <mxGeometry x="820" y="230" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" value="[ ] 7. アクセシビリティ&#xa;（WCAG AA 準拠）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;" vertex="1" parent="1">
+          <mxGeometry x="820" y="300" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" value="[ ] 8. 倫理ガード&#xa;（労務監視機能の不在確認）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;align=left;" vertex="1" parent="1">
+          <mxGeometry x="820" y="370" width="280" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- All OK? decision -->
+        <mxCell id="all_ok" value="全 OK？" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="500" y="520" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- [must] no comment -->
+        <mxCell id="pr_no_comment" value="[must] コメントなし確認" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="460" y="660" width="280" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- PR create -->
+        <mxCell id="pr_create" value="PR 作成" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="530" y="740" width="140" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- NG: fix -->
+        <mxCell id="ng_fix" value="未達成項目を修正" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="200" y="544" width="200" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Edges: start -> c1, c2, c3, c4 via left bus (x=70, outside boxes at x=100) -->
+        <mxCell id="e_s_c1" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="c1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="130" />
+              <mxPoint x="70" y="130" />
+              <mxPoint x="70" y="185" />
+              <mxPoint x="100" y="185" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s_c2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="c2" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="130" />
+              <mxPoint x="70" y="130" />
+              <mxPoint x="70" y="255" />
+              <mxPoint x="100" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s_c3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="c3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="130" />
+              <mxPoint x="70" y="130" />
+              <mxPoint x="70" y="325" />
+              <mxPoint x="100" y="325" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s_c4" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="c4" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="130" />
+              <mxPoint x="70" y="130" />
+              <mxPoint x="70" y="395" />
+              <mxPoint x="100" y="395" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Right bus x=1130 -> right (boxes end at x=1100) -->
+        <mxCell id="e_s_c5" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="c5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="130" />
+              <mxPoint x="1130" y="130" />
+              <mxPoint x="1130" y="185" />
+              <mxPoint x="1100" y="185" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s_c6" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="c6" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="130" />
+              <mxPoint x="1130" y="130" />
+              <mxPoint x="1130" y="255" />
+              <mxPoint x="1100" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s_c7" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="c7" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="130" />
+              <mxPoint x="1130" y="130" />
+              <mxPoint x="1130" y="325" />
+              <mxPoint x="1100" y="325" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s_c8" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="start" target="c8" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="130" />
+              <mxPoint x="1130" y="130" />
+              <mxPoint x="1130" y="395" />
+              <mxPoint x="1100" y="395" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- c1..c4 -> all_ok (left side) -->
+        <mxCell id="e_c4_ok" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="c4" target="all_ok" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="460" />
+              <mxPoint x="240" y="496" />
+              <mxPoint x="500" y="496" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- c5..c8 -> all_ok (right side) -->
+        <mxCell id="e_c8_ok" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="c8" target="all_ok" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="460" />
+              <mxPoint x="960" y="496" />
+              <mxPoint x="700" y="496" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- all_ok -> pr_no_comment (YES) -->
+        <mxCell id="e_yes" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="all_ok" target="pr_no_comment" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_yes" value="YES" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="612" y="608" width="40" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- all_ok -> ng_fix (NO) -->
+        <mxCell id="e_no" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="all_ok" target="ng_fix" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="555" />
+              <mxPoint x="420" y="555" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_no" value="NO" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="432" y="540" width="40" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- pr_no_comment -> pr_create -->
+        <mxCell id="e_pr" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" source="pr_no_comment" target="pr_create" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="726" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
