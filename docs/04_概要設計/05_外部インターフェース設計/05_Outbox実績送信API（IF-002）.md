@@ -2,13 +2,17 @@
 
 本章の責務は、子機から親機へ作業実績・証拠記録を送信する Outbox Push API（IF-002）の設計を確定することである。対応する API 識別子: `API-sync-002`。
 
+**担当バイナリ: `wnav_terminal_api`（8080）**
+
+IF-002 の送信元は `wnav_terminal_api` 内の OutboxWorker（BAT-002）である。`wnav_outbox` crate は `wnav_terminal_api` バイナリのみに依存し、`wnav_master_api` は Outbox 送信機能を持たない。
+
 ---
 
 ## 1. 設計方針
 
 ### 1-1. At-Least-Once + Idempotency = Exactly-Once 意味論
 
-- 子機バックエンド（BAT-002）が TBL-003（outbox_events）の PENDING 行を親機に POST する
+- `wnav_terminal_api` 内の子機バックエンド（BAT-002）が TBL-003（outbox_events）の PENDING 行を親機に POST する
 - 親機は `Idempotency-Key` で重複検出し、既受信の場合は 200 OK を返す（再処理しない）
 - これにより At-Least-Once 配信 + 親機側の Idempotency = Exactly-Once 意味論を実現する
 
@@ -55,6 +59,7 @@ Content-Type: application/json
 ---
 
 **本節で確定した方針**
+- **IF-002 の送信元は `wnav_terminal_api` 内の OutboxWorker（BAT-002）であることを確定した。`wnav_outbox` crate は `wnav_terminal_api` バイナリのみに依存する。**
 - **IF-002 は Outbox Pattern（BAT-002）+ HMAC-SHA256 署名 + Idempotency-Key で Exactly-Once 意味論を実現する設計を確定した。**
 - **再試行は指数バックオフで最大 5 回とし、失敗後は DLQ に移行して MET-005 でアラートを発生させる。**
 - **親機側の受信契約（ペイロードスキーマ・署名ヘッダ）を定義し、親機ベンダーとのインテグレーション基準を確定した。**
