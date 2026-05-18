@@ -143,9 +143,9 @@ ls -la /opt/wnav/templates/template_*.xlsx
 **MIG-X-139**: 工程マスタを最初に投入する。工程マスタは全マスタの根幹であり、他のマスタが工程マスタの `process_no` を参照する。（DES-MIG-078 対応）
 
 ```bash
-# 投入後の件数照合（API で確認）
+# 投入後の件数照合（master-api 経由で確認）
 curl -s -H "Authorization: Bearer <JWTトークン>" \
-    http://localhost:8080/api/masters/processes | python3 -c "
+    http://localhost:8081/api/masters/processes | python3 -c "
 import json, sys
 data = json.load(sys.stdin)
 print(f'工程マスタ件数: {len(data[\"data\"])}')
@@ -202,9 +202,9 @@ SELECT 'products', COUNT(*) FROM products;
 インポートはトランザクションでロールバック保証されているため（DES-MIG-026）、エラー発生時でも部分投入は発生しない。DB は投入前の状態に戻っているため、修正後のファイルを再アップロードして再実行する。
 
 ```bash
-# エラーレポートのダウンロード（API 経由）
+# エラーレポートのダウンロード（master-api 経由）
 curl -s -H "Authorization: Bearer <JWTトークン>" \
-    "http://localhost:8080/api/masters/import/errors/<インポートジョブID>/download" \
+    "http://localhost:8081/api/masters/import/errors/<インポートジョブID>/download" \
     -o error_report.csv
 ```
 
@@ -398,3 +398,4 @@ WHERE event_type = 'LEGACY_IMPORT' AND is_legacy = TRUE;
 | バージョン | 日付 | 変更内容 | 担当者 |
 |---|---|---|---|
 | 0.1.0 | 2026-05-18 | 初版 | RyuheiKiso |
+| 0.2.0 | 2026-05-18 | バックエンド2バイナリ分割（terminal-api:8080 / master-api:8081）に伴うマスタ API 参照先の 8081 への統一 | RyuheiKiso |
