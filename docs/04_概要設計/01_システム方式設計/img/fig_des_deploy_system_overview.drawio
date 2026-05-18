@@ -25,18 +25,23 @@
           <mxGeometry x="90" y="410" width="220" height="36" as="geometry" />
         </mxCell>
 
-        <!-- サーバー層 (middle, orange) -->
+        <!-- サーバー層 (middle, orange) — 2 API コンテナに更新 -->
         <mxCell id="server_box" value="サーバー層" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;verticalAlign=top;" vertex="1" parent="1">
           <mxGeometry x="440" y="100" width="320" height="560" as="geometry" />
         </mxCell>
-        <mxCell id="rust_axum" value="Rust axum API" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
-          <mxGeometry x="480" y="170" width="240" height="60" as="geometry" />
+        <!-- terminal-api -->
+        <mxCell id="terminal_api" value="terminal-api: 8080&#xa;(ハンディ端末向け)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="480" y="160" width="240" height="60" as="geometry" />
+        </mxCell>
+        <!-- master-api -->
+        <mxCell id="master_api_be" value="master-api: 8081&#xa;(管理・マスタ向け)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="480" y="240" width="240" height="60" as="geometry" />
         </mxCell>
         <mxCell id="pg_cyl" value="PostgreSQL 16" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;" vertex="1" parent="1">
-          <mxGeometry x="480" y="280" width="240" height="80" as="geometry" />
+          <mxGeometry x="480" y="330" width="240" height="80" as="geometry" />
         </mxCell>
         <mxCell id="docker_label" value="Docker Compose" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
-          <mxGeometry x="480" y="410" width="240" height="36" as="geometry" />
+          <mxGeometry x="480" y="450" width="240" height="36" as="geometry" />
         </mxCell>
 
         <!-- クライアント層 (right, green) -->
@@ -50,23 +55,22 @@
           <mxGeometry x="885" y="340" width="230" height="60" as="geometry" />
         </mxCell>
 
-        <!-- Arrow: Field -> Server (WiFi/TLS 1.3) -->
-        <!-- Route goes between boxes at y=460, avoiding internal elements -->
+        <!-- Arrow: Field -> Server (WiFi/TLS 1.3) via bottom corridor -->
         <mxCell id="edge_field_server" value="WiFi / TLS 1.3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1" source="field_box" target="server_box">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="350" y="680" />
-              <mxPoint x="440" y="680" />
+              <mxPoint x="350" y="700" />
+              <mxPoint x="440" y="700" />
             </Array>
           </mxGeometry>
         </mxCell>
 
-        <!-- Arrow: Server -> Client (LAN/HTTPS) -->
+        <!-- Arrow: Server -> Client (LAN/HTTPS) via bottom corridor -->
         <mxCell id="edge_server_client" value="LAN / HTTPS" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;fontFamily=Helvetica;fontSize=11;fontColor=#333333;" edge="1" parent="1" source="server_box" target="client_box">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="760" y="680" />
-              <mxPoint x="850" y="680" />
+              <mxPoint x="760" y="700" />
+              <mxPoint x="850" y="700" />
             </Array>
           </mxGeometry>
         </mxCell>
