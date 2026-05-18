@@ -96,7 +96,11 @@ BF-08 はリワーク SOP（sop_type = REWORK / INSPECTION / SCRAP_RECORD）を 
 
 ### 2-2. フロー全体概念図
 
-図: fig_business_flow_overview（img/ 配下）を参照
+**図 1: To-Be 業務フロー全体概念図**
+
+![図 1 To-Be 業務フロー全体概念図](img/fig_business_flow_overview.svg)
+
+> 原本: [`img/fig_business_flow_overview.drawio`](img/fig_business_flow_overview.drawio)
 
 **本節で確定した方針**
 六フロー間の依存関係を本節の記述で確定する。フロー間の接続点は「マスタ参照」「イベント起動」「引継ぎデータ連携」の三種に分類する。
