@@ -47,6 +47,15 @@
     "webhook": {
       "$ref": "#/$defs/WebhookConfig"
     },
+    "webhook_receiver": {
+      "$ref": "#/$defs/WebhookReceiverConfig"
+    },
+    "sse": {
+      "$ref": "#/$defs/SseConfig"
+    },
+    "integration": {
+      "$ref": "#/$defs/IntegrationConfig"
+    },
     "external": {
       "$ref": "#/$defs/ExternalConfig"
     },
@@ -216,6 +225,50 @@
         "retry_max": { "type": "integer", "minimum": 1 },
         "retry_backoff_max_sec": { "type": "integer", "minimum": 1 },
         "hmac_key": { "$ref": "#/$defs/SecretRef" }
+      }
+    },
+    "WebhookReceiverConfig": {
+      "type": "object",
+      "description": "外部システムからの作業指示 Push 受信に使用する HMAC-SHA256 検証設定（CFG-028）。",
+      "additionalProperties": false,
+      "properties": {
+        "hmac_key": {
+          "$ref": "#/$defs/SecretRef",
+          "description": "外部システムとの共有 HMAC シークレット（KEY-010）。env:WNAV_BE_WEBHOOK_RECEIVER_SECRET で参照する。"
+        },
+        "hmac_timeout_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "CFG-028: X-Timestamp ヘッダと現在時刻の差の許容上限（ミリ秒）。超過したリクエストはリプレイ攻撃として拒否する。デフォルト 5000 ms。"
+        }
+      }
+    },
+    "SseConfig": {
+      "type": "object",
+      "description": "Server-Sent Events 配信設定。",
+      "additionalProperties": false,
+      "properties": {
+        "keep_alive_sec": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "CFG-029: keep-alive ping の送信間隔（秒）。IIS / nginx のアイドルタイムアウトより短い値を設定する。デフォルト 25 秒。"
+        },
+        "dispatch_retry_max": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "CFG-030: SSE 配信失敗時の最大リトライ回数。超過すると TBL-053 の status が failed に遷移する。デフォルト 5 回。"
+        }
+      }
+    },
+    "IntegrationConfig": {
+      "type": "object",
+      "description": "外部システム統合の機能フラグ設定。",
+      "additionalProperties": false,
+      "properties": {
+        "push_receive_enabled": {
+          "type": "boolean",
+          "description": "CFG-031: 外部システムからの作業指示 Push 受信（API-sync-003）を有効にするフラグ。false の場合、POST /api/v1/work-assignments は 503 を返す。"
+        }
       }
     },
     "ExternalConfig": {
