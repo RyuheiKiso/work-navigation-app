@@ -2,7 +2,11 @@
 
 本章の責務は、ハンディ APP（SCR-HA-001〜015）の画面遷移（TRN-NNN）を確定することである。
 
-図: fig_des_screen_handy_flow（img/ 配下）を参照。
+**図 1: ハンディ APP 画面遷移図**
+
+![図 1 ハンディ APP 画面遷移図](img/fig_des_screen_handy_flow.svg)
+
+> 原本: [`img/fig_des_screen_handy_flow.drawio`](img/fig_des_screen_handy_flow.drawio)
 
 ---
 
