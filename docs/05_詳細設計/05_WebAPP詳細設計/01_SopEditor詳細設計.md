@@ -42,6 +42,10 @@ export interface SopEditorState {
   steps: StepDraft[];
   isDirty: boolean;
   lastAutoSaveAt: Date | null;
+  /** 左ペイン幅（px）。240〜480 の範囲で clamp。既定 280 */
+  leftPaneWidth: number;
+  /** 左ペイン折りたたみ状態。true = 48px アイコンバー。既定 false */
+  leftPaneCollapsed: boolean;
   /** 最大 50 ステップ履歴（FR-MA-003 implied）*/
   undoStack: StepDraft[][];
   /** 最大 50 ステップ履歴 */
@@ -66,6 +70,10 @@ export interface SopEditorActions {
   markAutoSaved: (at: Date) => void;
   /** isDirty をリセット（保存完了後）*/
   markClean: () => void;
+  /** 左ペイン幅を設定（内部で 240〜480 にクランプ）*/
+  setLeftPaneWidth: (width: number) => void;
+  /** 左ペイン折りたたみトグル */
+  toggleLeftPane: () => void;
 }
 
 // 型制約
@@ -83,6 +91,20 @@ function pushUndo(state: SopEditorState): StepDraft[][] {
   return next.length > UNDO_LIMIT ? next.slice(1) : next;
 }
 ```
+
+### 2-2. 左ペイン状態の永続化
+
+左ペイン幅と折りたたみ状態は `localStorage` に永続化し、SopEditor の初期化時に復元する。
+
+| localStorage キー | 型 | 既定値 | 説明 |
+|---|---|---|---|
+| `ui.scr_ma_004.left_pane.width` | `number` | `280` | ペイン幅（px）。240〜480 の範囲 |
+| `ui.scr_ma_004.left_pane.collapsed` | `boolean` | `false` | 折りたたみ状態 |
+
+- 既存の `getStorage<T>(key, default)` ラッパー（`ui.theme_override` / `locale` と同パターン）を経由して読み書きする。
+- 永続化対象は左ペイン UI 設定のみ。undoStack / redoStack は永続化しない（既存方針を維持）。
+- Vite SPA のため SSR 考慮は不要。
+- `prefers-reduced-motion: reduce` の検出は `window.matchMedia('(prefers-reduced-motion: reduce)').matches` を使用し、折りたたみアニメーション（CSS transition 160ms）の有無を制御する。
 
 ---
 

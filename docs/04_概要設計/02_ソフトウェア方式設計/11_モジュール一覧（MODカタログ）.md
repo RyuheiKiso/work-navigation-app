@@ -8,17 +8,18 @@
 
 | MOD-ID | 物理名（crate/module）| ファイルパス | 責務 | 依存 MOD | 関連 FR |
 |---|---|---|---|---|---|
-| MOD-BE-001 | wnav_api | `crates/wnav_api/` | axum ルータ・ミドルウェア（認証・Idempotency・レート制限）集約 | MOD-BE-002/005 | 全 API |
+| MOD-BE-001 | wnav_terminal_api | `crates/wnav_terminal_api/` | ハンディ端末向け axum ルータ・ミドルウェア（Idempotency・レート制限・作業ログ受信・Outbox Consumer） | MOD-BE-002/004/005/006 | FR-NV全件・FR-EV全件・FR-SY全件 |
 | MOD-BE-002 | wnav_domain | `crates/wnav_domain/` | ドメインモデル・サービス・リポジトリ Trait | MOD-BE-004 | 全 FR |
 | MOD-BE-003 | wnav_hash_chain | `crates/wnav_hash_chain/` | SHA-256 ハッシュチェーン計算・週次検証 | MOD-BE-002 | FR-EV-001/002 |
 | MOD-BE-004 | wnav_db | `crates/wnav_db/` | sqlx クエリ・コネクションプール・リポジトリ実装 | — | 全 TBL |
 | MOD-BE-005 | wnav_auth | `crates/wnav_auth/` | JWT RS256 検証・RBAC ミドルウェア | MOD-BE-004 | FR-AU-001〜006 |
 | MOD-BE-006 | wnav_outbox | `crates/wnav_outbox/` | Outbox Consumer（BAT-002）・WebSocket/Webhook | MOD-BE-002/004 | FR-SY-002/005 |
 | MOD-BE-007 | wnav_webhook | `crates/wnav_webhook/` | Webhook 配信・HMAC-SHA256 署名（IF-002）| MOD-BE-004 | IF-002 |
-| MOD-IN-001 | pg_role_init | `src/infra/database/roles/` | DB ロール DDL（app_event_writer 等）| — | NFR-SEC-040 |
-| MOD-IN-002 | docker_compose_config | `docker/` | Docker Compose 定義（バックエンド・PostgreSQL）| — | NFR-ENV |
+| MOD-IN-001 | pg_role_init | `src/infra/database/roles/` | DB ロール DDL（app_event_insert 等）| — | NFR-SEC-040 |
+| MOD-IN-002 | docker_compose_config | `docker/` | Docker Compose 定義（terminal-api・master-api・PostgreSQL）| — | NFR-ENV |
 | MOD-BE-008 | wnav_iqc | `crates/wnav_iqc/` | IQC BC（入荷ロット管理・AQL 判定・特採/選別・後工程ゲート）| MOD-BE-002/004 | FR-IQ-001〜019 |
 | MOD-BE-009 | wnav_rework | `crates/wnav_rework/` | Rework BC（ディスポジション・リワーク作業・再検査・廃却/返却）| MOD-BE-002/004 | FR-ST-013/014, FR-EV-014/015, FR-MA-017/018 |
+| MOD-BE-010 | wnav_master_api | `crates/wnav_master_api/` | マスタメンテ・管理コンソール向け axum ルータ・ミドルウェア（SOP 編集・承認・監査・ユーザー管理・HashChainVerifier）| MOD-BE-002/004/005 | FR-MA全件・FR-AU全件 |
 
 ---
 
@@ -86,8 +87,9 @@ MOD-FE-MA-001（SopEditor）は Step 単体属性の編集を、MOD-FE-MA-002（
 ---
 
 **本節で確定した方針**
-- **MOD-BE（9+2）・MOD-FE-HA（10）・MOD-FE-MA（10）・MOD-FE-MC（9）・MOD-SH（4）の計 44 モジュールを確定し、責務・依存関係・担当 FR を一元管理した。**
-- **依存方向はバックエンド: wnav_api → wnav_domain ← wnav_db、フロントエンド: features → shared（一方向）で統一し、循環依存を禁止する。**
+- **MOD-BE（10+2）・MOD-FE-HA（10）・MOD-FE-MA（10）・MOD-FE-MC（9）・MOD-SH（4）の計 45 モジュールを確定し、責務・依存関係・担当 FR を一元管理した。**
+- **バックエンドを 2 バイナリに分割し、MOD-BE-001（wnav_terminal_api：ハンディ端末向け）と MOD-BE-010（wnav_master_api：マスタメンテ・管理向け）を確定した。DB ロール物理保証・独立可用性・セキュリティ境界を 2 バイナリ分割で実現する。**
+- **依存方向はバックエンド: wnav_terminal_api/wnav_master_api → wnav_domain ← wnav_db、フロントエンド: features → shared（一方向）で統一し、循環依存を禁止する。**
 - **IQC/リワーク対応で MOD-BE-008（wnav_iqc）・MOD-BE-009（wnav_rework）の 2 BC クレート、MOD-FE-HA-009/010・MOD-FE-MA-007〜010・MOD-FE-MC-006〜009 の計 12 モジュールを追加した。**
 
 ---

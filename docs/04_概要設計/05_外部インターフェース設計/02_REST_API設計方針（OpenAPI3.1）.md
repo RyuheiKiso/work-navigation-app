@@ -125,11 +125,23 @@ rate_limit_key = `{factory_id}:{endpoint_category}` の組み合わせ。
 
 ## 6. OpenAPI 3.1 仕様管理
 
-### 6-1. utoipa による自動生成
+### 6-1. バイナリ分割と OpenAPI ファイル分割方針
 
-Rust バックエンドは `utoipa` crate（Apache 2.0）を使用して OpenAPI 3.1 仕様を自動生成する。
+バックエンドは以下の 2 バイナリに分割されている。
+
+| バイナリ | ポート | 用途 | OpenAPI ファイル |
+|---|---|---|---|
+| `wnav_terminal_api` | 8080 | ハンディ端末向け API | `openapi-terminal.yaml` |
+| `wnav_master_api` | 8081 | マスタメンテ・管理コンソール向け API | `openapi-master.yaml` |
+
+各バイナリは `utoipa` crate（Apache 2.0）を使用して、自バイナリが担当するエンドポイントのみを含む OpenAPI 3.1 仕様を独立して自動生成する。単一の統合 OpenAPI ファイルは存在しない。
+
+### 6-2. utoipa による自動生成
+
+各バイナリで `utoipa` のパスマクロを定義し、バイナリのエントリポイントで統合する。
 
 ```rust
+// wnav_terminal_api 側の例
 #[utoipa::path(
     post,
     path = "/api/v1/work-executions/{id}/events",
@@ -146,18 +158,37 @@ Rust バックエンドは `utoipa` crate（Apache 2.0）を使用して OpenAPI
 pub async fn post_work_event(...) { ... }
 ```
 
-### 6-2. OpenAPI 仕様の配信
+### 6-3. OpenAPI 仕様の配信
 
-`API-system-003`（`GET /api/v1/openapi.json`）でバックエンドが OpenAPI 3.1 仕様 JSON を返す。
+各バイナリは自バイナリの OpenAPI 3.1 仕様を `/openapi.json`（または `/api/v1/openapi.json`）で配信する。
 
-フロントエンドは `openapi-typescript-codegen` で TypeScript クライアントを自動生成する。
+| バイナリ | エンドポイント | 説明 |
+|---|---|---|
+| `wnav_terminal_api`（8080）| `GET /api/v1/openapi.json` | `openapi-terminal.yaml` 相当の JSON を返す |
+| `wnav_master_api`（8081）| `GET /api/v1/openapi.json` | `openapi-master.yaml` 相当の JSON を返す |
+
+### 6-4. クライアント側の型生成方針
+
+フロントエンドは `openapi-typescript-codegen` を使用して TypeScript クライアントを自動生成する。生成元は担当バイナリの仕様に対応する。
+
+| フロントエンド | 参照する OpenAPI | 説明 |
+|---|---|---|
+| FE-HA（ハンディ APP・React Native）| `openapi-terminal.yaml` | ハンディ端末向け API の型を生成 |
+| FE-MA（マスタメンテ APP・React）| `openapi-master.yaml` | マスタ管理系 API の型を生成 |
+| FE-MC（管理コンソール・React）| `openapi-master.yaml` | 管理コンソール系 API の型を生成 |
+
+### 6-5. URL プレフィックスの共通維持
+
+`/api/v1/` プレフィックスは `wnav_terminal_api`・`wnav_master_api` の両バイナリで共通して維持する。バイナリ分割はポート番号で区別し、URL 構造は変更しない。
 
 ---
 
 **本節で確定した方針**
 - **URL 命名（`/api/v1/{resource}/{id}/{sub-resource}` 形式・DELETE 禁止・POST + アクションサブパス代替）を全 API に適用する。**
 - **Idempotency-Key ヘッダを全書き込み API に必須とし、TBL-035 で重複を検出して前回レスポンスを再返却する冪等性を確定した。**
-- **utoipa で OpenAPI 3.1 仕様を Rust コードから自動生成し、`GET /api/v1/openapi.json` で配信することでフロントエンドの TypeScript クライアント自動生成を実現する。**
+- **OpenAPI 仕様を `openapi-terminal.yaml`（wnav_terminal_api）と `openapi-master.yaml`（wnav_master_api）の 2 ファイルに分割し、各バイナリが自バイナリの仕様を独立して生成・配信する構成を確定した。**
+- **FE-HA は `openapi-terminal.yaml`、FE-MA / FE-MC は `openapi-master.yaml` を参照して TypeScript クライアントを自動生成する方針を確定した。**
+- **`/api/v1/` プレフィックスは両バイナリ共通のまま維持することを確定した。**
 
 ---
 

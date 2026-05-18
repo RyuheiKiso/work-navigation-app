@@ -13,74 +13,74 @@
 
         <!-- LEVEL-1 box -->
         <mxCell id="lv1-box" value="LEVEL-1: API 縮退" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#ffe6cc;verticalAlign=top;" vertex="1" parent="1">
-          <mxGeometry x="60" y="100" width="1080" height="160" as="geometry" />
+          <mxGeometry x="60" y="80" width="1080" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="lv1-desc" value="一部エンドポイント利用不可&#xa;・対象外エンドポイントは HTTP 503 を返却&#xa;・クリティカルパス (作業記録・製品照会) は継続稼働" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="80" y="150" width="700" height="90" as="geometry" />
+        <mxCell id="lv1-desc" value="一部エンドポイント利用不可&#xa;・master-api 停止時も terminal-api は継続稼働（現場作業・記録に影響なし）&#xa;・停止側エンドポイントは HTTP 503 を返却" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="780" height="70" as="geometry" />
         </mxCell>
         <mxCell id="lv1-badge" value="影響: 軽微" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
-          <mxGeometry x="980" y="155" width="120" height="40" as="geometry" />
+          <mxGeometry x="980" y="130" width="120" height="40" as="geometry" />
         </mxCell>
 
         <!-- LEVEL-2 box -->
         <mxCell id="lv2-box" value="LEVEL-2: Emergency Mode (WiFi 断絶)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;verticalAlign=top;" vertex="1" parent="1">
-          <mxGeometry x="60" y="300" width="1080" height="200" as="geometry" />
+          <mxGeometry x="60" y="270" width="1080" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="lv2-desc" value="オフライン運用 (WiFi 断絶時)&#xa;・ハンディ端末はローカル SQLite で作業記録を継続&#xa;・送信キュー (Outbox) にデータを蓄積&#xa;・WiFi 復旧時に自動同期 (Retry with Exponential Backoff)" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="80" y="348" width="700" height="110" as="geometry" />
+        <mxCell id="lv2-desc" value="オフライン運用 (WiFi 断絶時)&#xa;・ハンディ端末はローカル SQLite で作業記録を継続（terminal-api 不達でも動作）&#xa;・送信キュー (Outbox) にデータを蓄積&#xa;・WiFi 復旧時に terminal-api へ自動同期 (Retry with Exponential Backoff)" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="315" width="740" height="120" as="geometry" />
         </mxCell>
         <mxCell id="lv2-outbox" value="Outbox&#xa;蓄積中" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#dae8fc;" vertex="1" parent="1">
-          <mxGeometry x="840" y="340" width="100" height="60" as="geometry" />
+          <mxGeometry x="840" y="315" width="100" height="60" as="geometry" />
         </mxCell>
         <mxCell id="lv2-sync" value="WiFi 復旧&#xa;→ 自動同期" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#d5e8d4;" vertex="1" parent="1">
-          <mxGeometry x="980" y="340" width="120" height="60" as="geometry" />
+          <mxGeometry x="980" y="315" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="lv2-arr" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="940" y="370" as="sourcePoint" />
-            <mxPoint x="980" y="370" as="targetPoint" />
+            <mxPoint x="940" y="345" as="sourcePoint" />
+            <mxPoint x="980" y="345" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="lv2-badge" value="影響: 中程度" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#fff2cc;" vertex="1" parent="1">
-          <mxGeometry x="840" y="430" width="120" height="40" as="geometry" />
+          <mxGeometry x="840" y="400" width="120" height="40" as="geometry" />
         </mxCell>
 
         <!-- LEVEL-3 box -->
-        <mxCell id="lv3-box" value="LEVEL-3: サーバー停止" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#f8cecc;verticalAlign=top;" vertex="1" parent="1">
-          <mxGeometry x="60" y="540" width="1080" height="200" as="geometry" />
+        <mxCell id="lv3-box" value="LEVEL-3: サーバー全停止（terminal-api + master-api 両方停止）" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#333333;strokeColor=#d79b00;fillColor=#f8cecc;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="520" width="1080" height="220" as="geometry" />
         </mxCell>
-        <mxCell id="lv3-desc" value="サーバー停止時の紙帳票バックアップ運用&#xa;・ハンディ端末を使用不可&#xa;・作業実績を紙帳票 (FR-001) に手書き記録&#xa;・サーバー復旧後にまとめて手動入力" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="80" y="588" width="700" height="110" as="geometry" />
+        <mxCell id="lv3-desc" value="サーバー全停止時の紙帳票バックアップ運用&#xa;・ハンディ端末を使用不可&#xa;・作業実績を紙帳票 (FR-001) に手書き記録&#xa;・サーバー復旧後にまとめて手動入力&#xa;（通常は terminal-api 単独稼働で LEVEL-1 相当に留まる）" style="text;html=1;fontFamily=Helvetica;fontSize=12;align=left;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="565" width="740" height="130" as="geometry" />
         </mxCell>
         <mxCell id="lv3-rto" value="RTO = 15 分&#xa;(目標復旧時間)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1">
-          <mxGeometry x="840" y="580" width="140" height="60" as="geometry" />
+          <mxGeometry x="840" y="560" width="140" height="60" as="geometry" />
         </mxCell>
         <mxCell id="lv3-paper" value="紙帳票&#xa;バックアップ" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f5f5f5;" vertex="1" parent="1">
-          <mxGeometry x="1000" y="580" width="110" height="60" as="geometry" />
+          <mxGeometry x="1000" y="560" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="lv3-badge" value="影響: 重大" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#f8cecc;" vertex="1" parent="1">
-          <mxGeometry x="840" y="670" width="120" height="40" as="geometry" />
+          <mxGeometry x="840" y="650" width="120" height="40" as="geometry" />
         </mxCell>
 
         <!-- Severity down arrows between levels -->
         <mxCell id="arr-lv1-lv2" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;strokeWidth=2;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="600" y="260" as="sourcePoint" />
-            <mxPoint x="600" y="300" as="targetPoint" />
+            <mxPoint x="600" y="220" as="sourcePoint" />
+            <mxPoint x="600" y="270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="lbl-deg1" value="さらに縮退" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="615" y="265" width="80" height="20" as="geometry" />
+          <mxGeometry x="615" y="228" width="80" height="20" as="geometry" />
         </mxCell>
 
         <mxCell id="arr-lv2-lv3" style="endArrow=classic;endFill=1;html=1;strokeColor=#333333;edgeStyle=none;strokeWidth=2;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="600" y="500" as="sourcePoint" />
-            <mxPoint x="600" y="540" as="targetPoint" />
+            <mxPoint x="600" y="470" as="sourcePoint" />
+            <mxPoint x="600" y="520" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="lbl-deg2" value="さらに縮退" style="text;html=1;fontFamily=Helvetica;fontSize=11;align=center;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="615" y="505" width="80" height="20" as="geometry" />
+          <mxGeometry x="615" y="478" width="80" height="20" as="geometry" />
         </mxCell>
 
       </root>
