@@ -266,18 +266,32 @@ src/frontend/master/src/api/generated/** linguist-generated=true
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "🦀 Debug wnav-api (Rust)",
+      "name": "🦀 Debug terminal-api (Rust / 8080)",
       "type": "lldb",
       "request": "launch",
-      "program": "${workspaceFolder}/target/debug/wnav-api",
+      "program": "${workspaceFolder}/target/debug/wnav_terminal_api",
       "args": [],
       "cwd": "${workspaceFolder}/src/backend",
       "env": {
-        "RUST_LOG": "wnav_api=debug,tower_http=trace",
-        "WNAV_BE_LISTEN_ADDR": "0.0.0.0:8080"
+        "RUST_LOG": "wnav_terminal_api=debug,tower_http=trace",
+        "WNAV_TERMINAL_LISTEN_ADDR": "0.0.0.0:8080"
       },
       "sourceLanguages": ["rust"],
-      "preLaunchTask": "🦀 cargo build (debug)"
+      "preLaunchTask": "🦀 cargo build terminal-api (debug)"
+    },
+    {
+      "name": "🦀 Debug master-api (Rust / 8081)",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/target/debug/wnav_master_api",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/backend",
+      "env": {
+        "RUST_LOG": "wnav_master_api=debug,tower_http=trace",
+        "WNAV_MASTER_LISTEN_ADDR": "0.0.0.0:8081"
+      },
+      "sourceLanguages": ["rust"],
+      "preLaunchTask": "🦀 cargo build master-api (debug)"
     },
     {
       "name": "📱 Expo Go (QR scan)",
@@ -307,6 +321,8 @@ src/frontend/master/src/api/generated/** linguist-generated=true
 - **`launch.json` を `.vscode/` に配置してバージョン管理し、デバッグ設定を開発者間で共有する。**
 - **Rust デバッガは `lldb`（CodeLLDB 拡張）を使用し、Rust 固有の型（`Vec<T>`・`Option<T>`）を正しく表示する。**
 - **デバッグ設定の環境変数は開発環境の値のみを含め、本番のシークレットを記載しない。**
+- **`terminal-api`（ポート 8080）と `master-api`（ポート 8081）をそれぞれ独立したデバッグ設定として定義し、個別に起動・デバッグできるようにする。**
+- **`RUST_LOG` は `wnav_terminal_api=debug` / `wnav_master_api=debug` と各バイナリ名に揃え、ログの混在を防ぐ。**
 
 ---
 
@@ -333,9 +349,19 @@ src/frontend/master/src/api/generated/** linguist-generated=true
       "problemMatcher": "$rustc"
     },
     {
-      "label": "🦀 cargo build (debug)",
+      "label": "🦀 cargo build terminal-api (debug)",
       "type": "shell",
-      "command": "cargo build",
+      "command": "cargo build --bin wnav_terminal_api",
+      "options": {
+        "cwd": "${workspaceFolder}/src/backend"
+      },
+      "group": "build",
+      "problemMatcher": "$rustc"
+    },
+    {
+      "label": "🦀 cargo build master-api (debug)",
+      "type": "shell",
+      "command": "cargo build --bin wnav_master_api",
       "options": {
         "cwd": "${workspaceFolder}/src/backend"
       },
@@ -406,6 +432,7 @@ src/frontend/master/src/api/generated/** linguist-generated=true
 - **`tasks.json` にテスト・ビルド・マイグレーション・起動コマンドを定義し、ターミナルコマンドの暗記を不要にする。**
 - **`expo start` はバックグラウンドタスクとして設定し、起動確認後に他のタスクを実行できるようにする。**
 - **タスク名にアイコンプレフィックスを付けて視認性を確保する（🦀=Rust / 📦=Node / 🗄️=DB / 📱=Expo / 🐳=Docker）。**
+- **ビルドタスクを `terminal-api` と `master-api` 別に定義し、launch.json の `preLaunchTask` から個別に参照できるようにする。**
 
 ---
 
@@ -511,7 +538,10 @@ fc-cache -fv
 ```bash
 # zsh の設定（プロンプトとエイリアス）
 # ~/.zshrc に追加する
-alias cr="cargo run"
+alias crt="cargo run --bin wnav_terminal_api"   # terminal-api（8080）起動
+alias crm="cargo run --bin wnav_master_api"     # master-api（8081）起動
+alias cwt="cargo watch -x 'run --bin wnav_terminal_api'"  # terminal-api ウォッチ起動
+alias cwm="cargo watch -x 'run --bin wnav_master_api'"    # master-api ウォッチ起動
 alias ct="cargo nextest run"
 alias cf="cargo fmt"
 alias cc="cargo clippy -- -D warnings"
