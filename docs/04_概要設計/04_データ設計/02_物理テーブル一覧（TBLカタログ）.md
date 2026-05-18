@@ -101,7 +101,7 @@ Case 端末排他占有機能（FR-SY-011 / ADR-009）の導入に伴い、TBL-0
 | TBL-007 | sops | `sop_type ENUM('NORMAL','REWORK','INSPECTION','SCRAP_RECORD','RETURN_RECORD','IQC') DEFAULT 'NORMAL'` | SOP の用途分類 |
 | TBL-013 | nonconformities | `disposition_id NULL FK→dispositions` | ディスポジション判定との連携 |
 | TBL-014 | capas | `rework_summary JSONB` | リワーク結果の CAPA への集約 |
-| TBL-024 | lots | `supplier_id NULL FK→suppliers`、`material_id NULL FK→materials`、`qc_status ENUM`、`rework_history_count INT DEFAULT 0`、`parent_lot_id NULL FK→lots` | 入荷検査結果・リワーク履歴の管理 |
+| TBL-024 | lots | `supplier_id NULL FK→suppliers`、`material_id NULL FK→materials`、`qc_status ENUM`、`rework_history_count INT DEFAULT 0`、`parent_lot_id NULL FK→lots` | 入荷検査結果・リワーク履歴の管理 **（DDL-024 本体反映済み・V20260518000001__ ALTER TABLE で適用）** |
 
 ---
 
@@ -121,13 +121,14 @@ Case 端末排他占有機能（FR-SY-011 / ADR-009）の導入に伴い、TBL-0
 | TBL-027 | external_key_bindings | `INSERT, SELECT` のみ（廃棄は valid_to 更新のみ）|
 | TBL-031 | hash_chain_blocks | `INSERT, SELECT` のみ |
 | TBL-032 | auth_logs | `INSERT, SELECT` のみ |
-| TBL-040 | incoming_inspection_measurements | `INSERT, SELECT` のみ |
-| TBL-041 | concession_approvals | `INSERT, SELECT` のみ |
-| TBL-044 | dispositions | `INSERT, SELECT` のみ（DB トリガで 2 署名者異一性を検証）|
-| TBL-045 | rework_verifications | `INSERT, SELECT` のみ |
-| TBL-047 | reworked_lot_labels | `INSERT, SELECT` のみ |
-| TBL-049 | scrap_records | `INSERT, SELECT` のみ |
-| TBL-050 | return_to_vendor_records | `INSERT, SELECT` のみ |
+| TBL-040 | incoming_inspection_measurements | `INSERT, SELECT` のみ（+ qc_case_id/prev_hash/content_hash ハッシュチェーン列・ADR-011）|
+| TBL-041 | concession_approvals | `INSERT, SELECT` のみ（+ qc_case_id/prev_hash/content_hash ハッシュチェーン列・ADR-011）|
+| TBL-044 | dispositions | `INSERT, SELECT` のみ（DB トリガで 2 署名者異一性を検証 + ハッシュチェーン列・ADR-011）|
+| TBL-045 | rework_verifications | `INSERT, SELECT` のみ（+ qc_case_id/prev_hash/content_hash ハッシュチェーン列・ADR-011）|
+| TBL-047 | reworked_lot_labels | `INSERT, SELECT` のみ（+ qc_case_id/prev_hash/content_hash ハッシュチェーン列・ADR-011）|
+| TBL-049 | scrap_records | `INSERT, SELECT` のみ（+ qc_case_id/prev_hash/content_hash ハッシュチェーン列・ADR-011）|
+| TBL-050 | return_to_vendor_records | `INSERT, SELECT` のみ（+ qc_case_id/prev_hash/content_hash ハッシュチェーン列・ADR-011）|
+| TBL-038 | incoming_inspections | `INSERT, SELECT` + `UPDATE（qc_status 列のみ）` を許可（限定可変）。qc_case_id/prev_hash/content_hash ハッシュチェーン列あり（ADR-011 / immutable フィールドのみハッシュ対象）|
 
 詳細は §05（イベントストア設計）と `07_セキュリティ方式設計/07_脆弱性管理.md` で確定する。
 
@@ -155,6 +156,8 @@ Case 端末排他占有機能（FR-SY-011 / ADR-009）の導入に伴い、TBL-0
 - **TBL-036〜050（IQC/リワーク 15 テーブル）を追加。TBL-044 dispositions に DB トリガ `check_disposition_distinct_signers` を設け、NFR-SEC-048（二者電子サイン分離）を物理レベルで保証することを確定する。**
 - **TBL-043 reworks は `parent_case_id` と `rework_case_id` の双方向 FK で ALCOA+ Original 原則（NFR-DQ-010）を実装することを確定する。**
 - **TBL-051 case_locks を追加し、1 case_id = 1 端末の排他占有制御テーブルとして確定した。heartbeat UPDATE・解放 DELETE が必要なため app_event_insert ロールへの INSERT/UPDATE/DELETE 許可を例外として認める（FR-SY-011 / ADR-009）。**
+- **TBL-024 lots の §1c 記載 IQC 拡張列（supplier_id / material_id / qc_status / rework_history_count / parent_lot_id）を DDL-024 本体に反映し、`V20260518000001__alter_lots_add_iqc_columns.sql` ALTER TABLE で適用することを確定した（指摘3対応）。**
+- **TBL-038/040/041/044/045/047/049/050 の 8 テーブルに qc_case_id / prev_hash / content_hash ハッシュチェーン列を追加し、IQC/リワーク品質記録の ALCOA+ Original 三層防御を完成させた（ADR-011 / 指摘5対応）。TBL-038 incoming_inspections は限定可変（qc_status のみ UPDATE 可）のため可変フィールドをハッシュ対象外とする。**
 
 ---
 

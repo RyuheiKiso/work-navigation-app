@@ -339,12 +339,77 @@ DEAD_LETTERED に移行したイベントは API-ops-002（`POST /ops/outbox/{id
 
 ---
 
+## 6. OutboxEventType 列挙型（DDL-003 CHECK 制約との同期）
+
+```rust
+// crates/wnav_outbox/src/event_type.rs
+
+/// Outbox イベント種別。
+/// DB 側 TBL-003 outbox_events.event_type CHECK 制約（DDL-003）と常に同値を維持すること。
+/// DDL-003 を変更した場合は必ず本 enum も同時更新する（指摘1対応）。
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum OutboxEventType {
+    // 作業実績系（既存）
+    WorkEvent,
+    ElectronicSign,
+    EvidenceFile,
+    Measurement,
+    Suspension,
+    AndonAlert,
+    Nonconformity,
+    Capa,
+    KaizenProposal,
+    // IQC/リワーク系（DDL-003 拡張・指摘1対応）
+    IncomingInspection,
+    IncomingInspectionMeasurement,
+    ConcessionApproval,
+    Rework,
+    Disposition,
+    ReworkVerification,
+    ReworkedLotLabel,
+    ScrapRecord,
+    ReturnToVendor,
+}
+
+impl OutboxEventType {
+    /// DB の CHECK 制約値と一致する文字列を返す。
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::WorkEvent                      => "work_event",
+            Self::ElectronicSign                 => "electronic_sign",
+            Self::EvidenceFile                   => "evidence_file",
+            Self::Measurement                    => "measurement",
+            Self::Suspension                     => "suspension",
+            Self::AndonAlert                     => "andon_alert",
+            Self::Nonconformity                  => "nonconformity",
+            Self::Capa                           => "capa",
+            Self::KaizenProposal                 => "kaizen_proposal",
+            Self::IncomingInspection             => "incoming_inspection",
+            Self::IncomingInspectionMeasurement  => "incoming_inspection_measurement",
+            Self::ConcessionApproval             => "concession_approval",
+            Self::Rework                         => "rework",
+            Self::Disposition                    => "disposition",
+            Self::ReworkVerification             => "rework_verification",
+            Self::ReworkedLotLabel               => "reworked_lot_label",
+            Self::ScrapRecord                    => "scrap_record",
+            Self::ReturnToVendor                 => "return_to_vendor",
+        }
+    }
+}
+```
+
+> **同期規約**: DDL-003 `ck_outbox_events_event_type` CHECK 制約と `OutboxEventType` 列挙型は **常に同値**を保つ。どちらかを変更した場合は必ずもう一方も更新し、CI の `cargo sqlx prepare --check` でコンパイル時整合性を確認すること。
+
+---
+
 **本節で確定した方針**
 - **`SELECT ... FOR UPDATE SKIP LOCKED` でポーリング競合を排除し、複数インスタンスが並行して安全に Outbox を処理できる設計を確定した。**
 - **指数バックオフは `initial_backoff_ms * 2^retry_count` で計算し、`max_backoff_ms`（32 秒）を上限として短時間での過負荷を防ぐ設計を確定した。**
 - **DLQ 移行後は管理コンソール（SCR-MC-007）への表示と LOG-DLQ-001 ログ出力を行い、IT 担当者が手動で再投入できる運用設計を確定した。**
 - **本クレートは `wnav_terminal_api` のみが依存し、`wnav_master_api` は依存しない。`parent_api_url` は環境変数 `WNAV_TERMINAL_PARENT_API_URL` から取得する設計を確定した。**
 - **BAT-002（常駐 Outbox Consumer）は terminal-api バイナリ（`wnav_terminal_api`）の `main.rs` で `tokio::spawn` して起動することを確定した。**
+- **`OutboxEventType` 列挙型を §6 で確定し、DDL-003 の `ck_outbox_events_event_type` CHECK 制約（18 種）と同値を維持する設計規約を明示した（指摘1対応）。IQC/リワーク 9 種（IncomingInspection / IncomingInspectionMeasurement / ConcessionApproval / Rework / Disposition / ReworkVerification / ReworkedLotLabel / ScrapRecord / ReturnToVendor）を追加した。**
 
 ---
 
