@@ -14,7 +14,7 @@
         <mxCell id="p1" value="ハンディ端末" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
           <mxGeometry x="100" y="60" width="160" height="44" as="geometry" />
         </mxCell>
-        <mxCell id="p2" value="Backend" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
+        <mxCell id="p2" value="terminal-api&#xa;(8080)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
           <mxGeometry x="500" y="60" width="160" height="44" as="geometry" />
         </mxCell>
         <mxCell id="p3" value="PostgreSQL" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
