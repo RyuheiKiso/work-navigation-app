@@ -497,61 +497,75 @@ server {
 
 ---
 
-## 7. 環境変数命名
+## 7. 設定管理（YAML + 環境変数ハイブリッド方式）
+
+ADR-IMPL-001 に基づき、設定を「非機密 YAML」と「機密 .env / Secret Store」に分離する。
+
+### 分類規則
+
+| 分類 | 管理場所 | 例 |
+|---|---|---|
+| 非機密設定（接続先・ポート・タイムアウト等） | `src/infra/config/config.{profile}.yml` | `database.host`, `server.terminal_api.port` |
+| 機密値への参照 | YAML 内 `secret_ref:` で間接参照 | `secret_ref: "env:WNAV_DB_PASSWORD_WRITE"` |
+| 機密値の実体（local/dev） | `.env` ファイル（.gitignore 対象） | `WNAV_DB_PASSWORD_WRITE=dev_pass` |
+| 機密値の実体（prod） | Windows DPAPI / Docker secrets | `dpapi:WNAV_DB_PASSWORD_WRITE_ENC` |
+| YAML 選択用メタ変数 | 環境変数のみ | `WNAV_PROFILE=prod` |
+| YAML 配置パス上書き | 環境変数のみ | `WNAV_CONFIG_DIR=/etc/wnav/config` |
+| YAML 値の動的上書き | `WNAV__SECTION__KEY=value` 環境変数 | `WNAV__DATABASE__MAX_CONNECTIONS=50` |
 
 ### 命名規則
 
-`WNAV_<SCOPE>_<KEY>` 形式で統一する。
+`WNAV_<SCOPE>_<KEY>` 形式で統一する（機密変数・メタ変数）。
 
 | SCOPE | 対象 |
 |---|---|
-| `BE` | バックエンド（Rust axum API）|
-| `FE_HA` | フロントエンド ハンディ APP（React Native）|
-| `FE_MA` | フロントエンド マスタメンテ（React SPA）|
-| `INFRA` | インフラ（Docker/nginx/IIS）|
-| `DB` | データベース（PostgreSQL）|
+| `BE` | バックエンド JWT 鍵・Webhook HMAC 等の機密 |
+| `DB` | DB パスワード 3 ロール分 |
+| `INFRA` | TLS 証明書・バックアップ通知 URL 等 |
+| `PROFILE` | なし（`WNAV_PROFILE` が固定名） |
 
-### 環境変数一覧（具体例）
+### .env に残す変数（機密・メタのみ）
 
 ```bash
-# バックエンド
-WNAV_BE_DATABASE_URL_WRITE="postgres://app_write:...@localhost:5432/wnav"
-WNAV_BE_DATABASE_URL_EVENT="postgres://app_event_insert:...@localhost:5432/wnav"
-WNAV_BE_DATABASE_URL_READ="postgres://app_read:...@localhost:5432/wnav"
-WNAV_BE_JWT_PUBLIC_KEY_PATH="/etc/wnav/jwt/public.pem"
-WNAV_BE_LISTEN_ADDR="0.0.0.0:8080"
-WNAV_BE_RUST_LOG="wnav_api=info,tower_http=debug"
-WNAV_BE_IDEMPOTENCY_CACHE_TTL_SECS="86400"
+# ── プロファイル選択（必須） ───────────────────────────────────────
+WNAV_PROFILE=local
 
-# ハンディ APP
-WNAV_FE_HA_API_BASE_URL="https://wnav.example.local/api/v1"
-WNAV_FE_HA_OFFLINE_TIMEOUT_SECS="300"
-WNAV_FE_HA_SYNC_INTERVAL_SECS="30"
-WNAV_FE_HA_EXPO_PROJECT_ID="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+# ── DB パスワード（3 ロール・機密） ───────────────────────────────
+WNAV_DB_PASSWORD_WRITE=CHANGE_ME
+WNAV_DB_PASSWORD_EVENT_INSERT=CHANGE_ME
+WNAV_DB_PASSWORD_READ=CHANGE_ME
 
-# マスタメンテ
-WNAV_FE_MA_API_BASE_URL="https://wnav.example.local/api/v1"
-WNAV_FE_MA_POLLING_INTERVAL_MS="30000"
+# ── JWT 鍵（機密） ───────────────────────────────────────────────
+WNAV_BE_JWT_SECRET=CHANGE_ME           # RS256 秘密鍵 PEM
+WNAV_BE_JWT_PUBLIC_KEY=CHANGE_ME       # RS256 公開鍵 PEM
 
-# インフラ
-WNAV_INFRA_NGINX_CERT_PATH="/etc/ssl/certs/wnav.pem"
-WNAV_INFRA_NGINX_KEY_PATH="/etc/ssl/private/wnav.key"
-WNAV_INFRA_IIS_SITE_NAME="WNavMaster"
-WNAV_INFRA_IIS_APP_POOL_NAME="WNavMasterPool"
+# ── Webhook / 外部通知（機密） ───────────────────────────────────
+WNAV_BE_WEBHOOK_SECRET=CHANGE_ME
+WNAV_BE_BACKUP_NOTIFICATION_URL=CHANGE_ME
 
-# データベース
-WNAV_DB_HOST="localhost"
-WNAV_DB_PORT="5432"
-WNAV_DB_NAME="wnav"
-WNAV_DB_WRITE_USER="app_write"
-WNAV_DB_EVENT_USER="app_event_insert"
-WNAV_DB_READ_USER="app_read"
+# ── インフラ（機密・パス） ───────────────────────────────────────
+WNAV_INFRA_TLS_CERT=/etc/wnav/tls/server.crt
+WNAV_INFRA_TLS_KEY=/etc/wnav/tls/server.key
+
+# ── sqlx CLI 用（DATABASE_URL はランタイムでは YAML から組み立てる） ──
+DATABASE_URL=postgres://wnav_write:CHANGE_ME@localhost:5432/wnav_local
+```
+
+### ファイルパーミッション
+
+```bash
+# config.{profile}.yml: wnav プロセスのみ読取可
+chmod 640 /etc/wnav/config/config.prod.yml
+chown root:wnav /etc/wnav/config/config.prod.yml
+
+# .env（local/dev 開発機): 所有者のみ
+chmod 600 .env
 ```
 
 **本節で確定した方針**
-- **環境変数は `WNAV_<SCOPE>_<KEY>` 形式で命名し、プレフィックスなしの変数名を禁止する。**
-- **DB 接続情報を 1 つの `DATABASE_URL` にまとめず、3 ロール分を別々の変数として定義する。**
-- **シークレットを含む変数は `_FILE` サフィックスを付け（例: `WNAV_BE_DATABASE_URL_WRITE_FILE`）、ファイルパスで渡す形式を推奨する。**
+- **非機密設定は `src/infra/config/config.{profile}.yml` で管理し、環境変数に書かない。**
+- **機密はすべて `secret_ref:` 経由で取得し、YAML ファイルに機密の実値を記載しない。**
+- **`WNAV_PROFILE` と DB パスワード等の機密のみ `.env` に記載する（ADR-IMPL-001）。**
 
 ---
 
@@ -628,8 +642,9 @@ set -euo pipefail
 chmod 600 /etc/wnav/jwt/private.pem
 chmod 600 /etc/wnav/tls/wnav.key
 
-# 設定ファイル: 所有者読み書き + グループ読み取り
-chmod 640 /etc/wnav/config.toml
+# 設定ファイル: 所有者読み書き + グループ読み取り（ADR-IMPL-001: YAML プロファイル形式）
+chmod 640 /etc/wnav/config/config.base.yml
+chmod 640 /etc/wnav/config/config.prod.yml
 chmod 640 /etc/nginx/conf.d/wnav.conf
 
 # 実行スクリプト: 所有者フルアクセス + グループ読み取り・実行

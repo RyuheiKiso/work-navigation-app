@@ -366,7 +366,14 @@ jobs:
       - name: Deploy to staging
         env:
           IMAGE_TAG: ${{ github.ref_name }}
-          WNAV_BE_DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+          WNAV_PROFILE: staging
+          # 機密のみ GitHub Secrets から注入する（非機密設定は config.staging.yml で管理）
+          WNAV_DB_PASSWORD_WRITE: ${{ secrets.STAGING_DB_PASSWORD_WRITE }}
+          WNAV_DB_PASSWORD_EVENT_INSERT: ${{ secrets.STAGING_DB_PASSWORD_EVENT_INSERT }}
+          WNAV_DB_PASSWORD_READ: ${{ secrets.STAGING_DB_PASSWORD_READ }}
+          WNAV_BE_JWT_SECRET: ${{ secrets.STAGING_JWT_SECRET }}
+          WNAV_BE_JWT_PUBLIC_KEY: ${{ secrets.STAGING_JWT_PUBLIC_KEY }}
+          WNAV_BE_WEBHOOK_SECRET: ${{ secrets.STAGING_WEBHOOK_SECRET }}
         run: |
           # staging 環境に SSH してデプロイコマンドを実行する
           echo "Deploying $IMAGE_TAG to staging..."
