@@ -2,7 +2,11 @@
 
 本章の責務は、システム全体のデータフロー（端末 → Outbox → PostgreSQL → NAS・親機 の主要パス）を確定することである。DFD は IPA 2.3「配置設計」タスクのデータ観点での可視化であり、`01_システム方式設計/03_配置設計.md` のインフラ観点と補完関係にある。
 
-図: fig_des_db_dfd_overall（img/ 配下）を参照。
+**図 1: データフロー全体図（Level 0 DFD）**
+
+![図 1 データフロー全体図（Level 0 DFD）](img/fig_des_db_dfd_overall.svg)
+
+> 原本: [`img/fig_des_db_dfd_overall.drawio`](img/fig_des_db_dfd_overall.drawio)
 
 ---
 
