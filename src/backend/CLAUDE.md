@@ -107,6 +107,8 @@ let config: MasterApiConfig = wnav_config::load_master_api()?;
 - `app_event_insert` プールから SELECT を発行してはならない。
 - 同一クレデンシャルを複数用途で共有しない。
 
+**例外制御テーブル**: `case_locks`（TBL-051）と `idempotency_keys`（TBL-035）は Append-only 原則の例外として `app_event_insert` ロールに INSERT/UPDATE/DELETE を許可する。heartbeat 更新と解放 DELETE が必要なため。詳細: `docs/05_詳細設計/07_アルゴリズム詳細設計/08_Case端末占有アルゴリズム.md`
+
 ### sqlx コンパイル時クエリ検証
 
 ```rust

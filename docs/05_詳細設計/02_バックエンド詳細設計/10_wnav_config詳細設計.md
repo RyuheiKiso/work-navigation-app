@@ -454,5 +454,6 @@ pub enum ConfigError {
 - YAML スキーマ: `src/infra/config/schema/config.schema.json`
 - YAML 配置・運用: `src/infra/config/README.md`
 - 上位設計: `docs/04_概要設計/02_ソフトウェア方式設計/06_共通基盤コンポーネント設計.md` §6
-- 関連詳細設計: `docs/05_詳細設計/02_バックエンド詳細設計/01_wnav_api詳細設計.md`
+- 関連詳細設計（terminal-api）: `docs/05_詳細設計/02_バックエンド詳細設計/01_wnav_terminal_api詳細設計.md`
+- 関連詳細設計（master-api）: `docs/05_詳細設計/02_バックエンド詳細設計/01a_wnav_master_api詳細設計.md`
 - 関連詳細設計: `docs/05_詳細設計/02_バックエンド詳細設計/03_wnav_db詳細設計.md`

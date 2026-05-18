@@ -231,6 +231,31 @@ COMMENT ON INDEX idempotency_keys_pkey IS
     'IDX-016 — idempotency_key PRIMARY KEY インデックス（PostgreSQL が自動作成）。API リクエストの Idempotency-Key ヘッダ値で UNIQUE を保証。同一キーの重複 INSERT を排除し P3（Idempotent API）を実現する。';
 ```
 
+### IDX-017: case_locks.terminal_id B-Tree
+
+```sql
+-- IDX-017: TBL-051 case_locks — terminal_id B-Tree
+-- 目的: 端末別の保有 case 一覧取得（BAT-013 処理、デバッグ、監査）
+CREATE INDEX CONCURRENTLY idx_case_locks_terminal_id
+    ON case_locks USING BTREE (terminal_id);
+
+COMMENT ON INDEX idx_case_locks_terminal_id IS
+    'IDX-017 — case_locks を terminal_id で検索するインデックス。端末別保有 case の一覧取得に使用。';
+```
+
+### IDX-018: case_locks.heartbeat_at Partial（ACTIVE のみ）
+
+```sql
+-- IDX-018: TBL-051 case_locks — heartbeat_at Partial (ACTIVE のみ)
+-- 目的: BAT-013 の EXPIRED 化対象を効率的に取得
+CREATE INDEX CONCURRENTLY idx_case_locks_heartbeat_at_active
+    ON case_locks USING BTREE (heartbeat_at)
+    WHERE lock_status = 'ACTIVE';
+
+COMMENT ON INDEX idx_case_locks_heartbeat_at_active IS
+    'IDX-018 — case_locks の heartbeat_at 昇順 Partial インデックス（ACTIVE のみ）。BAT-013 が heartbeat_at < NOW() - INTERVAL ''5 minutes'' で EXPIRED 化対象を絞り込むために使用。';
+```
+
 ---
 
 ## 3. インデックスサマリー
@@ -253,15 +278,18 @@ COMMENT ON INDEX idempotency_keys_pkey IS
 | IDX-014 | idx_hash_chain_blocks_created_at | TBL-031 | B-Tree DESC | created_at | — | BAT-001 |
 | IDX-015 | idx_auth_logs_user_id_occurred_at | TBL-032 | BRIN | (user_id, occurred_at) | — | FR-AU-004 |
 | IDX-016 | idempotency_keys_pkey（自動）| TBL-035 | B-Tree UNIQUE | idempotency_key | — | P3（Idempotent API）|
+| IDX-017 | idx_case_locks_terminal_id | TBL-051 | B-Tree | terminal_id | — | FR-SY-011 |
+| IDX-018 | idx_case_locks_heartbeat_at_active | TBL-051 | B-Tree Partial | heartbeat_at | lock_status='ACTIVE' | BAT-013 |
 
-次採番値: **IDX-017**
+次採番値: **IDX-019**
 
 ---
 
 **本節で確定した方針**
-- **IDX-001〜016 全件の CREATE INDEX 全文を確定し、対象列・種別・Partial 条件・根拠 NFR/FR を全て明記した。次採番値 IDX-017 を台帳に記録する。**
+- **IDX-001〜018 全件の CREATE INDEX 全文を確定し、対象列・種別・Partial 条件・根拠 NFR/FR を全て明記した。次採番値 IDX-019 を台帳に記録する。**
 - **work_events（TBL-001）の月次パーティションには CREATE INDEX を親テーブルに実行することで全パーティションへ自動継承され、CONCURRENTLY オプションで運用停止なしに作成する。**
-- **Partial インデックス（IDX-003〜005・007・011〜012）により、完了済み・オフライン・退職済みの行をインデックスから除外し INSERT コストとインデックスサイズを最小化する。**
+- **Partial インデックス（IDX-003〜005・007・011〜012・018）により、完了済み・オフライン・退職済み・非 ACTIVE ロックの行をインデックスから除外し INSERT コストとインデックスサイズを最小化する。**
+- **IDX-017/018（TBL-051 case_locks）を追加し、BAT-013 の EXPIRED 化対象絞り込みと端末別 case 検索を効率化する設計を確定した。**
 
 ---
 

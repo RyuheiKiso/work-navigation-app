@@ -21,7 +21,9 @@
 | ファイル | 対象 MOD | 内容 |
 |---|---|---|
 | `00_本書の位置づけと識別子規約.md` | 全 MOD-BE | IPA 対応・FNC-BE 採番規約・カバレッジ表 |
-| `01_wnav_api詳細設計.md` | MOD-BE-001 | axum ルータ・ミドルウェアチェーン・AppState |
+| `01_wnav_api詳細設計.md` | （廃止 → 下記 2 ファイルへ分割）| — |
+| `01_wnav_terminal_api詳細設計.md` | MOD-BE-001 | wnav_terminal_api axum ルータ・ミドルウェア・AppState（port 8080）|
+| `01a_wnav_master_api詳細設計.md` | MOD-BE-010 | wnav_master_api axum ルータ・ミドルウェア・AppState（port 8081）|
 | `02_wnav_domain詳細設計.md` | MOD-BE-002 | ドメインモデル・サービス Trait・リポジトリ Trait |
 | `03_wnav_db詳細設計.md` | MOD-BE-004 | sqlx リポジトリ実装・コネクションプール設定 |
 | `04_wnav_auth詳細設計.md` | MOD-BE-005 | JWT RS256 検証・RBAC ミドルウェア・鍵ローテーション |

@@ -81,6 +81,18 @@ IQC 機能（機能ランキング 10 位）とリワーク機能（同 9 位）
 
 ---
 
+## 1d. 排他制御追加テーブル（TBL-051）
+
+Case 端末排他占有機能（FR-SY-011 / ADR-009）の導入に伴い、TBL-051 を追加する。
+
+| TBL-ID | 物理テーブル名 | 対応 EN | 対応関係 | 種別 | 推定行数/年 | 保存期間 |
+|---|---|---|---|---|---|---|
+| TBL-051 | case_locks | （制御テーブル・EN なし）| — | 制御（例外: INSERT/UPDATE/DELETE 許可）| 実行中 case 数分（常時数十行未満）| ロック期間中のみ（解放後 DELETE）|
+
+**TBL-051 case_locks 設計注記**: 端末側 LocalCaseLock エンティティと対応あり。heartbeat_at が 5 分超過した ACTIVE レコードは BAT-013 が自動 EXPIRED 化する。`ON CONFLICT (case_id) DO NOTHING` による atomic な占有試行で排他性を保証する。
+
+---
+
 ## 1c. 既存テーブル拡張（IQC/リワーク対応）
 
 | TBL-ID | テーブル名 | 追加列 | 目的 |
@@ -136,12 +148,13 @@ IQC 機能（機能ランキング 10 位）とリワーク機能（同 9 位）
 ---
 
 **本節で確定した方針**
-- **全 50 物理テーブル（TBL-001〜050）を確定し、全 39 論理エンティティ（EN-001〜039）が ≥1 TBL にマッピングされることを保証した。**
+- **全 51 物理テーブル（TBL-001〜051）を確定し、全 39 論理エンティティ（EN-001〜039）が ≥1 TBL にマッピングされることを保証した。**
 - **Append-only テーブル 17 件を明示し、PostgreSQL ロール分離によって物理 DELETE/UPDATE を禁止することを設計命題として確定した。**
 - **5 年累積ストレージを約 167GB（DB）と見積もり、NFR-PRF-015（1.5TB 以下）を十分に満足することを確認した。**（IQC/リワーク追加分は年 10GB 未満と試算、見積もりは余裕あり）
 - **TBL-025 equipments に scan_code / tool_subtype / calibration_due_date を追加し、新規 TBL を発行せずに EN-019 Equipment 拡張を確定する。**
 - **TBL-036〜050（IQC/リワーク 15 テーブル）を追加。TBL-044 dispositions に DB トリガ `check_disposition_distinct_signers` を設け、NFR-SEC-048（二者電子サイン分離）を物理レベルで保証することを確定する。**
 - **TBL-043 reworks は `parent_case_id` と `rework_case_id` の双方向 FK で ALCOA+ Original 原則（NFR-DQ-010）を実装することを確定する。**
+- **TBL-051 case_locks を追加し、1 case_id = 1 端末の排他占有制御テーブルとして確定した。heartbeat UPDATE・解放 DELETE が必要なため app_event_insert ロールへの INSERT/UPDATE/DELETE 許可を例外として認める（FR-SY-011 / ADR-009）。**
 
 ---
 

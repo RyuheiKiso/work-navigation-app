@@ -4,6 +4,8 @@
 
 ---
 
+> **起動者**: 本クレートの `run_consumer` は **wnav_terminal_api プロセス内** で tokio task として起動される（BAT-002）。wnav_master_api では起動しない。
+
 ## 1. OutboxConsumer 構造体と設定
 
 ```rust

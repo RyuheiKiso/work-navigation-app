@@ -76,13 +76,37 @@ type NetworkQuality = 'high' | 'low' | 'disconnected' | 'emergency';
 
 ---
 
+## Case 占有とシフト交代
+
+権威ドキュメント: `docs/05_詳細設計/07_アルゴリズム詳細設計/08_Case端末占有アルゴリズム.md`（ALG-026〜028 / ADR-009）
+
+**1 case_id = 1 端末**。以下のシーケンスを遵守する:
+
+1. **占有獲得**: POST /work-executions または POST /resume で case_locks に原子登録。失敗時は ERR-BIZ-026（HTTP 409）を受け取り操作を中断する
+2. **ハートビート**: 60 秒ごとに PUT /work-executions/{id}/heartbeat を送信する。送信失敗はローカルキューに積み、次回接続時に再送する
+3. **正常解放**: suspend または complete の完了後に case_lock が解放される
+4. **シフト交代**: 現端末で suspend → 解放確認 → 次端末で resume の順序で行う
+
+**オフライン中の挙動**:
+- オフライン中は **新規** case_id の占有を試みない（接続が必要）
+- 既に占有済みの case_id での Step 記録はオフラインでも継続できる
+- 5 分切断後、BAT-013 が自動 EXPIRED 化する（Emergency Mode 閾値と一致）
+
+ハッシュチェーン破断時のクライアント resume 判定: `docs/04_概要設計/02_ソフトウェア方式設計/13a_ハッシュチェーン破断時のクライアント resume 判定.md`
+
+---
+
 ## SQLite + TypeORM 規約
+
+**スキーマ同期権威ドキュメント**: `docs/05_詳細設計/01_データベース詳細設計/07a_PG_SQLiteスキーマ同期戦略.md`（ADR-006）
+**マイグレーション権威ドキュメント**: `docs/05_詳細設計/04_ハンディAPP詳細設計/07a_TypeORMマイグレーション設計.md`
 
 ### スキーマ設計原則
 
 - **論理対応**: SQLite スキーマは PostgreSQL と論理的に対応を保つ（カラム名・型命名を統一する）
+- **ミラー対象テーブル**: PG ↔ SQLite 同期対象テーブルは `07a_PG_SQLiteスキーマ同期戦略.md` で列挙する。リストにないテーブルは PG-only とみなす
 - **UPDATE / DELETE 禁止**: 作業ログテーブルへの UPDATE / DELETE はアプリケーション層でも禁止。TypeORM のエンティティで `update` / `delete` メソッドを呼ばない
-- **マイグレーション**: TypeORM Migration で版管理する。ロールバックスクリプトをセットで必ず用意する
+- **マイグレーション**: `07a_TypeORMマイグレーション設計.md` に従い TypeORM Migration で版管理する。命名: `{ts_ms}-{description}.ts`。ロールバックは前進修正のみ（端末では `migration:revert` 非サポート）
 
 ### ディレクトリ構成（`db/` 配下）
 
