@@ -4,7 +4,11 @@
 
 本プロジェクトは **GitHub Flow を基盤とした 4 種ブランチ戦略**を採用する。
 
-図: fig_git_branch_strategy（img/ 配下）を参照
+**図 1: Git ブランチ戦略**
+
+![図 1 Git ブランチ戦略](img/fig_git_branch_strategy.svg)
+
+> 原本: [`img/fig_git_branch_strategy.drawio`](img/fig_git_branch_strategy.drawio)
 
 ### 4 種ブランチの役割
 
@@ -263,6 +267,12 @@ git rebase -i origin/main
 ---
 
 ## 7. レビュー手順
+
+**図 2: PR レビューフロー**
+
+![図 2 PR レビューフロー](img/fig_pr_review_flow.svg)
+
+> 原本: [`img/fig_pr_review_flow.drawio`](img/fig_pr_review_flow.drawio)
 
 ### PR オープン前の確認
 
