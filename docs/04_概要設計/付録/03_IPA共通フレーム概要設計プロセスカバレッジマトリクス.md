@@ -2,6 +2,12 @@
 
 本章の責務は、IPA 共通フレーム 2013（SLCP-JCF2013）の「2.3 システム方式設計プロセス」および「2.4 ソフトウェア方式設計プロセス」の全タスクと、本書 10 サブの対応・カバレッジ状況を確認することである。
 
+**図 1: IPA 共通フレーム 2013 における本書の位置づけ**
+
+![図 1 IPA 共通フレーム 2013 における本書の位置づけ](img/fig_des_appendix_ipa_position.svg)
+
+> 原本: [`img/fig_des_appendix_ipa_position.drawio`](img/fig_des_appendix_ipa_position.drawio)
+
 ---
 
 ## 1. 2.3 システム方式設計プロセス カバレッジ

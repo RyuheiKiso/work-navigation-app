@@ -56,7 +56,11 @@
 
 ### 3.1 Outbox リトライフロー
 
-図: `img/bat_002_outbox_retry_flow.drawio.svg` を参照
+**図 1: BAT-002 Outbox リトライフロー図**
+
+![図 1 BAT-002 Outbox リトライフロー図](img/bat_002_outbox_retry_flow.svg)
+
+> 原本: [`img/bat_002_outbox_retry_flow.drawio`](img/bat_002_outbox_retry_flow.drawio)
 
 ---
 

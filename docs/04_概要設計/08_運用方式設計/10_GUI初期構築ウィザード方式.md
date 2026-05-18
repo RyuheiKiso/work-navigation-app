@@ -224,7 +224,11 @@ ON CONFLICT (key) DO UPDATE SET value = 'true', updated_at = NOW();
 
 ## 7. ウィザード画面遷移
 
-図: `img/wizard_flow.drawio.svg` を参照
+**図 1: GUI 初期構築ウィザード画面遷移図**
+
+![図 1 GUI 初期構築ウィザード画面遷移図](img/wizard_flow.svg)
+
+> 原本: [`img/wizard_flow.drawio`](img/wizard_flow.drawio)
 
 ---
 
