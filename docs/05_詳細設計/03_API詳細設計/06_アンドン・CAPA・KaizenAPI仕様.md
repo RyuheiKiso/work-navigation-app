@@ -2,6 +2,13 @@
 
 本章は API-andon-001〜002（アンドンアラート）・API-capa-001〜002（CAPA）・API-kaizen-001（改善提案）に加え、採番台帳未収録の非適合品登録（POST /api/v1/nonconformities）を補足仕様として確定する。
 
+> **担当バイナリ方針**:
+> - アンドン発報（`POST /api/v1/alerts`）は **terminal-api**（現場端末からの発報）
+> - アンドン対応（`PATCH /api/v1/alerts/{id}/acknowledge`）は **master-api**（管理コンソールからの対応）
+> - CAPA 管理（`POST/PATCH /api/v1/capas`）は **master-api**
+> - Kaizen 起票（`POST /api/v1/kaizen-proposals`）は **terminal-api**（現場端末からの起票）
+> - 非適合品登録（補足）は **master-api**（quality_admin が管理コンソールで登録）
+
 ---
 
 ## 1. API-andon-001: POST /api/v1/alerts
@@ -13,6 +20,7 @@
 | API-ID | API-andon-001 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/alerts` |
+| 担当バイナリ | terminal-api（現場端末からのアンドン発報）|
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | レート制限カテゴリ | 書き込み（500 req / 60s）|
@@ -98,6 +106,7 @@
 | API-ID | API-andon-002 |
 | HTTP メソッド | PATCH |
 | URL | `/api/v1/alerts/{id}/acknowledge` |
+| 担当バイナリ | master-api（管理コンソールからのアラート対応）|
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-KZ-002 |
@@ -200,6 +209,7 @@ POST /api/v1/alerts/{id}/resolve
 | API-ID | API-capa-001 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/capas` |
+| 担当バイナリ | master-api（管理系・承認系操作）|
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-KZ-003 |
@@ -268,6 +278,7 @@ TBL-014（capas）にレコードを挿入する。
 | API-ID | API-capa-002 |
 | HTTP メソッド | PATCH |
 | URL | `/api/v1/capas/{id}` |
+| 担当バイナリ | master-api（管理系・承認系操作）|
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-KZ-003 |
@@ -314,6 +325,7 @@ TBL-014（capas）にレコードを挿入する。
 | API-ID | API-kaizen-001 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/kaizen-proposals` |
+| 担当バイナリ | terminal-api（現場端末からの Kaizen 起票）|
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-KZ-007 |
@@ -384,6 +396,7 @@ TBL-015（kaizen_proposals）にレコードを挿入する。
 ---
 
 **本節で確定した方針**
+- **API-andon-001（アンドン発報）は `wnav_terminal_api` が担当し、API-andon-002（アラート対応）・API-capa-001〜002（CAPA 管理）は `wnav_master_api` が担当する。API-kaizen-001（Kaizen 起票）は `wnav_terminal_api` が担当し、Kaizen の承認・管理は master-api 側で行う。**
 - **API-andon-001 のアラート起票は全ロールに開放し、severity: critical の場合のみ MSG-005 を Outbox に挿入して supervisor / quality_admin 全員に通知することを確定した。**
 - **CAPA（API-capa-001〜002）は quality_admin のみ作成・クローズ可とし、クローズ済み CAPA への更新は ERR-BIZ-008 で拒否することを確定した。**
 - **改善提案（API-kaizen-001）は operator を含む全ロールが投稿可能とし、最大 10 件のエビデンス添付を許容することを確定した。**
