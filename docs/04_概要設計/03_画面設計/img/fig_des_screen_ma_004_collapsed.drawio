@@ -1,0 +1,184 @@
+<mxfile>
+  <diagram name="SCR-MA-004-collapsed" id="page-1">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- White background -->
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="800" as="geometry" />
+        </mxCell>
+        <!-- ===== Header (dark navy) ===== -->
+        <mxCell id="header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#071226;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1200" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr-title" value="WorkNav マスタメンテ" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="18" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr-autosave" value="最終保存: 12秒前" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="650" y="18" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-undo" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="820" y="12" width="32" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-undo-t" value="↩" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="820" y="12" width="32" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-redo" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="862" y="12" width="32" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-redo-t" value="↪" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="862" y="12" width="32" height="32" as="geometry" />
+        </mxCell>
+        <!-- ===== Action bar ===== -->
+        <mxCell id="actbar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#132948;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="56" width="1200" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="act-label" value="SCR-MA-004 SOP 編集（左ペイン折りたたみ時）" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="68" width="320" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-import" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="900" y="64" width="88" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-import-t" value="インポート" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="900" y="64" width="88" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-preview" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="996" y="64" width="76" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-preview-t" value="プレビュー" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="996" y="64" width="76" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-diff" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="64" width="52" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-diff-t" value="差分" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="64" width="52" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-review" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="64" width="52" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="btn-review-t" value="依頼" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="64" width="52" height="28" as="geometry" />
+        </mxCell>
+        <!-- ===== Left pane: collapsed icon bar (48px) ===== -->
+        <mxCell id="left-iconbar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="0" y="100" width="48" height="700" as="geometry" />
+        </mxCell>
+        <!-- Expand button (ChevronRight) at top of icon bar -->
+        <mxCell id="expand-btn" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3D8EF0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="8" y="108" width="32" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="expand-btn-t" value="›" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="108" width="32" height="32" as="geometry" />
+        </mxCell>
+        <!-- Icon: Tree (folder symbol) -->
+        <mxCell id="icon-tree-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="8" y="152" width="32" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="icon-tree-t" value="≡" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="152" width="32" height="32" as="geometry" />
+        </mxCell>
+        <!-- Icon: Search -->
+        <mxCell id="icon-search-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="8" y="196" width="32" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="icon-search-t" value="⌕" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="8" y="196" width="32" height="32" as="geometry" />
+        </mxCell>
+        <!-- ===== FRG-041 Splitter at right edge of icon bar ===== -->
+        <mxCell id="splitter-bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CBD5E1;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="44" y="100" width="8" height="700" as="geometry" />
+        </mxCell>
+        <!-- Expand toggle on splitter (ChevronRight) -->
+        <mxCell id="splitter-expand-btn" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#94A3B8;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="437" width="16" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="splitter-expand-t" value="›" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="437" width="16" height="26" as="geometry" />
+        </mxCell>
+        <!-- ===== Center pane: edit form (52~840, widened to 788px) ===== -->
+        <mxCell id="center-pane" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="52" y="100" width="788" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="cp-title" value="Step 3 編集  ←  ツリーを展開するには › をクリック" style="text;html=1;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="68" y="112" width="500" height="20" as="geometry" />
+        </mxCell>
+        <!-- Tabs -->
+        <mxCell id="tab-dsl" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EEF2F7;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="52" y="136" width="120" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="tab-dsl-t" value="DSL" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="52" y="136" width="120" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="tab-hist" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="180" y="136" width="88" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="tab-hist-t" value="履歴" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="180" y="136" width="88" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="tab-cmt" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="276" y="136" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="tab-cmt-t" value="コメント" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="276" y="136" width="100" height="36" as="geometry" />
+        </mxCell>
+        <!-- Form fields (widened) -->
+        <mxCell id="f-name-l" value="Step 名称" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="68" y="182" width="100" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="f-name" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="68" y="200" width="756" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="f-name-v" value="Step 3: 締め付け作業" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="80" y="200" width="732" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="f-inst-l" value="指示文" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="68" y="248" width="100" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="f-inst" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="68" y="266" width="756" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="f-inst-v" value="トルクレンチを用いて 8.0 N·m で締め付けること。" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=top;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="80" y="274" width="732" height="80" as="geometry" />
+        </mxCell>
+        <!-- ===== Right pane: diff view (840~1200, 360px) ===== -->
+        <mxCell id="right-pane" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="100" width="360" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="rp-title" value="差分ビュー (現公開版との比較)" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="848" y="112" width="340" height="18" as="geometry" />
+        </mxCell>
+        <!-- Diff rows -->
+        <mxCell id="diff1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="136" width="360" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="diff1t" value="+ 指示文: トルク値 8.0 N·m を追記" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="848" y="136" width="344" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="diff2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="180" width="360" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="diff2t" value="- 旧指示文: 手で締める" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="848" y="180" width="344" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="diff3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="840" y="224" width="360" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="diff3t" value="~ 証拠要件変更: OK/NG → 数値入力" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="848" y="224" width="344" height="36" as="geometry" />
+        </mxCell>
+        <!-- ===== Spec annotations ===== -->
+        <mxCell id="spec1" value="折りたたみ時: Icon bar 48px / Form flex（788px）/ Diff 360px  ›ボタンでツリー復元（leftPaneCollapsed=true 状態）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="660" width="760" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="spec2" value="通常時: Tree 240〜480px（既定280px）/ Form flex / Diff 360px。FRG-041 Splitter でリサイズ可能" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="680" width="760" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="spec3" value="localStorage: ui.scr_ma_004.left_pane.collapsed=true / .width=280（復元時に使用）" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;align=left;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="16" y="700" width="700" height="16" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
