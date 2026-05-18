@@ -8,7 +8,11 @@
 
 リトライ間隔は指数関数的に増加し、最大遅延時間でキャップする。これにより、障害時のバックエンドへの集中アクセスを防止する。
 
-図: fig_dd_alg_outbox_retry_states（img/ 配下）を参照。
+**図 1: Outbox リトライ状態遷移図**
+
+![図 1 Outbox リトライ状態遷移図](img/fig_dd_alg_outbox_retry_states.svg)
+
+> 原本: [`img/fig_dd_alg_outbox_retry_states.drawio`](img/fig_dd_alg_outbox_retry_states.drawio)
 
 ```
 ALGORITHM ExponentialBackoff:

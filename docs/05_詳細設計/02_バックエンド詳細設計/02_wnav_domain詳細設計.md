@@ -2,7 +2,11 @@
 
 本章は `crates/wnav_domain/` のドメインモデル・サービス Trait・リポジトリ Trait・ドメインイベントの詳細設計を確定する。本クレートは Domain 層の唯一の実装であり、外部クレート（axum・sqlx 等）への依存を持たない。
 
-図: fig_dd_be_domain_model（img/ 配下）を参照。
+**図 1: ドメインモデル構造**
+
+![図 1 ドメインモデル構造](img/fig_dd_be_domain_model.svg)
+
+> 原本: [`img/fig_dd_be_domain_model.drawio`](img/fig_dd_be_domain_model.drawio)
 
 ---
 

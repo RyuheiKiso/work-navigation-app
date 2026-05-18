@@ -2,6 +2,12 @@
 
 本章は MOD-FE-HA-002（OutboxWorker）の詳細設計を確定する。端末 SQLite の outbox_events テーブルを読み出してバックエンド API に POST し、同期状態を管理するトランザクショナルアウトボックスパターンの実装仕様を定める。FR-SY-005（Outbox 送信）・FR-SY-006（DLQ）をカバーする。
 
+**図 1: OutboxWorker 処理フロー**
+
+![図 1 OutboxWorker 処理フロー](img/fig_dd_ha_outbox_worker_flow.svg)
+
+> 原本: [`img/fig_dd_ha_outbox_worker_flow.drawio`](img/fig_dd_ha_outbox_worker_flow.drawio)
+
 ---
 
 ## 1. OutboxEvent 型定義

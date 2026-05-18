@@ -2,7 +2,17 @@
 
 本章は MOD-FE-MA-003（ApprovalWorkflow）の TypeScript インターフェース・承認フローステートマシン定義・遷移イベント一覧・react-query Mutation フック・電子サイン連携仕様を確定する。ApprovalWorkflow は FR-MA-008〜010 で要求されるレビュー・承認・公開フローを担い、SCR-MA-007/008/009 の UI ロジックを中核で支える。
 
-図: fig_dd_wa_sop_approval_flow（img/ 配下）を参照。
+**図 1: SOP 承認フロー**
+
+![図 1 SOP 承認フロー](img/fig_dd_wa_sop_approval_flow.svg)
+
+> 原本: [`img/fig_dd_wa_sop_approval_flow.drawio`](img/fig_dd_wa_sop_approval_flow.drawio)
+
+**図 2: SOP バージョン状態遷移図**
+
+![図 2 SOP バージョン状態遷移図](img/fig_dd_wa_sop_version_states.svg)
+
+> 原本: [`img/fig_dd_wa_sop_version_states.drawio`](img/fig_dd_wa_sop_version_states.drawio)
 
 ---
 

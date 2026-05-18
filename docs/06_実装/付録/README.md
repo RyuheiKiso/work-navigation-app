@@ -51,7 +51,11 @@
 
 ## §4 識別子階層
 
-図: fig_impl_identifier_hierarchy（付録/img/ 配下）を参照。
+**図 1: 識別子階層**
+
+![図 1 識別子階層](img/fig_impl_identifier_hierarchy.svg)
+
+> 原本: [`img/fig_impl_identifier_hierarchy.drawio`](img/fig_impl_identifier_hierarchy.drawio)
 
 本図は上流識別子（BR/FR/NFR/MOD/TBL/API）と 06_実装 固有識別子（IMPL/CR/QA/PROB/ADR-IMPL/ENV）の階層・参照方向を示す。図の詳細定義は `00_実装識別子規約と採番規約.md` §5 を参照。
 

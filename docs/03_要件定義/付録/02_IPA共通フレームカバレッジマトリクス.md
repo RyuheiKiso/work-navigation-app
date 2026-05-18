@@ -10,7 +10,11 @@
 
 IPA 共通フレーム 2013（SLCP-JCF2013）の「要件定義プロセス（2.2）」は以下の 6 アクティビティおよびそのタスクで構成される。本リストは公開されている IPA 共通フレームの要件定義プロセスに基づき、本書との対応付けを行う。
 
-図: fig_jsa_common_frame_coverage（img/ 配下）を参照。
+**図 1: IPA 共通フレームカバレッジ**
+
+![図 1 IPA 共通フレームカバレッジ](img/fig_jsa_common_frame_coverage.svg)
+
+> 原本: [`img/fig_jsa_common_frame_coverage.drawio`](img/fig_jsa_common_frame_coverage.drawio)
 
 ### 1-2. アクティビティ 1: 利害関係者の識別
 

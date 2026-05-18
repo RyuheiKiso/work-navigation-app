@@ -2,7 +2,11 @@
 
 本章の責務は、本システムに存在する 4 つのトラストバウンダリを定義し、各バウンダリを通過するデータフローに対して STRIDE 手法（Spoofing・Tampering・Repudiation・Information Disclosure・Denial of Service・Elevation of Privilege）および LINDDUN 手法（Linkability・Identifiability・Non-repudiation・Detectability・Disclosure of information・Unawareness・Non-compliance）によって脅威を抽出し、各脅威に対する設計レベルの対策方針を確定することである。本章の成果は 02〜09 章の各設計命題の根拠を提供する。
 
-図: fig_des_sec_threat_model（img/ 配下）を参照
+**図 1: 脅威モデル全体図（STRIDE/LINDDUN トラストバウンダリ）**
+
+![図 1 脅威モデル全体図](img/fig_des_sec_threat_model.svg)
+
+> 原本: [`img/fig_des_sec_threat_model.drawio`](img/fig_des_sec_threat_model.drawio)
 
 ---
 

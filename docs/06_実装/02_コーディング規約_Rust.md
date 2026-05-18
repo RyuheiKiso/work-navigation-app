@@ -27,6 +27,12 @@
 
 ## 2. ツールチェイン
 
+**図 1: Rust toolchain と依存解決**
+
+![図 1 Rust toolchain と依存解決](img/fig_rust_toolchain.svg)
+
+> 原本: [`img/fig_rust_toolchain.drawio`](img/fig_rust_toolchain.drawio)
+
 ### rustup と rust-toolchain.toml
 
 プロジェクトルートに `rust-toolchain.toml` を配置し、toolchain バージョンを固定する。

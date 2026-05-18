@@ -2,6 +2,12 @@
 
 本章は端末 SQLite の全 TypeORM エンティティを確定する。PostgreSQL TBL カタログ（TBL-001〜035）と 1:1 対応させ、型変換（UUID→TEXT・JSONB→TEXT・TIMESTAMPTZ→TEXT・BOOLEAN→INTEGER）をエンティティ層で吸収する。全テーブルは SQLCipher で透過的に暗号化される。
 
+**図 1: SQLite スキーマ（ローカル DB エンティティ関連図）**
+
+![図 1 SQLite スキーマ（ローカル DB エンティティ関連図）](img/fig_dd_ha_sqlite_schema.svg)
+
+> 原本: [`img/fig_dd_ha_sqlite_schema.drawio`](img/fig_dd_ha_sqlite_schema.drawio)
+
 ---
 
 ## 1. 型変換規約

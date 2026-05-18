@@ -15,7 +15,11 @@ RTM（Requirements Traceability Matrix）は以下の目的で管理する。
 - **変更影響分析**: ある要件を変更した場合に影響する下流要件を特定し、変更の波及範囲を管理する
 - **受入テスト網羅性の確認**: 全 BR・FR・NFR が対応する TST 受入基準に紐づいていることを確認する
 
-図: fig_rtm_overview（img/ 配下）を参照。
+**図 1: RTM 概要**
+
+![図 1 RTM 概要](img/fig_rtm_overview.svg)
+
+> 原本: [`img/fig_rtm_overview.drawio`](img/fig_rtm_overview.drawio)
 
 ### 1-2. RTM の 5 段構造
 

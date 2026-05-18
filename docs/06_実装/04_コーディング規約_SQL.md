@@ -407,6 +407,12 @@ sqlx migrate revert
 
 ## 9. ロール権限分離
 
+**図 1: DB ロール 3 分離図**
+
+![図 1 DB ロール 3 分離図](img/fig_sql_role_separation.svg)
+
+> 原本: [`img/fig_sql_role_separation.drawio`](img/fig_sql_role_separation.drawio)
+
 ### 3 ロールの定義
 
 ```sql

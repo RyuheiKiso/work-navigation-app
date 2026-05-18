@@ -2,7 +2,11 @@
 
 本章の責務は、作業員が出社してから終業するまでの標準的な業務フロー（BF-01）を確定することである。ロックステップ進行の業務的根拠・クリティカルステップの証拠取得手続・電子サインの業務手続・オフライン中の業務継続・例外処理の各業務ルールを定義する。
 
-図: fig_sop_execution_flow（img/ 配下）を参照
+**図 1: SOP 実行業務フロー（BF-01）**
+
+![図 1 SOP 実行業務フロー（BF-01）](img/fig_sop_execution_flow.svg)
+
+> 原本: [`img/fig_sop_execution_flow.drawio`](img/fig_sop_execution_flow.drawio)
 
 ---
 

@@ -152,7 +152,11 @@ LEVEL-2/3 からの復旧後、以下の確認を実施する。
 
 ## 7. 縮退レベル遷移図
 
-図: `img/bcp_level_transition.drawio.svg` を参照
+**図 1: 縮退レベル遷移図（LEVEL-1〜3 遷移条件）**
+
+![図 1 縮退レベル遷移図](img/bcp_level_transition.svg)
+
+> 原本: [`img/bcp_level_transition.drawio`](img/bcp_level_transition.drawio)
 
 ---
 

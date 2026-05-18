@@ -227,6 +227,12 @@ impl WorkExecutionRepository for PgWorkExecutionRepository {
 
 ## 3. トランザクション境界設計
 
+**図 1: トランザクション境界**
+
+![図 1 トランザクション境界](img/fig_dd_be_transaction_boundary.svg)
+
+> 原本: [`img/fig_dd_be_transaction_boundary.drawio`](img/fig_dd_be_transaction_boundary.drawio)
+
 WorkEvent と OutboxEvent は必ず同一 PostgreSQL トランザクションに含める。この設計により「WorkEvent は記録されたが OutboxEvent が記録されなかった」という非整合状態を排除する。
 
 ```rust

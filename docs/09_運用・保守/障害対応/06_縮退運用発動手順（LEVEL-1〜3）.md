@@ -6,7 +6,11 @@
 
 ## 1 概要
 
-図: fig_degradation_3level_state（img/ 配下）を参照
+**図 1: 縮退運用 3 レベル状態遷移**
+
+![図 1 縮退運用 3 レベル状態遷移](img/fig_degradation_3level_state.svg)
+
+> 原本: [`img/fig_degradation_3level_state.drawio`](img/fig_degradation_3level_state.drawio)
 
 縮退運用は 3 段階（LEVEL-1〜3）で定義する。各レベルは上位レベルを包含する（LEVEL-3 は LEVEL-2 も LEVEL-1 も含む）。
 

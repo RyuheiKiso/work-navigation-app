@@ -101,6 +101,12 @@ function parseWorkEvent(unknown: unknown): WorkEvent {
 
 ## 3. ESLint 設定
 
+**図 1: TS Lint/Format チェーン**
+
+![図 1 TS Lint/Format チェーン](img/fig_ts_lint_chain.svg)
+
+> 原本: [`img/fig_ts_lint_chain.drawio`](img/fig_ts_lint_chain.drawio)
+
 ### 設定ファイル（`eslint.config.ts`）
 
 ```typescript

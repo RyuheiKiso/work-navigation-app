@@ -22,7 +22,11 @@ RTM 列 10（状態）の更新：TESTED / FAILED / UNTESTED
 品質ゲート確認（04 章基準との照合）
 ```
 
-図: fig_des_tst_rtm_flow（img/ 配下）を参照
+**図 1: テスト結果 RTM/DTM 反映フロー図**
+
+![図 1 テスト結果 RTM/DTM 反映フロー図](img/fig_des_tst_rtm_flow.svg)
+
+> 原本: [`img/fig_des_tst_rtm_flow.drawio`](img/fig_des_tst_rtm_flow.drawio)
 
 ---
 
