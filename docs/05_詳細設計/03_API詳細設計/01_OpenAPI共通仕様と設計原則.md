@@ -226,6 +226,12 @@ rate_limit_key = `{factory_id}:{endpoint_category}` で計算する。
 
 ## 7. utoipa による OpenAPI 3.1 自動生成
 
+**図 1: OpenAPI 仕様構造（utoipa 自動生成・エンドポイント/スキーマ/セキュリティ構成）**
+
+![図 1 OpenAPI 仕様構造（utoipa 自動生成・エンドポイント/スキーマ/セキュリティ構成）](img/fig_dd_api_openapi_structure.svg)
+
+> 原本: [`img/fig_dd_api_openapi_structure.drawio`](img/fig_dd_api_openapi_structure.drawio)
+
 Rust バックエンドは `utoipa` crate（Apache 2.0）を使用して OpenAPI 3.1 仕様を自動生成する。全エンドポイントのハンドラ関数に `#[utoipa::path(...)]` を付与し、`GET /api/v1/openapi.json`（API-system-003）でクライアントに配信する。
 
 ```rust

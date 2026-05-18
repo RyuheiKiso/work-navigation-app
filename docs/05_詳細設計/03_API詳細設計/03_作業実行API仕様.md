@@ -618,6 +618,12 @@ TBL-011（suspensions）に中断レコードを記録する。
 
 ### 8-4. RBAC
 
+**図 1: ステップイベント実行シーケンス（activity タイプ別フロー・ハッシュチェーン生成）**
+
+![図 1 ステップイベント実行シーケンス（activity タイプ別フロー・ハッシュチェーン生成）](img/fig_dd_api_step_event_sequence.svg)
+
+> 原本: [`img/fig_dd_api_step_event_sequence.drawio`](img/fig_dd_api_step_event_sequence.drawio)
+
 | ロール | アクセス |
 |---|---|
 | operator | step_completed / evidence_attached / sign_applied / measurement_recorded |
