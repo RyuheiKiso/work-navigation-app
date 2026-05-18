@@ -91,7 +91,11 @@
 | 受入基準 | トレサビ照会画面（SCR-MC-004）でのクエリ応答時間 P95 = 5 秒以内。CSV / XES エクスポートが正常に生成されること |
 | 関連システム機能 | トレサビ照会機能（SCR-MC-004）・監査ログ出力（RP-002）|
 
-図: fig_alcoa_requirement_trace（img/ 配下）を参照
+**図 1: ALCOA+ 要件トレーサビリティマップ**
+
+![図 1 ALCOA+ 要件トレーサビリティマップ](img/fig_alcoa_requirement_trace.svg)
+
+> 原本: [`img/fig_alcoa_requirement_trace.drawio`](img/fig_alcoa_requirement_trace.drawio)
 
 ### 1-10. リワーク ALCOA+ Original 不変性
 

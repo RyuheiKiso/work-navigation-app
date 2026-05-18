@@ -2,7 +2,11 @@
 
 本章の責務は、作業員による改善提案（Kaizen Teian）および危険発見（ヒヤリハット）の起票から採否決定・SOP 改訂連動までの業務フロー（BF-04）を確定することである。Just Culture 保護原則の業務手続・匿名性の担保・用途三限定の運用規約を合わせて定義する。
 
-図: fig_kaizen_intake_flow（img/ 配下）を参照
+**図 1: Kaizen・ヒヤリハット起票業務フロー（BF-04）**
+
+![図 1 Kaizen・ヒヤリハット起票業務フロー（BF-04）](img/fig_kaizen_intake_flow.svg)
+
+> 原本: [`img/fig_kaizen_intake_flow.drawio`](img/fig_kaizen_intake_flow.drawio)
 
 ---
 
