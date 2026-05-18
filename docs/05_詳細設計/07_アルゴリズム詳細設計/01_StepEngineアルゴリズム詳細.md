@@ -193,7 +193,11 @@ where
 
 WorkExecution の状態遷移は 5 状態・6 トランジションで構成される。全遷移は `can_transition_to`（FNC-BE-005）のガード関数を経由し、不正遷移を強制的に拒否する。
 
-図: fig_dd_alg_stepengine_states（img/ 配下）を参照。
+**図 1: WorkExecution ステートマシン状態遷移図**
+
+![図 1 WorkExecution ステートマシン状態遷移図](img/fig_dd_alg_stepengine_states.svg)
+
+> 原本: [`img/fig_dd_alg_stepengine_states.drawio`](img/fig_dd_alg_stepengine_states.drawio)
 
 ### 3-1. 状態定義
 
