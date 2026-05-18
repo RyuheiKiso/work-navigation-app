@@ -2,6 +2,8 @@
 
 本章は API-evidences-001（写真アップロード）・API-electronic-signs-001〜003（電子サイン作成・取得・一覧）を確定する。ファイルサイズ上限・解像度検証・SHA-256 整合性確認・RBAC 要件を網羅する。
 
+> **担当バイナリ**: 本章の全エンドポイントは **`wnav_terminal_api`（ポート 8080）** が担当する。エビデンスアップロードと電子サインはいずれも現場端末からの実施系操作であり、`wnav_master_api` には存在しない。
+
 ---
 
 ## 1. API-evidences-001: POST /api/v1/evidences
@@ -13,6 +15,7 @@
 | API-ID | API-evidences-001 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/evidences` |
+| 担当バイナリ | terminal-api |
 | 認証要否 | 必須 |
 | Content-Type | `multipart/form-data` |
 | Idempotency-Key | 必須 |
@@ -141,6 +144,7 @@ Content-Type: image/jpeg
 | API-ID | API-electronic-signs-001 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/electronic-signs` |
+| 担当バイナリ | terminal-api（作業実施は現場からの操作）|
 | 認証要否 | 必須 |
 | Content-Type | `application/json` |
 | Idempotency-Key | 必須 |
@@ -236,6 +240,7 @@ Content-Type: image/jpeg
 | API-ID | API-electronic-signs-002 |
 | HTTP メソッド | GET |
 | URL | `/api/v1/electronic-signs/{id}` |
+| 担当バイナリ | terminal-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 不要（GET）|
 | 関連 FR | FR-AU-003 |
@@ -300,6 +305,7 @@ Content-Type: image/jpeg
 | API-ID | API-electronic-signs-003 |
 | HTTP メソッド | GET |
 | URL | `/api/v1/electronic-signs` |
+| 担当バイナリ | terminal-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 不要（GET）|
 | 関連 FR | FR-AU-003 |
@@ -323,6 +329,7 @@ Content-Type: image/jpeg
 ---
 
 **本節で確定した方針**
+- **本章の全エンドポイント（API-evidences-001、API-electronic-signs-001〜003）は `wnav_terminal_api`（ポート 8080）が担当し、`wnav_master_api` には存在しないことを確定した。**
 - **API-evidences-001 はファイルアップロードとメタデータを multipart で受け取り、クライアント側 SHA-256 とサーバー側の照合を必須とし、不一致の場合は ERR-VAL-003 で拒否することを確定した。**
 - **API-electronic-signs-001 は PIN の bcrypt 検証と Ed25519 デバイス署名の両方を合格して初めてサイン記録を許可し、TBL-031 ハッシュチェーンにブロックを追記することを確定した。**
 - **電子サイン取得（API-electronic-signs-002）は `verification_status` フィールドでハッシュチェーンの健全性を返し、`hash_chain_broken` を検出した場合は LOG-007 / MET-006 をトリガーすることを確定した。**

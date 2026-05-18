@@ -2,6 +2,8 @@
 
 本章は API-master-001〜007（マスタバージョン管理：一覧・下書き作成・更新・提出・承認・ロールバック・ドライラン）を確定する。工程・SOP・ユーザーの補足仕様を含む。
 
+> **担当バイナリ**: 本章の全エンドポイントは **`wnav_master_api`（ポート 8081）** が担当する。SOP CRUD・マスタ版管理・ユーザー管理はすべて管理系操作であり、`wnav_terminal_api` には存在しない。
+
 ---
 
 ## 1. マスタバージョン管理の状態モデル
@@ -33,6 +35,7 @@ Draft --> InReview --> Published
 | API-ID | API-master-001 |
 | HTTP メソッド | GET |
 | URL | `/api/v1/master-versions` |
+| 担当バイナリ | master-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 不要（GET）|
 | レート制限カテゴリ | 読み取り（1000 req / 60s）|
@@ -109,6 +112,7 @@ GET /api/v1/master/sops?process_id={uuid}&has_published_version=true
 | API-ID | API-master-002 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/master-versions/draft` |
+| 担当バイナリ | master-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | レート制限カテゴリ | 書き込み（500 req / 60s）|
@@ -212,6 +216,7 @@ GET /api/v1/master/sops?process_id={uuid}&has_published_version=true
 | API-ID | API-master-003 |
 | HTTP メソッド | PATCH |
 | URL | `/api/v1/master-versions/{id}` |
+| 担当バイナリ | master-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-MA-002 |
@@ -258,6 +263,7 @@ GET /api/v1/master/sops?process_id={uuid}&has_published_version=true
 | API-ID | API-master-004 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/master-versions/{id}/submit` |
+| 担当バイナリ | master-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-MA-005 |
@@ -307,6 +313,7 @@ GET /api/v1/master/sops?process_id={uuid}&has_published_version=true
 | API-ID | API-master-005 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/master-versions/{id}/approve` |
+| 担当バイナリ | master-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-MA-005 |
@@ -372,6 +379,7 @@ GET /api/v1/master/sops?process_id={uuid}&has_published_version=true
 | API-ID | API-master-006 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/master-versions/{id}/rollback` |
+| 担当バイナリ | master-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-MA-006 |
@@ -409,6 +417,7 @@ GET /api/v1/master/sops?process_id={uuid}&has_published_version=true
 | API-ID | API-master-007 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/master-versions/{id}/dry-run` |
+| 担当バイナリ | master-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-MA-008 |
@@ -505,6 +514,7 @@ GET /api/v1/master/users?is_active=true&role=operator&page=1&per_page=50
 ---
 
 **本節で確定した方針**
+- **本章の全エンドポイント（API-master-001〜007、補足仕様のユーザー管理含む）は `wnav_master_api`（ポート 8081）が担当し、`wnav_terminal_api` には存在しないことを確定した。SOP CRUD・マスタ版管理・ユーザー管理はすべて管理系操作であるため master-api に集約する。**
 - **マスタバージョンは Draft → InReview → Published の状態遷移を持ち、Published 移行時に前バージョンを Deprecated にして MSG-004 を発行することを確定した。**
 - **API-master-007 ドライランは廃止前の影響確認専用エンドポイントであり、実際の状態変更を行わず `is_safe_to_proceed` フラグで結果を返すことを確定した。**
 - **ロールバック（API-master-006）と承認（API-master-005）は quality_admin 専用とし、両操作に電子サイン ID（TBL-002）を必須とすることを確定した。**

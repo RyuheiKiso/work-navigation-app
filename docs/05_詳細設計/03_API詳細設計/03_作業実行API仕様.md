@@ -2,6 +2,8 @@
 
 本章は作業指示（API-work-orders）・作業実行（API-work-execs）・ステップイベント（API-step-events）の全エンドポイントを確定する。各エンドポイントのリクエスト / レスポンス全フィールド・型・制約・エラーコード・RBAC 要件を記述する。
 
+> **担当バイナリ**: 本章の全エンドポイントは **`wnav_terminal_api`（ポート 8080）** が担当する。現場端末からの作業実施系 API であり、`wnav_master_api` には存在しない。
+
 ---
 
 ## 1. API-work-orders-001: GET /api/v1/work-orders
@@ -13,6 +15,7 @@
 | API-ID | API-work-orders-001 |
 | HTTP メソッド | GET |
 | URL | `/api/v1/work-orders` |
+| 担当バイナリ | terminal-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 不要（GET）|
 | レート制限カテゴリ | 読み取り（1000 req / 60s）|
@@ -115,6 +118,7 @@
 | API-ID | API-work-orders-002 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/work-orders` |
+| 担当バイナリ | terminal-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | レート制限カテゴリ | 書き込み（500 req / 60s）|
@@ -175,6 +179,7 @@
 | API-ID | API-work-execs-001 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/work-executions` |
+| 担当バイナリ | terminal-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | レート制限カテゴリ | 書き込み（500 req / 60s）|
@@ -259,6 +264,7 @@
 | API-ID | API-work-execs-002 |
 | HTTP メソッド | GET |
 | URL | `/api/v1/work-executions/{id}` |
+| 担当バイナリ | terminal-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 不要（GET）|
 | 関連 FR | FR-NV-013 |
@@ -327,6 +333,7 @@
 | API-ID | API-work-execs-003 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/work-executions/{id}/suspend` |
+| 担当バイナリ | terminal-api |
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | 関連 FR | FR-ST-001 |
@@ -471,6 +478,7 @@ TBL-011（suspensions）に中断レコードを記録する。
 | API-ID | API-step-events-001 |
 | HTTP メソッド | POST |
 | URL | `/api/v1/work-executions/{id}/events` |
+| 担当バイナリ | terminal-api（Idempotency-Key 必須は terminal-api のみ適用）|
 | 認証要否 | 必須 |
 | Idempotency-Key | 必須 |
 | レート制限カテゴリ | 書き込み（500 req / 60s）|
@@ -645,6 +653,7 @@ TBL-011（suspensions）に中断レコードを記録する。
 ---
 
 **本節で確定した方針**
+- **本章の全エンドポイント（API-work-orders-001〜002、API-work-execs-001〜005、API-step-events-001）は `wnav_terminal_api`（ポート 8080）が担当し、`wnav_master_api` には存在しないことを確定した。**
 - **API-step-events-001 は activity タイプ別（step_completed / step_skipped / evidence_attached / sign_applied / measurement_recorded）のリクエストスキーマを持ち、全イベントを TBL-001 に Append-only 記録しハッシュチェーンブロックを生成することを確定した。**
 - **作業完了（API-work-execs-005）時に TBL-031 ハッシュチェーンブロックを追記し、TBL-003 Outbox に MSG-001 を挿入してトレーサビリティ記録を確定した。**
 - **ステップスキップは supervisor 以上に限定し、計測器校正期限切れ時の挙動は CFG-012 の hard / soft 設定に従うことを確定した。**
