@@ -16,7 +16,11 @@
 | POL-AVAIL-004 | Docker コンテナの異常終了は自動再起動ポリシー（`restart: unless-stopped`）で自動復旧する | NFR-AVL-006 |
 | POL-AVAIL-005 | 地理的冗長（マルチサイト）は採用しない | P01（単一工場）・IT 担当 1 名制約 |
 
-図: fig_des_deploy_active_standby（img/ 配下）を参照
+**図 1: Active-Standby 配置構成（単一建屋内冗長）**
+
+![図 1 Active-Standby 配置構成（単一建屋内冗長）](img/fig_des_deploy_active_standby.svg)
+
+> 原本: [`img/fig_des_deploy_active_standby.drawio`](img/fig_des_deploy_active_standby.drawio)
 
 ### 1-2. RTO/RPO の充足手段マッピング
 
