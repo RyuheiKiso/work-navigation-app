@@ -330,6 +330,12 @@ class DslTimeoutError extends Error {
 
 SOP 実行時の JSON Logic 評価は以下の順序で実行する。
 
+**図 1: JSON Logic 評価エンジン フロー**
+
+![図 1 JSON Logic 評価エンジン フロー](img/fig_dd_alg_json_logic_eval.svg)
+
+> 原本: [`img/fig_dd_alg_json_logic_eval.drawio`](img/fig_dd_alg_json_logic_eval.drawio)
+
 ```
 [SOP 保存時（静的検証）]
   1. assertAcyclic(rule)           -- 循環参照チェック
