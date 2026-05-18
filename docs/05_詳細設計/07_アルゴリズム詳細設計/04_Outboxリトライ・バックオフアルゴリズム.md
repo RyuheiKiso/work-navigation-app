@@ -76,7 +76,9 @@ fn compute_backoff_delay_ms(attempt_number: u32, config: &OutboxConfig) -> u64 {
 
 ## 2. バックエンド Outbox Consumer アルゴリズム（FNC-BE-012, BAT-002）
 
-バックエンドの Outbox Consumer は 5 秒間隔で PENDING イベントをポーリングし、親システムへ POST する。悲観的ロック（`FOR UPDATE SKIP LOCKED`）により、複数インスタンスでの二重配信を防止する。
+バックエンドの Outbox Consumer は **wnav_terminal_api バイナリ内の常駐 tokio task**（BAT-002）として動作し、5 秒間隔で PENDING イベントをポーリングして親システムへ POST する。悲観的ロック（`FOR UPDATE SKIP LOCKED`）により複数インスタンスでの二重配信を防止する。
+
+> **インスタンス数とロック設計の方針**: wnav_terminal_api は Active-Standby 構成（物理的に1台がアクティブ）のため、実運用上は単一インスタンスでの動作となる。しかし `FOR UPDATE SKIP LOCKED` によるロック取得設計は維持する。これにより、メンテナンス・切り替え操作中に一時的に複数インスタンスが起動した場合でも二重配信が発生しないことを保証する。設計の堅牢性はインスタンス数の前提に依存させない。
 
 ```
 ALGORITHM OutboxConsumer.dispatch_pending():
@@ -250,8 +252,8 @@ EMERGENCY_MODE（ネットワーク断 5 分超過）では以下の動作を適
 
 **本節で確定した方針**
 - **指数バックオフ（ALG-009）は initial=1000ms・max=32000ms のデフォルト設定で attempt 5 回目までリトライし、5 回超過で DEAD_LETTERED に遷移することを確定した。**
-- **バックエンド Outbox Consumer（BAT-002）は FOR UPDATE SKIP LOCKED で悲観的ロックを取得し、複数インスタンス間での二重配信を防止することを確定した。4xx 非リトライ可能エラーは即座に DEAD_LETTERED へ遷移し、ERR-EXT-001 を送出する。**
-- **デバイス Outbox Worker（ALG-010）は EMERGENCY_MODE および DISCONNECTED 状態では配信を停止し、created_at 昇順で最大 20 件ずつバッチ送信することを確定した。**
+- **バックエンド Outbox Consumer（BAT-002）は wnav_terminal_api バイナリ内の常駐 tokio task として動作することを確定した。FOR UPDATE SKIP LOCKED で悲観的ロックを取得し、Active-Standby 構成（実質単一インスタンス）であっても切り替え操作中の二重配信を防止する設計を維持することを確定した。4xx 非リトライ可能エラーは即座に DEAD_LETTERED へ遷移し、ERR-EXT-001 を送出する。**
+- **デバイス Outbox Worker（ALG-010）は EMERGENCY_MODE および DISCONNECTED 状態では配信を停止し、created_at 昇順で最大 20 件ずつバッチ送信することを確定した。送信先は wnav_terminal_api（`POST https://{ホスト}/api/v1/sync/outbox/inbound`）に限定し、wnav_master_api への通信はハンディ APP 側からは行わない。**
 
 ---
 

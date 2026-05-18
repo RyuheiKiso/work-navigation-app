@@ -2,6 +2,8 @@
 
 本章は MOD-FE-HA-002（OutboxWorker）の詳細設計を確定する。端末 SQLite の outbox_events テーブルを読み出してバックエンド API に POST し、同期状態を管理するトランザクショナルアウトボックスパターンの実装仕様を定める。FR-SY-005（Outbox 送信）・FR-SY-006（DLQ）をカバーする。
 
+> **バックエンド2バイナリ構成との対応**: ハンディ APP の OutboxWorker は **wnav_terminal_api（ポート 8080）にのみ通信する**。wnav_master_api（ポート 8081）とは直接通信しない。IIS リバースプロキシを経由した HTTPS（`POST https://{ホスト}/api/v1/sync/outbox/inbound`）でサーバー側の terminal-api バイナリが受信・処理する。サーバー側 Outbox Consumer（BAT-002）も terminal-api 内の常駐 tokio task として動作する。
+
 **図 1: OutboxWorker 処理フロー**
 
 ![図 1 OutboxWorker 処理フロー](img/fig_dd_ha_outbox_worker_flow.svg)
@@ -131,7 +133,7 @@ export class OutboxWorker {
    * FNC-FE-011: Outbox キュー処理
    * 1. outbox_events から PENDING を最大 BATCH_SIZE 件取得
    * 2. ネットワーク状態を確認（DISCONNECTED / EMERGENCY_MODE は送信スキップ）
-   * 3. 各イベントを POST /api/v1/events/ingest
+   * 3. 各イベントを POST https://{ホスト}/api/v1/sync/outbox/inbound（terminal-api）へ送信
    * 4. 成功: status = 'SENT'
    * 5. 失敗（4xx 以外）: retryCount++ + 指数バックオフ
    * 6. retryCount > MAX_RETRY_COUNT: status = 'DEAD_LETTERED'
@@ -324,7 +326,7 @@ export async function reprocessDLQEvent(
 | エラーコード | 発生条件 | 対応 |
 |---|---|---|
 | ERR-SYS-004 | SQLite outbox_events の READ 失敗 | processQueue をスキップ、次回インターバルで再試行 |
-| ERR-SYS-005 | POST /api/v1/events/ingest が 5xx | retryCount++ + 指数バックオフ |
+| ERR-SYS-005 | POST https://{ホスト}/api/v1/sync/outbox/inbound が 5xx | retryCount++ + 指数バックオフ |
 | ERR-SYS-006 | POST が 4xx（クライアントエラー）| 即 DEAD_LETTERED（リトライ不要）|
 
 ---
@@ -333,6 +335,7 @@ export async function reprocessDLQEvent(
 - **OutboxWorker はトランザクショナルアウトボックスパターンで実装し、PENDING → SENDING → SENT / DEAD_LETTERED の状態遷移を SQLite の原子的な UPDATE で管理することで端末クラッシュ時の二重送信を防止した。**
 - **ネットワーク状態（CONNECTED / DEGRADED / DISCONNECTED / EMERGENCY_MODE）に基づいて送信の有無を制御し、P1（Offline-First）原則を OutboxWorker レベルで完全遵守した。**
 - **指数バックオフ（2^retryCount 秒）と最大リトライ 5 回の DLQ 機能により、一時的なバックエンド障害では自動回復し、恒久的なエラーは DEAD_LETTERED として分離した。**
+- **ハンディ APP（OutboxWorker）は wnav_terminal_api（ポート 8080）にのみ通信し、`POST https://{ホスト}/api/v1/sync/outbox/inbound` を送信先エンドポイントとして確定した。wnav_master_api（ポート 8081）への直接通信はハンディ APP からは行わない。サーバー側の Outbox Consumer（BAT-002）は terminal-api 内の常駐 tokio task として動作する。**
 
 ---
 
