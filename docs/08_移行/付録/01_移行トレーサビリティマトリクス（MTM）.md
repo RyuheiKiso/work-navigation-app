@@ -16,6 +16,12 @@ MTM の双方向リンクを以下の通り定義する。
 
 **後方リンク（実施 → 要件）**: 実施命題 MIG-X-NNN から対応する MIG-NNN（移行要件）を逆引きする方向で、実施命題が要件に根拠を持つことを確認する。後方リンクの索引は §3 に示す DES-MIG → 08 章前方リンク索引で補完する。
 
+**図 1: 移行トレーサビリティチェーン全体像**
+
+![図 1 移行トレーサビリティチェーン全体像](img/fig_mig_traceability_chain.svg)
+
+> 原本: [`img/fig_mig_traceability_chain.drawio`](img/fig_mig_traceability_chain.drawio)
+
 ### 完全性保証
 
 MIG-001〜074 の全 74 件が MTM の §2 に存在することを完全性の保証条件とする。MTM の §4 に記載する完全性判定手順に従い、定期的に完全性を確認する。
