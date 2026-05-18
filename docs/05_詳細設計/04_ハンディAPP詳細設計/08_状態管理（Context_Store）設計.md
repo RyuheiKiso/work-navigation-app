@@ -2,7 +2,11 @@
 
 本章は MOD-FE-HA-001（NetworkProvider）を含む React Native アプリ全体の状態管理設計を確定する。React Context + useReducer を採用し、Redux 系ライブラリを不使用とする。ネットワーク状態コンテキスト・Step 実行コンテキスト・認証コンテキストの型定義・Reducer・Provider の仕様を定める。
 
-図: fig_dd_ha_context_providers（img/ 配下）を参照。
+**図 1: Context Provider 階層図**
+
+![図 1 Context Provider 階層図](img/fig_dd_ha_context_providers.svg)
+
+> 原本: [`img/fig_dd_ha_context_providers.drawio`](img/fig_dd_ha_context_providers.drawio)
 
 ---
 

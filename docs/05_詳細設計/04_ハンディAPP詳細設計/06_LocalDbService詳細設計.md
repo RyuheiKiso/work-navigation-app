@@ -2,6 +2,12 @@
 
 本章は MOD-FE-HA-008（LocalDbService）の詳細設計を確定する。SQLite + TypeORM の DataSource 初期化・SQLCipher AES-256 暗号化・WAL モード設定・マスタキャッシュ差分同期・破損時自己修復の全仕様を定める。FR-SY-002〜004 をカバーする。
 
+**図 1: オフライン回復処理フロー**
+
+![図 1 オフライン回復処理フロー](img/fig_dd_ha_offline_recovery.svg)
+
+> 原本: [`img/fig_dd_ha_offline_recovery.drawio`](img/fig_dd_ha_offline_recovery.drawio)
+
 ---
 
 ## 1. LocalDbService クラス（FNC-FE-012）

@@ -203,6 +203,12 @@ export type StepExecutionState =
 | `suspended` | `RESUME` | `in_progress (保存済み index)` | 作業実行権限あり |
 | `in_progress (最終 Step)` | `COMPLETE_STEP` | `completed` | canAdvanceToStep = true |
 
+**図 1: StepEngine 進行判断ロジック**
+
+![図 1 StepEngine 進行判断ロジック](img/fig_dd_ha_stepengine_decision.svg)
+
+> 原本: [`img/fig_dd_ha_stepengine_decision.drawio`](img/fig_dd_ha_stepengine_decision.drawio)
+
 ---
 
 ## 3. StepEngine クラス（FNC-FE-001〜003）
