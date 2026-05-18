@@ -4,6 +4,12 @@
 
 ---
 
+**図 1: Active-Standby フェイルオーバーフロー**
+
+![図 1 Active-Standby フェイルオーバーフロー](img/fig_ops_failover.svg)
+
+> 原本: [`img/fig_ops_failover.drawio`](img/fig_ops_failover.drawio)
+
 ## 1. 目的と上流要件
 
 | 属性 | 内容 |

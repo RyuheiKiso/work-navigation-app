@@ -46,7 +46,11 @@
 
 ソフトウェアスタックは「選定済み」であり、本章はその根拠を記録する。代替候補との比較において採用を見送った技術についても非採用根拠を明示する。
 
-図: fig_des_deploy_system_overview（img/ 配下）を参照
+**図 1: システム全体配置構成概要**
+
+![図 1 システム全体配置構成概要](img/fig_des_deploy_system_overview.svg)
+
+> 原本: [`img/fig_des_deploy_system_overview.drawio`](img/fig_des_deploy_system_overview.drawio)
 
 ### 2-1. OS 層
 

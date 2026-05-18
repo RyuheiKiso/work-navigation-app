@@ -4,6 +4,12 @@
 
 ---
 
+**図 1: バックアップ運用フロー**
+
+![図 1 バックアップ運用フロー](img/fig_ops_backup_flow.svg)
+
+> 原本: [`img/fig_ops_backup_flow.drawio`](img/fig_ops_backup_flow.drawio)
+
 ## 1. 目的と上流要件
 
 | 属性 | 内容 |

@@ -4,6 +4,12 @@
 
 ---
 
+**図 1: SLO レポート作成フロー**
+
+![図 1 SLO レポート作成フロー](img/fig_ops_slo_report.svg)
+
+> 原本: [`img/fig_ops_slo_report.drawio`](img/fig_ops_slo_report.drawio)
+
 ## 1. 目的と上流要件
 
 | 属性 | 内容 |

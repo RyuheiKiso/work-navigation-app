@@ -4,6 +4,12 @@
 
 ---
 
+**図 1: JWT 鍵ローテーション確認フロー**
+
+![図 1 JWT 鍵ローテーション確認フロー](img/fig_ops_jwt_rotate.svg)
+
+> 原本: [`img/fig_ops_jwt_rotate.drawio`](img/fig_ops_jwt_rotate.drawio)
+
 ## 1. 目的と上流要件
 
 | 属性 | 内容 |

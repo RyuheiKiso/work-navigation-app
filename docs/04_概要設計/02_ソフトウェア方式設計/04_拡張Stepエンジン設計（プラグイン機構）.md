@@ -2,7 +2,11 @@
 
 本章の責務は、計画 18 章（拡張可能 Step エンジン）で確定した Step エンジンの概要設計レベルでの具体化を確定することである。標準 Step タイプの実装・拡張 Step の追加機構・JSON Logic 条件分岐・DAG 検証の設計を定める。
 
-図: fig_des_arch_plugin_step_engine（img/ 配下）を参照。
+**図 1: Step エンジン拡張点（プラグイン機構）**
+
+![図 1 Step エンジン拡張点（プラグイン機構）](img/fig_des_arch_plugin_step_engine.svg)
+
+> 原本: [`img/fig_des_arch_plugin_step_engine.drawio`](img/fig_des_arch_plugin_step_engine.drawio)
 
 ---
 
