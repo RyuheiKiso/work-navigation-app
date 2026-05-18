@@ -231,6 +231,31 @@ COMMENT ON INDEX idempotency_keys_pkey IS
     'IDX-016 — idempotency_key PRIMARY KEY インデックス（PostgreSQL が自動作成）。API リクエストの Idempotency-Key ヘッダ値で UNIQUE を保証。同一キーの重複 INSERT を排除し P3（Idempotent API）を実現する。';
 ```
 
+### IDX-019: evidence_files.created_at BRIN
+
+```sql
+-- IDX-019: TBL-009 evidence_files — created_at BRIN
+-- 目的: サーバー受信時刻による時系列アクセス（06_インデックス §1「全 Append-only テーブルは created_at 降順インデックス必須」）
+-- BRIN を採用: Append-only で自然挿入順が時系列のため BRIN が効率的（IDX-015 auth_logs と同じ方針）
+CREATE INDEX CONCURRENTLY idx_evidence_files_created_at
+    ON evidence_files USING BRIN (created_at);
+
+COMMENT ON INDEX idx_evidence_files_created_at IS
+    'IDX-019 — created_at BRIN インデックス。Append-only テーブルの時系列挿入順と一致するため BRIN が B-Tree より低コスト。証拠ファイルの受信時刻範囲検索に使用。06_インデックス §1 準拠。';
+```
+
+### IDX-020: measurements.created_at BRIN
+
+```sql
+-- IDX-020: TBL-010 measurements — created_at BRIN
+-- 目的: サーバー受信時刻による時系列アクセス（06_インデックス §1「全 Append-only テーブルは created_at 降順インデックス必須」）
+CREATE INDEX CONCURRENTLY idx_measurements_created_at
+    ON measurements USING BRIN (created_at);
+
+COMMENT ON INDEX idx_measurements_created_at IS
+    'IDX-020 — created_at BRIN インデックス。Append-only で時系列挿入順が保証されるため BRIN を採用。計測値の受信時刻範囲検索に使用。06_インデックス §1 準拠。';
+```
+
 ### IDX-017: case_locks.terminal_id B-Tree
 
 ```sql
@@ -280,16 +305,19 @@ COMMENT ON INDEX idx_case_locks_heartbeat_at_active IS
 | IDX-016 | idempotency_keys_pkey（自動）| TBL-035 | B-Tree UNIQUE | idempotency_key | — | P3（Idempotent API）|
 | IDX-017 | idx_case_locks_terminal_id | TBL-051 | B-Tree | terminal_id | — | FR-SY-011 |
 | IDX-018 | idx_case_locks_heartbeat_at_active | TBL-051 | B-Tree Partial | heartbeat_at | lock_status='ACTIVE' | BAT-013 |
+| IDX-019 | idx_evidence_files_created_at | TBL-009 | BRIN | created_at | — | 06_インデックス §1 |
+| IDX-020 | idx_measurements_created_at | TBL-010 | BRIN | created_at | — | 06_インデックス §1 |
 
-次採番値: **IDX-019**
+次採番値: **IDX-021**
 
 ---
 
 **本節で確定した方針**
-- **IDX-001〜018 全件の CREATE INDEX 全文を確定し、対象列・種別・Partial 条件・根拠 NFR/FR を全て明記した。次採番値 IDX-019 を台帳に記録する。**
+- **IDX-001〜020 全件の CREATE INDEX 全文を確定し、対象列・種別・Partial 条件・根拠 NFR/FR を全て明記した。次採番値 IDX-021 を台帳に記録する。**
 - **work_events（TBL-001）の月次パーティションには CREATE INDEX を親テーブルに実行することで全パーティションへ自動継承され、CONCURRENTLY オプションで運用停止なしに作成する。**
 - **Partial インデックス（IDX-003〜005・007・011〜012・018）により、完了済み・オフライン・退職済み・非 ACTIVE ロックの行をインデックスから除外し INSERT コストとインデックスサイズを最小化する。**
 - **IDX-017/018（TBL-051 case_locks）を追加し、BAT-013 の EXPIRED 化対象絞り込みと端末別 case 検索を効率化する設計を確定した。**
+- **IDX-019/020（TBL-009 evidence_files / TBL-010 measurements）の created_at BRIN インデックスを追加し、06_インデックス §1「全 Append-only テーブルは created_at 降順インデックス必須」との整合を確立した。次採番値を IDX-021 に更新した。**
 
 ---
 
