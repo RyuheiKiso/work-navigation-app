@@ -2,7 +2,11 @@
 
 本章の責務は、システム上で発生するすべての業務事象・操作事象を改ざん不能・追跡可能な形式で記録・保持するための設計を確定することである。FR-AU-001〜006・NFR-ALC（7 年保全）・NFR-SEC-008（ハッシュチェーン整合性）・BR-BUS-040（操作ログ全件記録）を受けて、イベント分類・ストレージ設計・ハッシュチェーン方式・保全ポリシー・XES 形式エクスポートの設計命題を固定する。
 
-図: `img/fig_des_sec_audit_trail.drawio` / `img/fig_des_sec_audit_trail.svg` を参照。
+**図 1: 監査証跡（AuditTrail）全体構成図**
+
+![図 1 監査証跡全体構成図](img/fig_des_sec_audit_trail.svg)
+
+> 原本: [`img/fig_des_sec_audit_trail.drawio`](img/fig_des_sec_audit_trail.drawio)
 
 ---
 
