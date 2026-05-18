@@ -6,7 +6,11 @@
 
 ## 1 概要
 
-図: fig_inc_paper_fallback（img/ 配下）を参照
+**図 1: 紙フォールバック業務フロー**
+
+![図 1 紙フォールバック業務フロー](img/fig_inc_paper_fallback.svg)
+
+> 原本: [`img/fig_inc_paper_fallback.drawio`](img/fig_inc_paper_fallback.drawio)
 
 本章は LEVEL-3（サーバー完全停止）時の事業継続計画（BCP）を定義する。システムが完全停止した状態でも製造ラインの作業記録・品質管理が継続できるよう紙フォールバック手順を確定する。
 

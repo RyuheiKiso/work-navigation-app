@@ -2,7 +2,11 @@
 
 本章は SOP（Standard Operating Procedure）マスタの改訂フロー・改訂記録テンプレートを確定する。MNT-040・NFR-OPS-012/013 に基づく quality_admin 承認義務・教育完了確認義務を実体化する。
 
-図: fig_mnt_sop_revision（img/ 配下）を参照
+**図 1: SOP 改訂 6 段階フロー**
+
+![図 1 SOP 改訂 6 段階フロー](img/fig_mnt_sop_revision.svg)
+
+> 原本: [`img/fig_mnt_sop_revision.drawio`](img/fig_mnt_sop_revision.drawio)
 
 ---
 
