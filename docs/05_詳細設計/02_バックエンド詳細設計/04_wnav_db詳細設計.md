@@ -12,18 +12,19 @@
 use sqlx::{postgres::PgPoolOptions, PgPool};
 use std::time::Duration;
 
-/// DB 接続設定。環境変数から `envy` でデシリアライズする。
+/// DB 接続設定。wnav_config クレートが YAML + figment で読み込んだ値を受け取る（ADR-IMPL-001）。
+/// DatabaseConfig は src/infra/config/config.base.yml の `database.*` セクションに対応する。
 #[derive(Debug, serde::Deserialize, Clone)]
 pub struct DbConfig {
-    /// 最大コネクション数（CFG-001、デフォルト 20）
+    /// 最大コネクション数（config.yml `database.max_connections`、デフォルト 20）
     pub max_connections: u32,
-    /// 最小アイドルコネクション数
+    /// 最小アイドルコネクション数（`database.min_connections`）
     pub min_connections: u32,
-    /// コネクション取得タイムアウト秒（デフォルト 10）
+    /// コネクション取得タイムアウト秒（`database.acquire_timeout_sec`）
     pub acquire_timeout_secs: u64,
-    /// アイドルタイムアウト秒（デフォルト 600）
+    /// アイドルタイムアウト秒（`database.idle_timeout_sec`）
     pub idle_timeout_secs: u64,
-    /// コネクション最大ライフタイム秒（デフォルト 3600）
+    /// コネクション最大ライフタイム秒（`database.max_lifetime_sec`）
     pub max_lifetime_secs: u64,
 }
 

@@ -1,6 +1,6 @@
 # 01 wnav_terminal_api 詳細設計（MOD-BE-001）
 
-本章は `crates/wnav_terminal_api/` の axum ルータ・ミドルウェアチェーン・AppState・エラー変換レイヤの詳細設計を確定する。本クレートはハンディ端末（Android / iOS / Windows）専用の Presentation 層実装であり、作業実行・証拠記録・同期・入庫検査・手直し実行・認証に関する API エンドポイントのルーティング・ミドルウェア適用・レスポンス整形を担う。ポート 8080 でリッスンする。
+本章は `crates/wnav_terminal_api/` の axum ルータ・ミドルウェアチェーン・AppState・エラー変換レイヤの詳細設計を確定する。本クレートはハンディ端末（Android / iOS / Windows）専用の Presentation 層実装であり、作業実行・証拠記録・同期・入庫検査・手直し実行・認証に関する API エンドポイントのルーティング・ミドルウェア適用・レスポンス整形を担う。ポート 8080 でリッスンする。BAT-002（outbox_dispatcher）・BAT-003（master_sync_puller）・BAT-008（webhook_retry_scheduler）を tokio task として内包する。
 
 ---
 
@@ -66,6 +66,14 @@ Tracing → Auth → RateLimit → Idempotency → Handler
 
 Idempotency ミドルウェアはハンディ端末向けの二重送信抑止が必要なため **terminal のみ** に適用する。
 
+適用順序:
+
+1. **TracingMiddleware** — X-Trace-Id 付与・構造化ログ出力
+2. **AuthMiddleware** — Authorization ヘッダの JWT 検証 → CurrentUser extension（aud = "terminal-api" 検証）
+3. **RateLimitMiddleware** — トークンバケット（CFG-002 rpm）
+4. **IdempotencyMiddleware** — Idempotency-Key ヘッダ → TBL-035 照合（端末書き込み専用）
+5. **CaseLockMiddleware** — 作業ケースの排他制御（Issue 4 対応として将来追加予定）
+
 ```rust
 // crates/wnav_terminal_api/src/middleware/mod.rs
 
@@ -96,6 +104,7 @@ pub fn apply_middleware(router: Router<AppState>, config: &AppConfig) -> Router 
                 config.clone(),
                 idempotency_middleware,
             )),
+            // CaseLockMiddleware は Issue 4 対応として将来追加予定
     )
 }
 ```
@@ -340,6 +349,31 @@ pub async fn idempotency_middleware(
 
 ## 3. ルータ定義（ハンディ端末向けエンドポイント）
 
+本バイナリが担当するエンドポイント一覧を示す。すべて `/api/v1` プレフィックス配下に配置する。
+
+| グループ | メソッド | パス |
+|---|---|---|
+| 認証 | POST | `/auth/login` |
+| 認証 | POST | `/auth/refresh` |
+| 認証 | POST | `/auth/logout` |
+| 作業指示 | GET | `/work-orders` |
+| 作業指示 | GET | `/work-orders/:id` |
+| 作業実行 | POST | `/work-execs` |
+| 作業実行 | GET | `/work-execs/:id` |
+| 作業実行 | POST | `/work-execs/:id/complete` |
+| 作業実行 | POST | `/work-execs/:id/suspend` |
+| 作業実行 | POST | `/work-execs/:id/resume` |
+| ステップイベント | POST | `/step-events` |
+| 証拠ファイル | POST | `/evidences` |
+| 電子サイン | POST | `/electronic-signs` |
+| マスタ同期 | GET | `/sync/masters` |
+| 受入検査（IQC） | POST | `/iqc-001` |
+| 受入検査（IQC） | POST | `/iqc-002` |
+| 受入検査（IQC） | POST | `/iqc-003` |
+| 受入検査（IQC） | GET | `/iqc-006` |
+| 手直し検証 | POST | `/rework-verifications` |
+| システム | GET | `/healthz` |
+
 ```rust
 // crates/wnav_terminal_api/src/router.rs
 
@@ -517,7 +551,7 @@ wnav_terminal_api の main.rs は **event_insert_pool** と **read_pool** のみ
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    // 設定ロード（環境変数）
+    // 設定ロード（YAML + 環境変数オーバーレイ・ADR-IMPL-001）
     let config: AppConfig = envy::from_env()?;
 
     // tracing 初期化
@@ -555,20 +589,32 @@ async fn main() -> anyhow::Result<()> {
         wnav_outbox::run_consumer(state.event_insert_pool.clone())
     );
 
-    // HTTP サーバー起動
+    // HTTP リスナー（TLS 終端は IIS に委譲）
     let listener = tokio::net::TcpListener::bind(
-        format!("0.0.0.0:{}", config.port)
+        format!("0.0.0.0:{}", config.port)  // デフォルト: 8080
     ).await?;
     tracing::info!(port = config.port, "wnav_terminal_api started");
 
     tokio::select! {
         result = axum::serve(listener, app) => result?,
         _ = outbox_handle => tracing::error!("outbox_consumer が予期せず終了しました"),
+        // BAT-013: CaseLock Reaper — Issue 4 対応として将来追加予定
     }
 
     Ok(())
 }
 ```
+
+---
+
+## 7. 制約
+
+| 制約項目 | 内容 |
+|---|---|
+| DB ロール | 書き込み系ハンドラは `app_event_insert` プール経由のみ許可。読み取りは `app_read` プールを使用する |
+| Idempotency-Key | 本バイナリのみ IdempotencyMiddleware を適用する。wnav_master_api では適用しない（`src/backend/CLAUDE.md` の規定による） |
+| TLS 終端 | IIS（Windows Server 2022）リバースプロキシに委譲する。本バイナリは HTTP（ポート 8080）でリッスンする |
+| BAT 範囲 | 本バイナリが起動するバッチは BAT-002・BAT-003・BAT-008 のみ。BAT-001 および BAT-004〜012 は wnav_master_api に内包する |
 
 ---
 
@@ -579,6 +625,10 @@ async fn main() -> anyhow::Result<()> {
 - **idempotency_middleware は TBL-035 を event_insert_pool で照合する。**
 - **main.rs は event_insert_pool + read_pool のみを生成・注入し、OutboxWorker（BAT-002）を tokio::spawn で起動する。**
 - **TLS 終端は IIS に委譲し、本クレートは HTTP（ポート 8080）リッスンのみとすることを確定した。**
+- **wnav_terminal_api はポート 8080 でリッスンし、ハンディ端末向けエンドポイントおよび BAT-002/003/008 を内包することを確定した。**
+- **Idempotency-Key 検証は本バイナリのみに適用し、管理側 API との責務分離を明確にした。**
+- **app_event_insert ロールは INSERT 専用に制限し、マスタ更新等の書き込みが端末 API 経由で実行されることを DB レベルで防止する。**
+- **CaseLockMiddleware は将来追加予定（Issue 4 対応）とし、当面はミドルウェアチェーンのコメントとして記録する。**
 
 ---
 
@@ -589,3 +639,4 @@ async fn main() -> anyhow::Result<()> {
 
 ### 関連
 - [`90_業界分析/06_品質管理とトレーサビリティ.md`](../../90_業界分析/06_品質管理とトレーサビリティ.md)
+- [`04_概要設計/02_ソフトウェア方式設計/10_バッチ・常駐ジョブ設計.md`](../../../04_概要設計/02_ソフトウェア方式設計/10_バッチ・常駐ジョブ設計.md)

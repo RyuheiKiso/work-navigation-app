@@ -25,7 +25,7 @@
 | FR-NV-010 | 進捗バー表示 | API-work-execs-002 | 副 |
 | FR-NV-011 | Step スキップ防止 | API-step-events-001 | 副 |
 | FR-NV-012 | 残り作業時間推定 | API-work-execs-002 | 副 |
-| FR-NV-013 | 多端末同時実行制御 | API-work-execs-002 | 副 |
+| FR-NV-013 | ナビゲーション進捗表示 | API-work-execs-002 | 副 |
 | FR-EV-001 | Step 完了イベント記録 | API-step-events-001 | 主 |
 | FR-EV-002 | 写真証拠取得 | API-evidences-001 | 主 |
 | FR-EV-003 | 測定値取得（IoT 計測器） | API-step-events-001 | 副 |
@@ -78,6 +78,9 @@
 | FR-SY-007 | DLQ 監視 | API-ops-001 | 主 |
 | FR-SY-008 | 縮退モード切替 | API-system-001 | 副 |
 | FR-SY-009 | 縮退時の OFFLINE 動作継続 | （クライアント処理）| — |
+| FR-SY-011 | Case 端末排他占有 | API-work-execs-001 | 主 |
+| FR-SY-011 | 〃 | API-work-execs-004 | 主（resume 時） |
+| FR-SY-011 | 〃 | API-step-events-001 | 副（CaseLockMiddleware） |
 | FR-KZ-001 | アンドン発報 | API-andon-001 | 主 |
 | FR-KZ-002 | アンドン応答（監督確認） | API-andon-002 | 主 |
 | FR-KZ-003 | アンドン解決記録 | API-andon-002 | 副 |

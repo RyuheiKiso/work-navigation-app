@@ -1,0 +1,148 @@
+# ============================================================
+# WNAV 設定ファイル — base プロファイル（全環境共通の既定値）
+#
+# 【重要】機密情報（パスワード・秘密鍵・HMAC キー等）は絶対に記載しない。
+#         機密は secret_ref: "<scheme>:<id>" で間接参照すること。
+#         scheme: env / dpapi / docker_secret / file
+#
+# 【マージ規則】
+#   - map は深いマージ（override 側が base を上書き・新キーは追加）
+#   - 配列は override 側が完全置換（base の値は引き継がれない）
+#
+# 環境別上書き: config.{local,dev,staging,prod}.yml を作成し
+#              WNAV_PROFILE 環境変数でプロファイルを指定する。
+# 動的上書き:  WNAV__SECTION__KEY=value 形式の環境変数でも上書き可
+#              （例: WNAV__SERVER__TERMINAL_API__PORT=18080）
+# ============================================================
+
+schema_version: 1
+profile: base
+
+# ── サーバー ──────────────────────────────────────────────────────────
+server:
+  terminal_api:                          # wnav_terminal_api — 端末・ハンディ向け
+    bind_addr: "0.0.0.0"
+    port: 8080
+    request_timeout_sec: 30
+  master_api:                            # wnav_master_api — マスタ管理向け
+    bind_addr: "0.0.0.0"
+    port: 8081
+    request_timeout_sec: 30
+
+# ── データベース（3 ロール分離） ──────────────────────────────────────
+database:
+  host: "localhost"
+  port: 5432
+  name: "wnav_dev"
+  ssl_mode: "prefer"                     # require / prefer / disable
+  max_connections: 20
+  min_connections: 2
+  acquire_timeout_sec: 10
+  idle_timeout_sec: 600
+  max_lifetime_sec: 3600
+  # write ロール — master_api のみ読む（terminal_api 構造体にこのキーは存在しない）
+  write:
+    user: "wnav_write"
+    password:
+      secret_ref: "env:WNAV_DB_PASSWORD_WRITE"
+  # event_insert ロール — terminal_api のみ読む
+  event_insert:
+    user: "wnav_event_insert"
+    password:
+      secret_ref: "env:WNAV_DB_PASSWORD_EVENT_INSERT"
+  # read ロール — 両バイナリで使用
+  read:
+    user: "wnav_read"
+    password:
+      secret_ref: "env:WNAV_DB_PASSWORD_READ"
+
+# ── CORS ─────────────────────────────────────────────────────────────
+cors:
+  allow_origins:                         # 配列は override で完全置換される
+    - "http://localhost:5173"
+    - "http://localhost:3000"
+  allow_credentials: true
+  max_age_sec: 3600
+
+# ── JWT（RS256） ──────────────────────────────────────────────────────
+jwt:
+  algorithm: "RS256"
+  ttl_sec: 28800                         # 8h
+  public_key:
+    secret_ref: "env:WNAV_BE_JWT_PUBLIC_KEY"
+  # private_key は master_api 専用（TerminalApiConfig 構造体に含まれない）
+  private_key:
+    secret_ref: "env:WNAV_BE_JWT_SECRET"
+
+# ── Idempotency-Key（terminal_api 専用） ──────────────────────────────
+idempotency:
+  ttl_sec: 86400                         # 24h
+
+# ── Outbox コンシューマ（terminal_api 専用） ──────────────────────────
+outbox:
+  interval_ms: 5000
+  retry_max: 5
+  backoff_max_sec: 300
+
+# ── ハッシュチェーン検証ジョブ（master_api 専用） ─────────────────────
+hash_chain_verify:
+  cron: "0 2 * * *"                      # 毎日 02:00 実行
+
+# ── レートリミット（terminal_api 専用） ───────────────────────────────
+rate_limit:
+  rps: 100
+  burst: 200
+
+# ── 可観測性 ──────────────────────────────────────────────────────────
+observability:
+  log_level: "info"                      # debug / info / warn / error
+  log_format: "json"
+  request_id_header: "X-Request-Id"
+  metrics_enabled: true
+  metrics_path: "/metrics"
+
+# ── Webhook 配信 ──────────────────────────────────────────────────────
+webhook:
+  signature_header: "X-Signature-256"
+  retry_max: 5
+  retry_backoff_max_sec: 86400
+  hmac_key:
+    secret_ref: "env:WNAV_BE_WEBHOOK_SECRET"
+
+# ── 外部通知 ──────────────────────────────────────────────────────────
+external:
+  backup_notification_url:
+    secret_ref: "env:WNAV_BE_BACKUP_NOTIFICATION_URL"
+
+# ── フロントエンド設定（非機密・公開可能） ────────────────────────────
+frontend:
+  handy:
+    # QR コード生成時の原本 URL（端末には YAML を配布しない）
+    # 端末が実際に参照するのは アプリ内設定画面で入力した AsyncStorage の値
+    default_api_base_url: "https://wnav.example.local"
+    offline_timeout_min: 5
+    sync_retry_max: 5
+  master:
+    # GET /api/v1/public/config が返すフィールド（マスタ SPA が起動時に取得）
+    api_base_url: "https://wnav.example.local"
+    openapi_url: "https://wnav.example.local/api/openapi.json"
+    session_timeout_min: 30
+    polling_interval_ms: 30000
+
+# ── インフラ ──────────────────────────────────────────────────────────
+infra:
+  nginx:
+    upstream_terminal: "127.0.0.1:8080"
+    upstream_master: "127.0.0.1:8081"
+    tls_cert_path:
+      secret_ref: "env:WNAV_INFRA_TLS_CERT"
+    tls_key_path:
+      secret_ref: "env:WNAV_INFRA_TLS_KEY"
+  iis:
+    site_name: "WNavMaster"
+    app_pool_name: "WNavMasterPool"
+  backup:
+    dir: "/var/lib/postgresql/backups"
+  network:
+    allowed_ips:                         # 配列は override で完全置換される
+      - "192.168.10.0/24"

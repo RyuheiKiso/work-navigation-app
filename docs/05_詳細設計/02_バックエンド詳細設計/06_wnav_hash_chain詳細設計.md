@@ -159,41 +159,75 @@ pub enum HashError {
 
 ---
 
-## 3. Genesis ブロック定義
+## 3. Genesis ブロック定義（per-case_id / ADR-007）
 
 ```rust
 // crates/wnav_hash_chain/src/genesis.rs
 
 /// Genesis ブロック: ハッシュチェーンの先頭に挿入される初期ブロック。
-/// prev_hash はゼロ値（[0u8; 32]）を使用する。
+///
+/// # per-case_id genesis（ADR-007）
+/// ジェネシスブロックの定義は case_id ごとに独立する。グローバルな単一 genesis は採用しない。
+/// 各 case_id の最初のイベントブロックが genesis となり、prev_hash = [0u8; 32] を使用する。
 /// chain_hash = SHA-256([0u8; 32] || content_hash)
 pub const GENESIS_PREV_HASH: [u8; 32] = [0u8; 32];
 pub const GENESIS_PREV_HASH_HEX: &str =
     "0000000000000000000000000000000000000000000000000000000000000000";
 
-/// Genesis ブロック作成コマンド。
-/// 初回デプロイ時またはファクトリ新規登録時に 1 度だけ実行する。
-pub fn create_genesis_block(factory_id: uuid::Uuid) -> GenesisBlock {
-    GenesisBlock {
-        block_id: uuid::Uuid::now_v7(),
-        factory_id,
-        prev_hash: GENESIS_PREV_HASH_HEX.to_string(),
-        content_hash: hex::encode(sha2::Sha256::digest(
-            format!("genesis:{}", factory_id).as_bytes()
-        )),
-        created_at: chrono::Utc::now(),
-    }
-}
-
 #[derive(Debug)]
 pub struct GenesisBlock {
     pub block_id: uuid::Uuid,
-    pub factory_id: uuid::Uuid,
+    pub case_id: uuid::Uuid,
     pub prev_hash: String,
     pub content_hash: String,
     pub created_at: chrono::DateTime<chrono::Utc>,
 }
 ```
+
+---
+
+## 3a. 補正ブロックのチェーンハッシュ計算（FNC-BE-017 / ADR-008）
+
+```rust
+// crates/wnav_hash_chain/src/correction.rs
+
+use sha2::{Digest, Sha256};
+
+/// (FNC-BE-017) 補正ブロックのチェーンハッシュを計算する。
+///
+/// # 設計判断 D2（ADR-008）
+/// 補正レコードの prev_hash は破断ブロック（broken_at_block_id）の chain_hash を継承する。
+/// フォーク（独立した genesis の割り当て）は禁止する。
+/// 破断ブロック自体は Append-only 原則（ALCOA+ Original）により削除・更新しない。
+///
+/// 入力:
+///   broken_block_chain_hash : [u8; 32]  -- 破断ブロックの chain_hash 値
+///   correction_content_hash : [u8; 32]  -- 補正ブロックの content_hash（FNC-BE-009 で計算）
+///
+/// 処理: SHA-256(broken_block_chain_hash || correction_content_hash)
+///
+/// 出力: [u8; 32]  -- 補正ブロックの chain_hash
+pub fn compute_correction_chain_hash(
+    broken_block_chain_hash: &[u8; 32],
+    correction_content_hash: &[u8; 32],
+) -> [u8; 32] {
+    let mut hasher = Sha256::new();
+    hasher.update(broken_block_chain_hash);
+    hasher.update(correction_content_hash);
+    hasher.finalize().into()
+}
+```
+
+**FNC-BE-017 シグネチャ要約**
+
+| 項目 | 値 |
+|---|---|
+| 関数 ID | FNC-BE-017 |
+| 入力 1 | `broken_block_chain_hash: [u8; 32]` — 破断ブロックの chain_hash |
+| 入力 2 | `correction_content_hash: [u8; 32]` — 補正ブロックの content_hash |
+| 処理 | `SHA-256(broken_block_chain_hash \|\| correction_content_hash)` |
+| 出力 | `[u8; 32]` — 補正ブロックの chain_hash |
+| 根拠 | D2（ADR-008）: 補正レコードは破断ブロックの chain_hash を継承（fork 禁止）|
 
 ---
 
@@ -254,6 +288,25 @@ impl HashChainService {
             let stored_content_hash: String = row.try_get("content_hash").unwrap_or_default();
             let stored_prev_hash: String = row.try_get("prev_hash").unwrap_or_default();
             let event_id: Uuid = row.try_get("event_id").unwrap_or_default();
+            let is_correction: bool = row.try_get("is_correction").unwrap_or(false);
+            let broken_at_block_id: Option<Uuid> = row.try_get("broken_at_block_id").ok().flatten();
+
+            // 補正ブロック（is_correction=TRUE）の検証（ALG-025 / D2 / ADR-008）:
+            //   expected_prev_hash = 直前の破断ブロック（broken_at_block_id）の chain_hash
+            //   破断ブロック以降の検証は補正ブロックを起点として再開する
+            if is_correction {
+                if let Some(broken_id) = broken_at_block_id {
+                    let broken_chain_hash: String = sqlx::query_scalar(
+                        "SELECT chain_hash FROM hash_chain_blocks WHERE block_id = $1"
+                    )
+                    .bind(broken_id)
+                    .fetch_one(self.pool.as_ref())
+                    .await?;
+                    expected_prev_hash = hex_to_bytes32(&broken_chain_hash)
+                        .unwrap_or(crate::genesis::GENESIS_PREV_HASH);
+                }
+                // 補正ブロック以降の通常の連続性検証へ続く
+            }
 
             // prev_hash の整合性チェック
             if stored_prev_hash != bytes32_to_hex(&expected_prev_hash) {
@@ -308,7 +361,7 @@ impl HashChainService {
 ## 5. 週次検証スケジューラ（BAT-001 常駐タスク）
 
 > **起動バイナリ**: `run_weekly_verifier` は `wnav_master_api` の `main.rs` で
-> `tokio::spawn(run_weekly_verifier(svc.clone()))` として起動する。
+> `tokio::spawn(run_weekly_verifier(svc.clone()))` として起動する（BAT-001）。
 > `wnav_terminal_api` はこの関数を呼び出さない。
 
 ```rust
@@ -374,7 +427,9 @@ pub async fn run_weekly_verifier(svc: Arc<HashChainService>) {
 **本節で確定した方針**
 - **compute_content_hash は BTreeMap によるキーのアルファベット昇順ソートで canonical JSON を生成し、JSON キー順序の不確定性を排除する設計を確定した。**
 - **compute_chain_hash は SHA-256(prev_hash_bytes || content_hash_bytes) の連結ハッシュとし、チェーン間の依存関係を保証することを確定した。**
-- **週次検証（BAT-001 / master-api 内）は event_id（UUID v7 = 時系列）の昇順ストリーミングで全件検証し、不整合を検知した時点で即座に ERR-DB-003 ログを出力することを確定した。**
+- **ジェネシスブロックは per-case_id genesis（ADR-007）とし、グローバルな単一 genesis は採用しない。各 case_id の最初のイベントブロックが genesis（prev_hash = [0u8;32]）となる。**
+- **compute_correction_chain_hash（FNC-BE-017）を追加し、補正ブロックの prev_hash が破断ブロックの chain_hash を継承することを ADR-008 として確定した（fork 禁止）。**
+- **週次検証（BAT-001 / master-api 内）は event_id（UUID v7 = 時系列）の昇順ストリーミングで全件検証し、不整合を検知した時点で即座に ERR-DB-003 ログを出力することを確定した。補正ブロック（is_correction=TRUE）検出時は破断ブロックの chain_hash を expected_prev_hash に設定して検証を継続する（ALG-025）。**
 - **本クレートは `wnav_master_api` のみが依存し、`wnav_terminal_api` は依存しない。ハッシュチェーン検証は管理操作であり、端末 API からは実行しない設計を確定した。**
 
 ---

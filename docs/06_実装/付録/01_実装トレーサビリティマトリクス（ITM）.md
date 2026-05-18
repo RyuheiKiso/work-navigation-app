@@ -211,7 +211,8 @@
 | FR-EV-015 | 操作ログ自動記録 | BR-BUS-038 | MOD-026, TBL-032 | 未着手 | TST-alcoa-002 | 未着手 |
 | FR-EV-016 | ファイルサイズ上限制御 | BR-BUS-032 | MOD-009, TBL-009 | 未着手 | TST-unit-FE-017 | 未着手 |
 | FR-AU-013 | 外部 mTLS 認証 | BR-BUS-042 | MOD-024, KEY-008 | 未着手 | TST-sec-007 | 未着手 |
-| FR-SY-011 | PG-WAL バックアップ | BR-BUS-036 | MOD-023, BAT-005, BAT-006 | 未着手 | TST-perf-003 | 未着手 |
+| FR-SY-011 | PG-WAL バックアップ（※要件台帳 v0.5.0 で FR-SY-011 は「Case 端末排他占有」に再採番済み。本行は ITM 整合化時に NFR-AVL またはバッチ系へ移管すること） | BR-BUS-036 | MOD-023, BAT-005, BAT-006 | 未着手 | TST-perf-003 | 未着手 |
+| FR-SY-011 ★ | Case 端末排他占有（ADR-009 / 要件台帳 v0.5.0）| BR-BUS-007 | TBL-051, BAT-013, ERR-BIZ-026, API-work-execs-001, API-work-execs-004 | 未着手 | TST-intg-021 | 未着手 |
 | FR-KZ-012 | 不適合 → CAPA 自動リンク | BR-BUS-021 | MOD-019, MOD-020, TBL-013, TBL-014 | 未着手 | TST-e2e-012 | 未着手 |
 | FR-MA-019 | ユーザー・ロール管理 | BR-BUS-042 | MOD-027, TBL-016, TBL-017, TBL-019 | 未着手 | TST-sec-001 | 未着手 |
 | FR-MA-020 | スキル管理 | BR-BUS-002 | MOD-027, TBL-018, TBL-020 | 未着手 | TST-unit-BE-001 | 未着手 |
@@ -268,3 +269,4 @@
 | 版 | 日付 | 変更者 | 変更内容 |
 |---|---|---|---|
 | 0.1.0 | 2026-05-17 | RyuheiKiso | 初版（86 FR 全行網羅・NFR 6 カテゴリ対応方針確定）|
+| 0.2.0 | 2026-05-18 | RyuheiKiso | FR-SY-011（Case 端末排他占有 / ADR-009）を追加。既存 FR-SY-011（PG-WAL バックアップ）との ID 衝突を記録（ITM 整合化時に解消）|
