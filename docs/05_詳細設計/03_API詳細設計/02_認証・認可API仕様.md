@@ -71,6 +71,12 @@
 
 ### 1-4. 認証フロー詳細
 
+**図 1: 認証シーケンス（JWT RS256・LDAPフォールバック・ブルートフォース防止）**
+
+![図 1 認証シーケンス（JWT RS256・LDAPフォールバック・ブルートフォース防止）](img/fig_dd_api_auth_sequence.svg)
+
+> 原本: [`img/fig_dd_api_auth_sequence.drawio`](img/fig_dd_api_auth_sequence.drawio)
+
 1. TBL-016 users で `login_id` の存在確認。存在しない場合: ERR-AUTH-001（401）。
 2. `failed_login_count >= 5` かつ `locked_until > NOW()`: ERR-AUTH-003（423）。
 3. LDAP（IF-003）で BIND 認証を試みる。
