@@ -264,17 +264,20 @@ docker compose -f docker-compose.prod.yml exec postgres \
 **MIG-X-128**: アプリケーション（axum バックエンド）からの DB 接続が確立できることを確認する。（DES-MIG-017 対応）
 
 ```bash
-# バックエンドコンテナを起動する
-docker compose -f docker-compose.prod.yml up -d backend
+# バックエンドコンテナを起動する（terminal-api と master-api の両方）
+docker compose -f docker-compose.prod.yml up -d terminal-api master-api
 
-# ヘルスチェックエンドポイントで DB 疎通を確認する
+# terminal-api のヘルスチェックエンドポイントで DB 疎通を確認する
 curl -f http://localhost:8080/healthz
 
-# 期待するレスポンス
+# master-api のヘルスチェックエンドポイントで DB 疎通を確認する
+curl -f http://localhost:8081/healthz
+
+# 期待するレスポンス（両方のエンドポイント）
 # {"status":"ok","db":"connected","version":"<バージョン>"}
 ```
 
-ヘルスチェックで `"db":"connected"` が返ることを DB 疎通確認の合格基準とする。`"db":"disconnected"` または接続エラーが返った場合は `docker compose logs backend` でエラーを確認する。
+両ヘルスチェックで `"db":"connected"` が返ることを DB 疎通確認の合格基準とする。いずれかが `"db":"disconnected"` または接続エラーを返した場合は、それぞれ `docker compose logs terminal-api` または `docker compose logs master-api` でエラーを確認する。
 
 ### 4-3. マイグレーション完了の記録テンプレート
 
@@ -302,7 +305,8 @@ curl -f http://localhost:8080/healthz
 3. 初期データ確認結果
    システムロール件数: <件数>（期待値: 6 件）
    system_settings 件数: <件数>
-   DB 疎通確認（GET /healthz）: [ ] 合格
+   DB 疎通確認（GET http://localhost:8080/healthz — terminal-api）: [ ] 合格
+   DB 疎通確認（GET http://localhost:8081/healthz — master-api）: [ ] 合格
 
 4. 実施者署名
    氏名: ___________________
@@ -315,7 +319,7 @@ curl -f http://localhost:8080/healthz
 
 **本節で確定した方針**
 - マイグレーション後のシステムロール 6 種の存在確認を初期化完了の必要条件とすることを確定する。
-- `GET /healthz` で `"db":"connected"` が返ることを DB 疎通確認の合格基準とすることを確定する。
+- terminal-api（`GET http://localhost:8080/healthz`）と master-api（`GET http://localhost:8081/healthz`）の両方が `"db":"connected"` を返すことを DB 疎通確認の合格基準とすることを確定する。
 - マイグレーション完了記録テンプレートへの実施者署名をもって INST-A4-c 完了と判定することを確定する。
 
 ---
@@ -336,3 +340,4 @@ curl -f http://localhost:8080/healthz
 | バージョン | 日付 | 変更内容 | 担当者 |
 |---|---|---|---|
 | 0.1.0 | 2026-05-18 | 初版 | RyuheiKiso |
+| 0.2.0 | 2026-05-18 | バックエンド2バイナリ分割（terminal-api:8080 / master-api:8081）に伴う DB 疎通確認手順の更新 | RyuheiKiso |

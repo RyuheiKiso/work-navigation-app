@@ -202,35 +202,54 @@ WORKDIR /app
 COPY Cargo.toml Cargo.lock ./
 COPY src/backend/Cargo.toml ./src/backend/
 
-# ダミーの main.rs でキャッシュ用にビルドする
+# ダミーの main.rs でキャッシュ用にビルドする（2バイナリ分）
 RUN mkdir -p src/backend/src && \
     echo 'fn main() {}' > src/backend/src/main.rs && \
-    cargo build --release --package wnav-api && \
+    cargo build --release --bin wnav_terminal_api --bin wnav_master_api && \
     rm -f src/backend/src/main.rs
 
 # ソースをコピーしてビルドする
 COPY src/backend/src ./src/backend/src
 RUN touch src/backend/src/main.rs && \
-    SQLX_OFFLINE=true cargo build --release --package wnav-api
+    SQLX_OFFLINE=true cargo build --release --bin wnav_terminal_api --bin wnav_master_api
 
-# Stage 2: 最終イメージ（最小サイズ）
-FROM gcr.io/distroless/cc-debian12:nonroot AS runtime
+# Stage 2: terminal-api 最終イメージ（最小サイズ）
+FROM gcr.io/distroless/cc-debian12:nonroot AS terminal_api_runtime
 
 # 非 root ユーザーで実行する（UID 65532 = nonroot）
 USER nonroot:nonroot
 
 WORKDIR /app
 
-# バイナリのみをコピーする
-COPY --from=builder --chown=nonroot:nonroot /app/target/release/wnav-api ./wnav-api
+# terminal-api バイナリのみをコピーする
+COPY --from=builder --chown=nonroot:nonroot /app/target/release/wnav_terminal_api ./wnav_terminal_api
 
 # ヘルスチェックを定義する
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD ["/app/wnav-api", "--health-check"]
+    CMD ["/app/wnav_terminal_api", "--health-check"]
 
 EXPOSE 8080
 
-ENTRYPOINT ["/app/wnav-api"]
+ENTRYPOINT ["/app/wnav_terminal_api"]
+
+# Stage 3: master-api 最終イメージ（最小サイズ）
+FROM gcr.io/distroless/cc-debian12:nonroot AS master_api_runtime
+
+# 非 root ユーザーで実行する（UID 65532 = nonroot）
+USER nonroot:nonroot
+
+WORKDIR /app
+
+# master-api バイナリのみをコピーする
+COPY --from=builder --chown=nonroot:nonroot /app/target/release/wnav_master_api ./wnav_master_api
+
+# ヘルスチェックを定義する
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD ["/app/wnav_master_api", "--health-check"]
+
+EXPOSE 8081
+
+ENTRYPOINT ["/app/wnav_master_api"]
 ```
 
 ### ARG でシークレットを受け取らない
@@ -280,14 +299,16 @@ services:
       timeout: 5s
       retries: 5
 
-  wnav_api:
+  wnav_terminal_api:
     build:
       context: .
-      dockerfile: src/backend/Dockerfile
+      dockerfile: src/backend/Dockerfile.terminal
     environment:
-      WNAV_BE_DATABASE_URL_FILE: /run/secrets/db_url
+      WNAV_TERMINAL_DATABASE_URL_FILE: /run/secrets/terminal_db_url
       WNAV_BE_JWT_PUBLIC_KEY_FILE: /run/secrets/jwt_public_key
-      RUST_LOG: "wnav_api=info,tower_http=debug"
+      RUST_LOG: "wnav_terminal_api=info,tower_http=debug"
+    ports:
+      - "127.0.0.1:8080:8080"
     networks:
       - backend_network
       - frontend_network
@@ -295,7 +316,27 @@ services:
       postgres:
         condition: service_healthy
     secrets:
-      - db_url
+      - terminal_db_url
+      - jwt_public_key
+
+  wnav_master_api:
+    build:
+      context: .
+      dockerfile: src/backend/Dockerfile.master
+    environment:
+      WNAV_MASTER_DATABASE_URL_FILE: /run/secrets/master_db_url
+      WNAV_BE_JWT_PUBLIC_KEY_FILE: /run/secrets/jwt_public_key
+      RUST_LOG: "wnav_master_api=info,tower_http=debug"
+    ports:
+      - "127.0.0.1:8081:8081"
+    networks:
+      - backend_network
+      - frontend_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    secrets:
+      - master_db_url
       - jwt_public_key
 
 networks:
@@ -313,8 +354,10 @@ volumes:
 secrets:
   postgres_password:
     file: ./secrets/postgres_password.txt
-  db_url:
-    file: ./secrets/db_url.txt
+  terminal_db_url:
+    file: ./secrets/terminal_db_url.txt
+  master_db_url:
+    file: ./secrets/master_db_url.txt
   jwt_public_key:
     file: ./secrets/jwt_public_key.pem
 ```
@@ -323,6 +366,7 @@ secrets:
 - **サービス名を `snake_case` で命名し、ネットワークを `backend_network`/`frontend_network` に明示的に分離する。**
 - **シークレットは `secrets:` スタンザで管理し、`environment:` への直接記載を禁止する。**
 - **ポートは `127.0.0.1:<port>` 形式でループバックにバインドし、全インターフェースへの公開を禁止する。**
+- **`wnav_terminal_api`（8080）と `wnav_master_api`（8081）をそれぞれ独立したサービスとして定義し、2バイナリ構成を維持する。**
 
 ---
 
@@ -422,13 +466,36 @@ Write-Output "IIS 設定の適用が完了した"
 
 ## 6. nginx 設定
 
+共通のプロキシパラメータは `/etc/nginx/conf.d/wnav_proxy_params.conf` に切り出し、各 `location` ブロックから `include` する。これにより設定の重複を排除する。
+
+```nginx
+# /etc/nginx/conf.d/wnav_proxy_params.conf
+# 全 location ブロックで共通のプロキシ設定（include で再利用する）
+proxy_http_version 1.1;
+proxy_set_header Host              $host;
+proxy_set_header X-Real-IP         $remote_addr;
+proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header Connection        "";  # keepalive のため Connection ヘッダをクリア
+proxy_connect_timeout 10s;
+proxy_send_timeout    30s;
+proxy_read_timeout    30s;
+```
+
 ```nginx
 # /etc/nginx/conf.d/wnav.conf
 # WNav バックエンド API のリバースプロキシ設定（WSL2 上の nginx）
+# 2バイナリ構成: wnav_terminal_api（8080）/ wnav_master_api（8081）
 
-upstream backend_upstream {
-    # WSL2 内の axum サーバーを指定する
+upstream terminal_upstream {
+    # wnav_terminal_api: ハンディ端末向け作業イベント記録 API（8080）
     server 127.0.0.1:8080;
+    keepalive 32;
+}
+
+upstream master_upstream {
+    # wnav_master_api: マスタメンテナンス API（8081）
+    server 127.0.0.1:8081;
     keepalive 32;
 }
 
@@ -468,24 +535,39 @@ server {
     gzip_min_length 1024;
     gzip_types application/json text/plain text/css application/javascript;
 
-    # API プロキシ
-    location /api/ {
-        proxy_pass http://backend_upstream;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header Connection "";  # keepalive のため Connection ヘッダをクリア
-        proxy_connect_timeout 10s;
-        proxy_send_timeout 30s;
-        proxy_read_timeout 30s;
+    # terminal-api: 作業イベント記録（ハンディ端末向け）
+    # /api/v1/events/ と /api/v1/terminal/ を terminal_upstream（8080）にルーティングする
+    location /api/v1/events/ {
+        proxy_pass http://terminal_upstream;
+        include /etc/nginx/conf.d/wnav_proxy_params.conf;
     }
 
-    # ヘルスチェックエンドポイント
-    location /healthz {
-        proxy_pass http://backend_upstream;
-        access_log off;  # ヘルスチェックのログを抑制する
+    location /api/v1/terminal/ {
+        proxy_pass http://terminal_upstream;
+        include /etc/nginx/conf.d/wnav_proxy_params.conf;
+    }
+
+    # master-api: SOP・マスタデータ管理（マスタメンテ向け）
+    # /api/v1/sop/ と /api/v1/master/ を master_upstream（8081）にルーティングする
+    location /api/v1/sop/ {
+        proxy_pass http://master_upstream;
+        include /etc/nginx/conf.d/wnav_proxy_params.conf;
+    }
+
+    location /api/v1/master/ {
+        proxy_pass http://master_upstream;
+        include /etc/nginx/conf.d/wnav_proxy_params.conf;
+    }
+
+    # ヘルスチェックエンドポイント（terminal-api / master-api）
+    location /healthz/terminal {
+        proxy_pass http://terminal_upstream/healthz;
+        access_log off;
+    }
+
+    location /healthz/master {
+        proxy_pass http://master_upstream/healthz;
+        access_log off;
     }
 }
 ```
@@ -494,6 +576,9 @@ server {
 - **TLS は TLSv1.3 のみを許容し、TLSv1.2 以下を対象外と判断する。**
 - **HSTS（`Strict-Transport-Security: max-age=31536000`）を全レスポンスに付与する。**
 - **`X-Frame-Options: DENY` を設定し、クリックジャッキングに対応する。**
+- **nginx の upstream を `terminal_upstream`（8080）と `master_upstream`（8081）に分割し、パスプレフィックスでルーティングする。**
+- **`/api/v1/events/` および `/api/v1/terminal/` は `terminal_upstream` へ、`/api/v1/sop/` および `/api/v1/master/` は `master_upstream` へプロキシする。**
+- **共通のプロキシヘッダ・タイムアウト設定は `wnav_proxy_params.conf` に切り出して `include` し、各 `location` ブロックでの重複を排除する。**
 
 ---
 
@@ -529,6 +614,23 @@ ADR-IMPL-001 に基づき、設定を「非機密 YAML」と「機密 .env / Sec
 ```bash
 # ── プロファイル選択（必須） ───────────────────────────────────────
 WNAV_PROFILE=local
+
+# バックエンド: terminal-api（wnav_terminal_api / 8080）
+# app_event_insert ロール（INSERT 専用）と app_read ロールを使用する
+WNAV_TERMINAL_DATABASE_URL="postgres://app_event_insert:...@localhost:5432/wnav"
+WNAV_TERMINAL_DATABASE_URL_READ="postgres://app_read:...@localhost:5432/wnav"
+WNAV_BE_JWT_PUBLIC_KEY_PATH="/etc/wnav/jwt/public.pem"
+WNAV_TERMINAL_LISTEN_ADDR="0.0.0.0:8080"
+WNAV_TERMINAL_RUST_LOG="wnav_terminal_api=info,tower_http=debug"
+WNAV_TERMINAL_IDEMPOTENCY_CACHE_TTL_SECS="86400"
+
+# バックエンド: master-api（wnav_master_api / 8081）
+# app_write ロール（SELECT/INSERT/UPDATE）と app_read ロールを使用する
+WNAV_MASTER_DATABASE_URL="postgres://app_write:...@localhost:5432/wnav"
+WNAV_MASTER_DATABASE_URL_READ="postgres://app_read:...@localhost:5432/wnav"
+WNAV_MASTER_LISTEN_ADDR="0.0.0.0:8081"
+WNAV_MASTER_RUST_LOG="wnav_master_api=info,tower_http=debug"
+WNAV_MASTER_IDEMPOTENCY_CACHE_TTL_SECS="86400"
 
 # ── DB パスワード（3 ロール・機密） ───────────────────────────────
 WNAV_DB_PASSWORD_WRITE=CHANGE_ME

@@ -1,6 +1,6 @@
 # 13 エラーコード対応早見表（ERR-NNN）
 
-最終更新: 2026-05-18 | 管理者: system_admin
+最終更新: 2026-05-18（Unit-14: 2バイナリ分割対応） | 管理者: system_admin
 
 ---
 
@@ -8,35 +8,52 @@
 
 本章は全 22 件のエラーコードに対する「HTTP ステータス・ログ検索クエリ・典型原因 Top3・初動 1 行」を一覧する。詳細な復旧手順は 04〜05 章の対応 RUN を参照する。
 
+**バイナリ別エラー発生元**
+
+バックエンドは 2 バイナリ構成のため、エラーコードの発生元バイナリを特定してからログを確認する。
+
+| バイナリ | ポート | 担当エラーカテゴリ |
+|---|---|---|
+| terminal-api | 8080 | ERR-AUTH（ハンディ端末認証）・ERR-VAL（作業ログ入力検証）・ERR-BIZ（作業業務ロジック）・ERR-DB（ハンディ向けDB）・ERR-SYS-001/005（OutboxWorker パニック・DLQ）|
+| master-api | 8081 | ERR-AUTH（管理コンソール認証）・ERR-BIZ-003/005（SOP 承認・ワークフロー）・ERR-DB-003（ハッシュチェーン破断）・ERR-EXT（外部連携）・ERR-SYS-003/004（帳票・マイグレーション）|
+
 **ログ検索基本コマンド**
 
 ```bash
-# API ログからエラーコードを検索
-docker compose logs api --since 1h | grep "ERR-{CODE}"
+# terminal-api ログからエラーコードを検索
+docker compose logs terminal-api --since 1h | grep "ERR-{CODE}"
 
-# 直近 30 分のエラーコード出現頻度
-docker compose logs api --since 30m | grep -oE 'ERR-[A-Z]+-[0-9]+' | sort | uniq -c | sort -rn
+# master-api ログからエラーコードを検索
+docker compose logs master-api --since 1h | grep "ERR-{CODE}"
+
+# 両バイナリの直近 30 分のエラーコード出現頻度（まとめて確認）
+docker compose logs terminal-api --since 30m | grep -oE 'ERR-[A-Z]+-[0-9]+' | sort | uniq -c | sort -rn
+docker compose logs master-api --since 30m | grep -oE 'ERR-[A-Z]+-[0-9]+' | sort | uniq -c | sort -rn
 ```
 
 ---
 
 ## 2 ERR-AUTH（認証・認可）
 
-| ERR コード | HTTP | ログ検索クエリ | 典型原因 Top3 | 初動 1 行 |
-|---|---|---|---|---|
-| ERR-AUTH-001 | 401 | `grep "ERR-AUTH-001"` | (1) JWT 期限切れ (2) 署名鍵不一致 (3) JWT フォーマット不正 | `docker compose logs api --since 30m \| grep "ERR-AUTH-001"` でリクエスト元確認 |
-| ERR-AUTH-002 | 401 | `grep "ERR-AUTH-002"` | (1) PIN 入力誤り (2) PIN 未設定 (3) キーボード入力文字化け | ユーザーに PIN リセット手順を案内する |
-| ERR-AUTH-003 | 423 | `grep "ERR-AUTH-003"` | (1) ログイン失敗 5 回以上 (2) 管理者によるロック (3) 同期前のロック状態 | `psql -c "SELECT user_id, locked_at FROM users WHERE locked_at IS NOT NULL;"` |
-| ERR-AUTH-004 | 403 | `grep "ERR-AUTH-004"` | (1) ロール設定誤り (2) 権限が付与されていない機能へのアクセス (3) 期限切れ権限 | `psql -c "SELECT user_id, role FROM user_roles WHERE user_id='{ID}';"` |
+認証エラーはハンディ端末（terminal-api）と管理コンソール（master-api）の両方で発生する。まず発生元バイナリを特定する。
+
+| ERR コード | HTTP | 発生元バイナリ | ログ検索クエリ | 典型原因 Top3 | 初動 1 行 |
+|---|---|---|---|---|---|
+| ERR-AUTH-001 | 401 | terminal-api / master-api | `grep "ERR-AUTH-001"` | (1) JWT 期限切れ (2) 署名鍵不一致 (3) JWT フォーマット不正 | `docker compose logs terminal-api --since 30m \| grep "ERR-AUTH-001"` でリクエスト元確認 |
+| ERR-AUTH-002 | 401 | terminal-api | `grep "ERR-AUTH-002"` | (1) PIN 入力誤り (2) PIN 未設定 (3) キーボード入力文字化け | ユーザーに PIN リセット手順を案内する |
+| ERR-AUTH-003 | 423 | terminal-api / master-api | `grep "ERR-AUTH-003"` | (1) ログイン失敗 5 回以上 (2) 管理者によるロック (3) 同期前のロック状態 | `psql -c "SELECT user_id, locked_at FROM users WHERE locked_at IS NOT NULL;"` |
+| ERR-AUTH-004 | 403 | master-api | `grep "ERR-AUTH-004"` | (1) ロール設定誤り (2) 権限が付与されていない機能へのアクセス (3) 期限切れ権限 | `psql -c "SELECT user_id, role FROM user_roles WHERE user_id='{ID}';"` |
 
 **認証エラー初動ログ確認**
 
 ```bash
-# ERR-AUTH 全件の発生頻度（直近 1 時間）
-docker compose logs api --since 1h | grep -oE 'ERR-AUTH-00[1-4]' | sort | uniq -c | sort -rn
+# ERR-AUTH 全件の発生頻度（直近 1 時間）- 発生元バイナリ別に確認
+docker compose logs terminal-api --since 1h | grep -oE 'ERR-AUTH-00[1-4]' | sort | uniq -c | sort -rn
+docker compose logs master-api --since 1h | grep -oE 'ERR-AUTH-00[1-4]' | sort | uniq -c | sort -rn
 
-# 特定ユーザーの認証失敗確認
-docker compose logs api --since 1h | grep "ERR-AUTH" | grep "{USER_ID}"
+# 特定ユーザーの認証失敗確認（両バイナリ確認）
+docker compose logs terminal-api --since 1h | grep "ERR-AUTH" | grep "{USER_ID}"
+docker compose logs master-api --since 1h | grep "ERR-AUTH" | grep "{USER_ID}"
 ```
 
 **本節で確定した方針**
@@ -81,21 +98,22 @@ docker compose logs api --since 1h | grep "ERR-AUTH" | grep "{USER_ID}"
 
 ## 5 ERR-DB（データベース）
 
-| ERR コード | HTTP | ログ検索クエリ | 典型原因 Top3 | 初動 1 行 |
-|---|---|---|---|---|
-| ERR-DB-001 | 503 | `grep "ERR-DB-001"` | (1) PostgreSQL プロセス停止 (2) 接続数枯渇 (3) ネットワーク断 | `pg_isready -h localhost -p 5432` で疎通確認 |
-| ERR-DB-002 | 422 | `grep "ERR-DB-002"` | (1) 参照先レコードが存在しない (2) 削除済みレコードへの FK 参照 (3) データ不整合 | `psql -c "SELECT constraint_name FROM pg_constraint WHERE contype='f' AND conname='{FK}';"` |
-| ERR-DB-003 | 503 | `grep "ERR-DB-003"` | (1) データ改ざん (2) ビット反転（物理障害）(3) 直接 DB 操作による意図しない変更 | **即座に 08 章（ハッシュチェーン破断対応）へ移行する** |
+| ERR コード | HTTP | 発生元バイナリ | ログ検索クエリ | 典型原因 Top3 | 初動 1 行 |
+|---|---|---|---|---|---|
+| ERR-DB-001 | 503 | terminal-api / master-api | `grep "ERR-DB-001"` | (1) PostgreSQL プロセス停止 (2) 接続数枯渇 (3) ネットワーク断 | `pg_isready -h localhost -p 5432` で疎通確認 |
+| ERR-DB-002 | 422 | terminal-api / master-api | `grep "ERR-DB-002"` | (1) 参照先レコードが存在しない (2) 削除済みレコードへの FK 参照 (3) データ不整合 | `psql -c "SELECT constraint_name FROM pg_constraint WHERE contype='f' AND conname='{FK}';"` |
+| ERR-DB-003 | 503 | **master-api**（HashChainVerifier） | `grep "ERR-DB-003"` | (1) データ改ざん (2) ビット反転（物理障害）(3) 直接 DB 操作による意図しない変更 | **即座に 08 章（ハッシュチェーン破断対応）へ移行する** |
 
 ```bash
-# ERR-DB-003 発生時の即時確認
+# ERR-DB-003 発生時の即時確認（master-api ログを確認）
+docker compose logs master-api --since 30m | grep "ERR-DB-003"
 curl -fsS "http://localhost:9090/api/v1/query?query=hash_chain_error_total" | jq '.data.result'
 # 0 より大きい値 → 08 章へ
 ```
 
 **本節で確定した方針**
 - **ERR-DB-001 は P1/P2 として即時 RUN-011 を実施する。**
-- **ERR-DB-003 は確認した瞬間に P1 として 08 章へ移行する。自己判断での修復は禁止する。**
+- **ERR-DB-003 は master-api（HashChainVerifier）が検出する。確認した瞬間に P1 として 08 章へ移行する。自己判断での修復は禁止する。**
 - **ERR-DB-002 が多発する場合はデータ移行・マスタ更新のバグを疑い P2 として調査する。**
 
 ---
@@ -116,20 +134,21 @@ curl -fsS "http://localhost:9090/api/v1/query?query=hash_chain_error_total" | jq
 
 ## 7 ERR-SYS（システム）
 
-| ERR コード | HTTP | ログ検索クエリ | 典型原因 Top3 | 初動 1 行 |
-|---|---|---|---|---|
-| ERR-SYS-001 | 500 | `grep "ERR-SYS-001"` | (1) Rust パニック（プログラムバグ）(2) OOM（メモリ枯渇）(3) スタックオーバーフロー | `docker compose logs api --since 5m \| grep -E "panic\|SIGABRT\|killed"` |
-| ERR-SYS-003 | 500 | `grep "ERR-SYS-003"` | (1) 帳票テンプレートファイル欠損 (2) PDF 生成ライブラリエラー (3) 出力先ディスク不足 | `docker compose logs api --since 30m \| grep "ERR-SYS-003"` でテンプレートパス確認 |
-| ERR-SYS-004 | 500 | `grep "ERR-SYS-004"` | (1) テンプレートと DB スキーマの不整合 (2) マイグレーション未適用 (3) テンプレートバージョン不一致 | `psql -c "SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 5;"` |
-| ERR-SYS-005 | 503 | `grep "ERR-SYS-005"` | (1) DLQ 件数が上限超過 (2) Outbox Worker 停止 (3) DB への書き込みが停止 | `curl http://localhost:8080/api/v1/ops/dlq/stats \| jq .dlq_total` → 09 章へ |
+| ERR コード | HTTP | 発生元バイナリ | ログ検索クエリ | 典型原因 Top3 | 初動 1 行 |
+|---|---|---|---|---|---|
+| ERR-SYS-001 | 500 | terminal-api / master-api | `grep "ERR-SYS-001"` | (1) Rust パニック（プログラムバグ）(2) OOM（メモリ枯渇）(3) スタックオーバーフロー | `docker compose logs terminal-api --since 5m \| grep -E "panic\|SIGABRT\|killed"` |
+| ERR-SYS-003 | 500 | **master-api**（帳票生成） | `grep "ERR-SYS-003"` | (1) 帳票テンプレートファイル欠損 (2) PDF 生成ライブラリエラー (3) 出力先ディスク不足 | `docker compose logs master-api --since 30m \| grep "ERR-SYS-003"` でテンプレートパス確認 |
+| ERR-SYS-004 | 500 | master-api | `grep "ERR-SYS-004"` | (1) テンプレートと DB スキーマの不整合 (2) マイグレーション未適用 (3) テンプレートバージョン不一致 | `psql -c "SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 5;"` |
+| ERR-SYS-005 | 503 | **terminal-api**（OutboxWorker） | `grep "ERR-SYS-005"` | (1) DLQ 件数が上限超過 (2) Outbox Worker 停止 (3) DB への書き込みが停止 | `curl http://localhost:8081/api/v1/ops/outbox/dlq/stats \| jq .dlq_total` → 09 章へ |
 
 ```bash
-# ERR-SYS-001（パニック）発生時の確認
-docker compose logs api --since 5m | grep -E "panic|thread.*panicked|SIGABRT"
+# ERR-SYS-001（パニック）発生時の確認 - 発生元バイナリ別に確認
+docker compose logs terminal-api --since 5m | grep -E "panic|thread.*panicked|SIGABRT"
+docker compose logs master-api --since 5m | grep -E "panic|thread.*panicked|SIGABRT"
 
 # パニック後の再起動確認
-docker compose ps api
-# Status が Restarting の場合は RUN-020 を実施
+docker compose ps terminal-api master-api
+# Status が Restarting の場合は RUN-020 を実施（対象バイナリを指定）
 ```
 
 **本節で確定した方針**

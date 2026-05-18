@@ -2,6 +2,15 @@
 
 本章は IQC（入荷検査）とリワーク（修正作業）機能の REST API を確定する。API 共通仕様（RFC 9457 エラー・Idempotency-Key・JWT 認証）は `01_OpenAPI共通仕様と設計原則.md` に準拠する。
 
+> **担当バイナリ方針**:
+> - IQC 検査実施系（`POST /api/v1/iqc/incoming-inspections`、測定値入力）→ **terminal-api**（現場端末からの入荷検査実施）
+> - IQC 合否判定・特採承認（`POST /api/v1/iqc/incoming-inspections/{id}/judge`、`/api/v1/iqc/incoming-inspections/{id}/concession`）→ **master-api**（品質管理者による判定・承認）
+> - リワーク作業実施（`POST /api/v1/reworks`）→ **terminal-api**（現場端末からのリワーク作業実施）
+> - ディスポジション承認（`POST /api/v1/dispositions`）→ **master-api**（品質管理者・監督者による承認）
+> - 廃却記録（`POST /api/v1/scrap-records`）→ **master-api**
+> - 返却記録（`POST /api/v1/return-records`）→ **master-api**
+> - 再検査記録（`POST /api/v1/rework-verifications`）→ **terminal-api**（operator / quality_admin が現場で実施）
+
 ---
 
 ## 1. IQC API
@@ -15,6 +24,7 @@
 | API-ID | API-iqc-001 |
 | HTTP Method | POST |
 | URL | `/api/v1/iqc/incoming-inspections` |
+| 担当バイナリ | terminal-api（現場端末からの入荷ロット受入登録）|
 | 必要ロール | operator（IQC）/ quality_admin |
 | Idempotency | Idempotency-Key ヘッダ必須 |
 | 関連 FR | FR-IQ-001, FR-IQ-002, BR-BUS-032 |
@@ -53,6 +63,7 @@
 | API-ID | API-iqc-003 |
 | HTTP Method | POST |
 | URL | `/api/v1/iqc/incoming-inspections/{id}/measurements` |
+| 担当バイナリ | terminal-api（現場端末からの測定値入力）|
 | 必要ロール | operator（IQC）/ quality_admin |
 | 関連 FR | FR-IQ-005, FR-IQ-006 |
 
@@ -76,6 +87,7 @@ AQL 自動合否判定を実行し qc_status を確定する。不良数 ≤ Ac 
 | API-ID | API-iqc-004 |
 | HTTP Method | POST |
 | URL | `/api/v1/iqc/incoming-inspections/{id}/judge` |
+| 担当バイナリ | master-api（品質管理者による AQL 合否判定）|
 | 必要ロール | quality_admin |
 | 関連 FR | FR-IQ-007, FR-IQ-008 |
 
@@ -90,6 +102,7 @@ AQL 自動合否判定を実行し qc_status を確定する。不良数 ≤ Ac 
 | API-ID | API-iqc-005 |
 | HTTP Method | POST |
 | URL | `/api/v1/iqc/incoming-inspections/{id}/concession` |
+| 担当バイナリ | master-api（品質管理者による特採承認）|
 | 必要ロール | quality_admin |
 | 関連 FR | FR-IQ-010 |
 
@@ -117,6 +130,7 @@ AQL 自動合否判定を実行し qc_status を確定する。不良数 ≤ Ac 
 | API-ID | API-dispositions-001 |
 | HTTP Method | POST |
 | URL | `/api/v1/dispositions` |
+| 担当バイナリ | master-api（品質管理者・監督者による Two-Person Integrity 承認）|
 | 必要ロール | quality_admin（quality_admin_sign）+ supervisor（supervisor_sign）|
 | Idempotency | Idempotency-Key ヘッダ必須 |
 | 関連 FR | FR-ST-013, FR-EV-014, BR-BUS-040 |
@@ -144,6 +158,7 @@ AQL 自動合否判定を実行し qc_status を確定する。不良数 ≤ Ac 
 | API-ID | API-reworks-001 |
 | HTTP Method | POST |
 | URL | `/api/v1/reworks` |
+| 担当バイナリ | terminal-api（現場端末からのリワーク作業開始）|
 | 必要ロール | operator / supervisor |
 | 関連 FR | FR-ST-014, BR-BUS-041 |
 
@@ -158,6 +173,7 @@ AQL 自動合否判定を実行し qc_status を確定する。不良数 ≤ Ac 
 | API-ID | API-rework-verifications-001 |
 | HTTP Method | POST |
 | URL | `/api/v1/rework-verifications` |
+| 担当バイナリ | terminal-api（operator / quality_admin が現場で再検査実施）|
 | 必要ロール | operator / quality_admin |
 | 関連 FR | FR-EV-015, BR-BUS-042 |
 
@@ -172,6 +188,7 @@ AQL 自動合否判定を実行し qc_status を確定する。不良数 ≤ Ac 
 | API-ID | API-scrap-records-001 |
 | HTTP Method | POST |
 | URL | `/api/v1/scrap-records` |
+| 担当バイナリ | master-api（品質管理者による廃却処理承認）|
 | 必要ロール | quality_admin |
 | 関連 FR | FR-MA-017, BR-BUS-043 |
 
@@ -186,10 +203,19 @@ AQL 自動合否判定を実行し qc_status を確定する。不良数 ≤ Ac 
 | API-ID | API-return-records-001 |
 | HTTP Method | POST |
 | URL | `/api/v1/return-records` |
+| 担当バイナリ | master-api（品質管理者による仕入先返却処理）|
 | 必要ロール | quality_admin |
 | 関連 FR | FR-MA-018, BR-BUS-044 |
 
 エラー: `ERR-BIZ-025`（追跡番号未入力）
+
+---
+
+---
+
+**本節で確定した方針**
+- **IQC 検査実施系（API-iqc-001: 入荷登録・API-iqc-003: 測定値入力）およびリワーク作業実施（API-reworks-001）・再検査記録（API-rework-verifications-001）は `wnav_terminal_api`（ポート 8080）が担当する。**
+- **IQC 合否判定（API-iqc-004）・特採承認（API-iqc-005）・ディスポジション承認（API-dispositions-001）・廃却記録（API-scrap-records-001）・返却記録（API-return-records-001）は `wnav_master_api`（ポート 8081）が担当する。承認・判定系はすべて管理コンソールからの操作に限定する。**
 
 ---
 
