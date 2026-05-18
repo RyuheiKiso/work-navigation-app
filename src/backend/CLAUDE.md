@@ -330,6 +330,68 @@ src/backend/
 
 ---
 
+## Docker
+
+### Dockerfile の配置
+
+`src/backend/Dockerfile` に配置する。ビルドコンテキストは `src/backend/` とする。
+
+### マルチステージビルド構成
+
+```dockerfile
+# Stage 1: ビルダー（cargo build --release）
+FROM rust:1.82-slim AS builder
+WORKDIR /app
+COPY . .
+RUN cargo build --release --bin wnav_terminal_api
+RUN cargo build --release --bin wnav_master_api
+
+# Stage 2: ランタイム（distroless または debian-slim）
+FROM debian:bookworm-slim AS runtime
+# 必要なシステムライブラリのみインストール（libssl 等）
+```
+
+- ランタイムイメージに Rust ツールチェーン・ソースコードを含めない
+- `target/` ディレクトリは `.dockerignore` で除外する
+
+### 2 バイナリ・2 サービス構成
+
+`wnav_terminal_api` と `wnav_master_api` はそれぞれ独立したコンテナとして起動する。`docker-compose.yml` の `command:` で切り替える。
+
+```yaml
+# docker-compose.yml（プロジェクトルート）の例
+services:
+  terminal_api:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    command: ./wnav_terminal_api
+    ports:
+      - "8080:8080"
+    environment:
+      WNAV_PROFILE: dev
+      WNAV_DB_PASSWORD_EVENT_INSERT: "${WNAV_DB_PASSWORD_EVENT_INSERT}"
+
+  master_api:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    command: ./wnav_master_api
+    ports:
+      - "8081:8081"
+    environment:
+      WNAV_PROFILE: dev
+      WNAV_DB_PASSWORD_WRITE: "${WNAV_DB_PASSWORD_WRITE}"
+```
+
+### 起動時の注意事項
+
+- `WNAV_PROFILE` が未設定の場合、バイナリは exit code 78 で即時終了する（fail-fast 設計）
+- 機密値（DB パスワード・JWT 秘密鍵）は環境変数またはシークレット管理から注入する。コンテナイメージに埋め込まない
+- `config.{profile}.yml` は `src/infra/config/` から bind mount またはイメージ埋め込みで提供する
+
+---
+
 ## 参照ドキュメント
 
 - `docs/02_企画/システム化計画/05_アーキテクチャ原則.md` — Offline-First / Append-only / Idempotent / ハッシュチェーン
@@ -341,5 +403,5 @@ src/backend/
 
 ---
 
-最終更新: 2026-05-18
+最終更新: 2026-05-18 (Docker セクション追加)
 次回見直しトリガー: Rust 実装開始時、または Cargo.toml にクレート追加を決定した時

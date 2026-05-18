@@ -129,6 +129,55 @@ src/frontend/master/
 
 ---
 
+## Docker
+
+### Dockerfile の配置
+
+`src/frontend/master/Dockerfile` に配置する。ビルドコンテキストは `src/frontend/master/` とする。
+
+### マルチステージビルド構成
+
+```dockerfile
+# Stage 1: ビルダー（Vite ビルド）
+FROM node:22-slim AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build        # dist/ に静的ファイルを出力
+
+# Stage 2: 静的配信（nginx）
+FROM nginx:alpine AS runtime
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+```
+
+- ランタイムイメージに Node.js・ソースコード・`node_modules` を含めない
+- `node_modules/` と `dist/` は `.dockerignore` で除外する
+
+### nginx.conf の最小要件
+
+```nginx
+server {
+    listen 80;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # SPA のフォールバック（React Router 対応）
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+### 注意事項
+
+- ビルド成果物は静的ファイルのみ。Node.js サーバーをランタイムイメージに含めない（`ビルド成果物: 静的ファイル` 規約に従う）
+- `docker-compose.yml` 側でバックエンド URL を環境変数（`VITE_API_BASE_URL` 等）として渡す。コードにハードコードしない
+- IIS または axum から配信する本番環境では Docker を使わない場合がある。`npm run build` の成果物（`dist/`）をそのままデプロイすれば十分
+
+---
+
 ## 参照ドキュメント
 
 - `docs/02_企画/システム化計画/06_データモデル中核設計.md` — 時点参照固定・マスタ物理削除禁止
@@ -141,5 +190,5 @@ src/frontend/master/
 
 ---
 
-最終更新: 2026-05-17
+最終更新: 2026-05-18 (Docker セクション追加)
 次回見直しトリガー: React 実装開始時、または UI ライブラリ（Ant Design / MUI）を ADR で確定した時

@@ -109,6 +109,21 @@ webhook:
   hmac_key:
     secret_ref: "env:WNAV_BE_WEBHOOK_SECRET"
 
+# ── Webhook 受信（外部システムからの Push 受信） ──────────────────────
+webhook_receiver:
+  hmac_key:
+    secret_ref: "env:WNAV_BE_WEBHOOK_RECEIVER_SECRET"
+  hmac_timeout_ms: 5000                  # CFG-028
+
+# ── SSE 配信 ──────────────────────────────────────────────────────────
+sse:
+  keep_alive_sec: 25                     # CFG-029
+  dispatch_retry_max: 5                  # CFG-030
+
+# ── 統合機能フラグ ────────────────────────────────────────────────────
+integration:
+  push_receive_enabled: false            # CFG-031
+
 # ── 外部通知 ──────────────────────────────────────────────────────────
 external:
   backup_notification_url:

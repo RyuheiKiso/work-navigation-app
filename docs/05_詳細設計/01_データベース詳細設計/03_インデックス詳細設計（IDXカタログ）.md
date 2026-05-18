@@ -206,17 +206,21 @@ COMMENT ON INDEX idx_hash_chain_blocks_created_at IS
     'IDX-014 — created_at 降順 B-Tree。BAT-001 が最新ブロック（前回チェックポイント）を取得する際に使用。v_hash_chain_latest ビュー（VW-008）のベースインデックス。';
 ```
 
-### IDX-015: auth_logs.(user_id, occurred_at) B-Tree
+### IDX-015: auth_logs.(user_id, occurred_at DESC) 複合 B-Tree
 
 ```sql
--- IDX-015: TBL-032 auth_logs — (user_id, occurred_at) B-Tree
+-- IDX-015: TBL-032 auth_logs — (user_id, occurred_at DESC) 複合 B-Tree
 -- 目的: 認証監査ログの作業員別時系列検索（FR-AU-004）
--- BRIN を使用: auth_logs は Append-only で自然挿入順（時系列）のため BRIN が効率的
+-- B-Tree を採用: user_id（ランダム UUID v4）は物理ページと相関しないため BRIN では
+--               user_id 絞り込みに実効性がない。年 50 万行規模では複合 B-Tree の
+--               挿入コスト増は許容範囲。
+-- 注記: 旧設計では BRIN を指定していたが IDX カタログ・概要設計 06 章・採番台帳 3 箇所で
+--       表記が分裂していた。本 ADR-011 対応で B-Tree 複合に統一した。
 CREATE INDEX CONCURRENTLY idx_auth_logs_user_id_occurred_at
-    ON auth_logs USING BRIN (user_id, occurred_at);
+    ON auth_logs USING BTREE (user_id, occurred_at DESC);
 
 COMMENT ON INDEX idx_auth_logs_user_id_occurred_at IS
-    'IDX-015 — (user_id, occurred_at) BRIN インデックス。auth_logs は Append-only で挿入順が時系列のため BRIN が効率的（B-Tree より低コスト）。FR-AU-004（認証監査）のユーザー別ログ検索に使用。';
+    'IDX-015 — (user_id, occurred_at DESC) 複合 B-Tree。FR-AU-004（認証監査）のユーザー別時系列検索（新しい順）に最適。user_id がランダム UUID のため BRIN より B-Tree が有効。3 箇所（IDX カタログ / 概要設計 06 章 / 採番台帳）の表記揺れを統一（指摘6対応）。';
 ```
 
 ### IDX-016: idempotency_keys.idempotency_key UNIQUE B-Tree
@@ -229,6 +233,31 @@ COMMENT ON INDEX idx_auth_logs_user_id_occurred_at IS
 
 COMMENT ON INDEX idempotency_keys_pkey IS
     'IDX-016 — idempotency_key PRIMARY KEY インデックス（PostgreSQL が自動作成）。API リクエストの Idempotency-Key ヘッダ値で UNIQUE を保証。同一キーの重複 INSERT を排除し P3（Idempotent API）を実現する。';
+```
+
+### IDX-019: evidence_files.created_at BRIN
+
+```sql
+-- IDX-019: TBL-009 evidence_files — created_at BRIN
+-- 目的: サーバー受信時刻による時系列アクセス（06_インデックス §1「全 Append-only テーブルは created_at 降順インデックス必須」）
+-- BRIN を採用: Append-only で自然挿入順が時系列のため BRIN が効率的（IDX-015 auth_logs と同じ方針）
+CREATE INDEX CONCURRENTLY idx_evidence_files_created_at
+    ON evidence_files USING BRIN (created_at);
+
+COMMENT ON INDEX idx_evidence_files_created_at IS
+    'IDX-019 — created_at BRIN インデックス。Append-only テーブルの時系列挿入順と一致するため BRIN が B-Tree より低コスト。証拠ファイルの受信時刻範囲検索に使用。06_インデックス §1 準拠。';
+```
+
+### IDX-020: measurements.created_at BRIN
+
+```sql
+-- IDX-020: TBL-010 measurements — created_at BRIN
+-- 目的: サーバー受信時刻による時系列アクセス（06_インデックス §1「全 Append-only テーブルは created_at 降順インデックス必須」）
+CREATE INDEX CONCURRENTLY idx_measurements_created_at
+    ON measurements USING BRIN (created_at);
+
+COMMENT ON INDEX idx_measurements_created_at IS
+    'IDX-020 — created_at BRIN インデックス。Append-only で時系列挿入順が保証されるため BRIN を採用。計測値の受信時刻範囲検索に使用。06_インデックス §1 準拠。';
 ```
 
 ### IDX-017: case_locks.terminal_id B-Tree
@@ -258,6 +287,118 @@ COMMENT ON INDEX idx_case_locks_heartbeat_at_active IS
 
 ---
 
+### IDX-021〜026: IQC テーブルインデックス（DDL インラインから移植）
+
+```sql
+-- IDX-021: TBL-038 incoming_inspections — lot_id B-Tree
+-- 目的: ロット別入荷検査履歴検索（FR-IQ-001）
+CREATE INDEX CONCURRENTLY idx_incoming_insp_lot
+    ON incoming_inspections USING BTREE (lot_id);
+
+COMMENT ON INDEX idx_incoming_insp_lot IS
+    'IDX-021 — lot_id B-Tree。入荷ロット単位の検査履歴取得。lot_qc_states との JOINで使用。FR-IQ-001 対応。';
+
+-- IDX-022: TBL-038 incoming_inspections — (supplier_id, qc_status) 複合 B-Tree
+-- 目的: 仕入先別・ステータス別検査一覧（品質管理ダッシュボード FR-IQ-003）
+CREATE INDEX CONCURRENTLY idx_incoming_insp_supplier_status
+    ON incoming_inspections USING BTREE (supplier_id, qc_status);
+
+COMMENT ON INDEX idx_incoming_insp_supplier_status IS
+    'IDX-022 — (supplier_id, qc_status) 複合 B-Tree。仕入先別 QC ステータス集計・ダッシュボード表示に使用。FR-IQ-003 対応。';
+
+-- IDX-023: TBL-040 incoming_inspection_measurements — inspection_id B-Tree
+-- 目的: 検査 ID 別サンプル測定値一覧取得（FR-IQ-002）
+CREATE INDEX CONCURRENTLY idx_insp_meas_inspection
+    ON incoming_inspection_measurements USING BTREE (inspection_id);
+
+COMMENT ON INDEX idx_insp_meas_inspection IS
+    'IDX-023 — inspection_id B-Tree。入荷検査ヘッダに対するサンプル測定値明細の取得に使用。FR-IQ-002 対応。';
+
+-- IDX-024: TBL-043 reworks — parent_nonconformity_id B-Tree
+-- 目的: 不適合 ID 別リワーク一覧取得（FR-RW-001）
+CREATE INDEX CONCURRENTLY idx_reworks_nonconformity
+    ON reworks USING BTREE (parent_nonconformity_id);
+
+COMMENT ON INDEX idx_reworks_nonconformity IS
+    'IDX-024 — parent_nonconformity_id B-Tree。不適合レコードからリワーク作業への参照取得に使用。FR-RW-001 対応。';
+
+-- IDX-025: TBL-043 reworks — status B-Tree Partial（未完了のみ）
+-- 目的: 進行中リワーク一覧取得（リワーク管理ダッシュボード）
+CREATE INDEX CONCURRENTLY idx_reworks_status
+    ON reworks USING BTREE (status)
+    WHERE status NOT IN ('CLOSED_OK_RELEASE', 'CLOSED_DOWNGRADE', 'CLOSED_SCRAP', 'CLOSED_RETURN');
+
+COMMENT ON INDEX idx_reworks_status IS
+    'IDX-025 — status Partial B-Tree。未完了リワーク（完了・クローズ以外）のみを対象とし、進行中リワーク一覧取得に使用。Partial 条件で完了済みを除外しサイズを最小化。';
+
+-- IDX-026: TBL-039 sampling_plans — (material_id, supplier_id) 複合 B-Tree Partial（有効のみ）
+-- 目的: 材料 × 仕入先のサンプリング計画検索（FR-IQ-001 AQL 計画引き当て）
+CREATE INDEX CONCURRENTLY idx_sampling_plans_material_supplier
+    ON sampling_plans USING BTREE (material_id, supplier_id)
+    WHERE is_active = TRUE;
+
+COMMENT ON INDEX idx_sampling_plans_material_supplier IS
+    'IDX-026 — (material_id, supplier_id) 複合 Partial B-Tree。is_active=TRUE の有効計画のみを対象。入荷検査時の AQL サンプリング計画引き当てに使用。FR-IQ-001 対応。';
+```
+
+---
+
+### IDX-027〜030: lots 拡張列インデックス（IQC 対応）
+
+```sql
+-- IDX-027: TBL-024 lots — supplier_id B-Tree Partial
+-- 目的: 仕入先別ロット一覧取得（入荷管理・トレーサビリティ）
+CREATE INDEX CONCURRENTLY idx_lots_supplier_id
+    ON lots USING BTREE (supplier_id)
+    WHERE supplier_id IS NOT NULL;
+
+COMMENT ON INDEX idx_lots_supplier_id IS
+    'IDX-027 — supplier_id Partial B-Tree（NULL 除外）。仕入先別ロット一覧・入荷検査履歴への JOIN に使用。';
+
+-- IDX-028: TBL-024 lots — material_id B-Tree Partial
+-- 目的: 材料別ロット一覧取得（材料トレーサビリティ）
+CREATE INDEX CONCURRENTLY idx_lots_material_id
+    ON lots USING BTREE (material_id)
+    WHERE material_id IS NOT NULL;
+
+COMMENT ON INDEX idx_lots_material_id IS
+    'IDX-028 — material_id Partial B-Tree（NULL 除外）。材料別ロット追跡・材料影響範囲分析に使用。';
+
+-- IDX-029: TBL-024 lots — parent_lot_id B-Tree Partial
+-- 目的: 親ロット → 派生ロット（リワーク後）の追跡（FR-RW-008）
+CREATE INDEX CONCURRENTLY idx_lots_parent_lot_id
+    ON lots USING BTREE (parent_lot_id)
+    WHERE parent_lot_id IS NOT NULL;
+
+COMMENT ON INDEX idx_lots_parent_lot_id IS
+    'IDX-029 — parent_lot_id Partial B-Tree（NULL 除外）。リワーク後の派生ロット追跡（親子 lot 追従）に使用。FR-RW-008 対応。';
+
+-- IDX-030: TBL-024 lots — qc_status B-Tree Partial（未完了のみ）
+-- 目的: QC 未完了ロットの後工程ゲート判定（ERR-BIZ-015）
+CREATE INDEX CONCURRENTLY idx_lots_qc_status
+    ON lots USING BTREE (qc_status)
+    WHERE qc_status NOT IN ('PASSED', 'SCRAPPED', 'RETURNED');
+
+COMMENT ON INDEX idx_lots_qc_status IS
+    'IDX-030 — qc_status Partial B-Tree。PASSED/SCRAPPED/RETURNED 以外のロットに絞り込み。後工程スキャン時の ERR-BIZ-015 ゲート判定（lot_qc_states と合わせて二重確認）に使用。';
+```
+
+---
+
+### IDX-031: ハッシュチェーン検索用 複合インデックス（IQC）
+
+```sql
+-- IDX-031: TBL-040 incoming_inspection_measurements — (qc_case_id, content_hash) 複合 B-Tree
+-- 目的: IQC チェーン検証時の qc_case_id 単位全件取得（BAT-001 拡張）
+CREATE INDEX CONCURRENTLY idx_inspection_qc_case_chain
+    ON incoming_inspection_measurements USING BTREE (qc_case_id, content_hash);
+
+COMMENT ON INDEX idx_inspection_qc_case_chain IS
+    'IDX-031 — (qc_case_id, content_hash) 複合 B-Tree。BAT-001 の IQC チェーン検証時に qc_case_id 単位で測定値レコードを時系列順に取得し content_hash の連続性を検証する（ADR-011）。';
+```
+
+---
+
 ## 3. インデックスサマリー
 
 | IDX-ID | 物理名 | TBL | 種別 | 対象列 | Partial 条件 | 根拠 |
@@ -276,20 +417,38 @@ COMMENT ON INDEX idx_case_locks_heartbeat_at_active IS
 | IDX-012 | idx_users_is_active | TBL-016 | B-Tree Partial | user_id | is_active=TRUE | スキルゲート |
 | IDX-013 | idx_external_key_bindings_external_key_gin | TBL-027 | GIN | external_key | — | IF-001 |
 | IDX-014 | idx_hash_chain_blocks_created_at | TBL-031 | B-Tree DESC | created_at | — | BAT-001 |
-| IDX-015 | idx_auth_logs_user_id_occurred_at | TBL-032 | BRIN | (user_id, occurred_at) | — | FR-AU-004 |
+| IDX-015 | idx_auth_logs_user_id_occurred_at | TBL-032 | B-Tree 複合 | (user_id, occurred_at DESC) | — | FR-AU-004 |
 | IDX-016 | idempotency_keys_pkey（自動）| TBL-035 | B-Tree UNIQUE | idempotency_key | — | P3（Idempotent API）|
 | IDX-017 | idx_case_locks_terminal_id | TBL-051 | B-Tree | terminal_id | — | FR-SY-011 |
 | IDX-018 | idx_case_locks_heartbeat_at_active | TBL-051 | B-Tree Partial | heartbeat_at | lock_status='ACTIVE' | BAT-013 |
+| IDX-019 | idx_evidence_files_created_at | TBL-009 | BRIN | created_at | — | 06_インデックス §1 |
+| IDX-020 | idx_measurements_created_at | TBL-010 | BRIN | created_at | — | 06_インデックス §1 |
+| IDX-021 | idx_incoming_insp_lot | TBL-038 | B-Tree | lot_id | — | FR-IQ-001 |
+| IDX-022 | idx_incoming_insp_supplier_status | TBL-038 | B-Tree 複合 | (supplier_id, qc_status) | — | FR-IQ-003 |
+| IDX-023 | idx_insp_meas_inspection | TBL-040 | B-Tree | inspection_id | — | FR-IQ-002 |
+| IDX-024 | idx_reworks_nonconformity | TBL-043 | B-Tree | parent_nonconformity_id | — | FR-RW-001 |
+| IDX-025 | idx_reworks_status | TBL-043 | B-Tree Partial | status | 未完了のみ | リワーク管理 |
+| IDX-026 | idx_sampling_plans_material_supplier | TBL-039 | B-Tree Partial 複合 | (material_id, supplier_id) | is_active=TRUE | FR-IQ-001 |
+| IDX-027 | idx_lots_supplier_id | TBL-024 | B-Tree Partial | supplier_id | NOT NULL | 仕入先別 lot |
+| IDX-028 | idx_lots_material_id | TBL-024 | B-Tree Partial | material_id | NOT NULL | 材料別 lot |
+| IDX-029 | idx_lots_parent_lot_id | TBL-024 | B-Tree Partial | parent_lot_id | NOT NULL | FR-RW-008 |
+| IDX-030 | idx_lots_qc_status | TBL-024 | B-Tree Partial | qc_status | 未完了のみ | ERR-BIZ-015 |
+| IDX-031 | idx_inspection_qc_case_chain | TBL-040 | B-Tree 複合 | (qc_case_id, content_hash) | — | ADR-011 BAT-001 |
 
-次採番値: **IDX-019**
+次採番値: **IDX-032**
 
 ---
 
 **本節で確定した方針**
-- **IDX-001〜018 全件の CREATE INDEX 全文を確定し、対象列・種別・Partial 条件・根拠 NFR/FR を全て明記した。次採番値 IDX-019 を台帳に記録する。**
+- **IDX-001〜031 全件の CREATE INDEX 全文を確定し、対象列・種別・Partial 条件・根拠 NFR/FR を全て明記した。次採番値 IDX-032 を台帳に記録する。**
 - **work_events（TBL-001）の月次パーティションには CREATE INDEX を親テーブルに実行することで全パーティションへ自動継承され、CONCURRENTLY オプションで運用停止なしに作成する。**
-- **Partial インデックス（IDX-003〜005・007・011〜012・018）により、完了済み・オフライン・退職済み・非 ACTIVE ロックの行をインデックスから除外し INSERT コストとインデックスサイズを最小化する。**
+- **Partial インデックス（IDX-003〜005・007・011〜012・018・025〜030）により、完了済み・オフライン・退職済み・非 ACTIVE ロック・NULL・完了 lot の行をインデックスから除外し INSERT コストとインデックスサイズを最小化する。**
 - **IDX-017/018（TBL-051 case_locks）を追加し、BAT-013 の EXPIRED 化対象絞り込みと端末別 case 検索を効率化する設計を確定した。**
+- **IDX-019/020（TBL-009 evidence_files / TBL-010 measurements）の created_at BRIN インデックスを追加し、06_インデックス §1「全 Append-only テーブルは created_at 降順インデックス必須」との整合を確立した。**
+- **IDX-015（TBL-032 auth_logs）を BRIN（user_id, occurred_at）から B-Tree 複合（user_id, occurred_at DESC）に変更した。user_id がランダム UUID のため BRIN の物理ページ相関効果が薄く、FR-AU-004 のユーザー別監査検索には B-Tree 複合が有効（指摘6対応）。IDX カタログ・概要設計 06 章・採番台帳の 3 箇所で表記を統一した。**
+- **IDX-021〜026（IQC テーブル）を DDL インラインから移植し IDX カタログに正式登録した。採番漏れを解消（指摘2対応）。**
+- **IDX-027〜030（TBL-024 lots 拡張列）を新規追加し、仕入先別・材料別・親ロット・QC ステータスの検索性能を確保した（指摘4対応）。**
+- **IDX-031（TBL-040 IQC チェーン検証用）を追加し、ADR-011 のハッシュチェーン週次検証（BAT-001 拡張）のインデックス基盤を確定した（指摘5対応）。**
 
 ---
 

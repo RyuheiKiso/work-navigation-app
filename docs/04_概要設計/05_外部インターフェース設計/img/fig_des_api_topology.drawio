@@ -1,18 +1,18 @@
 <mxfile>
   <diagram name="API-TOPOLOGY" id="page-1">
-    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0" background="#FFFFFF">
+    <mxGraphModel dx="900" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0" background="#FFFFFF">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
-          <mxGeometry x="0" y="0" width="1400" height="900" as="geometry" />
+          <mxGeometry x="0" y="0" width="1400" height="1000" as="geometry" />
         </mxCell>
-        <mxCell id="title" value="REST API トポロジー（2バイナリ分割）" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="400" y="14" width="600" height="32" as="geometry" />
+        <mxCell id="title" value="REST API &#12488;&#12509;&#12525;&#12472;&#12540;&#65288;2&#12496;&#12452;&#12490;&#12522;&#20998;&#21106; + IF-008/IF-009&#65289;" style="text;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="350" y="14" width="700" height="32" as="geometry" />
         </mxCell>
 
         <!-- /api/v1/ URL prefix note -->
-        <mxCell id="url_note" value="/api/v1/ プレフィックス共通（両バイナリ）" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+        <mxCell id="url_note" value="/api/v1/ &#12503;&#12524;&#12501;&#12451;&#12483;&#12463;&#20849;&#36890;&#65288;&#20004;&#12496;&#12452;&#12490;&#12522;&#65289;" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
           <mxGeometry x="430" y="54" width="540" height="20" as="geometry" />
         </mxCell>
 
@@ -41,14 +41,17 @@
         <mxCell id="ta_r6" value="/auth/login&#xa;aud: terminal-api" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
           <mxGeometry x="420" y="330" width="160" height="40" as="geometry" />
         </mxCell>
+        <!-- terminal-api row 3: IF-009 SSE -->
+        <mxCell id="ta_r7" value="/sse/assignments&#xa;(IF-009 SSE&#37197;&#20449;)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#d79b00;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="60" y="440" width="200" height="40" as="geometry" />
+        </mxCell>
 
         <!-- openapi-terminal.yaml badge -->
         <mxCell id="ta_oapi" value="openapi-terminal.yaml" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#fff2cc;strokeColor=#d79b00;align=center;" vertex="1" parent="1">
-          <mxGeometry x="60" y="440" width="180" height="30" as="geometry" />
+          <mxGeometry x="60" y="556" width="180" height="30" as="geometry" />
         </mxCell>
-        <!-- FE-HA type-gen note -->
-        <mxCell id="ta_note" value="FE-HA (React Native): openapi-terminal.yaml で型生成" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
-          <mxGeometry x="60" y="480" width="380" height="18" as="geometry" />
+        <mxCell id="ta_note" value="FE-HA (React Native): openapi-terminal.yaml &#12391;&#22411;&#29983;&#25104;" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="60" y="596" width="380" height="18" as="geometry" />
         </mxCell>
 
         <!-- Edges terminal-api box → row 1 -->
@@ -115,14 +118,17 @@
         <mxCell id="ma_r6" value="/auth/login&#xa;aud: master-api" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
           <mxGeometry x="1120" y="330" width="160" height="40" as="geometry" />
         </mxCell>
+        <!-- master-api row 3: IF-008 Webhook -->
+        <mxCell id="ma_r7" value="/work-assignments&#xa;(IF-008 Webhook&#21463;&#20449;)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#333333;strokeColor=#6c8ebf;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="780" y="440" width="200" height="40" as="geometry" />
+        </mxCell>
 
         <!-- openapi-master.yaml badge -->
         <mxCell id="ma_oapi" value="openapi-master.yaml" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;" vertex="1" parent="1">
-          <mxGeometry x="780" y="440" width="180" height="30" as="geometry" />
+          <mxGeometry x="780" y="556" width="180" height="30" as="geometry" />
         </mxCell>
-        <!-- FE-MA/FE-MC type-gen note -->
-        <mxCell id="ma_note" value="FE-MA / FE-MC (React): openapi-master.yaml で型生成" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
-          <mxGeometry x="780" y="480" width="400" height="18" as="geometry" />
+        <mxCell id="ma_note" value="FE-MA / FE-MC (React): openapi-master.yaml &#12391;&#22411;&#29983;&#25104;" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontColor=#333333;fillColor=none;strokeColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="780" y="596" width="400" height="18" as="geometry" />
         </mxCell>
 
         <!-- Edges master-api box → row 1 -->
@@ -164,35 +170,66 @@
           </mxGeometry>
         </mxCell>
 
-        <!-- Client nodes at bottom, well below resource rows -->
+        <!-- Client nodes -->
         <mxCell id="fe_ha" value="FE-HA&#xa;React Native" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="160" y="640" width="160" height="52" as="geometry" />
+          <mxGeometry x="160" y="740" width="160" height="52" as="geometry" />
         </mxCell>
         <mxCell id="fe_ma" value="FE-MA / FE-MC&#xa;React (PC)" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#333333;fillColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="1000" y="640" width="160" height="52" as="geometry" />
+          <mxGeometry x="1000" y="740" width="160" height="52" as="geometry" />
         </mxCell>
 
-        <!-- FE-HA → terminal-api: routed through bottom-left avoiding all resource nodes -->
+        <!-- MES/ERP node -->
+        <mxCell id="mes_node" value="MES/ERP&#xa;&#65288;&#35215;&#35242;&#65289;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=#333333;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="940" y="740" width="140" height="52" as="geometry" />
+        </mxCell>
+
+        <!-- FE-HA → terminal-api: routed left avoiding resource nodes -->
         <mxCell id="cli_e1" value="HTTP :8080" style="endArrow=classic;endFill=1;html=1;strokeColor=#d79b00;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="240" y="640" as="sourcePoint" />
-            <mxPoint x="60" y="440" as="targetPoint" />
+            <mxPoint x="240" y="740" as="sourcePoint" />
+            <mxPoint x="60" y="556" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="60" y="590" />
+              <mxPoint x="60" y="690" />
             </Array>
           </mxGeometry>
         </mxCell>
 
-        <!-- FE-MA → master-api: routed through bottom-right avoiding all resource nodes -->
+        <!-- FE-MA → master-api: routed right avoiding resource nodes -->
         <mxCell id="cli_e2" value="HTTP :8081" style="endArrow=classic;endFill=1;html=1;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=11;fontColor=#333333;edgeStyle=none;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1080" y="640" as="sourcePoint" />
-            <mxPoint x="1340" y="440" as="targetPoint" />
+            <mxPoint x="1080" y="740" as="sourcePoint" />
+            <mxPoint x="1340" y="556" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="1340" y="590" />
+              <mxPoint x="1340" y="690" />
             </Array>
           </mxGeometry>
         </mxCell>
+
+        <!-- MES/ERP → master-api (IF-008): routed right-side up avoiding all boxes -->
+        <mxCell id="if008_e" value="IF-008" style="endArrow=classic;endFill=1;html=1;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1080" y="792" as="sourcePoint" />
+            <mxPoint x="980" y="440" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1360" y="792" />
+              <mxPoint x="1360" y="380" />
+              <mxPoint x="980" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- terminal-api → FE-HA (IF-009 SSE): routed left side avoiding ta_oapi -->
+        <mxCell id="if009_e" value="IF-009" style="endArrow=classic;endFill=1;html=1;strokeColor=#d79b00;fontFamily=Helvetica;fontSize=10;fontColor=#333333;edgeStyle=none;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="460" as="sourcePoint" />
+            <mxPoint x="200" y="792" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="30" y="460" />
+              <mxPoint x="30" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
       </root>
     </mxGraphModel>
   </diagram>
