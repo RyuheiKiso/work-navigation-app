@@ -54,6 +54,12 @@ pub struct JwtIssueCmd {
 
 ## 2. RSA-4096 鍵ロードと JWT 検証
 
+**図 1: JWT ライフサイクル**
+
+![図 1 JWT ライフサイクル](img/fig_dd_be_jwt_lifecycle.svg)
+
+> 原本: [`img/fig_dd_be_jwt_lifecycle.drawio`](img/fig_dd_be_jwt_lifecycle.drawio)
+
 ```rust
 // crates/wnav_auth/src/jwt.rs
 
@@ -120,6 +126,12 @@ pub fn issue_jwt(cmd: JwtIssueCmd, private_key_pem: &str) -> Result<String, Auth
 ---
 
 ## 3. RBAC ミドルウェア
+
+**図 2: RBAC 権限チェックフロー**
+
+![図 2 RBAC 権限チェックフロー](img/fig_dd_be_rbac_check.svg)
+
+> 原本: [`img/fig_dd_be_rbac_check.drawio`](img/fig_dd_be_rbac_check.drawio)
 
 ```rust
 // crates/wnav_auth/src/rbac.rs

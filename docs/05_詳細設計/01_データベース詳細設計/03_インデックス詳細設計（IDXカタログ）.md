@@ -6,6 +6,12 @@
 
 ## 1. インデックス設計原則
 
+**図 1: インデックス構成概要**
+
+![図 1 インデックス構成概要](img/fig_dd_db_index_overview.svg)
+
+> 原本: [`img/fig_dd_db_index_overview.drawio`](img/fig_dd_db_index_overview.drawio)
+
 ### 1-1. 適用ルール
 
 - NFR-PRF-001（Step 完了応答 P95 200ms）を達成するため `work_events` への検索インデックスを最優先とする
