@@ -13,7 +13,11 @@
 - **DB（PostgreSQL）**: work_assignments・sse_dispatch_log・external_key_bindings
 - **端末（React Native）**: SSE クライアント・AssignmentInbox・UI
 
-図（将来追加予定）: drawio-authoring スキルで SEQ-019 シーケンス図を作成し、`img/fig_des_seq_push_assignment.drawio` + `.svg` として保存する。
+**図 1: Push 割当配信シーケンス（SEQ-019）**
+
+![図 1 Push 割当配信シーケンス（SEQ-019）](img/fig_des_seq_push_assignment.svg)
+
+> 原本: [`img/fig_des_seq_push_assignment.drawio`](img/fig_des_seq_push_assignment.drawio)
 
 ---
 

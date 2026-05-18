@@ -6,8 +6,11 @@
 
 ## 1. ユースケース記述
 
-> **図 1（作成予定）**: Push 割当受信〜端末配信〜開始シーケンス（SEQ-019）
-> 図は `drawio-authoring` スキルで別途作成する。
+**図 1: Push 型作業指示 ユースケース図（UC-041・UC-042）**
+
+![図 1 Push 型作業指示 ユースケース図（UC-041・UC-042）](img/fig_uc_push_assignment.svg)
+
+> 原本: [`img/fig_uc_push_assignment.drawio`](img/fig_uc_push_assignment.drawio)
 
 ---
 
