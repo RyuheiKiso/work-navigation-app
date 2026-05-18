@@ -4,6 +4,12 @@
 
 ---
 
+**図 1: 緊急パッチ適用フロー**
+
+![図 1 緊急パッチ適用フロー](img/fig_ops_emergency_patch.svg)
+
+> 原本: [`img/fig_ops_emergency_patch.drawio`](img/fig_ops_emergency_patch.drawio)
+
 ## 1. 目的と上流要件
 
 | 属性 | 内容 |

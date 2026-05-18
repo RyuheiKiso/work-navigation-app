@@ -124,10 +124,14 @@ CHK-NNN（OPS-PROC-NNN §5）
 ## 7. 図の管理規約
 
 本ディレクトリに関連する図は `docs/09_運用・保守/運用手順/img/` に配置する。
-各手順書は図を直接埋め込まず、以下の形式で参照する。
+各手順書は図を Markdown 画像構文で埋め込む。HTML `<img>` タグによる埋め込みは禁止。
 
-```
-図: fig_ops_NNN_xxx（img/fig_ops_NNN_xxx.drawio.svg を参照）
+```markdown
+**図 N: <キャプション>**
+
+![図 N <キャプション>](img/fig_xxx.svg)
+
+> 原本: [`img/fig_xxx.drawio`](img/fig_xxx.drawio)
 ```
 
 | 図 ID | 手順 | 概要 |

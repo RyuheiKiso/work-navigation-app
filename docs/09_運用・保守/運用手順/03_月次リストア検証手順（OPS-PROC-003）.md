@@ -4,6 +4,12 @@
 
 ---
 
+**図 1: リストア検証フロー**
+
+![図 1 リストア検証フロー](img/fig_ops_restore_flow.svg)
+
+> 原本: [`img/fig_ops_restore_flow.drawio`](img/fig_ops_restore_flow.drawio)
+
 ## 1. 目的と上流要件
 
 | 属性 | 内容 |

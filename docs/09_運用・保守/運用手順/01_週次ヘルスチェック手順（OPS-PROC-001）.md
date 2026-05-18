@@ -4,6 +4,12 @@
 
 ---
 
+**図 1: 週次ヘルスチェックフロー**
+
+![図 1 週次ヘルスチェックフロー](img/fig_ops_weekly_healthcheck.svg)
+
+> 原本: [`img/fig_ops_weekly_healthcheck.drawio`](img/fig_ops_weekly_healthcheck.drawio)
+
 ## 1. 目的と上流要件
 
 | 属性 | 内容 |
