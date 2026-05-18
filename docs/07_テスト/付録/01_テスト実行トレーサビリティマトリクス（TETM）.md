@@ -6,6 +6,12 @@
 
 ## 1. TETM の構造
 
+**図 3: FR→TST→実行→欠陥 7 段階層**
+
+![図 3 FR→TST→実行→欠陥 7 段階層](../img/fig_test_traceability_hierarchy.svg)
+
+> 原本: [`../img/fig_test_traceability_hierarchy.drawio`](../img/fig_test_traceability_hierarchy.drawio)
+
 テスト実行トレーサビリティマトリクス（TETM）は以下の 7 列で構成する。
 
 | 列 | 識別子 | 権威ソース | 本書での役割 |
