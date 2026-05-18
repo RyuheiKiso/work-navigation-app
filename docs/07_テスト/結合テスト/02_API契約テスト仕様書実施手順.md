@@ -39,15 +39,21 @@ schemathesis --version
 # TENV-002 コンテナが起動済みであることを確認する
 docker compose --profile test ps postgres_test
 
-# テスト用バックエンドサーバーを起動する
+# バックエンド 2 バイナリを起動する
 export DATABASE_URL="postgres://wnav:wnav@localhost:5433/wnavdb_test"
 export JWT_SECRET="test_secret_do_not_use_in_production"
-cargo run --bin wnav-server -- --port 8080 &
-BACKEND_PID=$!
 
-# サーバー起動待機（ヘルスチェックが 200 を返すまで待機する）
+cargo run --bin wnav_terminal_api -- --port 8080 &
+TERMINAL_PID=$!
+
+cargo run --bin wnav_master_api -- --port 8081 &
+MASTER_PID=$!
+
+# 起動待機（両バイナリのヘルスチェックが 200 を返すまで待機する）
 until curl -sf http://localhost:8080/health > /dev/null; do sleep 1; done
-echo "Backend server is ready"
+echo "terminal-api (8080) is ready"
+until curl -sf http://localhost:8081/health > /dev/null; do sleep 1; done
+echo "master-api (8081) is ready"
 ```
 
 ### 2-3. OpenAPI 仕様書の確認
@@ -67,11 +73,18 @@ openapi-spec-validator openapi.yaml
 ### 3-1. 標準実行
 
 ```bash
-# 全エンドポイントの契約テストを実行する
-schemathesis run ./openapi.yaml \
+# terminal-api（8080）の全エンドポイントを検証する
+schemathesis run ./openapi-terminal.yaml \
   --base-url http://localhost:8080 \
   --checks all \
-  --report reports/schemathesis-$(date +%Y%m%d).html \
+  --report reports/schemathesis-terminal-$(date +%Y%m%d).html \
+  --workers 1
+
+# master-api（8081）の全エンドポイントを検証する
+schemathesis run ./openapi-master.yaml \
+  --base-url http://localhost:8081 \
+  --checks all \
+  --report reports/schemathesis-master-$(date +%Y%m%d).html \
   --workers 1
 ```
 
@@ -79,21 +92,35 @@ schemathesis run ./openapi.yaml \
 
 ### 3-2. 認証が必要なエンドポイントの実行
 
-認証付きエンドポイントには有効な JWT を付与する。
+認証付きエンドポイントには有効な JWT を付与する。JWT の `aud` クレームは各バイナリに合わせて取得する。
 
 ```bash
-# JWT を取得する
-TEST_JWT=$(curl -s -X POST http://localhost:8080/api/v1/auth/login \
+# terminal-api 向け JWT（aud=terminal-api）を取得する
+TERMINAL_JWT=$(curl -s -X POST http://localhost:8080/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"login_id":"OP001","password":"correct_password_hash"}' \
   | jq -r '.access_token')
 
-# 認証付きで全エンドポイントを実行する
-schemathesis run ./openapi.yaml \
+# master-api 向け JWT（aud=master-api）を取得する
+MASTER_JWT=$(curl -s -X POST http://localhost:8081/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"login_id":"MGR001","password":"correct_password_hash"}' \
+  | jq -r '.access_token')
+
+# terminal-api の認証付き全エンドポイントを実行する
+schemathesis run ./openapi-terminal.yaml \
   --base-url http://localhost:8080 \
   --checks all \
-  --header "Authorization: Bearer $TEST_JWT" \
-  --report reports/schemathesis-$(date +%Y%m%d)-auth.html \
+  --header "Authorization: Bearer $TERMINAL_JWT" \
+  --report reports/schemathesis-terminal-$(date +%Y%m%d)-auth.html \
+  --workers 1
+
+# master-api の認証付き全エンドポイントを実行する
+schemathesis run ./openapi-master.yaml \
+  --base-url http://localhost:8081 \
+  --checks all \
+  --header "Authorization: Bearer $MASTER_JWT" \
+  --report reports/schemathesis-master-$(date +%Y%m%d)-auth.html \
   --workers 1
 ```
 
@@ -101,12 +128,12 @@ schemathesis run ./openapi.yaml \
 
 ```bash
 # ファイルアップロードエンドポイントは multipart 送信のため別途手動テストとする（TST-intg-011〜013 で対応済み）
-schemathesis run ./openapi.yaml \
+schemathesis run ./openapi-terminal.yaml \
   --base-url http://localhost:8080 \
   --checks all \
   --exclude-path "/api/v1/evidences" \
-  --header "Authorization: Bearer $TEST_JWT" \
-  --report reports/schemathesis-$(date +%Y%m%d)-noevidence.html
+  --header "Authorization: Bearer $TERMINAL_JWT" \
+  --report reports/schemathesis-terminal-$(date +%Y%m%d)-noevidence.html
 ```
 
 ---
@@ -132,21 +159,25 @@ FAIL と判定するケース:
 
 ```bash
 # レポートをブラウザで開く（WSL 環境）
-explorer.exe $(wslpath -w reports/schemathesis-$(date +%Y%m%d).html)
+explorer.exe $(wslpath -w reports/schemathesis-terminal-$(date +%Y%m%d).html)
+explorer.exe $(wslpath -w reports/schemathesis-master-$(date +%Y%m%d).html)
 
-# レポートの概要を確認する
-schemathesis run ./openapi.yaml --base-url http://localhost:8080 2>&1 | tail -20
+# レポートの概要を確認する（terminal-api）
+schemathesis run ./openapi-terminal.yaml --base-url http://localhost:8080 2>&1 | tail -20
+# レポートの概要を確認する（master-api）
+schemathesis run ./openapi-master.yaml --base-url http://localhost:8081 2>&1 | tail -20
 ```
 
-レポートは `reports/schemathesis-YYYYMMDD.html` 形式で保存し、結合テスト実施結果（`06_結合テスト実施結果テンプレート.md`）にパスを記録する。
+レポートは `reports/schemathesis-terminal-YYYYMMDD.html` および `reports/schemathesis-master-YYYYMMDD.html` 形式で保存し、結合テスト実施結果（`06_結合テスト実施結果テンプレート.md`）にパスを記録する。
 
 ---
 
 ## 6. テスト後クリーンアップ
 
 ```bash
-# バックエンドサーバーを停止する
-kill $BACKEND_PID
+# 両バイナリを停止する
+kill $TERMINAL_PID
+kill $MASTER_PID
 
 # TENV-002 コンテナを停止する（L2 統合テストと共用している場合は継続）
 # 全テスト完了後に実行する
@@ -160,7 +191,7 @@ docker compose --profile test down -v
 - テストケース定義: `../../../05_詳細設計/08_テストケース詳細設計/`（契約テストセクション）
 - テスト環境定義: `../../../04_概要設計/10_テスト方式設計/02_テスト環境定義.md`（TENV-005）
 - 品質ゲート: `../../../04_概要設計/10_テスト方式設計/04_品質ゲートとカバレッジ目標.md`（RGATE-004）
-- OpenAPI 仕様書: `openapi.yaml`（プロジェクトルート）
+- OpenAPI 仕様書: `openapi-terminal.yaml`（terminal-api）、`openapi-master.yaml`（master-api）（プロジェクトルート）
 
 **本節で確定した方針**
 - **Schemathesis による契約テストは TENV-005 環境で実施し、`./openapi.yaml` を仕様書パスとして指定することを確定する。**
