@@ -6,7 +6,11 @@
 
 ## 1 概要
 
-図: fig_outbox_dlq_recovery（img/ 配下）を参照
+**図 1: Outbox DLQ 復旧フロー**
+
+![図 1 Outbox DLQ 復旧フロー](img/fig_outbox_dlq_recovery.svg)
+
+> 原本: [`img/fig_outbox_dlq_recovery.drawio`](img/fig_outbox_dlq_recovery.drawio)
 
 本章は ALERT-001（`outbox_dlq_total > 100`）が発報した際の DLQ（Dead Letter Queue）復旧手順を定義する。Outbox パターンにおける DLQ は「再試行に失敗したイベント」が蓄積する領域であり、放置すると作業記録の非同期処理に永続的な影響を与える。
 
