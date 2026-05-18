@@ -1,5 +1,9 @@
 # 05 wnav_hash_chain 詳細設計（MOD-BE-003）
 
+> **配置**: 本クレートは **`wnav_master_api`（ポート 8081）バイナリのみが依存する crate** である。
+> ハッシュチェーン検証は製造記録の改ざん検知という管理操作であり、`wnav_terminal_api` は本クレートに依存しない。
+> `HashChainService` の常駐タスク（BAT-001）および週次検証バッチは `wnav_master_api` の `main.rs` 内で `tokio::spawn` される。
+
 本章は `crates/wnav_hash_chain/` の SHA-256 ハッシュチェーン計算アルゴリズム・genesis ブロック定義・週次検証アルゴリズム（BAT-001）の詳細設計を確定する。本クレートは製造記録の改ざん検知を担保する核心的な機能であり、FR-EV-001/002 を直接実現する。
 
 ---
@@ -303,6 +307,10 @@ impl HashChainService {
 
 ## 5. 週次検証スケジューラ（BAT-001 常駐タスク）
 
+> **起動バイナリ**: `run_weekly_verifier` は `wnav_master_api` の `main.rs` で
+> `tokio::spawn(run_weekly_verifier(svc.clone()))` として起動する。
+> `wnav_terminal_api` はこの関数を呼び出さない。
+
 ```rust
 // crates/wnav_hash_chain/src/scheduler.rs
 
@@ -311,6 +319,7 @@ use crate::HashChainService;
 
 /// BAT-001: 週次ハッシュチェーン検証スケジューラ。
 /// tokio-cron-scheduler を使用して月曜 02:00（JST）に実行する。
+/// wnav_master_api の main.rs で tokio::spawn して起動する。
 pub async fn run_weekly_verifier(svc: Arc<HashChainService>) {
     use tokio_cron_scheduler::{Job, JobScheduler};
 
@@ -365,7 +374,8 @@ pub async fn run_weekly_verifier(svc: Arc<HashChainService>) {
 **本節で確定した方針**
 - **compute_content_hash は BTreeMap によるキーのアルファベット昇順ソートで canonical JSON を生成し、JSON キー順序の不確定性を排除する設計を確定した。**
 - **compute_chain_hash は SHA-256(prev_hash_bytes || content_hash_bytes) の連結ハッシュとし、チェーン間の依存関係を保証することを確定した。**
-- **週次検証（BAT-001）は event_id（UUID v7 = 時系列）の昇順ストリーミングで全件検証し、不整合を検知した時点で即座に ERR-DB-003 ログを出力することを確定した。**
+- **週次検証（BAT-001 / master-api 内）は event_id（UUID v7 = 時系列）の昇順ストリーミングで全件検証し、不整合を検知した時点で即座に ERR-DB-003 ログを出力することを確定した。**
+- **本クレートは `wnav_master_api` のみが依存し、`wnav_terminal_api` は依存しない。ハッシュチェーン検証は管理操作であり、端末 API からは実行しない設計を確定した。**
 
 ---
 

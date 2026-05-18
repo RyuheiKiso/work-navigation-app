@@ -1,10 +1,32 @@
 # 04 wnav_auth 詳細設計（MOD-BE-005）
 
+> **配置**: 本クレートは `wnav_terminal_api`（ポート 8080）と `wnav_master_api`（ポート 8081）の**両バイナリで共有される crate** である。
+> `aud` クレームによるバイナリ種別判定の詳細は §1-1 を参照。
+
 本章は `crates/wnav_auth/` の JWT RS256 検証・RBAC ミドルウェア・RSA-4096 鍵ロード・90 日鍵ローテーション手順・LDAP/LDAPS BIND 認証・オフライン JWT キャッシュ戦略の詳細設計を確定する。
 
 ---
 
 ## 1. JWT Claims 構造体
+
+### 1-1. aud クレームによるバイナリ種別判定
+
+`wnav_auth` crate は `wnav_terminal_api` と `wnav_master_api` の両バイナリで共有される。
+各バイナリは起動時に `expected_audience` を渡して `JwtKeyStore` を初期化することで、自バイナリ宛て以外のトークンを拒否する。
+
+| バイナリ | ポート | aud クレーム値 | expected_audience |
+|---|---|---|---|
+| `wnav_terminal_api` | 8080 | `"terminal-api"` | `"terminal-api"` |
+| `wnav_master_api` | 8081 | `"master-api"` | `"master-api"` |
+
+- `terminal-api` で発行されたトークンは `wnav_master_api` で検証すると `InvalidAudience` エラーになる。
+- `master-api` で発行されたトークンは `wnav_terminal_api` で検証すると同様に拒否される。
+- ロール定義（`RoleId`）は共通のため、`require_role!` マクロはそのまま両バイナリで動作する。
+
+### 1-2. /api/v1/auth/login エンドポイントについて
+
+`/api/v1/auth/login` は `wnav_terminal_api`・`wnav_master_api` の**両バイナリに存在する**。
+発行されるトークンの `aud` は各バイナリの `expected_audience` と一致した値に設定される。
 
 ```rust
 // crates/wnav_auth/src/claims.rs
@@ -21,7 +43,7 @@ pub struct JwtClaims {
     pub sub: Uuid,
     /// Issuer: "wnav.factory.example"
     pub iss: String,
-    /// Audience: "wnav-api-v1"
+    /// Audience: バイナリ種別を示す文字列（§1-1 の対応表参照）。
     pub aud: String,
     /// Issued At（Unix 秒）
     pub iat: i64,
@@ -47,6 +69,8 @@ pub struct JwtIssueCmd {
     pub factory_id: Uuid,
     pub device_id: Option<Uuid>,
     pub kid: String,
+    /// 発行先バイナリを示す audience 文字列（§1-1 の対応表参照）。
+    pub audience: String,
 }
 ```
 
@@ -70,14 +94,20 @@ use jsonwebtoken::{
 use crate::{claims::JwtClaims, error::AuthError};
 
 /// (FNC-BE-014) JWT を検証し、Claims を返す。
-/// 失敗理由: 署名不正・期限切れ・発行者不一致・対象不一致
-pub fn verify_jwt(token: &str, public_key_pem: &str) -> Result<JwtClaims, AuthError> {
+/// 失敗理由: 署名不正・期限切れ・発行者不一致・aud ミスマッチ（§1-1 参照）
+///
+/// `expected_audience`: 自バイナリの audience 文字列（§1-1 の対応表参照）。
+pub fn verify_jwt(
+    token: &str,
+    public_key_pem: &str,
+    expected_audience: &str,
+) -> Result<JwtClaims, AuthError> {
     let decoding_key = DecodingKey::from_rsa_pem(public_key_pem.as_bytes())
         .map_err(|_| AuthError::InvalidPublicKey)?;
 
     let mut validation = Validation::new(Algorithm::RS256);
     validation.set_issuer(&["wnav.factory.example"]);
-    validation.set_audience(&["wnav-api-v1"]);
+    validation.set_audience(&[expected_audience]);
     validation.validate_exp = true;
 
     let token_data: TokenData<JwtClaims> =
@@ -85,13 +115,15 @@ pub fn verify_jwt(token: &str, public_key_pem: &str) -> Result<JwtClaims, AuthEr
             .map_err(|e| match e.kind() {
                 jsonwebtoken::errors::ErrorKind::ExpiredSignature => AuthError::JwtExpired,
                 jsonwebtoken::errors::ErrorKind::InvalidSignature => AuthError::InvalidSignature,
+                jsonwebtoken::errors::ErrorKind::InvalidAudience  => AuthError::InvalidAudience,
                 _ => AuthError::InvalidToken(e.to_string()),
             })?;
 
     Ok(token_data.claims)
 }
 
-/// JWT を発行する（ログインハンドラから呼び出し）
+/// JWT を発行する（ログインハンドラから呼び出し）。
+/// 発行するトークンの `aud` は `cmd.audience` で指定する（§1-1 参照）。
 pub fn issue_jwt(cmd: JwtIssueCmd, private_key_pem: &str) -> Result<String, AuthError> {
     let encoding_key = EncodingKey::from_rsa_pem(private_key_pem.as_bytes())
         .map_err(|_| AuthError::InvalidPrivateKey)?;
@@ -102,7 +134,7 @@ pub fn issue_jwt(cmd: JwtIssueCmd, private_key_pem: &str) -> Result<String, Auth
     let claims = JwtClaims {
         sub: cmd.user_id,
         iss: "wnav.factory.example".to_string(),
-        aud: "wnav-api-v1".to_string(),
+        aud: cmd.audience,
         iat: now,
         exp: now + 28800, // 8 時間（CFG-005）
         roles: cmd.roles,
@@ -354,7 +386,12 @@ impl JwtKeyStore {
     }
 
     /// JWT ヘッダの kid で鍵を検索して検証する。
-    pub async fn verify(&self, token: &str) -> Result<crate::claims::JwtClaims, crate::error::AuthError> {
+    /// `expected_audience` は自バイナリの audience 文字列（§1-1 の対応表参照）。
+    pub async fn verify(
+        &self,
+        token: &str,
+        expected_audience: &str,
+    ) -> Result<crate::claims::JwtClaims, crate::error::AuthError> {
         let header = jsonwebtoken::decode_header(token)
             .map_err(|_| crate::error::AuthError::InvalidToken("invalid header".to_string()))?;
 
@@ -362,7 +399,7 @@ impl JwtKeyStore {
         let keys = self.keys.read().await;
         let pem = keys.get(&kid).ok_or(crate::error::AuthError::UnknownKid(kid))?;
 
-        crate::jwt::verify_jwt(token, pem)
+        crate::jwt::verify_jwt(token, pem, expected_audience)
     }
 }
 ```
@@ -386,7 +423,8 @@ impl JwtKeyStore {
 
 **本節で確定した方針**
 - **JWT RS256（RSA-4096 bit）・8 時間 TTL・JwtClaims 全フィールドを確定し、`jsonwebtoken` crate で検証する実装を確定した。**
-- **RBAC は RequireRole Extractor + evaluate_roles で実装し、ロール階層（SystemAdmin が全権限包含）を effective_roles 関数で表現することを確定した。**
+- **aud クレームによりバイナリ種別を判定する設計を確定した。`terminal-api` 宛てトークンは `wnav_master_api` で拒否され、`master-api` 宛てトークンは `wnav_terminal_api` で拒否される。**
+- **RBAC は RequireRole Extractor + evaluate_roles で実装し、ロール階層（SystemAdmin が全権限包含）を effective_roles 関数で表現することを確定した。ロール定義は両バイナリで共通のため、`require_role!` マクロはそのまま両バイナリで動作する。**
 - **90 日鍵ローテーションはデュアルキー並行稼働（24h grace period）で安全に行い、JwtKeyStore の RwLock で複数鍵の並行検証を提供することを確定した。**
 
 ---
