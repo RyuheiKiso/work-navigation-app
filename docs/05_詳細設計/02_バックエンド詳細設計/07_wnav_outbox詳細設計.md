@@ -1,5 +1,10 @@
 # 06 wnav_outbox 詳細設計（MOD-BE-006）
 
+> **配置**: 本クレートは **`wnav_terminal_api`（ポート 8080）バイナリのみが依存する crate** である。
+> Outbox は端末で記録した作業実績を親機へ非同期送信するための仕組みであり、`wnav_master_api` は本クレートに依存しない。
+> `OutboxConsumer` の常駐タスク（BAT-002）は `wnav_terminal_api` の `main.rs` 内で `tokio::spawn` される。
+> `parent_api_url` は環境変数 `WNAV_TERMINAL_PARENT_API_URL` から取得する。
+
 本章は `crates/wnav_outbox/` の Outbox Consumer 実装・指数バックオフ・DLQ 移行・HMAC-SHA256 署名付き HTTP ディスパッチの詳細設計を確定する。本クレートは BAT-002（常駐 Outbox Consumer）を実装し、FR-SY-002/005 を直接実現する。
 
 ---
@@ -36,7 +41,8 @@ pub struct OutboxConfig {
     pub max_backoff_ms: u64,
     /// DLQ 移行閾値（CFG-005、max_retry_attempts と同一値）
     pub dlq_threshold: u8,
-    /// 親機 API エンドポイント URL（IF-002）
+    /// 親機 API エンドポイント URL（IF-002）。
+    /// wnav_terminal_api の環境変数 `WNAV_TERMINAL_PARENT_API_URL` から取得する。
     pub parent_api_url: String,
     /// HMAC 署名秘密鍵（hex エンコード済み）
     pub hmac_secret_hex: String,
@@ -262,7 +268,9 @@ use std::sync::Arc;
 use tokio::time::{sleep, Duration};
 
 /// BAT-002: Outbox Consumer を常駐ループで起動する。
-/// `tokio::spawn(run_consumer(consumer))` で非同期タスクとして起動する。
+/// `wnav_terminal_api` の `main.rs` で
+/// `tokio::spawn(run_consumer(consumer))` として非同期タスクを起動する。
+/// `wnav_master_api` はこの関数を呼び出さない。
 pub async fn run_consumer(consumer: Arc<OutboxConsumer>) {
     tracing::info!(
         log_id = "LOG-BAT-002",
@@ -333,6 +341,8 @@ DEAD_LETTERED に移行したイベントは API-ops-002（`POST /ops/outbox/{id
 - **`SELECT ... FOR UPDATE SKIP LOCKED` でポーリング競合を排除し、複数インスタンスが並行して安全に Outbox を処理できる設計を確定した。**
 - **指数バックオフは `initial_backoff_ms * 2^retry_count` で計算し、`max_backoff_ms`（32 秒）を上限として短時間での過負荷を防ぐ設計を確定した。**
 - **DLQ 移行後は管理コンソール（SCR-MC-007）への表示と LOG-DLQ-001 ログ出力を行い、IT 担当者が手動で再投入できる運用設計を確定した。**
+- **本クレートは `wnav_terminal_api` のみが依存し、`wnav_master_api` は依存しない。`parent_api_url` は環境変数 `WNAV_TERMINAL_PARENT_API_URL` から取得する設計を確定した。**
+- **BAT-002（常駐 Outbox Consumer）は terminal-api バイナリ（`wnav_terminal_api`）の `main.rs` で `tokio::spawn` して起動することを確定した。**
 
 ---
 
