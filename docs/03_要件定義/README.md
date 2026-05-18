@@ -177,7 +177,7 @@
 - **ファイル形式**: `.drawio` と `.svg` を対で管理する。`.svg` のみの単独配置は禁止
 - **配置場所**: `img/` ディレクトリ配下に格納する（例: `img/fig_req_traceability.drawio` と `img/fig_req_traceability.svg`）
 - **検証必須**: `drawio-lint` と `svg-postcheck` を両方通過したファイルのみコミットする
-- **本文参照形式**: `図: fig_xxx（img/ 配下）を参照` の形式で本文から参照する。`<img>` タグによる直接埋め込みは禁止
+- **本文参照形式**: HTML `<img>` タグによる埋め込みは禁止。Markdown 画像構文（`![alt](img/fig_xxx.svg)` 形式）を**必須**とする。
 
 本書で管理する図（予定）：
 

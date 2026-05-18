@@ -6,7 +6,11 @@
 
 ## 1. ユースケース記述
 
-図: fig_sequence_step_execution（img/ 配下）を参照
+**図 1: Step 実行シーケンス（UC-001〜UC-005）**
+
+![図 1 Step 実行シーケンス（UC-001〜UC-005）](img/fig_sequence_step_execution.svg)
+
+> 原本: [`img/fig_sequence_step_execution.drawio`](img/fig_sequence_step_execution.drawio)
 
 ### UC-001: 作業を開始する
 
