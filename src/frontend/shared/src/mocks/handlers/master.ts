@@ -244,8 +244,8 @@ export const masterHandlers = [
     const now = new Date().toISOString();
     const firstSop = db.sops[0];
     const mappings = firstSop ? [
-      { id: 'map-001', ncCategory: '寸法不良', reworkType: '再加工', targetSopId: firstSop.id, targetSopName: (firstSop.nameJson as Record<string, string>)['ja'] ?? firstSop.sopCode, createdAt: now },
-      { id: 'map-002', ncCategory: '外観不良', reworkType: '再検査', targetSopId: firstSop.id, targetSopName: (firstSop.nameJson as Record<string, string>)['ja'] ?? firstSop.sopCode, createdAt: now },
+      { id: 'map-001', ncCategory: '寸法不良', reworkType: '再加工', targetSopId: firstSop.id, targetSopName: firstSop.nameJson.ja ?? firstSop.sopCode, createdAt: now },
+      { id: 'map-002', ncCategory: '外観不良', reworkType: '再検査', targetSopId: firstSop.id, targetSopName: firstSop.nameJson.ja ?? firstSop.sopCode, createdAt: now },
     ] : [];
     return HttpResponse.json(paginatedEnvelope(mappings, mappings.length, 1, mappings.length));
   }),

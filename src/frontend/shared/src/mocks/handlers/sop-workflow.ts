@@ -80,13 +80,13 @@ export const sopWorkflowHandlers = [
   ...route('put', 'master', '/master/sops/:id/steps', async ({ request, params }) => {
     const authErr = requireAuth(request);
     if (authErr) return authErr;
-    const sopId = params['id'];
+    const sopId = String(params['id']);
     const sop = db.sops.find((s) => s.id === sopId);
     if (!sop) return problem(404, 'ERR-DB-002', 'NotFound', 'sop が存在しません');
     const body = (await request.json().catch(() => null)) as { steps?: Step[]; flowJson?: string } | null;
     if (!body) return problem(422, 'ERR-VAL-001', 'Required field missing', 'リクエストボディが必要です');
     // Steps を sopVersionId に紐付けて保存する（既存は上書き）
-    const sopVersionId = sop.currentVersionId ?? sopId;
+    const sopVersionId: string = sop.currentVersionId ?? sopId;
     db.steps = [
       ...db.steps.filter((s) => s.sopVersionId !== sopVersionId),
       ...(body.steps ?? []).map((s) => ({ ...s, sopVersionId })),
