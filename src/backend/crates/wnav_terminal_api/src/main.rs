@@ -199,8 +199,10 @@ async fn main() -> anyhow::Result<()> {
     // ─────────────────────────────────────────────────────────────────────────
 
     // Router<AppState> を生成し、ミドルウェアを適用してから State を解決する
+    // apply_middleware に state を渡す: auth/idempotency ミドルウェアが State<AppState> を
+    // 使用するため from_fn_with_state が必要であり、state の参照が必要になる
     let app = create_router();
-    let app = apply_middleware(app, &config);
+    let app = apply_middleware(app, &config, state.clone());
     // State を解決して Router<()> に変換する（axum::serve に渡すために必要）
     let app = app.with_state(state);
 

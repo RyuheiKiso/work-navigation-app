@@ -37,6 +37,36 @@ interface ConcessionBody {
 }
 
 export const iqcHandlers = [
+  // SCR-MC-011 受入検査ダッシュボード集計値
+  ...route('get', 'any', '/iqc/dashboard', ({ request }) => {
+    const authErr = requireAuth(request);
+    if (authErr) return authErr;
+    const inspections = db.incomingInspections;
+    const total = inspections.length;
+    const passed = inspections.filter((i) => i.qcStatus === 'PASSED' || i.qcStatus === 'CONDITIONAL_PASS').length;
+    const failed = inspections.filter((i) => i.qcStatus === 'FAILED' || i.qcStatus === 'REJECTED').length;
+    const passRate = total > 0 ? (passed / total) * 100 : 100;
+    const failRate = total > 0 ? (failed / total) * 100 : 0;
+    // 仕入先別の合格・不合格数を集計する
+    const supplierMap = new Map<string, { passed: number; failed: number }>();
+    for (const ins of inspections) {
+      const supplier = db.suppliers.find((s) => s.id === ins.supplierId);
+      const name = supplier ? (supplier.nameJson as Record<string, string>)['ja'] ?? ins.supplierId : ins.supplierId;
+      const entry = supplierMap.get(name) ?? { passed: 0, failed: 0 };
+      if (ins.qcStatus === 'PASSED' || ins.qcStatus === 'CONDITIONAL_PASS') entry.passed++;
+      else if (ins.qcStatus === 'FAILED' || ins.qcStatus === 'REJECTED') entry.failed++;
+      supplierMap.set(name, entry);
+    }
+    const bySupplier = [...supplierMap.entries()].map(([supplierName, v]) => ({ supplierName, ...v }));
+    // 直近10点のダミー不合格率推移
+    const now = Date.now();
+    const failRateTrend = Array.from({ length: 10 }, (_, i) => ({
+      ts: new Date(now - (9 - i) * 86400_000).toISOString().slice(0, 10),
+      rate: Math.max(0, failRate + (Math.random() - 0.5) * 2),
+    }));
+    return HttpResponse.json(envelope({ passRate, failRate, totalLots: total, bySupplier, failRateTrend }));
+  }),
+
   ...route('get', 'any', '/iqc/incoming-inspections', ({ request }) => {
     const authErr = requireAuth(request);
     if (authErr) return authErr;

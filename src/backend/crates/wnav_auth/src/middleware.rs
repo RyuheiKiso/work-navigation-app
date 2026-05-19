@@ -6,7 +6,7 @@ use axum::{
     body::Body,
     extract::Request,
     http::{
-        HeaderMap, StatusCode,
+        HeaderMap, HeaderValue, StatusCode,
         header::{AUTHORIZATION, WWW_AUTHENTICATE},
     },
     middleware::Next,
@@ -52,7 +52,7 @@ pub async fn auth_middleware(
             let mut response = e.into_response();
             response
                 .headers_mut()
-                .insert(WWW_AUTHENTICATE, r#"Bearer realm="wnav""#.parse().unwrap());
+                .insert(WWW_AUTHENTICATE, HeaderValue::from_static(r#"Bearer realm="wnav""#));
             return response;
         }
     };
@@ -65,7 +65,7 @@ pub async fn auth_middleware(
             let mut response = e.into_response();
             response.headers_mut().insert(
                 WWW_AUTHENTICATE,
-                r#"Bearer realm="wnav", error="invalid_token""#.parse().unwrap(),
+                HeaderValue::from_static(r#"Bearer realm="wnav", error="invalid_token""#),
             );
             return response;
         }

@@ -41,7 +41,13 @@ export const reworkHandlers = [
     const authErr = requireAuth(request);
     if (authErr) return authErr;
     const { page, perPage } = parsePagination(request);
-    const { slice, total } = paginate(db.reworks, page, perPage);
+    const u = new URL(request.url);
+    const relatedTo = u.searchParams.get('related_to');
+    // related_to: parent_case_id または rework_case_id に一致するリワークを返す
+    const filtered = relatedTo
+      ? db.reworks.filter((r) => r.parentCaseId === relatedTo || r.reworkCaseId === relatedTo)
+      : db.reworks;
+    const { slice, total } = paginate(filtered, page, perPage);
     return HttpResponse.json(paginatedEnvelope(slice, total, page, perPage));
   }),
 

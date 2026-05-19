@@ -222,4 +222,31 @@ export const masterHandlers = [
     Object.assign(item, body);
     return HttpResponse.json(envelope(item));
   }),
+
+  // SCR-MA-017 帳票テンプレ（RP-007〜010）- インメモリ固定シードデータ
+  ...route('get', 'master', '/master/report-templates', ({ request }) => {
+    const authErr = requireAuth(request);
+    if (authErr) return authErr;
+    const now = new Date().toISOString();
+    const templates = [
+      { id: 'tpl-001', templateCode: 'RP-007', name: '作業完了報告書', category: 'RP-007' as const, format: 'PDF' as const, updatedAt: now },
+      { id: 'tpl-002', templateCode: 'RP-008', name: '品質検査記録', category: 'RP-008' as const, format: 'XLSX' as const, updatedAt: now },
+      { id: 'tpl-003', templateCode: 'RP-009', name: 'プロセス監査報告', category: 'RP-009' as const, format: 'PDF' as const, updatedAt: now },
+      { id: 'tpl-004', templateCode: 'RP-010', name: 'トレサビ証跡エクスポート', category: 'RP-010' as const, format: 'CSV' as const, updatedAt: now },
+    ];
+    return HttpResponse.json(paginatedEnvelope(templates, templates.length, 1, templates.length));
+  }),
+
+  // SCR-MA-016 リワーク対応表（FR-RW-012）- インメモリ固定シードデータ
+  ...route('get', 'master', '/master/rework-sop-mappings', ({ request }) => {
+    const authErr = requireAuth(request);
+    if (authErr) return authErr;
+    const now = new Date().toISOString();
+    const firstSop = db.sops[0];
+    const mappings = firstSop ? [
+      { id: 'map-001', ncCategory: '寸法不良', reworkType: '再加工', targetSopId: firstSop.id, targetSopName: (firstSop.nameJson as Record<string, string>)['ja'] ?? firstSop.sopCode, createdAt: now },
+      { id: 'map-002', ncCategory: '外観不良', reworkType: '再検査', targetSopId: firstSop.id, targetSopName: (firstSop.nameJson as Record<string, string>)['ja'] ?? firstSop.sopCode, createdAt: now },
+    ] : [];
+    return HttpResponse.json(paginatedEnvelope(mappings, mappings.length, 1, mappings.length));
+  }),
 ];

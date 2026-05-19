@@ -1,10 +1,13 @@
-// 作業実行 API（API-work-execs-001〜005）ハンドラ（03_作業実行API仕様.md §3〜7）
+// SQLX_OFFLINE=true 環境のため sqlx::query() を使用する。cargo sqlx prepare 後に sqlx::query! に切り替えること。
+//
+// 作業実行 API（API-work-execs-001〜006）ハンドラ（03_作業実行API仕様.md §3〜7）
 //
 // POST /api/v1/work-executions                    — 作業開始（CaseLock 取得必須）
 // GET  /api/v1/work-executions/{id}               — 作業実行詳細
 // POST /api/v1/work-executions/{id}/suspend       — 中断
 // POST /api/v1/work-executions/{id}/resume        — 再開
 // POST /api/v1/work-executions/{id}/complete      — 完了
+// PUT  /api/v1/work-executions/{id}/heartbeat     — CaseLock ハートビート更新（API-work-execs-006）
 
 use axum::{
     Extension, Json,
@@ -458,6 +461,52 @@ pub async fn complete_work_execution(
     };
 
     Ok(Json(ApiResponse::new(data)))
+}
+
+/// PUT /api/v1/work-executions/{id}/heartbeat — CaseLock ハートビート更新（API-work-execs-006）
+///
+/// 端末は 60 秒ごとに本エンドポイントを呼び出してハートビートを更新する（ADR-009）。
+/// BAT-013 CaseLock Reaper は heartbeat_at が 5 分以上更新されない case_lock を EXPIRED に遷移させる。
+#[utoipa::path(
+    put,
+    path = "/api/v1/work-executions/{id}/heartbeat",
+    operation_id = "heartbeatWorkExecution",
+    params(("id" = Uuid, Path, description = "作業実行 ID")),
+    responses(
+        (status = 200, description = "ハートビート更新成功"),
+        (status = 404, description = "CaseLock が見つからない"),
+    ),
+    security(("bearer_auth" = [])),
+    tag = "work-executions",
+)]
+pub async fn heartbeat_work_execution(
+    State(state): State<AppState>,
+    Extension(current_user): Extension<CurrentUser>,
+    Path(id): Path<Uuid>,
+) -> Result<StatusCode, AppError> {
+    // CaseLock の heartbeat_at を現在時刻に更新する
+    let rows_affected = sqlx::query(
+        r"
+        UPDATE case_locks SET heartbeat_at = NOW()
+        WHERE work_order_id = (
+            SELECT work_order_id FROM work_executions WHERE id = $1
+        )
+        AND device_id = $2
+        AND status = 'ACTIVE'
+        ",
+    )
+    .bind(id)
+    .bind(current_user.device_id.unwrap_or_else(Uuid::nil))
+    .execute(&state.event_insert_pool)
+    .await
+    .map_err(|_| AppError::DatabaseError)?
+    .rows_affected();
+
+    if rows_affected == 0 {
+        return Err(AppError::NotFound);
+    }
+
+    Ok(StatusCode::OK)
 }
 
 /// CaseLock（TBL-051）を取得または確認する内部ヘルパー。

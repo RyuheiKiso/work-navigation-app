@@ -32,6 +32,11 @@ pub async fn idempotency_middleware(
         return Ok(next.run(request).await);
     }
 
+    // 認証不要パス（auth/login など）は Idempotency-Key を要求しない
+    if crate::middleware::is_public_path(request.uri().path()) {
+        return Ok(next.run(request).await);
+    }
+
     // Idempotency-Key ヘッダを取得する（必須）
     let idempotency_key = request
         .headers()

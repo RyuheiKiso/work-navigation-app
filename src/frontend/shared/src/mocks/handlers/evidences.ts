@@ -2,6 +2,9 @@ import { v7 as uuidv7 } from 'uuid';
 import {
   HttpResponse,
   envelope,
+  paginatedEnvelope,
+  parsePagination,
+  paginate,
   problem,
   requireAuth,
   route,
@@ -127,16 +130,10 @@ export const evidenceHandlers = [
     if (authErr) return authErr;
     const u = new URL(request.url);
     const signerId = u.searchParams.get('signer_id');
+    const { page, perPage } = parsePagination(request);
     let signs = db.electronicSigns.slice();
     if (signerId) signs = signs.filter((s) => s.signerId === signerId);
-    return HttpResponse.json({
-      data: signs,
-      meta: {
-        request_id: uuidv7(),
-        server_time: new Date().toISOString(),
-        api_version: 'v1',
-        pagination: { total: signs.length, page: 1, per_page: signs.length, total_pages: 1 },
-      },
-    });
+    const { slice, total } = paginate(signs, page, perPage);
+    return HttpResponse.json(paginatedEnvelope(slice, total, page, perPage));
   }),
 ];

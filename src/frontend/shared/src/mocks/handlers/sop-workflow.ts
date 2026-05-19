@@ -74,7 +74,7 @@ export const sopWorkflowHandlers = [
     const sop = db.sops.find((s) => s.id === sopId);
     if (!sop) return problem(404, 'ERR-DB-002', 'NotFound', 'sop が存在しません');
     const steps: Step[] = (db.steps ?? []).filter((s: Step) => s.sopVersionId === (sop.currentVersionId ?? ''));
-    return HttpResponse.json({ data: steps });
+    return HttpResponse.json(envelope(steps));
   }),
 
   ...route('put', 'master', '/master/sops/:id/steps', async ({ request, params }) => {
@@ -91,7 +91,7 @@ export const sopWorkflowHandlers = [
       ...db.steps.filter((s) => s.sopVersionId !== sopVersionId),
       ...(body.steps ?? []).map((s) => ({ ...s, sopVersionId })),
     ];
-    return HttpResponse.json({ data: body.steps ?? [] });
+    return HttpResponse.json(envelope(body.steps ?? []));
   }),
 
   ...route('patch', 'master', '/master/sops/:id', async ({ request, params }) => {
@@ -151,6 +151,16 @@ export const sopWorkflowHandlers = [
     version.status = 'published';
     version.publishedAt = new Date().toISOString();
     return HttpResponse.json(envelope(version));
+  }),
+
+  // 廃止前の影響範囲 dry-run: 紐付き作業指示数・作業実行数を返す
+  ...route('get', 'master', '/master/sops/:id/impact', ({ params }) => {
+    const sopId = params['id'];
+    const workOrderCount = db.workOrders.filter((wo) => wo.sopId === sopId).length;
+    const workExecutionCount = db.workExecutions.filter((we) =>
+      db.workOrders.some((wo) => wo.sopId === sopId && wo.id === we.workOrderId),
+    ).length;
+    return HttpResponse.json(envelope({ workOrderCount, workExecutionCount }));
   }),
 
   ...route('post', 'master', '/master/sops/:id/deprecate', ({ request, params }) => {

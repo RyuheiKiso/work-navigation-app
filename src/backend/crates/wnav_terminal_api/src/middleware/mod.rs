@@ -26,7 +26,18 @@ use wnav_config::TerminalApiConfig;
 /// 適用順序（リクエストは上から下へ、レスポンスは逆順に通過する）:
 /// 1. TraceLayer（X-Trace-Id・構造化ログ）
 /// 2. CorsLayer（CORS ヘッダ付与）
-pub fn apply_middleware(router: Router<AppState>, config: &TerminalApiConfig) -> Router<AppState> {
+/// 3. AuthMiddleware（JWT 検証・CurrentUser 注入）
+/// 4. IdempotencyMiddleware（Idempotency-Key 検証・キャッシュ照合）
+///
+/// auth_middleware と idempotency_middleware は State<AppState> を使用するため、
+/// from_fn_with_state でバインドする必要がある。
+/// apply_middleware は main.rs で with_state() より前に呼ばれるため、
+/// state を引数として受け取る。
+pub fn apply_middleware(
+    router: Router<AppState>,
+    config: &TerminalApiConfig,
+    state: AppState,
+) -> Router<AppState> {
     let cors = build_cors_layer(config);
 
     router.layer(
@@ -34,7 +45,19 @@ pub fn apply_middleware(router: Router<AppState>, config: &TerminalApiConfig) ->
             // 1. TraceLayer: X-Trace-Id 付与・構造化ログ出力
             .layer(TraceLayer::new_for_http())
             // 2. CorsLayer: CORS ヘッダ付与
-            .layer(cors),
+            .layer(cors)
+            // 3. AuthMiddleware: JWT 検証・CurrentUser 注入
+            // State<AppState> エクストラクタを使用するため from_fn_with_state が必要
+            .layer(axum::middleware::from_fn_with_state(
+                state.clone(),
+                auth::auth_middleware,
+            ))
+            // 4. IdempotencyMiddleware: Idempotency-Key 検証・キャッシュ照合
+            // State<AppState> エクストラクタを使用するため from_fn_with_state が必要
+            .layer(axum::middleware::from_fn_with_state(
+                state,
+                idempotency::idempotency_middleware,
+            )),
     )
 }
 
