@@ -1,4 +1,4 @@
-// PgAndonRepository — TBL-015 andon_events の sqlx 実装
+// PgAndonRepository — TBL-012 andon_alerts の sqlx 実装
 // アンドン発報・一覧取得・解決処理を担う。
 // SQLX_PREPARE_REQUIRED: cargo sqlx prepare を実行してからビルド可能
 
@@ -14,7 +14,7 @@ use wnav_domain::{
 
 use crate::row_types::AndonEventRow;
 
-/// TBL-015 andon_events のリポジトリ実装。
+/// TBL-012 andon_alerts のリポジトリ実装。
 pub struct PgAndonRepository {
     pool: PgPool,
 }
@@ -27,17 +27,18 @@ impl PgAndonRepository {
 }
 
 /// AndonEventRow から AndonEvent ドメインモデルへの変換。
+/// DB カラム名（alert_id, raised_by, alert_type, description）をドメイン語彙に変換する。
 impl TryFrom<AndonEventRow> for AndonEvent {
     type Error = DomainError;
 
     fn try_from(row: AndonEventRow) -> Result<Self, Self::Error> {
         let status = parse_andon_status(&row.status)?;
         Ok(Self {
-            andon_id: row.andon_id,
+            andon_id: row.alert_id,
             work_execution_id: row.work_execution_id,
-            triggered_by: row.triggered_by,
-            reason_code: row.reason_code,
-            reason_text: row.reason_text,
+            triggered_by: row.raised_by,
+            reason_code: row.alert_type,
+            reason_text: row.description,
             status,
             created_at: row.created_at,
         })
@@ -45,11 +46,15 @@ impl TryFrom<AndonEventRow> for AndonEvent {
 }
 
 /// DB ステータス文字列を AndonStatus 列挙型に変換する。
+/// andon_alerts の CHECK 制約: ALERTING / ACKNOWLEDGED / RESOLVED
 fn parse_andon_status(s: &str) -> Result<AndonStatus, DomainError> {
     match s {
-        "OPEN" => Ok(AndonStatus::Open),
+        // ALERTING → Open（未解決・対応待ち）
+        "ALERTING" => Ok(AndonStatus::Open),
+        // RESOLVED → Resolved（解決済み）
         "RESOLVED" => Ok(AndonStatus::Resolved),
-        "ESCALATED" => Ok(AndonStatus::Escalated),
+        // ACKNOWLEDGED → Escalated（確認済み・CAPA 連携最近似）
+        "ACKNOWLEDGED" => Ok(AndonStatus::Escalated),
         other => Err(DomainError::Internal(format!(
             "不明な AndonStatus: {other}"
         ))),
@@ -58,15 +63,15 @@ fn parse_andon_status(s: &str) -> Result<AndonStatus, DomainError> {
 
 #[async_trait]
 impl AndonRepository for PgAndonRepository {
-    /// アンドンイベントを INSERT する。
+    /// アンドンイベントを andon_alerts に INSERT する。
     async fn insert(&self, event: AndonEvent) -> Result<(), DomainError> {
         sqlx::query(
             r#"
-            INSERT INTO andon_events (
-                andon_id, work_execution_id, triggered_by,
-                reason_code, reason_text, status, created_at
+            INSERT INTO andon_alerts (
+                alert_id, work_execution_id, raised_by,
+                alert_type, description, status, created_at
             )
-            VALUES ($1, $2, $3, $4, $5, 'OPEN', $6)
+            VALUES ($1, $2, $3, $4, $5, 'ALERTING', $6)
             "#,
         )
         .bind(event.andon_id)
@@ -82,15 +87,15 @@ impl AndonRepository for PgAndonRepository {
         Ok(())
     }
 
-    /// アクティブ（OPEN）なアンドンイベント一覧を取得する。
+    /// アクティブ（ALERTING）なアンドンイベント一覧を取得する。
     async fn list_active(&self) -> Result<Vec<AndonEvent>, DomainError> {
         let rows = sqlx::query_as::<_, AndonEventRow>(
             r#"
             SELECT
-                andon_id, work_execution_id, triggered_by,
-                reason_code, reason_text, status, created_at
-            FROM andon_events
-            WHERE status = 'OPEN'
+                alert_id, work_execution_id, raised_by,
+                alert_type, description, status, created_at
+            FROM andon_alerts
+            WHERE status = 'ALERTING'
             ORDER BY created_at DESC
             "#,
         )
@@ -107,12 +112,12 @@ impl AndonRepository for PgAndonRepository {
     async fn resolve(&self, andon_id: Uuid, resolved_by: Uuid) -> Result<(), DomainError> {
         sqlx::query(
             r#"
-            UPDATE andon_events
+            UPDATE andon_alerts
             SET
                 status = 'RESOLVED',
                 resolved_by = $1,
                 resolved_at = NOW()
-            WHERE andon_id = $2 AND status = 'OPEN'
+            WHERE alert_id = $2 AND status = 'ALERTING'
             "#,
         )
         .bind(resolved_by)

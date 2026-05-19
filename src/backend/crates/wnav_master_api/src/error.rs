@@ -10,7 +10,9 @@ use wnav_common::ProblemDetails;
 
 /// wnav_master_api 全ハンドラが返す統一エラー型。
 /// RFC 7807 Problem Details 形式で HTTP レスポンスに変換する。
+// API エラー列挙型は全エラーコードを網羅するため、現時点でハンドラが使用していないバリアントも含む。
 #[derive(Debug, thiserror::Error)]
+#[allow(dead_code)]
 pub enum AppError {
     // ── 認証・認可エラー ──────────────────────────────────────────────────
     /// Authorization ヘッダまたは Bearer トークンが存在しない

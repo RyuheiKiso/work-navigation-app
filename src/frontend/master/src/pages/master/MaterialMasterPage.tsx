@@ -33,6 +33,14 @@ export function MaterialMasterPage(): React.ReactElement {
       queryKeyBuilder={(asOf) => queryKeys.master.materials(asOf)}
       columns={columns}
       initialCreateForm={{ materialCode: '', materialType: 'raw', unit: 'kg', nameJa: '', nameEn: '', nameZh: '' }}
+      initialEditForm={(item) => ({
+        materialCode: item.materialCode,
+        materialType: item.materialType,
+        unit: item.unit,
+        nameJa: item.nameJson.ja,
+        nameEn: item.nameJson.en,
+        nameZh: item.nameJson.zh,
+      })}
       labelOf={(item) => resolveLocale(item.nameJson, 'ja')}
       validateAndBuildPayload={(form) => {
         if (!form.materialCode) return { ok: false, message: '材料コードは必須です' };

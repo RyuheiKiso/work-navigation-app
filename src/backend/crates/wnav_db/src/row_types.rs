@@ -146,16 +146,18 @@ pub struct EvidenceFileRow {
     pub server_received_at: DateTime<Utc>,
 }
 
-/// electronic_signatures テーブルの行型（TBL-011）
+/// electronic_signs テーブルの行型（TBL-002）
+/// DB カラム名を保持し、リポジトリ層でドメイン語彙へ変換する。
 #[derive(Debug, FromRow)]
 pub struct ElectronicSignatureRow {
     pub sign_id: Uuid,
-    pub work_execution_id: Uuid,
-    pub step_id: Uuid,
+    /// electronic_signs.context_id — ドメインの work_execution_id に対応する
+    pub context_id: Uuid,
+    pub step_id: Option<Uuid>,
     pub signer_id: Uuid,
-    pub signature_data: String,
+    /// electronic_signs.signed_content_hash — ドメインの signature_data に対応する
+    pub signed_content_hash: String,
     pub signed_at: DateTime<Utc>,
-    pub verified: bool,
 }
 
 /// measurements テーブルの行型（TBL-010）
@@ -173,14 +175,19 @@ pub struct MeasurementRow {
     pub cpk: Option<f64>,
 }
 
-/// andon_events テーブルの行型（TBL-015）
+/// andon_alerts テーブルの行型（TBL-012）
+/// DB カラム名を保持し、リポジトリ層でドメイン語彙（andon_id, triggered_by 等）へ変換する。
 #[derive(Debug, FromRow)]
 pub struct AndonEventRow {
-    pub andon_id: Uuid,
+    /// andon_alerts.alert_id → AndonEvent.andon_id
+    pub alert_id: Uuid,
     pub work_execution_id: Uuid,
-    pub triggered_by: Uuid,
-    pub reason_code: String,
-    pub reason_text: Option<String>,
+    /// andon_alerts.raised_by → AndonEvent.triggered_by
+    pub raised_by: Uuid,
+    /// andon_alerts.alert_type → AndonEvent.reason_code
+    pub alert_type: String,
+    /// andon_alerts.description → AndonEvent.reason_text
+    pub description: Option<String>,
     pub status: String,
     pub created_at: DateTime<Utc>,
 }

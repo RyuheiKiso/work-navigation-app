@@ -249,6 +249,83 @@ REVOKE UPDATE, DELETE ON scrap_records            FROM app_write;
 REVOKE UPDATE, DELETE ON return_to_vendor_records FROM app_write;
 
 -- =====================================================
+-- V20260519120002 で追加された認証テーブルへの GRANT
+-- refresh_tokens / jwt_blacklist は認証フロー上 app_write が更新するテーブル
+-- =====================================================
+GRANT SELECT ON refresh_tokens  TO app_read;
+GRANT SELECT ON jwt_blacklist   TO app_read;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON refresh_tokens  TO app_write;
+GRANT SELECT, INSERT ON jwt_blacklist   TO app_write;
+
+GRANT SELECT ON refresh_tokens  TO app_event_insert;
+GRANT SELECT ON jwt_blacklist   TO app_event_insert;
+
+-- =====================================================
+-- V20260519120011 で追加された 12 テーブルへの GRANT
+-- =====================================================
+
+-- batch_execution_logs: バッチ処理が INSERT、管理画面が SELECT
+GRANT SELECT ON batch_execution_logs TO app_read;
+GRANT SELECT, INSERT ON batch_execution_logs TO app_write;
+GRANT SELECT, INSERT ON batch_execution_logs TO app_event_insert;
+
+-- webhook_secrets: app_write が管理（CRUD）、app_read / app_event_insert は SELECT のみ
+GRANT SELECT ON webhook_secrets TO app_read;
+GRANT SELECT, INSERT, UPDATE, DELETE ON webhook_secrets TO app_write;
+GRANT SELECT ON webhook_secrets TO app_event_insert;
+
+-- work_cases: トレサビ参照用（順方向トレース）
+GRANT SELECT ON work_cases TO app_read;
+GRANT SELECT, INSERT, UPDATE ON work_cases TO app_write;
+GRANT SELECT ON work_cases TO app_event_insert;
+
+-- lot_case_mappings: ロット ↔ ケース紐付け（Append-only）
+GRANT SELECT ON lot_case_mappings TO app_read;
+GRANT SELECT, INSERT ON lot_case_mappings TO app_write;
+GRANT SELECT, INSERT ON lot_case_mappings TO app_event_insert;
+
+-- lot_records: ロット記録（逆方向トレース起点）
+GRANT SELECT ON lot_records TO app_read;
+GRANT SELECT, INSERT, UPDATE ON lot_records TO app_write;
+GRANT SELECT ON lot_records TO app_event_insert;
+
+-- lot_lineage: ロット系譜（Append-only）
+GRANT SELECT ON lot_lineage TO app_read;
+GRANT SELECT, INSERT ON lot_lineage TO app_write;
+GRANT SELECT, INSERT ON lot_lineage TO app_event_insert;
+
+-- local_sync_state: BAT-003 が UPSERT するシングルトン
+GRANT SELECT ON local_sync_state TO app_read;
+GRANT SELECT, INSERT, UPDATE ON local_sync_state TO app_write;
+GRANT SELECT, INSERT, UPDATE ON local_sync_state TO app_event_insert;
+
+-- sync_log: BAT-003 が INSERT するログ
+GRANT SELECT ON sync_log TO app_read;
+GRANT SELECT, INSERT ON sync_log TO app_write;
+GRANT SELECT, INSERT ON sync_log TO app_event_insert;
+
+-- kaizen_reports: BAT-011 が日次 UPSERT する集計テーブル
+GRANT SELECT ON kaizen_reports TO app_read;
+GRANT SELECT, INSERT, UPDATE ON kaizen_reports TO app_write;
+GRANT SELECT ON kaizen_reports TO app_event_insert;
+
+-- report_jobs: 帳票生成ジョブキュー
+GRANT SELECT ON report_jobs TO app_read;
+GRANT SELECT, INSERT, UPDATE ON report_jobs TO app_write;
+GRANT SELECT ON report_jobs TO app_event_insert;
+
+-- report_files: 帳票ファイル管理
+GRANT SELECT ON report_files TO app_read;
+GRANT SELECT, INSERT ON report_files TO app_write;
+GRANT SELECT ON report_files TO app_event_insert;
+
+-- outbox_dead_letters: Outbox Dead Letter Queue（ops.rs が照会・再キュー）
+GRANT SELECT ON outbox_dead_letters TO app_read;
+GRANT SELECT, INSERT, UPDATE ON outbox_dead_letters TO app_write;
+GRANT SELECT ON outbox_dead_letters TO app_event_insert;
+
+-- =====================================================
 -- シーケンスへの USAGE 付与（gen_random_uuid() には不要だが自動採番シーケンスがある場合に備える）
 -- =====================================================
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO app_write;

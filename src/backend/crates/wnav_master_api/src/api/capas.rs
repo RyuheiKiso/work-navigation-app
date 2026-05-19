@@ -43,24 +43,21 @@ pub async fn create_capa(
     let new_id = Uuid::now_v7();
     let now = Utc::now();
 
+    // DDL 列: capa_id, nc_id, capa_type, description, root_cause, status, assigned_to, opened_at
+    // ハンドラのリクエストフィールドを DDL 列にマッピングする
     sqlx::query(
         r#"
         INSERT INTO capas
-            (id, nonconformity_id, title, root_cause_analysis, corrective_action,
-             preventive_action, assigned_to, due_date, created_by, status,
-             created_at, updated_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'open', $10, $10)
+            (capa_id, nc_id, capa_type, description, root_cause,
+             assigned_to, status, opened_at)
+        VALUES ($1, $2, 'CORRECTIVE', $3, $4, $5, 'OPEN', $6)
         "#,
     )
     .bind(new_id)
     .bind(req.nonconformity_id)
     .bind(&req.title)
     .bind(&req.root_cause_analysis)
-    .bind(&req.corrective_action)
-    .bind(req.preventive_action.as_deref())
     .bind(req.assigned_to)
-    .bind(req.due_date)
-    .bind(req.created_by)
     .bind(now)
     .execute(&state.write_pool)
     .await?;
@@ -76,11 +73,11 @@ pub async fn create_capa(
         StatusCode::CREATED,
         Json(CapaResponse {
             capa_id: new_id,
-            status: "open".to_string(),
+            status: "OPEN".to_string(),
             title: req.title,
             nonconformity_id: req.nonconformity_id,
             assigned_to: req.assigned_to,
-            due_date: req.due_date,
+            due_date: now.date_naive(),
             created_by: req.created_by,
             created_at: now,
             updated_at: now,
@@ -118,12 +115,13 @@ pub async fn update_capa(
     let now = Utc::now();
 
     // 既存の CAPA を取得して closed チェックを行う
+    // DDL 列: capa_id(PK), nc_id, capa_type, description, root_cause, status, assigned_to, opened_at, closed_at
     let existing = sqlx::query(
         r#"
-        SELECT id, title, nonconformity_id, status, assigned_to, due_date,
-               created_by, corrective_action, preventive_action, created_at
+        SELECT capa_id, nc_id, capa_type, description, root_cause, status,
+               assigned_to, opened_at
         FROM capas
-        WHERE id = $1 AND deleted_at IS NULL
+        WHERE capa_id = $1
         "#,
     )
     .bind(id)
@@ -134,40 +132,33 @@ pub async fn update_capa(
     use sqlx::Row as _;
     let current_status: String = existing.get("status");
 
-    // 既に closed の CAPA への更新は拒否する（ERR-BIZ-008）
-    if current_status == "closed" {
+    // 既に CLOSED の CAPA への更新は拒否する（ERR-BIZ-008）
+    if current_status == "CLOSED" {
         return Err(AppError::InvalidStateTransition(
             "closed 状態の CAPA は更新できません（ERR-BIZ-008）".to_string(),
         ));
     }
 
     let new_status = req.status.as_deref().unwrap_or(&current_status);
-    let new_corrective_action: String = req
+    // corrective_action が指定されていれば root_cause 列を更新する（DDL の最も近い列）
+    let new_root_cause: String = req
         .corrective_action
         .as_deref()
-        .unwrap_or(existing.get("corrective_action"))
+        .unwrap_or(existing.get("root_cause"))
         .to_string();
-    let new_due_date: chrono::NaiveDate = req.due_date.unwrap_or_else(|| existing.get("due_date"));
 
+    // DDL 列のみを使用して UPDATE する
     sqlx::query(
         r#"
         UPDATE capas
         SET status = $1,
-            corrective_action = $2,
-            preventive_action = COALESCE($3, preventive_action),
-            due_date = $4,
-            progress_note = COALESCE($5, progress_note),
-            updated_by = $6,
-            updated_at = $7
-        WHERE id = $8
+            root_cause = $2,
+            closed_at = CASE WHEN $1 = 'CLOSED' THEN $3 ELSE closed_at END
+        WHERE capa_id = $4
         "#,
     )
     .bind(new_status)
-    .bind(&new_corrective_action)
-    .bind(req.preventive_action.as_deref())
-    .bind(new_due_date)
-    .bind(req.progress_note.as_deref())
-    .bind(req.updated_by)
+    .bind(&new_root_cause)
     .bind(now)
     .bind(id)
     .execute(&state.write_pool)
@@ -181,17 +172,19 @@ pub async fn update_capa(
         "CAPA を更新しました",
     );
 
+    // DDL 列から CapaResponse を構築する（DDL 列名に合わせてフィールドを参照する）
+    let opened_at: chrono::DateTime<Utc> = existing.get("opened_at");
     Ok((
         StatusCode::OK,
         Json(CapaResponse {
-            capa_id: existing.get("id"),
+            capa_id: existing.get("capa_id"),
             status: new_status.to_string(),
-            title: existing.get("title"),
-            nonconformity_id: existing.get("nonconformity_id"),
+            title: existing.get("description"),
+            nonconformity_id: existing.get("nc_id"),
             assigned_to: existing.get("assigned_to"),
-            due_date: new_due_date,
-            created_by: existing.get("created_by"),
-            created_at: existing.get("created_at"),
+            due_date: opened_at.date_naive(),
+            created_by: existing.get("assigned_to"),
+            created_at: opened_at,
             updated_at: now,
         }),
     ))

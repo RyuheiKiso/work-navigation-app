@@ -33,6 +33,14 @@ export function SamplingPlanPage(): React.ReactElement {
       queryKeyBuilder={() => queryKeys.master.samplingPlans()}
       columns={columns}
       initialCreateForm={{ planCode: '', aqlValue: 0.65, inspectionLevel: 'II', nameJa: '', nameEn: '', nameZh: '' }}
+      initialEditForm={(item) => ({
+        planCode: item.planCode,
+        aqlValue: item.aqlValue,
+        inspectionLevel: item.inspectionLevel,
+        nameJa: item.nameJson.ja,
+        nameEn: item.nameJson.en,
+        nameZh: item.nameJson.zh,
+      })}
       labelOf={(item) => resolveLocale(item.nameJson, 'ja')}
       validateAndBuildPayload={(form) => {
         if (!form.planCode) return { ok: false, message: '計画コードは必須です' };

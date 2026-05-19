@@ -53,10 +53,10 @@ pub async fn create_andon_alert(
     // TBL-012 にアラートレコードを INSERT する
     sqlx::query(
         r"
-        INSERT INTO alerts
-            (id, alert_type, severity, status, work_execution_id, step_id,
+        INSERT INTO andon_alerts
+            (alert_id, alert_type, severity, status, work_execution_id, step_id,
              raised_by, title, description, raised_at, timestamp_client, created_at)
-        VALUES ($1, $2, $3, 'open', $4, $5, $6, $7, $8, $9, $10, $9)
+        VALUES ($1, $2, $3, 'ALERTING', $4, $5, $6, $7, $8, $9, $10, $9)
         ",
     )
     .bind(alert_id)
@@ -72,7 +72,7 @@ pub async fn create_andon_alert(
     .execute(&state.event_insert_pool)
     .await
     .map_err(|e| {
-        tracing::error!(error = %e, "alerts INSERT に失敗した");
+        tracing::error!(error = %e, "andon_alerts INSERT に失敗した");
         AppError::DatabaseError
     })?;
 
@@ -102,7 +102,7 @@ pub async fn create_andon_alert(
         alert_id,
         alert_type: body.alert_type,
         severity: body.severity,
-        status: "open".to_string(),
+        status: "ALERTING".to_string(),
         work_execution_id: body.work_execution_id,
         raised_by: body.raised_by,
         title: body.title,

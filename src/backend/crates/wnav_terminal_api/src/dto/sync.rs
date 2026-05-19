@@ -7,6 +7,7 @@ use uuid::Uuid;
 
 /// マスタ差分同期クエリパラメータ（API-sync-001）
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct MasterSyncQuery {
     /// 指定時刻以降に更新されたデータのみ返す（差分同期）
     pub since: Option<DateTime<Utc>>,

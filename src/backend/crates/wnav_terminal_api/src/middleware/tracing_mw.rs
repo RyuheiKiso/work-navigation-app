@@ -49,4 +49,5 @@ pub async fn tracing_middleware(mut request: Request, next: Next) -> Response {
 
 /// リクエスト Extension に保存する Trace ID ラッパー型
 #[derive(Clone, Debug)]
+#[allow(dead_code)]
 pub struct TraceId(pub String);

@@ -61,11 +61,12 @@ async fn retry_failed_dispatches(pool: &PgPool) -> Result<u64, sqlx::Error> {
     // 最大リトライ回数は 5 回（CFG-030）
     let max_retry = 5i32;
 
+    // DDL 列名: delivery_status（status ではない）、updated_at 列は DDL に存在しないため省略する
     let result = sqlx::query(
         r"
         UPDATE sse_dispatch_log
-        SET status = 'queued', retry_count = retry_count + 1, updated_at = NOW()
-        WHERE status = 'failed'
+        SET delivery_status = 'queued', retry_count = retry_count + 1
+        WHERE delivery_status = 'failed'
           AND retry_count < $1
         ",
     )

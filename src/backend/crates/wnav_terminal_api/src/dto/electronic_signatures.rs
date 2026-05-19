@@ -70,6 +70,7 @@ pub struct ElectronicSignatureDetailData {
 
 /// 電子サイン一覧取得のクエリパラメータ（API-electronic-signs-003）
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct ElectronicSignatureQuery {
     pub work_execution_id: Option<Uuid>,
     pub signer_id: Option<Uuid>,

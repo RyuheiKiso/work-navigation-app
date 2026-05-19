@@ -22,8 +22,6 @@
 // 例外: must_use 警告は許容
 #![allow(clippy::must_use_candidate)]
 // 例外: DTO フィールド・ミドルウェアヘルパー関数は API 実装として宣言されている
-// 全量接続後に削除すること
-#![allow(dead_code)]
 
 mod api;
 mod batch;

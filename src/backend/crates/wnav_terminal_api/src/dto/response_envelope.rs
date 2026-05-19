@@ -109,6 +109,7 @@ impl<T: Serialize> PaginatedResponse<T> {
 
 /// カーソルページングレスポンスのメタ（work_assignments 等で使用）
 #[derive(Debug, Serialize, ToSchema)]
+#[allow(dead_code)]
 pub struct CursorMeta {
     /// サーバーが採番したリクエスト追跡 ID
     pub request_id: Uuid,
@@ -126,6 +127,7 @@ pub struct CursorMeta {
 
 /// カーソルページングレスポンスエンベロープ
 #[derive(Debug, Serialize, ToSchema)]
+#[allow(dead_code)]
 pub struct CursorResponse<T: Serialize> {
     pub data: Vec<T>,
     pub meta: CursorMeta,

@@ -10,6 +10,7 @@ use axum::{
     http::StatusCode,
     response::IntoResponse,
 };
+use chrono::Utc;
 use serde::Deserialize;
 use sqlx::Row as _;
 use uuid::Uuid;
@@ -70,16 +71,20 @@ pub async fn forward_trace(
         return Err(AppError::NotFound(format!("case:{case_id}")));
     }
 
+    // DDL 列名に合わせてクエリを修正する:
+    // event_id（PK）, timestamp_client, timestamp_server, resource（worker_id に対応）,
+    // terminal_id（device_id に対応）, server_received_at, content_hash
     let rows = sqlx::query(
         r#"
         SELECT
-            we.id, we.case_id, we.activity, we.server_received_at, we.client_recorded_at,
-            we.worker_id, we.device_id, we.payload,
-            (we.block_hash IS NOT NULL) AS hash_present,
-            we.created_at
+            we.event_id, we.case_id, we.activity,
+            we.timestamp_server, we.timestamp_client,
+            we.resource, we.terminal_id, we.payload,
+            (we.content_hash IS NOT NULL) AS hash_present,
+            we.server_received_at
         FROM work_events we
         WHERE we.case_id = $1
-        ORDER BY we.server_received_at ASC
+        ORDER BY we.timestamp_server ASC
         "#,
     )
     .bind(case_id)
@@ -88,19 +93,24 @@ pub async fn forward_trace(
 
     let events: Vec<TraceEvent> = rows
         .iter()
-        .map(|r| TraceEvent {
-            id: r.get("id"),
-            case_id: r.get("case_id"),
-            activity: r.get("activity"),
-            server_received_at: r.get("server_received_at"),
-            client_recorded_at: r.get("client_recorded_at"),
-            worker_id: r.get("worker_id"),
-            device_id: r.get("device_id"),
-            hash_valid: r.get::<bool, _>("hash_present"),
-            payload: r
-                .get::<Option<serde_json::Value>, _>("payload")
-                .unwrap_or(serde_json::Value::Null),
-            created_at: r.get("created_at"),
+        .map(|r| {
+            let ts_server: chrono::DateTime<Utc> = r.get("timestamp_server");
+            let ts_client: Option<chrono::DateTime<Utc>> = r.get("timestamp_client");
+            let srv_recv: chrono::DateTime<Utc> = r.get("server_received_at");
+            TraceEvent {
+                id: r.get("event_id"),
+                case_id: r.get("case_id"),
+                activity: r.get("activity"),
+                server_received_at: ts_server.timestamp_millis(),
+                client_recorded_at: ts_client.map(|t| t.timestamp_millis()),
+                worker_id: r.get("resource"),
+                device_id: r.get("terminal_id"),
+                hash_valid: r.get::<bool, _>("hash_present"),
+                payload: r
+                    .get::<Option<serde_json::Value>, _>("payload")
+                    .unwrap_or(serde_json::Value::Null),
+                created_at: srv_recv,
+            }
         })
         .collect();
 
@@ -178,11 +188,20 @@ pub async fn backward_trace(
     .fetch_all(&state.read_pool)
     .await?;
 
-    let nonconformance_count: i64 =
-        sqlx::query_scalar(r#"SELECT COUNT(*) FROM nonconformances WHERE lot_id = $1"#)
-            .bind(&lot_id)
-            .fetch_one(&state.read_pool)
-            .await?;
+    // nonconformities テーブルには lot_id 列がないため、work_cases 経由でカウントする
+    // lot_case_mappings から case_id を取得し、work_executions 経由で不適合数を算出する
+    let nonconformance_count: i64 = sqlx::query_scalar(
+        r#"
+        SELECT COUNT(DISTINCT nc.nc_id)
+        FROM nonconformities nc
+        JOIN work_executions we ON nc.work_execution_id = we.work_execution_id
+        JOIN lot_case_mappings lcm ON lcm.case_id = we.work_execution_id
+        WHERE lcm.lot_id = $1
+        "#,
+    )
+    .bind(&lot_id)
+    .fetch_one(&state.read_pool)
+    .await?;
 
     let nonconformance_lot_ids = if nonconformance_count > 0 {
         vec![lot_id.clone()]

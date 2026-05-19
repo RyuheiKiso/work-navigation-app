@@ -119,6 +119,15 @@ paths:
       responses:
         '200': { description: JWKS, content: { application/json: { schema: { $ref: '#/components/schemas/Jwks' } } } }
 
+  /auth/me:
+    get:
+      tags: [auth]
+      operationId: getMe
+      summary: 現在のログインユーザー情報取得
+      responses:
+        '200': { description: ユーザー情報, content: { application/json: { schema: { $ref: '#/components/schemas/UserEnvelope' } } } }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
   /work-executions:
     post:
       tags: [work-executions]
@@ -647,6 +656,31 @@ paths:
       responses:
         '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/SamplingPlanEnvelope' } } } }
 
+  /master/report-templates:
+    get:
+      tags: [master]
+      operationId: listReportTemplates
+      summary: 帳票テンプレート一覧（SCR-MA-017）
+      responses:
+        '200': { description: テンプレート一覧, content: { application/json: { schema: { type: object, properties: { data: { type: array, items: { type: object, properties: { id: { type: string }, templateCode: { type: string }, name: { type: string }, category: { type: string }, format: { type: string }, updatedAt: { type: string } } } } } } } } }
+
+  /master/rework-sop-mappings:
+    get:
+      tags: [master]
+      operationId: listReworkSopMappings
+      summary: リワーク対応表一覧（SCR-MA-016）
+      responses:
+        '200': { description: 対応表一覧, content: { application/json: { schema: { type: object, properties: { data: { type: array, items: { type: object, properties: { id: { type: string }, ncCategory: { type: string }, reworkType: { type: string }, targetSopId: { type: string }, targetSopName: { type: string }, createdAt: { type: string } } } } } } } } }
+
+  /master/sops/{id}/impact:
+    get:
+      tags: [master]
+      operationId: getSopImpact
+      summary: SOP 廃止前影響範囲確認（dry-run）
+      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      responses:
+        '200': { description: 影響範囲, content: { application/json: { schema: { type: object, properties: { data: { type: object, properties: { workOrderCount: { type: integer }, workExecutionCount: { type: integer } } } } } } } }
+
   /alerts:
     get:
       tags: [alerts]
@@ -801,6 +835,14 @@ paths:
             schema: { type: object }
       responses:
         '200': { description: ACK 完了, content: { application/json: { schema: { $ref: '#/components/schemas/WorkAssignmentEnvelope' } } } }
+
+  /iqc/dashboard:
+    get:
+      tags: [iqc]
+      operationId: getIqcDashboard
+      summary: 受入検査ダッシュボード集計値取得（SCR-MC-011）
+      responses:
+        '200': { description: 集計値, content: { application/json: { schema: { type: object, properties: { data: { type: object, properties: { passRate: { type: number }, failRate: { type: number }, totalLots: { type: integer }, bySupplier: { type: array }, failRateTrend: { type: array } } } } } } } }
 
   /iqc/incoming-inspections:
     get:

@@ -8,7 +8,7 @@ use std::sync::Arc;
 
 use axum::{
     Extension, Router, middleware,
-    routing::{get, patch, post, put},
+    routing::{delete, get, patch, post, put},
 };
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
@@ -16,7 +16,7 @@ use utoipa_swagger_ui::SwaggerUi;
 use crate::{
     api::{
         alerts, auth, capas, health, iqc, master, nonconformities, ops, public_config, reports,
-        scraps, trace, work_assignments,
+        resources, scraps, trace, work_assignments,
     },
     middleware::rate_limit::{RateLimiter, rate_limit_middleware},
     state::AppState,
@@ -236,6 +236,57 @@ pub fn create_router(state: AppState, rate_limiter: Arc<RateLimiter>) -> Router 
         .route("/master/users", get(master::list_users))
         .route("/master/users", post(master::create_user))
         .route("/master/users/:id/roles", put(master::assign_roles))
+        // ── 認証 me ──────────────────────────────────────────────────────
+        .route("/auth/me", get(auth::me))
+        // ── 製品マスタ ────────────────────────────────────────────────────
+        .route("/master/products", get(resources::list_products).post(resources::create_product))
+        .route("/master/products/:id", patch(resources::update_product))
+        // ── オペレーション ────────────────────────────────────────────────
+        .route("/master/operations", get(resources::list_operations).post(resources::create_operation))
+        .route("/master/operations/:id", patch(resources::update_operation))
+        // ── 材料マスタ ────────────────────────────────────────────────────
+        .route("/master/materials", get(resources::list_materials).post(resources::create_material))
+        .route("/master/materials/:id", patch(resources::update_material))
+        // ── 仕入先マスタ ──────────────────────────────────────────────────
+        .route("/master/suppliers", get(resources::list_suppliers).post(resources::create_supplier))
+        .route("/master/suppliers/:id", patch(resources::update_supplier))
+        // ── サンプリング計画 ──────────────────────────────────────────────
+        .route("/master/sampling-plans", get(resources::list_sampling_plans).post(resources::create_sampling_plan))
+        .route("/master/sampling-plans/:id", patch(resources::update_sampling_plan))
+        // ── スキル・ロール ────────────────────────────────────────────────
+        .route("/master/skills", get(resources::list_skills))
+        .route("/master/roles", get(resources::list_roles))
+        // ── SOP CRUD ─────────────────────────────────────────────────────
+        .route("/master/sops", post(resources::create_sop))
+        .route("/master/sops/:id", get(resources::get_sop).patch(resources::update_sop))
+        .route("/master/sops/:id/steps", get(resources::get_sop_steps).put(resources::update_sop_steps))
+        // ── SOP ワークフロー ──────────────────────────────────────────────
+        .route("/master/sops/:id/submit", post(resources::submit_sop))
+        .route("/master/sops/:id/approve", post(resources::approve_sop))
+        .route("/master/sops/:id/publish", post(resources::publish_sop))
+        .route("/master/sops/:id/deprecate", post(resources::deprecate_sop))
+        .route("/master/sops/:id/reject", post(resources::reject_sop))
+        .route("/master/sops/:id/versions", get(resources::get_sop_versions))
+        .route("/master/sops/:id/impact", post(resources::get_sop_impact))
+        // ── ユーザー詳細・更新 ────────────────────────────────────────────
+        .route("/master/users/:id", get(resources::get_user).patch(resources::update_user))
+        // ── 帳票テンプレート・リワーク対応表 ─────────────────────────────
+        .route("/master/report-templates", get(resources::list_report_templates))
+        .route("/master/rework-sop-mappings", get(resources::list_rework_sop_mappings))
+        // ── 監査ログ ──────────────────────────────────────────────────────
+        .route("/audit-logs", get(resources::list_audit_logs))
+        // ── システム情報 ──────────────────────────────────────────────────
+        .route("/system/backup-status", get(resources::get_backup_status))
+        .route("/system/metrics", get(resources::get_system_metrics))
+        // ── IQC ダッシュボード ────────────────────────────────────────────
+        .route("/iqc/dashboard", get(resources::get_iqc_dashboard))
+        // ── アラート一覧・解決 ────────────────────────────────────────────
+        .route("/alerts", get(resources::list_alerts))
+        .route("/alerts/:id/resolve", post(resources::resolve_alert))
+        // ── 電子署名 ──────────────────────────────────────────────────────
+        .route("/electronic-signs", post(resources::create_electronic_sign))
+        // ── DLQ 削除 ──────────────────────────────────────────────────────
+        .route("/outbox/dlq/:id", delete(resources::delete_dlq_item))
         // ── 作業指示 Push 受信 ─────────────────────────────────────────────
         .route(
             "/work-assignments",

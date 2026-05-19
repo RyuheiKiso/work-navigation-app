@@ -10,6 +10,7 @@ use uuid::Uuid;
 
 /// ログインリクエスト（API-auth-001）
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct LoginRequest {
     /// LDAP uid / ローカルユーザー名（1〜64 文字、英数字・アンダースコア・ハイフン）
     pub login_id: String,

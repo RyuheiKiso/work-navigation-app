@@ -399,17 +399,26 @@ COMMENT ON COLUMN suspensions.step_index_at_suspend IS '中断時の current_ste
 -- DDL-012: TBL-012 andon_alerts
 -- EN-017 AndonAlert — アンドン発報レコード（更新可）
 CREATE TABLE IF NOT EXISTS andon_alerts (
-    alert_id           UUID        NOT NULL DEFAULT gen_random_uuid(),
-    work_execution_id  UUID        NULL,
-    raised_by          UUID        NOT NULL,
-    alert_type         VARCHAR(32) NOT NULL,
-    status             VARCHAR(16) NOT NULL DEFAULT 'ALERTING',
-    raised_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    acknowledged_by    UUID        NULL,
-    acknowledged_at    TIMESTAMPTZ NULL,
-    resolved_by        UUID        NULL,
-    resolved_at        TIMESTAMPTZ NULL,
-    resolution_note    TEXT        NULL,
+    alert_id             UUID        NOT NULL DEFAULT gen_random_uuid(),
+    work_execution_id    UUID        NULL,
+    step_id              UUID        NULL,
+    raised_by            UUID        NOT NULL,
+    alert_type           VARCHAR(32) NOT NULL,
+    severity             VARCHAR(16) NOT NULL DEFAULT 'MEDIUM',
+    status               VARCHAR(16) NOT NULL DEFAULT 'ALERTING',
+    title                TEXT        NOT NULL DEFAULT '',
+    description          TEXT        NOT NULL DEFAULT '',
+    raised_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    timestamp_client     TIMESTAMPTZ NULL,
+    acknowledged_by      UUID        NULL,
+    acknowledgement_note TEXT        NULL,
+    acknowledged_at      TIMESTAMPTZ NULL,
+    resolved_by          UUID        NULL,
+    resolved_at          TIMESTAMPTZ NULL,
+    resolution_note      TEXT        NULL,
+    deleted_at           TIMESTAMPTZ NULL,
+    created_at           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
     CONSTRAINT pk_andon_alerts PRIMARY KEY (alert_id),
     CONSTRAINT fk_andon_alerts_execution FOREIGN KEY (work_execution_id)
@@ -422,6 +431,9 @@ CREATE TABLE IF NOT EXISTS andon_alerts (
         REFERENCES users (user_id) ON DELETE RESTRICT,
     CONSTRAINT ck_andon_alerts_type CHECK (
         alert_type IN ('QUALITY', 'EQUIPMENT', 'MATERIAL', 'PROCESS', 'SAFETY')
+    ),
+    CONSTRAINT ck_andon_alerts_severity CHECK (
+        severity IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL')
     ),
     CONSTRAINT ck_andon_alerts_status CHECK (
         status IN ('ALERTING', 'ACKNOWLEDGED', 'RESOLVED')
@@ -1042,24 +1054,26 @@ COMMENT ON COLUMN return_to_vendor_records.content_hash IS '本レコードの S
 -- DDL-051: TBL-051 case_locks
 -- Case 端末排他占有テーブル（FR-SY-011 / ADR-009）
 CREATE TABLE IF NOT EXISTS case_locks (
-    case_id       UUID        NOT NULL,
-    terminal_id   UUID        NOT NULL,
-    user_id       UUID        NOT NULL,
-    acquired_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    heartbeat_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    lock_status   TEXT        NOT NULL DEFAULT 'ACTIVE',
+    id              UUID        NOT NULL DEFAULT gen_random_uuid(),
+    work_order_id   UUID        NOT NULL,
+    device_id       UUID        NOT NULL,
+    operator_id     UUID        NOT NULL,
+    status          TEXT        NOT NULL DEFAULT 'ACTIVE',
+    acquired_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    heartbeat_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    released_at     TIMESTAMPTZ NULL,
 
-    CONSTRAINT pk_case_locks PRIMARY KEY (case_id),
-    CONSTRAINT fk_case_locks_case FOREIGN KEY (case_id)
-        REFERENCES work_executions (work_execution_id) ON DELETE CASCADE,
-    CONSTRAINT fk_case_locks_terminal FOREIGN KEY (terminal_id)
+    CONSTRAINT pk_case_locks PRIMARY KEY (id),
+    CONSTRAINT fk_case_locks_work_order FOREIGN KEY (work_order_id)
+        REFERENCES work_orders (work_order_id) ON DELETE CASCADE,
+    CONSTRAINT fk_case_locks_device FOREIGN KEY (device_id)
         REFERENCES devices (device_id) ON DELETE RESTRICT,
-    CONSTRAINT fk_case_locks_user FOREIGN KEY (user_id)
+    CONSTRAINT fk_case_locks_operator FOREIGN KEY (operator_id)
         REFERENCES users (user_id) ON DELETE RESTRICT,
     CONSTRAINT ck_case_locks_status CHECK (
-        lock_status IN ('ACTIVE', 'RELEASED', 'EXPIRED')
+        status IN ('ACTIVE', 'RELEASED', 'EXPIRED')
     )
 );
 
-COMMENT ON TABLE case_locks IS 'TBL-051 — case_id 単位の端末排他占有テーブル。1 case_id に同時 1 端末のみ ACTIVE 可（ADR-009）。BAT-013 が heartbeat_at 5 分超過で EXPIRED 化。制御テーブルのため app_event_insert ロールに INSERT/UPDATE/DELETE を許可（例外）。';
+COMMENT ON TABLE case_locks IS 'TBL-051 — work_order_id 単位の端末排他占有テーブル。1 work_order_id に同時 1 device のみ ACTIVE 可（ADR-009）。BAT-013 が heartbeat_at 5 分超過で EXPIRED 化。制御テーブルのため app_event_insert ロールに INSERT/UPDATE/DELETE を許可（例外）。';
 COMMENT ON COLUMN case_locks.heartbeat_at IS '端末が 60 秒ごとに更新する。BAT-013 が NOW() - heartbeat_at > 5 分の ACTIVE レコードを EXPIRED に更新する（FR-SY-011）。';

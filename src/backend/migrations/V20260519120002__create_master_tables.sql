@@ -220,7 +220,6 @@ CREATE TABLE IF NOT EXISTS electronic_signs (
 );
 
 COMMENT ON TABLE  electronic_signs IS 'EN-015 ElectronicSign — 電子サインレコード。Append-only。ALCOA+ Original / Attributable 要件。sign_id は master_versions・suspensions・capas から FK 参照される。';
-COMMENT ON COLUMN electronic_signs.sign_purpose    IS '署名目的の列挙値。';
 COMMENT ON COLUMN electronic_signs.signed_content_hash IS '署名対象コンテンツの SHA-256 ハッシュ（"sha256:" プレフィックス + hex 64 文字）。';
 COMMENT ON COLUMN electronic_signs.context_type         IS '署名コンテキスト種別（step_sign / work_complete_sign / approval_sign / quality_check_sign）。';
 COMMENT ON COLUMN electronic_signs.context_id           IS '署名対象リソースの UUID（context_type に対応するレコード ID）。';

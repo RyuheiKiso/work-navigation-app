@@ -2,7 +2,7 @@
 //
 // 現場端末からの入荷検査開始と測定値追加を担当する。
 // 合否判定（API-iqc-004）・特採承認（API-iqc-005）は master-api が担当する。
-// Append-only: iqc_inspections / iqc_measurements テーブルへの INSERT 専用。
+// Append-only: incoming_inspections / incoming_inspection_measurements テーブルへの INSERT 専用。
 // event_insert_pool（app_event_insert ロール）を使用する。
 
 use axum::{
@@ -50,26 +50,33 @@ pub async fn create_inspection(
 
     // サンプリングプランを material_id から解決する（プランが存在しない場合は None）
     let sampling_plan_id: Option<Uuid> =
-        sqlx::query_scalar(r#"SELECT id FROM sampling_plans WHERE material_id = $1 LIMIT 1"#)
+        sqlx::query_scalar(r#"SELECT plan_id FROM sampling_plans WHERE material_id = $1 LIMIT 1"#)
             .bind(req.material_id)
             .fetch_optional(&state.read_pool)
             .await
             .map_err(|_| AppError::DatabaseError)?;
 
     // 入荷検査レコードを Append-only で挿入する
+    // NOT NULL フィールドのうちサンプリングプラン由来の値はプランが存在しない場合 0 をデフォルトとする
     sqlx::query(
         r#"
-        INSERT INTO iqc_inspections
-            (id, lot_id, supplier_id, material_id, lot_quantity, sampling_plan_id,
-             qc_status, severity_state, created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, 'PENDING', 'NORMAL', $7)
+        INSERT INTO incoming_inspections
+            (inspection_id, lot_id, supplier_id, material_id, lot_quantity, sampling_plan_id,
+             sampling_plan_version, sample_size_n, accept_number_ac, reject_number_re,
+             inspector_id, qc_status, severity_state, received_at, created_at,
+             qc_case_id, prev_hash, content_hash)
+        VALUES ($1, $2, $3, $4, $5, $6, 1, 0, 0, 1,
+                $1, 'PENDING', 'NORMAL', $7, $7,
+                $1,
+                '0000000000000000000000000000000000000000000000000000000000000000',
+                '0000000000000000000000000000000000000000000000000000000000000000')
         "#,
     )
     .bind(new_id)
     .bind(req.lot_id)
     .bind(req.supplier_id)
     .bind(req.material_id)
-    .bind(req.lot_quantity)
+    .bind(req.lot_quantity as i32)
     .bind(sampling_plan_id)
     .bind(now)
     .execute(&state.event_insert_pool)
@@ -124,12 +131,12 @@ pub async fn add_measurement(
     Path(id): Path<Uuid>,
     Json(req): Json<AddMeasurementRequest>,
 ) -> Result<impl IntoResponse, AppError> {
-    // 検査が存在し PENDING / IN_PROGRESS 状態であることを確認する
+    // 検査が存在し PENDING / INSPECTING 状態であることを確認する
     let inspection_exists: bool = sqlx::query_scalar(
         r#"
         SELECT EXISTS(
-            SELECT 1 FROM iqc_inspections
-            WHERE id = $1 AND qc_status IN ('PENDING', 'IN_PROGRESS')
+            SELECT 1 FROM incoming_inspections
+            WHERE inspection_id = $1 AND qc_status IN ('PENDING', 'INSPECTING')
         )
         "#,
     )
@@ -148,10 +155,13 @@ pub async fn add_measurement(
     // 測定値を Append-only で挿入する
     sqlx::query(
         r#"
-        INSERT INTO iqc_measurements
-            (id, inspection_id, sample_no, measured_value, defect_flag,
-             evidence_file_id, created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO incoming_inspection_measurements
+            (measurement_id, inspection_id, sample_no, measured_value, defect_flag,
+             evidence_file_id, measured_at,
+             qc_case_id, prev_hash, content_hash)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $2,
+                '0000000000000000000000000000000000000000000000000000000000000000',
+                '0000000000000000000000000000000000000000000000000000000000000000')
         "#,
     )
     .bind(new_id)
@@ -165,12 +175,12 @@ pub async fn add_measurement(
     .await
     .map_err(|_| AppError::DatabaseError)?;
 
-    // 検査ステータスを IN_PROGRESS に更新する（初回測定時のみ）
+    // 検査ステータスを INSPECTING に更新する（初回測定時のみ）
     sqlx::query(
         r#"
-        UPDATE iqc_inspections
-        SET qc_status = 'IN_PROGRESS'
-        WHERE id = $1 AND qc_status = 'PENDING'
+        UPDATE incoming_inspections
+        SET qc_status = 'INSPECTING'
+        WHERE inspection_id = $1 AND qc_status = 'PENDING'
         "#,
     )
     .bind(id)

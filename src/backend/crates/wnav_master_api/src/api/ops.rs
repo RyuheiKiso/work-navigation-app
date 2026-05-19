@@ -177,10 +177,10 @@ pub async fn verify_hash_chain(
     let rows = if let Some(case_id) = req.case_id {
         sqlx::query(
             r#"
-            SELECT id, case_id, sequence_number, prev_block_hash, content_hash, block_hash, created_at
-            FROM work_event_blocks
+            SELECT event_id, case_id, prev_hash, content_hash, server_received_at
+            FROM work_events
             WHERE case_id = $1
-            ORDER BY sequence_number ASC
+            ORDER BY timestamp_server ASC
             LIMIT $2
             "#,
         )
@@ -191,9 +191,9 @@ pub async fn verify_hash_chain(
     } else {
         sqlx::query(
             r#"
-            SELECT id, case_id, sequence_number, prev_block_hash, content_hash, block_hash, created_at
-            FROM work_event_blocks
-            ORDER BY case_id, sequence_number ASC
+            SELECT event_id, case_id, prev_hash, content_hash, server_received_at
+            FROM work_events
+            ORDER BY case_id, timestamp_server ASC
             LIMIT $1
             "#,
         )
@@ -211,18 +211,18 @@ pub async fn verify_hash_chain(
 
     for row in &rows {
         verified_count += 1;
-        let block_id: Uuid = row.get("id");
+        let block_id: Uuid = row.get("event_id");
         let case_id: Uuid = row.get("case_id");
-        let sequence_number: i64 = row.get("sequence_number");
-        let created_at: chrono::DateTime<Utc> = row.get("created_at");
+        let created_at: chrono::DateTime<Utc> = row.get("server_received_at");
 
-        let prev_block_hash_vec: Vec<u8> = row.get("prev_block_hash");
-        let content_hash_vec: Vec<u8> = row.get("content_hash");
-        let block_hash_vec: Vec<u8> = row.get("block_hash");
+        let prev_hex: &str = row.get("prev_hash");
+        let content_hex: &str = row.get("content_hash");
 
-        let prev_block_hash: [u8; 32] = prev_block_hash_vec.try_into().unwrap_or([0u8; 32]);
-        let content_hash: [u8; 32] = content_hash_vec.try_into().unwrap_or([0u8; 32]);
-        let block_hash: [u8; 32] = block_hash_vec.try_into().unwrap_or([0u8; 32]);
+        let prev_block_hash: [u8; 32] = wnav_hash_chain::hex_to_bytes32(prev_hex).unwrap_or([0u8; 32]);
+        let content_hash: [u8; 32] = wnav_hash_chain::hex_to_bytes32(content_hex).unwrap_or([0u8; 32]);
+        let block_hash: [u8; 32] = wnav_hash_chain::compute_chain_hash(&prev_block_hash, &content_hash);
+
+        let sequence_number = groups.get(&case_id).map(|v| v.len() as i64 + 1).unwrap_or(1);
 
         groups.entry(case_id).or_default().push(ChainBlock {
             id: block_id,

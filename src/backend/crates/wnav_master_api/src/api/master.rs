@@ -766,7 +766,7 @@ pub async fn list_users(
     // パスワードハッシュ・PIN ハッシュを SELECT から除外する（機密情報保護）
     let rows = sqlx::query(
         r#"
-        SELECT id, login_id, display_name, email, factory_id, roles,
+        SELECT user_id, login_id, display_name, email, factory_id, roles,
                is_active, created_at, updated_at
         FROM users
         WHERE deleted_at IS NULL
@@ -787,7 +787,7 @@ pub async fn list_users(
         .iter()
         .map(|r| {
             serde_json::json!({
-                "id": r.get::<Uuid, _>("id"),
+                "id": r.get::<Uuid, _>("user_id"),
                 "login_id": r.get::<String, _>("login_id"),
                 "display_name": r.get::<String, _>("display_name"),
                 "email": r.get::<String, _>("email"),
@@ -841,7 +841,7 @@ pub async fn create_user(
     sqlx::query(
         r#"
         INSERT INTO users
-            (id, login_id, display_name, email, password_hash, factory_id,
+            (user_id, login_id, display_name, email, password_hash, factory_id,
              roles, is_active, created_at, updated_at)
         VALUES ($1, $2, $3, $4, $5, $6, $7, true, $8, $8)
         "#,
@@ -912,7 +912,7 @@ pub async fn assign_roles(
         r#"
         UPDATE users
         SET roles = $1, updated_at = $2
-        WHERE id = $3 AND deleted_at IS NULL
+        WHERE user_id = $3 AND deleted_at IS NULL
         "#,
     )
     .bind(&roles_json)

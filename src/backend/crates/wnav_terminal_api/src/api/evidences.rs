@@ -115,9 +115,11 @@ pub async fn upload_evidence(
         ])));
     }
 
-    // work_execution の in_progress 確認
+    // work_execution の IN_PROGRESS 確認（DDL に合わせた列名と STATUS 値を使用する）
     let exec_status: Option<String> =
-        sqlx::query_as::<_, (String,)>(r"SELECT status FROM work_executions WHERE id = $1 LIMIT 1")
+        sqlx::query_as::<_, (String,)>(
+            r"SELECT status FROM work_executions WHERE work_execution_id = $1 LIMIT 1",
+        )
             .bind(metadata.work_execution_id)
             .fetch_optional(&state.read_pool)
             .await
@@ -125,7 +127,7 @@ pub async fn upload_evidence(
             .map(|(s,)| s);
 
     match exec_status.as_deref() {
-        Some("in_progress") => {}
+        Some("IN_PROGRESS") => {}
         Some(_) => return Err(AppError::StepSequenceViolation),
         None => return Err(AppError::NotFound),
     }
@@ -149,27 +151,36 @@ pub async fn upload_evidence(
     );
 
     // TBL-009 にレコードを INSERT する
+    // DDL 列: evidence_id, event_id, file_type, file_path, file_hash(CHAR64), file_size_bytes,
+    //          mime_type, captured_at, exif_stripped, created_at, server_received_at
+    // file_type は CHECK 制約 ('PHOTO'|'AUDIO'|'DOCUMENT'|'VIDEO') に合わせる
+    let file_type = match metadata.evidence_type.to_uppercase().as_str() {
+        "PHOTO" | "IMAGE" | "JPEG" | "PNG" => "PHOTO",
+        "AUDIO" => "AUDIO",
+        "VIDEO" => "VIDEO",
+        _ => "DOCUMENT",
+    };
+    // file_hash は CHAR(64) 制約のため 64 文字 hex にする
+    let file_hash_64 = format!("{:0>64}", &metadata.sha256_client);
+    // event_id として work_execution_id を使用する（証拠ファイルを作業実行と紐付ける）
     sqlx::query(
         r"
         INSERT INTO evidence_files
-            (id, work_execution_id, step_id, evidence_type, description,
-             file_hash_sha256, file_path, file_size_bytes, file_mime_type,
-             uploaded_by, uploaded_at, timestamp_client, created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $11)
+            (evidence_id, event_id, file_type, file_path, file_hash,
+             file_size_bytes, mime_type, captured_at, exif_stripped,
+             created_at, server_received_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, TRUE, $9, $9)
         ",
     )
     .bind(evidence_id)
     .bind(metadata.work_execution_id)
-    .bind(metadata.step_id)
-    .bind(&metadata.evidence_type)
-    .bind(&metadata.description)
-    .bind(&metadata.sha256_client)
+    .bind(file_type)
     .bind(&file_path)
-    .bind(file_size_bytes)
+    .bind(&file_hash_64)
+    .bind(file_size_bytes as i32)
     .bind(&file_mime)
-    .bind(current_user.user_id)
-    .bind(server_received_at)
     .bind(metadata.timestamp_client)
+    .bind(server_received_at)
     .execute(&state.event_insert_pool)
     .await
     .map_err(|e| {

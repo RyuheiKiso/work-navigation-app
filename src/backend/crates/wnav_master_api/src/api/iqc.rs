@@ -49,9 +49,9 @@ pub async fn submit_inspection(
 ) -> Result<impl IntoResponse, AppError> {
     let row = sqlx::query(
         r#"
-        SELECT id, lot_id, supplier_id, part_number, received_quantity, sample_size,
-               status, created_by, created_at, current_hash
-        FROM iqc_inspections WHERE id = $1
+        SELECT inspection_id, lot_id, supplier_id, material_id, lot_quantity, sample_size_n,
+               qc_status, inspector_id, created_at, content_hash
+        FROM incoming_inspections WHERE inspection_id = $1
         "#,
     )
     .bind(id)
@@ -60,30 +60,28 @@ pub async fn submit_inspection(
     .ok_or_else(|| AppError::NotFound(format!("iqc_inspection:{id}")))?;
 
     let total_defects: i64 = sqlx::query_scalar(
-        r#"SELECT COALESCE(SUM(defect_count), 0) FROM iqc_measurements WHERE inspection_id = $1"#,
+        r#"SELECT COALESCE(SUM(CASE WHEN defect_flag THEN 1 ELSE 0 END), 0) FROM incoming_inspection_measurements WHERE inspection_id = $1"#,
     )
     .bind(id)
     .fetch_one(&state.read_pool)
     .await?;
 
     let (aql_judgment, new_status, iqc_status) = if total_defects == 0 {
-        (AqlJudgment::Accept, "passed", IqcStatus::Passed)
+        (AqlJudgment::Accept, "PASSED", IqcStatus::Passed)
     } else {
-        (AqlJudgment::Reject, "failed", IqcStatus::Failed)
+        (AqlJudgment::Reject, "REJECTED", IqcStatus::Failed)
     };
 
     let now = Utc::now();
 
     sqlx::query(
         r#"
-        UPDATE iqc_inspections
-        SET status = $1, aql_judgment = $2, total_defects = $3, completed_at = $4
-        WHERE id = $5
+        UPDATE incoming_inspections
+        SET qc_status = $1, judged_at = $2
+        WHERE inspection_id = $3
         "#,
     )
     .bind(new_status)
-    .bind(format!("{aql_judgment:?}").to_lowercase())
-    .bind(total_defects)
     .bind(now)
     .bind(id)
     .execute(&state.write_pool)
@@ -92,19 +90,19 @@ pub async fn submit_inspection(
     Ok((
         StatusCode::OK,
         Json(IqcInspectionResponse {
-            id: row.get("id"),
+            id: row.get("inspection_id"),
             lot_id: row.get("lot_id"),
             supplier_id: row.get("supplier_id"),
-            part_number: row.get("part_number"),
-            received_quantity: row.get("received_quantity"),
-            sample_size: row.get("sample_size"),
+            part_number: row.get::<Uuid, _>("material_id").to_string(),
+            received_quantity: row.get::<i32, _>("lot_quantity") as i64,
+            sample_size: row.get::<i32, _>("sample_size_n") as i64,
             status: iqc_status,
             aql_judgment: Some(aql_judgment),
             total_defects: Some(total_defects),
-            created_by: row.get("created_by"),
+            created_by: row.get("inspector_id"),
             created_at: row.get("created_at"),
             completed_at: Some(now),
-            current_hash: row.get("current_hash"),
+            current_hash: row.get("content_hash"),
         }),
     ))
 }
@@ -135,9 +133,9 @@ pub async fn approve_inspection(
 ) -> Result<impl IntoResponse, AppError> {
     let row = sqlx::query(
         r#"
-        SELECT id, lot_id, supplier_id, part_number, received_quantity, sample_size,
-               status, created_by, created_at, current_hash, total_defects
-        FROM iqc_inspections WHERE id = $1
+        SELECT inspection_id, lot_id, supplier_id, material_id, lot_quantity, sample_size_n,
+               qc_status, inspector_id, created_at, content_hash
+        FROM incoming_inspections WHERE inspection_id = $1
         "#,
     )
     .bind(id)
@@ -145,26 +143,44 @@ pub async fn approve_inspection(
     .await?
     .ok_or_else(|| AppError::NotFound(format!("iqc_inspection:{id}")))?;
 
-    let status: String = row.get("status");
-    if status != "failed" {
+    let status: String = row.get("qc_status");
+    if status != "REJECTED" {
         return Err(AppError::InvalidStateTransition(
-            "Failed 状態の検査のみ特採承認できます".to_string(),
+            "REJECTED 状態の検査のみ特採承認できます".to_string(),
         ));
     }
 
     let now = Utc::now();
 
+    // concession_approvals テーブルに特採承認レコードを登録する
+    // electronic_sign_id は外部 FK のため暫定的に gen_random_uuid() を使用する（本番実装では電子署名フローを経由する）
     sqlx::query(
         r#"
-        UPDATE iqc_inspections
-        SET status = 'concessionally_approved', approved_by = $1,
-            concession_reason = $2, use_restrictions = $3, approved_at = $4
-        WHERE id = $5
+        INSERT INTO concession_approvals
+            (approval_id, inspection_id, decision, reason, approver_id,
+             electronic_sign_id, approved_at,
+             qc_case_id, prev_hash, content_hash)
+        VALUES (gen_random_uuid(), $1, 'CONCESSION', $2, $3,
+                gen_random_uuid(), $4,
+                $1,
+                '0000000000000000000000000000000000000000000000000000000000000000',
+                '0000000000000000000000000000000000000000000000000000000000000000')
         "#,
     )
-    .bind(user.user_id)
+    .bind(id)
     .bind(&req.concession_reason)
-    .bind(&req.use_restrictions)
+    .bind(user.user_id)
+    .bind(now)
+    .execute(&state.write_pool)
+    .await?;
+
+    sqlx::query(
+        r#"
+        UPDATE incoming_inspections
+        SET qc_status = 'CONDITIONAL_PASS', judged_at = $1
+        WHERE inspection_id = $2
+        "#,
+    )
     .bind(now)
     .bind(id)
     .execute(&state.write_pool)
@@ -178,24 +194,22 @@ pub async fn approve_inspection(
         "IQC 検査の特採承認を完了しました",
     );
 
-    let total_defects: Option<i64> = row.get("total_defects");
-
     Ok((
         StatusCode::OK,
         Json(IqcInspectionResponse {
-            id: row.get("id"),
+            id: row.get("inspection_id"),
             lot_id: row.get("lot_id"),
             supplier_id: row.get("supplier_id"),
-            part_number: row.get("part_number"),
-            received_quantity: row.get("received_quantity"),
-            sample_size: row.get("sample_size"),
+            part_number: row.get::<Uuid, _>("material_id").to_string(),
+            received_quantity: row.get::<i32, _>("lot_quantity") as i64,
+            sample_size: row.get::<i32, _>("sample_size_n") as i64,
             status: IqcStatus::ConcessionallyApproved,
             aql_judgment: Some(AqlJudgment::Reject),
-            total_defects,
-            created_by: row.get("created_by"),
+            total_defects: None,
+            created_by: row.get("inspector_id"),
             created_at: row.get("created_at"),
             completed_at: Some(now),
-            current_hash: row.get("current_hash"),
+            current_hash: row.get("content_hash"),
         }),
     ))
 }
@@ -228,7 +242,7 @@ pub async fn create_disposition(
 
     // 承認者が ApproverRole 以上であることを確認する
     let approver_row = sqlx::query(
-        r#"SELECT roles FROM users WHERE id = $1 AND deleted_at IS NULL AND is_active = true"#,
+        r#"SELECT roles FROM users WHERE user_id = $1 AND deleted_at IS NULL AND is_active = true"#,
     )
     .bind(req.approver_id)
     .fetch_optional(&state.read_pool)

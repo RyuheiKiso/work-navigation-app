@@ -21,11 +21,11 @@ pub struct WorkAssignmentQuery {
 /// 機密性の高い内部管理フィールド（external_order_id 等）は含めない
 #[derive(Debug, Serialize, ToSchema)]
 pub struct WorkAssignmentDto {
-    /// 作業割当 ID（TBL-052）
+    /// 作業割当 ID（TBL-052: assignment_id）
     pub id: Uuid,
-    /// SOP ID（TBL-007）
+    /// 作業パターン ID（TBL: work_pattern_id）
     pub sop_id: Uuid,
-    /// SOP 名称（JOIN して取得）
+    /// 作業パターン名称（JOIN して取得）
     pub sop_name: String,
     /// ロット ID（TBL-024）
     pub lot_id: Option<Uuid>,
@@ -37,7 +37,7 @@ pub struct WorkAssignmentDto {
     pub suggested_equipment_id: Option<Uuid>,
     /// 期限日時
     pub due_at: Option<DateTime<Utc>>,
-    /// 優先度（1〜5）
+    /// 優先度（1〜3: 1=緊急, 2=通常, 3=低）
     pub priority: i32,
     /// ステータス（pending / dispatched / acknowledged / cancelled）
     pub status: String,

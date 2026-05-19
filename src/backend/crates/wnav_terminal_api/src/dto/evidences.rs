@@ -7,6 +7,7 @@ use uuid::Uuid;
 
 /// エビデンスアップロード時の metadata パート（multipart/form-data）
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct EvidenceMetadata {
     /// 対象作業実行 ID（TBL-005 に in_progress で存在すること）
     pub work_execution_id: Uuid,

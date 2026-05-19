@@ -151,7 +151,7 @@ async fn run_verification(read_pool: &PgPool) {
     use wnav_hash_chain::{ChainBlock, verify_chain};
 
     let case_ids: Vec<uuid::Uuid> = match sqlx::query_scalar(
-        r#"SELECT DISTINCT case_id FROM work_event_blocks ORDER BY case_id"#,
+        r#"SELECT DISTINCT case_id FROM work_events ORDER BY case_id"#,
     )
     .fetch_all(read_pool)
     .await
@@ -169,10 +169,12 @@ async fn run_verification(read_pool: &PgPool) {
     for case_id in &case_ids {
         let blocks = match sqlx::query(
             r#"
-            SELECT id, case_id, sequence_number, prev_block_hash, content_hash, block_hash, created_at
-            FROM work_event_blocks
+            SELECT event_id, case_id,
+                   ROW_NUMBER() OVER (PARTITION BY case_id ORDER BY timestamp_server ASC) AS sequence_number,
+                   prev_hash, content_hash, server_received_at
+            FROM work_events
             WHERE case_id = $1
-            ORDER BY sequence_number ASC
+            ORDER BY timestamp_server ASC
             "#,
         )
         .bind(case_id)
@@ -188,18 +190,23 @@ async fn run_verification(read_pool: &PgPool) {
 
         let chain_blocks: Vec<ChainBlock> = blocks
             .iter()
-            .map(|b| {
-                let prev: Vec<u8> = b.get("prev_block_hash");
-                let content: Vec<u8> = b.get("content_hash");
-                let block: Vec<u8> = b.get("block_hash");
-                let created_at: chrono::DateTime<Utc> = b.get("created_at");
+            .enumerate()
+            .map(|(i, b)| {
+                let prev_hex: &str = b.get("prev_hash");
+                let content_hex: &str = b.get("content_hash");
+                let created_at: chrono::DateTime<Utc> = b.get("server_received_at");
+                // prev_hash と content_hash は CHAR(64) hex 文字列として格納されている
+                let prev = wnav_hash_chain::hex_to_bytes32(prev_hex).unwrap_or([0u8; 32]);
+                let content = wnav_hash_chain::hex_to_bytes32(content_hex).unwrap_or([0u8; 32]);
+                // block_hash は content_hash を前の block_hash と結合して計算する
+                let block = wnav_hash_chain::compute_chain_hash(&prev, &content);
                 ChainBlock {
-                    id: b.get("id"),
+                    id: b.get("event_id"),
                     case_id: b.get("case_id"),
-                    sequence_number: b.get("sequence_number"),
-                    prev_block_hash: prev.try_into().unwrap_or([0u8; 32]),
-                    content_hash: content.try_into().unwrap_or([0u8; 32]),
-                    block_hash: block.try_into().unwrap_or([0u8; 32]),
+                    sequence_number: (i + 1) as i64,
+                    prev_block_hash: prev,
+                    content_hash: content,
+                    block_hash: block,
                     created_at,
                 }
             })

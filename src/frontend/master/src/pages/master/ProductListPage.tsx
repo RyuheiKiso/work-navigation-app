@@ -29,6 +29,12 @@ export function ProductListPage(): React.ReactElement {
       queryKeyBuilder={(asOf) => queryKeys.master.products(asOf)}
       columns={columns}
       initialCreateForm={{ productCode: '', nameJa: '', nameEn: '', nameZh: '' }}
+      initialEditForm={(item) => ({
+        productCode: item.productCode,
+        nameJa: item.nameJson.ja,
+        nameEn: item.nameJson.en,
+        nameZh: item.nameJson.zh,
+      })}
       labelOf={(item) => resolveLocale(item.nameJson, 'ja')}
       validateAndBuildPayload={(form) => {
         if (!form.productCode) return { ok: false, message: '製品コードは必須です' };

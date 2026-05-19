@@ -127,6 +127,22 @@ export const sopWorkflowHandlers = [
     return HttpResponse.json(envelope(version));
   }),
 
+  // 却下: ドラフトに差し戻す（SopStatus に 'rejected' がないため draft に戻す設計）
+  ...route('post', 'master', '/master/sops/:id/reject', async ({ request, params }) => {
+    const authErr = requireAuth(request);
+    if (authErr) return authErr;
+    const body = (await request.json().catch(() => null)) as { reason?: string } | null;
+    if (!body?.reason) {
+      return problem(422, 'ERR-VAL-001', 'Required field missing', '却下理由は必須です');
+    }
+    const version = db.sopVersions.find((v) => v.sopId === params['id'] && v.status === 'in_review');
+    if (!version) return problem(409, 'ERR-BIZ-003', 'SOP not in review', 'in_review バージョンが見つかりません');
+    version.status = 'draft';
+    version.submittedAt = null;
+    version.submittedBy = null;
+    return HttpResponse.json(envelope(version));
+  }),
+
   ...route('post', 'master', '/master/sops/:id/approve', async ({ request, params }) => {
     const authErr = requireAuth(request);
     if (authErr) return authErr;

@@ -1,4 +1,5 @@
 // Outbox は created_at 昇順で 1 件ずつ取得し ACK 後にレコードのみ削除する（イベント本体は保持）
+import { LessThanOrEqual } from 'typeorm';
 import { getDataSource } from '../data-source';
 import { LocalOutboxEvent } from '../entities/LocalOutboxEvent';
 
@@ -15,8 +16,10 @@ export class OutboxRepository {
   }
 
   async findOldestPending(): Promise<LocalOutboxEvent | null> {
+    // nextRetryAt <= 現在時刻 のレコードのみ対象とし、指数バックオフ中のイベントをスキップする
+    const now = new Date().toISOString();
     return this.repo.findOne({
-      where: { sent: false },
+      where: { sent: false, nextRetryAt: LessThanOrEqual(now) },
       order: { createdAt: 'ASC' },
     });
   }

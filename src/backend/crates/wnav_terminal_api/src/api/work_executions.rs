@@ -82,20 +82,22 @@ pub async fn start_work_execution(
     let new_id = Uuid::now_v7();
 
     // work_executions テーブルに作業実行レコードを INSERT する
+    // sop_id / sop_version_id はリクエストに含まれないため NIL UUID をプレースホルダーとして使用する（後続の SOP 解決処理で更新予定）
     sqlx::query(
         r"
         INSERT INTO work_executions
-            (id, work_order_id, operator_id, device_id, status,
-             started_at, server_received_at, client_recorded_at, created_at)
-        VALUES ($1, $2, $3, $4, 'in_progress', $5, $5, $6, $5)
+            (work_execution_id, sop_id, sop_version_id, primary_worker_id, device_id,
+             work_order_id, status, started_at, created_at, updated_at)
+        VALUES ($1, $2, $3, $4, $5, $6, 'IN_PROGRESS', $7, $7, $7)
         ",
     )
     .bind(new_id)
+    .bind(Uuid::nil())
+    .bind(Uuid::nil())
+    .bind(current_user.user_id)
+    .bind(current_user.device_id.unwrap_or_else(Uuid::nil))
     .bind(body.work_order_id)
-    .bind(body.operator_id)
-    .bind(body.device_id)
     .bind(server_received_at)
-    .bind(body.start_timestamp_client)
     .execute(&state.event_insert_pool)
     .await
     .map_err(|e| {
@@ -103,11 +105,11 @@ pub async fn start_work_execution(
         AppError::DatabaseError
     })?;
 
-    // work_orders のステータスを in_progress に更新する
+    // work_orders のステータスを IN_PROGRESS に更新する
     let _ = sqlx::query(
         r"
-        UPDATE work_orders SET status = 'in_progress', updated_at = NOW()
-        WHERE id = $1
+        UPDATE work_orders SET status = 'IN_PROGRESS', updated_at = NOW()
+        WHERE work_order_id = $1
         ",
     )
     .bind(body.work_order_id)
@@ -153,24 +155,25 @@ pub async fn get_work_execution(
     Extension(_current_user): Extension<CurrentUser>,
     Path(id): Path<Uuid>,
 ) -> Result<Json<ApiResponse<WorkExecutionDetailData>>, AppError> {
+    // work_executions の DDL に合わせて SELECT 列を修正する
+    // current_step_id / last_event_at は DDL に存在しないため省略し、代替値を使用する
     let row = sqlx::query_as::<
         _,
         (
             Uuid,
-            Uuid,
+            Option<Uuid>,
             Uuid,
             Uuid,
             String,
-            Option<Uuid>,
-            chrono::DateTime<Utc>,
+            Option<chrono::DateTime<Utc>>,
             Option<chrono::DateTime<Utc>>,
         ),
     >(
         r"
-        SELECT id, work_order_id, operator_id, device_id, status,
-               current_step_id, started_at, last_event_at
+        SELECT work_execution_id, work_order_id, primary_worker_id, device_id, status,
+               started_at, completed_at
         FROM work_executions
-        WHERE id = $1 AND deleted_at IS NULL
+        WHERE work_execution_id = $1
         LIMIT 1
         ",
     )
@@ -180,26 +183,25 @@ pub async fn get_work_execution(
     .map_err(|_| AppError::DatabaseError)?;
 
     let Some((
-        id,
+        work_execution_id,
         work_order_id,
-        operator_id,
+        primary_worker_id,
         device_id,
         status,
-        current_step_id,
         started_at,
-        last_event_at,
+        completed_at,
     )) = row
     else {
         return Err(AppError::NotFound);
     };
 
     let data = WorkExecutionDetailData {
-        id,
-        work_order_id,
-        operator_id,
+        id: work_execution_id,
+        work_order_id: work_order_id.unwrap_or_else(Uuid::nil),
+        operator_id: primary_worker_id,
         device_id,
         status,
-        current_step_id,
+        current_step_id: None,
         completed_step_count: 0,
         total_step_count: 0,
         sop_version_snapshot: SopVersionSnapshot {
@@ -207,8 +209,8 @@ pub async fn get_work_execution(
             version: "1.0.0".to_string(),
             snapshot_hash: "sha256:".to_string(),
         },
-        started_at,
-        last_event_at,
+        started_at: started_at.unwrap_or(Utc::now()),
+        last_event_at: completed_at,
         events: Vec::<WorkEventSummary>::new(),
     };
 
@@ -235,18 +237,18 @@ pub async fn get_work_execution(
 )]
 pub async fn suspend_work_execution(
     State(state): State<AppState>,
-    Extension(_current_user): Extension<CurrentUser>,
+    Extension(current_user): Extension<CurrentUser>,
     Path(id): Path<Uuid>,
     Json(body): Json<SuspendRequest>,
 ) -> Result<Json<ApiResponse<SuspendData>>, AppError> {
     let server_received_at = Utc::now();
 
-    // work_execution を in_progress → suspended に遷移する
+    // work_execution を IN_PROGRESS → SUSPENDED に遷移する
     let rows_affected = sqlx::query(
         r"
         UPDATE work_executions
-        SET status = 'suspended', last_event_at = $2
-        WHERE id = $1 AND status = 'in_progress'
+        SET status = 'SUSPENDED', updated_at = $2
+        WHERE work_execution_id = $1 AND status = 'IN_PROGRESS'
         ",
     )
     .bind(id)
@@ -260,21 +262,22 @@ pub async fn suspend_work_execution(
         return Err(AppError::StepSequenceViolation);
     }
 
-    // suspensions テーブルに記録する
+    // suspensions テーブルに記録する（DDL 列に合わせて使用可能な列のみを指定する）
     let suspension_id = Uuid::now_v7();
     let _ = sqlx::query(
         r"
-        INSERT INTO suspensions (id, work_execution_id, reason_code, reason_detail,
-                                  suspended_at, client_recorded_at)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        INSERT INTO suspensions
+            (suspension_id, work_execution_id, suspended_by, suspend_reason_category,
+             suspend_comment, suspended_at, step_index_at_suspend)
+        VALUES ($1, $2, $3, $4, $5, $6, 0)
         ",
     )
     .bind(suspension_id)
     .bind(id)
+    .bind(current_user.user_id)
     .bind(&body.reason_code)
     .bind(&body.reason_detail)
     .bind(server_received_at)
-    .bind(body.timestamp_client)
     .execute(&state.event_insert_pool)
     .await;
 
@@ -315,14 +318,14 @@ pub async fn resume_work_execution(
     let server_received_at = Utc::now();
 
     // work_execution の work_order_id を取得して CaseLock 確認に使用する
-    let work_order_id: Option<Uuid> = sqlx::query_as::<_, (Uuid,)>(
-        r"SELECT work_order_id FROM work_executions WHERE id = $1 LIMIT 1",
+    let work_order_id: Option<Uuid> = sqlx::query_as::<_, (Option<Uuid>,)>(
+        r"SELECT work_order_id FROM work_executions WHERE work_execution_id = $1 LIMIT 1",
     )
     .bind(id)
     .fetch_optional(&state.read_pool)
     .await
     .map_err(|_| AppError::DatabaseError)?
-    .map(|(v,)| v);
+    .and_then(|(v,)| v);
 
     let work_order_id = work_order_id.ok_or(AppError::NotFound)?;
 
@@ -343,8 +346,8 @@ pub async fn resume_work_execution(
     sqlx::query(
         r"
         UPDATE work_executions
-        SET status = 'in_progress', last_event_at = $2
-        WHERE id = $1 AND status = 'suspended'
+        SET status = 'IN_PROGRESS', updated_at = $2
+        WHERE work_execution_id = $1 AND status = 'SUSPENDED'
         ",
     )
     .bind(id)
@@ -390,12 +393,12 @@ pub async fn complete_work_execution(
 ) -> Result<Json<ApiResponse<CompleteWorkData>>, AppError> {
     let server_received_at = Utc::now();
 
-    // in_progress → completed に遷移する
+    // IN_PROGRESS → COMPLETED に遷移する
     let rows_affected = sqlx::query(
         r"
         UPDATE work_executions
-        SET status = 'completed', completed_at = $2, last_event_at = $2
-        WHERE id = $1 AND status = 'in_progress'
+        SET status = 'COMPLETED', completed_at = $2, updated_at = $2
+        WHERE work_execution_id = $1 AND status = 'IN_PROGRESS'
         ",
     )
     .bind(id)
@@ -409,25 +412,25 @@ pub async fn complete_work_execution(
         return Err(AppError::StepSequenceViolation);
     }
 
-    // work_orders のステータスを completed に更新する
+    // work_orders のステータスを COMPLETED に更新する
     let _ = sqlx::query(
         r"
         UPDATE work_orders wo
-        SET status = 'completed', updated_at = NOW()
+        SET status = 'COMPLETED', updated_at = NOW()
         FROM work_executions we
-        WHERE we.id = $1 AND wo.id = we.work_order_id
+        WHERE we.work_execution_id = $1 AND wo.work_order_id = we.work_order_id
         ",
     )
     .bind(id)
     .execute(&state.event_insert_pool)
     .await;
 
-    // CaseLock を解放する
+    // CaseLock を解放する（status を RELEASED に更新する）
     let _ = sqlx::query(
         r"
-        UPDATE case_locks SET status = 'released', released_at = NOW()
+        UPDATE case_locks SET status = 'RELEASED', released_at = NOW()
         WHERE work_order_id = (
-            SELECT work_order_id FROM work_executions WHERE id = $1
+            SELECT work_order_id FROM work_executions WHERE work_execution_id = $1
         )
         ",
     )
@@ -436,19 +439,24 @@ pub async fn complete_work_execution(
     .await;
 
     // Outbox に MSG-001 を挿入する（完了通知）
+    // event_type は outbox_events の CHECK 制約（'work_event' 等の列挙値のみ）に準拠させる
     let outbox_id = Uuid::now_v7();
+    let idempotency_key = Uuid::now_v7();
     let _ = sqlx::query(
         r"
-        INSERT INTO outbox_events (outbox_id, event_type, payload, status, created_at)
-        VALUES ($1, 'work_execution.completed', $2, 'PENDING', NOW())
+        INSERT INTO outbox_events
+            (outbox_id, event_id, event_type, payload, status, idempotency_key, created_at)
+        VALUES ($1, $2, 'work_event', $3, 'PENDING', $4, NOW())
         ",
     )
     .bind(outbox_id)
+    .bind(id)
     .bind(serde_json::json!({
         "work_execution_id": id,
         "completed_by": body.completed_by,
         "completed_at": server_received_at,
     }))
+    .bind(idempotency_key)
     .execute(&state.event_insert_pool)
     .await;
 
@@ -489,7 +497,7 @@ pub async fn heartbeat_work_execution(
         r"
         UPDATE case_locks SET heartbeat_at = NOW()
         WHERE work_order_id = (
-            SELECT work_order_id FROM work_executions WHERE id = $1
+            SELECT work_order_id FROM work_executions WHERE work_execution_id = $1
         )
         AND device_id = $2
         AND status = 'ACTIVE'

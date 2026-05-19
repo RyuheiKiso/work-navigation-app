@@ -43,6 +43,7 @@ pub enum AqlJudgment {
 ///
 /// ApproverRole 必須。申請者と異なるユーザーが承認する。
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct ApproveInspectionRequest {
     /// 特採理由（必須）
     pub concession_reason: String,

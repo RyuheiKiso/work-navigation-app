@@ -38,7 +38,7 @@ pub async fn login(
     // ユーザー情報を read_pool で取得する
     let row = sqlx::query(
         r#"
-        SELECT id, password_hash, roles, factory_id, is_active
+        SELECT user_id, password_hash, roles, factory_id, is_active
         FROM users
         WHERE login_id = $1 AND deleted_at IS NULL
         "#,
@@ -62,7 +62,7 @@ pub async fn login(
         return Err(AppError::Unauthorized);
     }
 
-    let user_id: Uuid = user.get("id");
+    let user_id: Uuid = user.get("user_id");
     let factory_id: Uuid = user.get("factory_id");
     let roles_json: serde_json::Value = user.get("roles");
     let roles: Vec<String> = roles_json
@@ -156,9 +156,9 @@ pub async fn refresh(
 
     let user_row = sqlx::query(
         r#"
-        SELECT id, roles, factory_id, is_active
+        SELECT user_id, roles, factory_id, is_active
         FROM users
-        WHERE id = $1 AND deleted_at IS NULL
+        WHERE user_id = $1 AND deleted_at IS NULL
         "#,
     )
     .bind(user_id)
@@ -230,7 +230,7 @@ pub async fn logout(
     sqlx::query(
         r#"
         UPDATE refresh_tokens
-        SET is_revoked = true, revoked_at = NOW()
+        SET is_revoked = true, updated_at = NOW()
         WHERE id = $1
         "#,
     )
@@ -291,5 +291,54 @@ pub async fn rotate_keys(
                 .to_string(),
             old_key_expires_at,
         }),
+    ))
+}
+
+/// 現在のログインユーザー情報取得（GET /api/v1/auth/me）。
+///
+/// JWT から user_id を取得し、DB からユーザー情報を返す。
+/// フロントエンドがログイン状態の確認に使用する。
+pub async fn me(
+    user: AuthenticatedUser<wnav_auth::OperatorRole>,
+    State(state): State<AppState>,
+) -> Result<impl IntoResponse, AppError> {
+    use sqlx::Row as _;
+    let row = sqlx::query(
+        r#"
+        SELECT user_id, login_id, display_name, email, factory_id, roles
+        FROM users
+        WHERE user_id = $1 AND deleted_at IS NULL
+        "#,
+    )
+    .bind(user.user_id)
+    .fetch_optional(&state.read_pool)
+    .await?
+    .ok_or_else(|| AppError::NotFound(format!("user:{}", user.user_id)))?;
+
+    let roles: serde_json::Value = row.get("roles");
+    let primary_role = roles
+        .as_array()
+        .and_then(|a| a.first())
+        .and_then(|v| v.as_str())
+        .unwrap_or("operator")
+        .to_string();
+
+    Ok((
+        StatusCode::OK,
+        axum::Json(serde_json::json!({
+            "data": {
+                "id": row.get::<uuid::Uuid, _>("user_id"),
+                "loginId": row.get::<String, _>("login_id"),
+                "role": primary_role,
+                "roles": roles,
+                "locale": "ja",
+                "factoryId": row.get::<uuid::Uuid, _>("factory_id"),
+            },
+            "meta": {
+                "request_id": uuid::Uuid::now_v7(),
+                "server_time": chrono::Utc::now().to_rfc3339(),
+                "api_version": "v1"
+            }
+        })),
     ))
 }
