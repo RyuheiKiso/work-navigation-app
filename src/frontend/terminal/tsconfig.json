@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "jsx": "react-native",
+    "types": ["jest", "node", "react-native"],
+    "paths": {
+      "@wnav/shared": ["../shared/src/index.ts"],
+      "@wnav/shared/*": ["../shared/src/*"],
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "app.config.ts"],
+  "exclude": ["node_modules", ".expo", "dist"]
+}

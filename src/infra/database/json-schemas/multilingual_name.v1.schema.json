@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:wnav:schema:multilingual_name:v1",
+  "title": "MultilingualName",
+  "description": "多言語名称の共通スキーマ。processes / operations / products / sops / equipments / instruments / work_patterns 等の name 列に共通して使用する。ja は必須。en は任意。additionalProperties で他言語を追加可能。",
+  "type": "object",
+  "properties": {
+    "ja": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "日本語名称（必須）"
+    },
+    "en": {
+      "type": "string",
+      "maxLength": 256,
+      "description": "英語名称（任意）"
+    }
+  },
+  "required": ["ja"],
+  "additionalProperties": {
+    "type": "string",
+    "maxLength": 256,
+    "description": "その他の言語コード（BCP 47）による名称。例: zh、ko、vi"
+  },
+  "examples": [
+    { "ja": "組立工程", "en": "Assembly Process" },
+    { "ja": "トルク締め付け", "en": "Torque Fastening" },
+    { "ja": "ボルト M8×25", "en": "Bolt M8x25", "zh": "螺栓 M8×25", "vi": "Bu lông M8×25" }
+  ]
+}

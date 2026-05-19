@@ -1,0 +1,10 @@
+target/
+.git/
+.github/
+*.local.yml
+*.local.toml
+.env
+.env.*
+tests/fixtures/
+benches/
+docs/

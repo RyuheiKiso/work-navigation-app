@@ -1,0 +1,7 @@
+[env]
+# sqlx::query! マクロをオフラインモードでコンパイルする。
+# 実 DB が利用可能な場合は `cargo sqlx prepare` を実行して .sqlx/ を更新すること。
+SQLX_OFFLINE = "true"
+
+[build]
+rustflags = ["-D", "warnings"]

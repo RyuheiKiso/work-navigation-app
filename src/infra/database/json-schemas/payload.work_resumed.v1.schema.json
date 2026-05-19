@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:wnav:schema:payload:work_resumed:v1",
+  "title": "WorkResumedPayload",
+  "description": "activity='work_resumed' のイベントの payload。TBL-001 work_events.payload に保存する。対応する中断イベントの suspension_id と再開ステップインデックスを記録する。",
+  "type": "object",
+  "properties": {
+    "suspension_id": {
+      "type": "string",
+      "description": "対応する work_suspended イベントの suspension_id（UUID 文字列）。中断〜再開のペアを結びつける。"
+    },
+    "resumed_step_index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "再開ステップインデックス（0 始まり）。中断した時点のステップから再開する。"
+    }
+  },
+  "required": ["suspension_id", "resumed_step_index"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "suspension_id": "c9d0e1f2-a3b4-5678-cdef-789012345678",
+      "resumed_step_index": 3
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+[package]
+name = "wnav_outbox"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+wnav_domain = { path = "../wnav_domain" }
+wnav_common = { path = "../wnav_common" }
+wnav_webhook = { path = "../wnav_webhook" }
+uuid = { version = "1", features = ["v7", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tracing = "0.1"
+async-trait = "0.1"
+# runtime-tokio-native-tls は OpenSSL ヘッダが必要。ビルド環境に合わせて切り替えること。
+# 開発環境（OpenSSL ヘッダ未インストール）は runtime-tokio + tls-none を使用する
+sqlx = { version = "0.8", features = ["postgres", "runtime-tokio", "tls-none", "uuid", "chrono", "json"] }
+tokio = { version = "1", features = ["sync", "time", "macros", "rt"] }
+
+[lints]
+workspace = true

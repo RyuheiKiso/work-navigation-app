@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:wnav:schema:payload:work_started:v1",
+  "title": "WorkStartedPayload",
+  "description": "activity='work_started' のイベントの payload。TBL-001 work_events.payload に保存する。作業セッション開始時のロット・ワークオーダー紐付け情報と開始ステップインデックスを記録する。",
+  "type": "object",
+  "properties": {
+    "lot_id": {
+      "type": ["string", "null"],
+      "description": "開始時に紐付けたロット ID（UUID 文字列）。ロットが不明または不要な場合は null。"
+    },
+    "work_order_id": {
+      "type": ["string", "null"],
+      "description": "開始時に紐付けたワークオーダー ID（UUID 文字列）。ワークオーダーなしで開始する場合は null。"
+    },
+    "initial_step_index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "開始ステップインデックス（0 始まり）。通常は 0。再開でない新規開始は必ず 0 となる。"
+    }
+  },
+  "required": ["initial_step_index"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "lot_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "work_order_id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+      "initial_step_index": 0
+    },
+    {
+      "lot_id": null,
+      "work_order_id": null,
+      "initial_step_index": 0
+    }
+  ]
+}

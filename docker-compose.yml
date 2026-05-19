@@ -1,0 +1,68 @@
+# 開発・検証用の最小構成。本番 IIS デプロイは別経路（src/frontend/master/CLAUDE.md §Docker）。
+# DB ロール（app_event_insert / app_write）の差異は backend 側のマイグレーションで実体化される。
+
+services:
+  # マスタメンテ Web（nginx で静的配信 + /api/ を master-api へ転送）
+  wnav-master-web:
+    build:
+      context: ./src/frontend
+      dockerfile: master/Dockerfile
+    image: wnav/master-web:latest
+    container_name: wnav-master-web
+    ports:
+      - "3000:80"
+    depends_on:
+      - wnav-master-api
+    restart: unless-stopped
+
+  # マスタ管理 API（axum）
+  wnav-master-api:
+    image: wnav/master-api:latest
+    container_name: wnav-master-api
+    ports:
+      - "8081:8081"
+    environment:
+      DATABASE_URL: postgresql://app_write:secret@wnav-db:5432/wnav
+      RUST_LOG: info
+      WNAV_CONFIG: /etc/wnav/config.yaml
+    depends_on:
+      wnav-db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ハンディ API（axum）。app_event_insert ロールでイベント insert のみ許可
+  wnav-terminal-api:
+    image: wnav/terminal-api:latest
+    container_name: wnav-terminal-api
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: postgresql://app_event_insert:secret@wnav-db:5432/wnav
+      RUST_LOG: info
+      WNAV_CONFIG: /etc/wnav/config.yaml
+    depends_on:
+      wnav-db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # PostgreSQL 17
+  wnav-db:
+    image: postgres:17-alpine
+    container_name: wnav-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: wnav
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - wnav-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d wnav"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  wnav-db-data:

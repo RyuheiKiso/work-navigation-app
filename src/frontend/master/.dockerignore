@@ -1,0 +1,16 @@
+node_modules
+dist
+.env*
+*.log
+.expo
+.vite
+.turbo
+.next
+coverage
+.DS_Store
+.vscode
+.idea
+**/node_modules
+**/dist
+**/.expo
+**/coverage

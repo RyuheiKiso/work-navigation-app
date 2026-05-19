@@ -224,5 +224,15 @@ src/frontend/terminal/
 
 ---
 
-最終更新: 2026-05-17
-次回見直しトリガー: React Native 実装開始時、または Expo SDK バージョン確定時
+最終更新: 2026-05-19 (実装開始・ADR確定)
+次回見直しトリガー: Expo SDK メジャーアップグレード時、または Ed25519 → ECDSA P-256 への変更時
+
+## ADR 確定（2026-05-19）
+
+- **電子署名アルゴリズム**: Ed25519 (@noble/curves) を採用（ECDSA P-256 を却下）
+  - 理由: 純粋 TypeScript 実装（ネイティブモジュール不要・OTA 更新対応）、高速署名、バックエンド ed25519-dalek と対称
+  - 秘密鍵保管: expo-secure-store → Android Keystore / iOS Keychain / Windows DPAPI に透過的にマッピング
+- **API 戦略**: MSW (msw/native) + shared/openapi/wnav-openapi.yaml の型を使用
+- **Expo SDK バージョン**: 53
+- **状態管理**: React Context + useReducer（外部依存最小・オフライン時も動作）
+- 詳細: docs/01_管理/変更管理/ADR-実装開始-MUI-Ed25519-MSW.md

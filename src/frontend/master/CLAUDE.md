@@ -190,5 +190,13 @@ server {
 
 ---
 
-最終更新: 2026-05-18 (Docker セクション追加)
-次回見直しトリガー: React 実装開始時、または UI ライブラリ（Ant Design / MUI）を ADR で確定した時
+最終更新: 2026-05-19 (実装開始・ADR確定)
+次回見直しトリガー: MUI v7 へのアップグレード時、または API スキーマを utoipa 生成物に切り替える時
+
+## ADR 確定（2026-05-19）
+
+- **UI ライブラリ**: MUI (Material UI) v6 を採用（Ant Design を却下）
+  - 理由: DataGrid/DatePicker 等 enterprise コンポーネント充実、design-tokens 注入が容易、工場 LAN 環境での CDN 依存なし
+- **API 戦略**: MSW + 手書き OpenAPI 3.1 YAML（shared/openapi/wnav-openapi.yaml）→ openapi-typescript → openapi-fetch
+  - 理由: バックエンド未実装のため。utoipa 実装後は YAML を差し替えるだけで移行完了
+- 詳細: docs/01_管理/変更管理/ADR-実装開始-MUI-Ed25519-MSW.md

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:wnav:schema:judgment_condition:v1",
+  "title": "JudgmentCondition",
+  "description": "数値入力ステップ（input_type=numeric_input）の合否判定条件。TBL-008 steps.judgment_condition に保存する。usl / lsl / tolerance のいずれか 1 つ以上が必須。",
+  "type": "object",
+  "properties": {
+    "usl": {
+      "type": "number",
+      "description": "上限規格値（Upper Specification Limit）。この値を超えた場合 NG と判定する。"
+    },
+    "lsl": {
+      "type": "number",
+      "description": "下限規格値（Lower Specification Limit）。この値を下回った場合 NG と判定する。"
+    },
+    "target": {
+      "type": "number",
+      "description": "目標値（任意）。SPC 管理図の中心線として使用する。"
+    },
+    "unit": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "description": "UCUM コード。例: mm, Cel, kPa, kg。UI 表示および測定値単位の照合に使用する。"
+    },
+    "tolerance": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "許容差（target ± tolerance が OK 範囲）。usl/lsl と併用時は AND 条件として評価する。"
+    },
+    "decimal_places": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 6,
+      "description": "表示桁数（小数点以下）。UI の表示フォーマットに使用する。"
+    }
+  },
+  "required": ["unit"],
+  "anyOf": [
+    { "required": ["usl"] },
+    { "required": ["lsl"] },
+    { "required": ["tolerance"] }
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "usl": 10.5,
+      "lsl": 9.5,
+      "target": 10.0,
+      "unit": "mm",
+      "tolerance": 0.5,
+      "decimal_places": 2
+    },
+    {
+      "usl": 30.0,
+      "lsl": 20.0,
+      "unit": "Cel",
+      "decimal_places": 1
+    },
+    {
+      "target": 25.0,
+      "tolerance": 2.0,
+      "unit": "N.m",
+      "decimal_places": 1
+    }
+  ]
+}
