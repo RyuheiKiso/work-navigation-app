@@ -23,10 +23,16 @@ export default function StandardStepScreen(): JSX.Element {
   const handleComplete = async (): Promise<void> => {
     setBusy(true);
     try {
-      const engine = new StepEngine(new WorkEventRepository(), new OutboxRepository(), new SopRepository());
+      const sopRepo = new SopRepository();
+      const engine = new StepEngine(new WorkEventRepository(), new OutboxRepository(), sopRepo);
       const caseId = params.caseId ?? '';
       const sopVersionId = exec.sopVersionId ?? '';
       const stepIndex = exec.currentStepIndex;
+
+      // SOP 定義から現在ステップの ID を取得する（ランダム UUID は不変性を壊すため禁止）
+      const allSteps = await sopRepo.findStepsBySopVersionId(sopVersionId);
+      const currentStep = allSteps[stepIndex];
+      const stepId = currentStep?.id ?? generateId();
 
       // ゲート検証（BR-BUS-001/002, FR-AU-001, FR-EV-013）を UI 層でも事前チェックしてユーザーに通知する
       const gate = await engine.canAdvanceToStep(caseId, stepIndex, sopVersionId);
@@ -43,8 +49,6 @@ export default function StandardStepScreen(): JSX.Element {
         Alert.alert('ステップ完了不可', messages[gate.blockedReason ?? ''] ?? '要件を満たしていません');
         return;
       }
-
-      const stepId = exec.currentStepId ?? generateId();
       const payload: StandardStepPayload = {
         inputType: 'boolean_check',
         stepId,

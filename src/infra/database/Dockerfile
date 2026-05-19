@@ -1,7 +1,9 @@
 FROM postgres:16-alpine
 
-# ロケールとタイムゾーン設定
-ENV LANG=ja_JP.UTF-8
+# postgres:16-alpine は musl libc を使用するため ja_JP.UTF-8 glibc ロケールは利用不可。
+# データベース自体の日本語対応は ICU ロケールプロバイダ（00_create_databases.sh）で実現する。
+# LANG は Alpine / musl が確実にサポートする en_US.utf8 を使用する。
+ENV LANG=en_US.utf8
 ENV TZ=Asia/Tokyo
 
 # 初期化スクリプトをコピーする

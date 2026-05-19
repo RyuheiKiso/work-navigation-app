@@ -8,6 +8,7 @@ import { WNavButton } from '../../../../ui/WNavButton';
 import { StepEngine } from '../../../../domain/step-engine/StepEngine';
 import { WorkEventRepository } from '../../../../db/repositories/WorkEventRepository';
 import { OutboxRepository } from '../../../../db/repositories/OutboxRepository';
+import { SopRepository } from '../../../../db/repositories/SopRepository';
 
 export default function BranchingStepScreen(): JSX.Element {
   const params = useLocalSearchParams<{ caseId: string }>();
@@ -16,7 +17,7 @@ export default function BranchingStepScreen(): JSX.Element {
   const [result, setResult] = useState<string | null>(null);
 
   const handleEvaluate = (): void => {
-    const engine = new StepEngine(new WorkEventRepository(), new OutboxRepository());
+    const engine = new StepEngine(new WorkEventRepository(), new OutboxRepository(), new SopRepository());
     const numeric = Number(measuredValue);
     const payload: BranchingStepPayload = {
       inputType: 'condition_branch',
