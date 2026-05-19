@@ -30,6 +30,8 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./src/test-setup.ts'],
     css: false,
+    // Playwright E2E テストは playwright test で別途実行する
+    exclude: ['**/node_modules/**', '**/tests/e2e/**', '**/*.spec.ts'],
   },
   build: {
     outDir: 'dist',

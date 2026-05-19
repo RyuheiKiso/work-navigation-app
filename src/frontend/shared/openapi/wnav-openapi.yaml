@@ -2140,3 +2140,30 @@ components:
             - type: object
               properties:
                 pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    Step:
+      type: object
+      required: [id, sopVersionId, stepNumber, stepType, titleJson, instructionJson, payload, isMandatory, requiresEvidence, requiresSign, skillLevelRequired, estimatedSeconds, fallbackType, flowRules]
+      properties:
+        id: { type: string, format: uuid }
+        sopVersionId: { type: string, format: uuid }
+        stepNumber: { type: integer }
+        stepType: { type: string, enum: [standard, measurement, photo, branching, qr_scan, sign] }
+        titleJson: { $ref: '#/components/schemas/LocalizedText' }
+        instructionJson: { $ref: '#/components/schemas/LocalizedText' }
+        payload: { type: string, description: JSON Logic または測定設定の JSON 文字列 }
+        isMandatory: { type: boolean }
+        requiresEvidence: { type: boolean }
+        requiresSign: { type: boolean }
+        skillLevelRequired: { type: integer, minimum: 1, maximum: 5 }
+        estimatedSeconds: { type: integer, minimum: 1 }
+        fallbackType: { type: string, enum: [manual, skip, alert] }
+        flowRules: { type: object }
+        deletedAt: { type: string, format: date-time, nullable: true }
+
+    StepListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Step' } }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }

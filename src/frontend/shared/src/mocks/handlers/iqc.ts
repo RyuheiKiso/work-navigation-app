@@ -51,7 +51,7 @@ export const iqcHandlers = [
     const supplierMap = new Map<string, { passed: number; failed: number }>();
     for (const ins of inspections) {
       const supplier = db.suppliers.find((s) => s.id === ins.supplierId);
-      const name = supplier ? (supplier.nameJson as Record<string, string>)['ja'] ?? ins.supplierId : ins.supplierId;
+      const name = supplier ? (supplier.nameJson.ja || ins.supplierId) : ins.supplierId;
       const entry = supplierMap.get(name) ?? { passed: 0, failed: 0 };
       if (ins.qcStatus === 'PASSED' || ins.qcStatus === 'CONDITIONAL_PASS') entry.passed++;
       else if (ins.qcStatus === 'FAILED' || ins.qcStatus === 'REJECTED') entry.failed++;

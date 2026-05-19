@@ -74,13 +74,72 @@ pub async fn create_electronic_signature(
         return Err(AppError::InvalidFormat(None));
     }
 
+    // users テーブルから PIN ハッシュを取得して bcrypt 検証する
+    let stored_pin = sqlx::query_as::<_, (Option<String>,)>(
+        "SELECT pin_hash FROM users WHERE user_id = $1 AND deleted_at IS NULL LIMIT 1",
+    )
+    .bind(body.signer_id)
+    .fetch_optional(&state.read_pool)
+    .await
+    .map_err(|_| AppError::DatabaseError)?;
+
+    match stored_pin {
+        Some((Some(pin_hash_str),)) => {
+            // bcrypt で生 PIN を検証する（body.pin_hash は生 PIN として扱う）
+            let pin_valid = wnav_auth::verify_password(&body.pin_hash, &pin_hash_str)
+                .map_err(|_| AppError::InternalServerError)?;
+            if !pin_valid {
+                return Err(AppError::PinVerificationFailed);
+            }
+        }
+        _ => {
+            // PIN が未設定のユーザーは電子サイン不可
+            return Err(AppError::PinVerificationFailed);
+        }
+    }
+
+    // デバイス署名を Ed25519 で検証する
+    // devices テーブルから device_public_key を取得する
+    if let Some(device_id) = current_user.device_id {
+        let device_key = sqlx::query_as::<_, (Option<String>,)>(
+            "SELECT device_public_key FROM devices WHERE device_id = $1 AND is_active = TRUE LIMIT 1",
+        )
+        .bind(device_id)
+        .fetch_optional(&state.read_pool)
+        .await
+        .map_err(|_| AppError::DatabaseError)?;
+
+        if let Some((Some(pubkey_b64),)) = device_key {
+            use base64::Engine as _;
+            let pubkey_bytes = base64::engine::general_purpose::STANDARD
+                .decode(&pubkey_b64)
+                .map_err(|_| AppError::InvalidFormat(None))?;
+
+            let verifying_key = ed25519_dalek::VerifyingKey::try_from(pubkey_bytes.as_slice())
+                .map_err(|_| AppError::InvalidFormat(None))?;
+
+            let signature_bytes = base64::engine::general_purpose::STANDARD
+                .decode(&body.device_signature)
+                .map_err(|_| AppError::InvalidFormat(None))?;
+
+            let signature = ed25519_dalek::Signature::from_slice(&signature_bytes)
+                .map_err(|_| AppError::InvalidFormat(None))?;
+
+            use ed25519_dalek::Verifier as _;
+            verifying_key
+                .verify(body.signed_content_hash.as_bytes(), &signature)
+                .map_err(|_| AppError::PinVerificationFailed)?;
+        }
+        // device_public_key が未登録の端末は署名検証をスキップする（登録前の端末許容）
+    }
+
     let sign_id = Uuid::now_v7();
 
     // TBL-002 に電子サインレコードを INSERT する
     sqlx::query(
         r"
         INSERT INTO electronic_signs
-            (id, signer_id, signed_content_hash, context_type, context_id,
+            (sign_id, signer_id, signed_content_hash, context_type, context_id,
              step_id, signed_at, timestamp_client, device_id, created_at)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $7)
         ",
@@ -149,10 +208,10 @@ pub async fn get_electronic_signature(
         ),
     >(
         r"
-        SELECT id, signer_id, signed_content_hash, context_type, context_id,
+        SELECT sign_id, signer_id, signed_content_hash, context_type, context_id,
                step_id, signed_at, device_id
         FROM electronic_signs
-        WHERE id = $1
+        WHERE sign_id = $1
         LIMIT 1
         ",
     )
@@ -240,7 +299,7 @@ pub async fn list_electronic_signatures(
         ),
     >(
         r"
-        SELECT id, signer_id, signed_content_hash, context_type, context_id,
+        SELECT sign_id, signer_id, signed_content_hash, context_type, context_id,
                step_id, signed_at, device_id
         FROM electronic_signs
         WHERE ($1::uuid IS NULL OR signer_id = $1)

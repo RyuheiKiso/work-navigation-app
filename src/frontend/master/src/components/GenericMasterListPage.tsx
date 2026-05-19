@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useState, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -42,6 +43,8 @@ export interface GenericMasterListPageProps<T extends { id: string; deletedAt: s
   fetchImpacts?: (id: string) => Promise<Array<{ type: 'work_order' | 'work_execution' | 'sop_version'; id: string; label: string }>>;
   // 行のステータス表示（任意。デフォルトは「廃止 / 有効」）
   renderStatus?: (item: T) => ReactNode;
+  // 編集画面への遷移パス生成（任意。未指定時は編集ボタンを非表示）
+  editRoute?: (id: string) => string;
 }
 
 export function GenericMasterListPage<T extends { id: string; deletedAt: string | null }, TCreate>({
@@ -55,7 +58,9 @@ export function GenericMasterListPage<T extends { id: string; deletedAt: string 
   validateAndBuildPayload,
   labelOf,
   renderStatus,
+  editRoute,
 }: GenericMasterListPageProps<T, TCreate>): React.ReactElement {
+  const navigate = useNavigate();
   const [asOfUtc, setAsOfUtc] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [openCreate, setOpenCreate] = useState(false);
@@ -91,9 +96,17 @@ export function GenericMasterListPage<T extends { id: string; deletedAt: string 
       sortable: false,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={1}>
-          <Button size="small" startIcon={<Edit />} href={`${endpoint}/${row.id}/edit`} aria-label={`${labelOf(row)} を編集`}>
-            編集
-          </Button>
+          {editRoute && (
+            <Button
+              size="small"
+              startIcon={<Edit />}
+              onClick={() => navigate(editRoute(row.id))}
+              disabled={!!row.deletedAt}
+              aria-label={`${labelOf(row)} を編集`}
+            >
+              編集
+            </Button>
+          )}
           {!row.deletedAt && (
             <Button
               size="small"

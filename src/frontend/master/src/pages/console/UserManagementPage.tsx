@@ -4,6 +4,7 @@ import type { GridColDef } from '@mui/x-data-grid';
 import type { User, UserRole } from '@wnav/shared/types';
 import { resolveLocale } from '@wnav/shared/i18n';
 import { GenericMasterListPage } from '@/components/GenericMasterListPage';
+import { useAuth } from '@/auth/useAuth';
 
 interface UserForm {
   loginId: string;
@@ -24,6 +25,8 @@ const ROLES: { value: UserRole; label: string }[] = [
 
 // SCR-MC-002 ユーザー管理（system_admin、FR-MA-014）。
 export function UserManagementPage(): React.ReactElement {
+  const { user } = useAuth();
+  const factoryId = user?.factoryId ?? '';
   const columns: GridColDef<User>[] = [
     { field: 'loginId', headerName: 'ログイン ID', width: 180 },
     { field: 'username', headerName: 'ユーザー名', width: 180 },
@@ -61,7 +64,7 @@ export function UserManagementPage(): React.ReactElement {
             displayNameJson: { ja: form.username, en: '', zh: '' },
             isActive: true,
             locale: 'ja',
-            factoryId: '019682ab-7c1f-7000-0000-000000000001',
+            factoryId,
           },
         };
       }}

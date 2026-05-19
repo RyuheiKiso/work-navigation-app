@@ -89,7 +89,7 @@ pub async fn login(
         ),
     >(
         r"
-        SELECT id, password_hash, roles, factory_id, failed_login_count, locked_until
+        SELECT user_id, password_hash, roles, factory_id, failed_login_count, locked_until
         FROM users
         WHERE login_id = $1 AND deleted_at IS NULL
         LIMIT 1
@@ -133,7 +133,7 @@ pub async fn login(
             r"
             UPDATE users
             SET failed_login_count = $2, locked_until = $3, updated_at = NOW()
-            WHERE id = $1
+            WHERE user_id = $1
             ",
         )
         .bind(user_id)
@@ -150,7 +150,7 @@ pub async fn login(
         r"
         UPDATE users
         SET failed_login_count = 0, locked_until = NULL, updated_at = NOW()
-        WHERE id = $1
+        WHERE user_id = $1
         ",
     )
     .bind(user_id)
@@ -244,7 +244,7 @@ pub async fn refresh(
 
     // RS256 署名済みアクセストークンを再発行する（TTL 28800 秒 = 8 時間）
     let roles_row = sqlx::query_as::<_, (Vec<String>,)>(
-        "SELECT roles FROM users WHERE id = $1 AND deleted_at IS NULL LIMIT 1",
+        "SELECT roles FROM users WHERE user_id = $1 AND deleted_at IS NULL LIMIT 1",
     )
     .bind(user_id)
     .fetch_optional(&state.read_pool)

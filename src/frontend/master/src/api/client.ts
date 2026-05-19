@@ -72,7 +72,7 @@ async function request<T>(method: string, path: string, body?: unknown, init?: R
     method,
     headers,
     credentials: 'include',
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body: body !== undefined ? JSON.stringify(body) : null,
     ...init,
   });
   if (!res.ok) {

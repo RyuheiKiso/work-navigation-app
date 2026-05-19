@@ -49,11 +49,13 @@ export function ReviewRequestPage(): React.ReactElement {
   const prevSopQuery = useQuery({
     queryKey: ['master', 'sops', id, 'asOf', lastPublished?.publishedAt],
     queryFn: async (): Promise<Sop> => {
-      // publishedAt の時点で有効だったマスタを取得する（asOf = 公開日時）
-      const r = await api.get<Sop>(`/master/sops/${id}?as_of=${encodeURIComponent(lastPublished!.publishedAt!)}`);
+      // enabled ガードで lastPublished と publishedAt の存在を保証済みだが、
+      // queryFn 内でも型安全のためランタイムガードを設ける
+      if (!lastPublished?.publishedAt) throw new Error('publishedAt が取得できません');
+      const r = await api.get<Sop>(`/master/sops/${id}?as_of=${encodeURIComponent(lastPublished.publishedAt)}`);
       return r.data;
     },
-    enabled: !!id && lastPublished != null,
+    enabled: !!id && lastPublished != null && lastPublished.publishedAt != null,
   });
 
   const review = useMutation({
