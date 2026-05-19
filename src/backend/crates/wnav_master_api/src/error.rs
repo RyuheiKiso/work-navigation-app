@@ -34,7 +34,6 @@ pub enum AppError {
 
     /// リクエストが既存リソースと競合している
     #[error("Conflict: {0}")]
-    #[allow(dead_code)]
     Conflict(String),
 
     // ── バリデーションエラー ──────────────────────────────────────────────
@@ -61,7 +60,6 @@ pub enum AppError {
 
     /// レートリミット超過
     #[error("Rate limit exceeded")]
-    #[allow(dead_code)]
     RateLimited,
 
     // ── サーバーエラー ────────────────────────────────────────────────────

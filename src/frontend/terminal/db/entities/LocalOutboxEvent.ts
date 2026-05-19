@@ -1,5 +1,6 @@
 // TBL-003 outbox_events。送信キューは created_at 昇順で OutboxWorker が順次処理する
 import { Entity, PrimaryColumn, Column, Index, Generated } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('outbox_events')
 @Index(['sent', 'createdAt'])
@@ -23,7 +24,7 @@ export class LocalOutboxEvent {
   @Column('text')
   createdAt!: string;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   sent!: boolean;
 
   @Column('integer', { default: 0 })

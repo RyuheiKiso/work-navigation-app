@@ -16,6 +16,9 @@
 
 // unsafe コードを禁止する（src/CLAUDE.md および src/backend/CLAUDE.md の必須要件）
 #![forbid(unsafe_code)]
+// Clippy の全警告をエラーとして扱う（他クレートとの一貫性）
+#![deny(clippy::all, clippy::pedantic)]
+#![allow(clippy::module_name_repetitions)]
 
 // rust-i18n マクロで locales/ ディレクトリを初期化する。
 // このマクロはクレートルート（lib.rs）で一度だけ呼び出す必要がある。

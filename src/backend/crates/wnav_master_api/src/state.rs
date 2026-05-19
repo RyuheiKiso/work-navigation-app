@@ -10,6 +10,8 @@ use sqlx::PgPool;
 use wnav_auth::JwtKeyStore;
 use wnav_config::MasterApiConfig;
 
+use crate::middleware::rate_limit::RateLimiter;
+
 /// マスタメンテ・管理コンソール向け API の依存コンテナ。
 ///
 /// axum::Router に `.with_state(state)` で渡す。
@@ -28,4 +30,6 @@ pub struct AppState {
     pub key_store: Arc<JwtKeyStore>,
     /// アプリケーション設定
     pub config: Arc<MasterApiConfig>,
+    /// レートリミッター（管理系 API への過剰リクエスト防止）
+    pub rate_limiter: Arc<RateLimiter>,
 }

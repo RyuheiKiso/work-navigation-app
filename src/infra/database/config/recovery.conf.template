@@ -16,7 +16,9 @@
 #   代わりに postgresql.conf + standby.signal ファイルの組み合わせで設定する。
 
 # WAL アーカイブからファイルをリストアするコマンド（%f: WAL ファイル名, %p: リストア先パス）
-restore_command = 'cp /wal_archive/%f %p'
+# archive_command が gzip 圧縮（.gz）で保存するため、restore_command は gunzip で解凍する。
+# アーカイブファイル形式: /wal_archive/%f.gz（archive_command: cp && gzip -f）
+restore_command = 'gunzip -c /wal_archive/%f.gz > %p'
 
 # リカバリ完了後の動作（promote: プライマリとして昇格する）
 recovery_target_action = 'promote'

@@ -1,5 +1,6 @@
 // TBL-002 electronic_signs。電子サインは Ed25519 署名値を hex で保存する
 import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('electronic_signs')
 @Index(['contextType', 'contextId'])
@@ -37,6 +38,6 @@ export class LocalElectronicSign {
   @Column('text')
   deviceId!: string;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   synced!: boolean;
 }

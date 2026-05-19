@@ -58,7 +58,6 @@ pub struct LogoutRequest {
 ///
 /// AdminRole 必須。新しい RSA-4096 秘密鍵・公開鍵ペアを設定する。
 #[derive(Debug, Deserialize, ToSchema)]
-#[allow(dead_code)]
 pub struct KeyRotateRequest {
     /// 新しい RSA-4096 秘密鍵（PEM 形式）
     pub new_private_key_pem: String,

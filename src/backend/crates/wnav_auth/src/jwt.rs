@@ -30,11 +30,18 @@ pub struct JwtKeyStore {
     keys: RwLock<HashMap<String, String>>,
     /// 署名用秘密鍵（発行専用。master-api のみ保有、terminal-api は None）
     signing_key_pem: Option<String>,
-    /// 発行時に使用する kid（将来の動的鍵更新 API 用に保持）
-    #[allow(dead_code)]
-    current_kid: Option<String>,
+    /// 発行時に使用する kid（将来の動的鍵更新 API 用に保持。現在は issue 呼び出し元が cmd.kid で指定する）
+    _current_kid: Option<String>,
     /// 自バイナリの audience 文字列（検証時に aud クレームと照合する）
     expected_audience: String,
+}
+
+/// RSA 秘密鍵 PEM の構文が正しいかを確認する（鍵ローテーション前の事前検証用）。
+///
+/// 正しい PEM であれば `Ok(())`、不正な場合は `Err(AuthError::InvalidPrivateKey)` を返す。
+pub fn validate_private_key_pem(pem: &str) -> Result<(), AuthError> {
+    EncodingKey::from_rsa_pem(pem.as_bytes()).map_err(|_| AuthError::InvalidPrivateKey)?;
+    Ok(())
 }
 
 impl JwtKeyStore {
@@ -51,7 +58,7 @@ impl JwtKeyStore {
         Self {
             keys: RwLock::new(map),
             signing_key_pem: None,
-            current_kid: None,
+            _current_kid: None,
             expected_audience: expected_audience.to_string(),
         }
     }
@@ -75,7 +82,7 @@ impl JwtKeyStore {
         Self {
             keys: RwLock::new(map),
             signing_key_pem: Some(private_key_pem.to_string()),
-            current_kid: Some(kid.to_string()),
+            _current_kid: Some(kid.to_string()),
             expected_audience: audience.to_string(),
         }
     }

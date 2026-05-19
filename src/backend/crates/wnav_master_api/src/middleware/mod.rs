@@ -4,4 +4,5 @@
 // IdempotencyMiddleware は master-api には適用しない（src/backend/CLAUDE.md §Idempotent API）。
 
 pub mod auth;
+pub mod rate_limit;
 pub mod tracing;

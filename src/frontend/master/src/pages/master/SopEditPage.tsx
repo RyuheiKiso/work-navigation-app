@@ -54,18 +54,28 @@ export function SopEditPage(): React.ReactElement {
     enabled: !isNew,
   });
 
-  // 別 SOP に切り替わったらストアをクリアしてからサーバーデータで初期化する
+  // 既存 SOP のステップ一覧をサーバーから取得する（API-master-010）
+  const stepsQuery = useQuery({
+    queryKey: ['master', 'sops', id, 'steps'],
+    queryFn: async (): Promise<Step[]> => {
+      // /steps は { data: Step[] } を返す（ApiResponse の data フィールドに配列が入る）
+      const r = await api.get<Step[]>(`/master/sops/${id}/steps`);
+      return r.data;
+    },
+    enabled: !isNew && !!id,
+  });
+
+  // 別 SOP に切り替わったらストアをクリアする
   useEffect(() => {
     clear();
   }, [id, clear]);
 
-  // サーバーから取得した steps でストアを初期化する（ロード完了後に一度だけ実行）
+  // サーバーから取得した steps でストアを初期化する（クリア後・ロード完了のタイミングで実行）
   useEffect(() => {
-    if (!sopQuery.data) return;
-    // steps は SOP と別エンドポイントで管理されるため、ここでは nameJson 等のメタ情報のみが存在する。
-    // steps は GET /master/sops/{id}/steps から取得する必要があるが、現状は空配列で開始する（初版と同等）。
-    // flow は GET /master/sops/{id}/flow から取得するが、現状未定義の場合は空で開始する。
-  }, [sopQuery.data]);
+    if (!stepsQuery.data || stepsQuery.data.length === 0) return;
+    // push でなく直接セットして Undo スタックを汚染しない
+    useSopEditorStore.setState({ steps: stepsQuery.data, isDirty: false });
+  }, [stepsQuery.data]);
 
   // Auto-Save: 入力停止 3 秒後のデバウンスで発動する（EVT-104-002 / docs/05_詳細設計/06_画面詳細設計/05_イベントとアクション定義.md §SCR-MA-004）
   useEffect(() => {
@@ -74,8 +84,8 @@ export function SopEditPage(): React.ReactElement {
     const timer = setTimeout(async () => {
       try {
         setAutoSaveState('saving');
-        // steps と flow（DAG ノード・エッジ）を同時に保存する
-        await api.patch(`/master/sops/${id}`, { steps, flow: JSON.stringify(flow) });
+        // steps と flow（DAG ノード・エッジ）を API-master-011 で専用エンドポイントに保存する
+        await api.put<Step[]>(`/master/sops/${id}/steps`, { steps, flowJson: JSON.stringify(flow) });
         const now = new Date().toISOString();
         markSaved(now);
         setAutoSaveState('saved');
@@ -85,7 +95,7 @@ export function SopEditPage(): React.ReactElement {
       }
     }, 3000);
     return () => clearTimeout(timer);
-  }, [isDirty, isNew, id, steps, flow, markSaved]);
+  }, [isDirty, isNew, id, steps, flow, markSaved, setAutoSaveState, setError]);
 
   const saveSopMutation = useMutation({
     mutationFn: async (payload: Partial<Sop>): Promise<Sop> => {

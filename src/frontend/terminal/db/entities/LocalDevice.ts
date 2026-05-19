@@ -1,5 +1,6 @@
 // TBL-033 devices。端末マスタ、ターミナルコードで PG と照合
 import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('devices')
 @Index(['terminalCode'], { unique: true })
@@ -17,7 +18,7 @@ export class LocalDevice {
   @Column('text')
   factoryId!: string;
 
-  @Column('integer', { default: 1 })
+  @Column('integer', { default: 1, transformer: boolTransformer })
   isActive!: boolean;
 
   @Column('text', { nullable: true })

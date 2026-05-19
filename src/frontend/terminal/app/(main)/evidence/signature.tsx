@@ -35,7 +35,7 @@ export default function SignatureScreen(): JSX.Element {
         signedContentHash: contentHash,
         contextType: 'step_sign',
         contextId: exec.caseId ?? 'unknown',
-        stepId: null,
+        stepId: exec.currentStepId ?? null,
         signedAt: new Date().toISOString(),
         hashChainBlockId: generateId(),
         hashChainValue: signatureHex,

@@ -14,7 +14,7 @@ use crate::{
     error::AppError,
     state::AppState,
 };
-use wnav_auth::{AdminRole, AuthenticatedUser, JwtIssueCmd, verify_password};
+use wnav_auth::{AdminRole, AuthenticatedUser, JwtIssueCmd, validate_private_key_pem, verify_password};
 
 /// ログイン（POST /api/v1/auth/login）。
 ///
@@ -260,6 +260,10 @@ pub async fn rotate_keys(
     State(state): State<AppState>,
     Json(req): Json<KeyRotateRequest>,
 ) -> Result<impl IntoResponse, AppError> {
+    // 新しい秘密鍵 PEM の構文を事前検証する（不正な PEM を拒否する）
+    validate_private_key_pem(&req.new_private_key_pem)
+        .map_err(|_| AppError::Validation("new_private_key_pem の PEM 形式が不正です".to_string()))?;
+
     // 新しい公開鍵を JwtKeyStore に追加する（Grace Period で旧鍵も残す）
     state
         .key_store

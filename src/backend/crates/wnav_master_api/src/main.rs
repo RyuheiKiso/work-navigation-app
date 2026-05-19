@@ -104,11 +104,14 @@ async fn main() -> anyhow::Result<()> {
     tracing::info!("JWT キーストア初期化完了（aud = 'master-api'）");
 
     // ── 5. AppState 構築（event_insert_pool は含まない）──────────────────
+    // 管理系 API のレートリミット: デフォルト 300 rpm（config から読む予定）
+    let rate_limiter = crate::middleware::rate_limit::RateLimiter::new(300);
     let state = AppState {
         write_pool: write_pool.clone(),
         read_pool: read_pool.clone(),
         key_store: key_store.clone(),
         config: config.clone(),
+        rate_limiter,
     };
 
     // ── 5a. BAT-001: ハッシュチェーン検証（週次）─────────────────────────
@@ -149,7 +152,7 @@ async fn main() -> anyhow::Result<()> {
     });
 
     // ── 6. axum Router 起動（ポート 8081）───────────────────────────────
-    let app = router::create_router(state.clone());
+    let app = router::create_router(state.clone(), state.rate_limiter.clone());
 
     // ミドルウェアチェーン: TracingMiddleware → AuthMiddleware → Handler
     // IdempotencyMiddleware は master-api には適用しない

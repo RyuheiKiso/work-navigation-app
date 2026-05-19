@@ -1,4 +1,5 @@
 // 中断フロー。中断理由・コメントを保存し、再開時に resumedAt を埋める
+import { IsNull } from 'typeorm';
 import { generateId } from '@wnav/shared/domain/id';
 import { getDataSource } from '../../db/data-source';
 import { LocalSuspension } from '../../db/entities/LocalSuspension';
@@ -57,6 +58,6 @@ export class SuspensionFlow {
 
   async listOpenSuspensions(): Promise<LocalSuspension[]> {
     const repo = getDataSource().getRepository(LocalSuspension);
-    return repo.find({ where: { resumedAt: null as unknown as string }, order: { suspendedAt: 'DESC' } });
+    return repo.find({ where: { resumedAt: IsNull() }, order: { suspendedAt: 'DESC' } });
   }
 }

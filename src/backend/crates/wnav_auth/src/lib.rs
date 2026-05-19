@@ -41,7 +41,7 @@ pub mod rbac;
 pub use claims::{JwtClaims, JwtIssueCmd};
 pub use current_user::CurrentUser;
 pub use error::AuthError;
-pub use jwt::JwtKeyStore;
+pub use jwt::{JwtKeyStore, validate_private_key_pem};
 pub use middleware::{auth_log_middleware, auth_middleware};
 pub use password::{hash_password, verify_password};
 pub use rbac::{

@@ -399,7 +399,13 @@ paths:
     get:
       tags: [master]
       operationId: getSop
-      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+        - name: as_of
+          in: query
+          description: 時点参照（ISO 8601 UTC）。指定した時点で有効だった SOP を返す
+          required: false
+          schema: { type: string, format: date-time }
       responses:
         '200': { description: 取得, content: { application/json: { schema: { $ref: '#/components/schemas/SopEnvelope' } } } }
     patch:
@@ -413,6 +419,27 @@ paths:
             schema: { $ref: '#/components/schemas/Sop' }
       responses:
         '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/SopEnvelope' } } } }
+
+  /master/sops/{id}/steps:
+    get:
+      tags: [master]
+      operationId: listSopSteps
+      summary: SOP ステップ一覧（API-master-010）
+      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      responses:
+        '200': { description: ステップ一覧, content: { application/json: { schema: { type: object, properties: { data: { type: array, items: { $ref: '#/components/schemas/Step' } } } } } } }
+    put:
+      tags: [master]
+      operationId: replaceSopSteps
+      summary: SOP ステップ一括保存（API-master-011）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object, properties: { steps: { type: array, items: { $ref: '#/components/schemas/Step' } }, flowJson: { type: string } } }
+      responses:
+        '200': { description: 保存成功, content: { application/json: { schema: { type: object, properties: { data: { type: array, items: { $ref: '#/components/schemas/Step' } } } } } } }
 
   /master/sops/{id}/submit:
     post:

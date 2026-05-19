@@ -1,5 +1,6 @@
 // TBL-009 evidence_files。Append-only、SHA-256 ハッシュは Exif 除去後に算出する
 import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('evidence_files')
 @Index(['stepId'])
@@ -41,6 +42,6 @@ export class LocalEvidenceFile {
   @Column('text')
   uploadedAt!: string;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   synced!: boolean;
 }

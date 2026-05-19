@@ -1,5 +1,6 @@
 // TBL-016 users。ユーザー情報、displayNameJson は多言語 JSON
 import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('users')
 @Index(['loginId'], { unique: true })
@@ -32,7 +33,7 @@ export class LocalUser {
   @Column('text', { default: 'ja' })
   locale!: string;
 
-  @Column('integer', { default: 1 })
+  @Column('integer', { default: 1, transformer: boolTransformer })
   isActive!: boolean;
 
   @Column('text')

@@ -26,7 +26,7 @@ export default function MeasurementScreen(): JSX.Element {
     const entity: LocalMeasurement = {
       id: generateId(),
       workExecutionId: exec.workExecutionId ?? 'unknown',
-      stepId: exec.caseId ?? 'unknown',
+      stepId: exec.currentStepId ?? 'unknown',
       value: numeric,
       unit: DEFAULT_UNIT,
       usl: DEFAULT_USL,

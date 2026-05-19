@@ -41,9 +41,9 @@ pub enum ApiClientError {
 struct TokenResponse {
     /// アクセストークン（Bearer）
     access_token: String,
-    /// トークン種別（通常 "Bearer"）
-    #[allow(dead_code)]
-    token_type: String,
+    /// トークン種別（通常 "Bearer"）。OAuth 標準フィールドのため受信するが Rust コードでは参照不要。
+    #[serde(rename = "token_type")]
+    _token_type: String,
 }
 
 /// 親機 API クライアント（IF-002 アウトバウンド）。

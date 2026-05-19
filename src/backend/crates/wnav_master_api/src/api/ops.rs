@@ -14,9 +14,12 @@ use sqlx::Row as _;
 use uuid::Uuid;
 
 use crate::{
-    dto::ops::{
-        DlqEntry, DlqListResponse, HashChainVerifyRequest, HashChainVerifyResponse,
-        MasterSyncResponse, RequeueRequest, RequeueResponse,
+    dto::{
+        metrics::MetricsResponse,
+        ops::{
+            DlqEntry, DlqListResponse, HashChainVerifyRequest, HashChainVerifyResponse,
+            MasterSyncResponse, RequeueRequest, RequeueResponse,
+        },
     },
     error::AppError,
     state::AppState,
@@ -315,8 +318,10 @@ pub async fn metrics(
     let write_pool_size = state.write_pool.size();
     let read_pool_size = state.read_pool.size();
 
-    let metrics_text = format!(
-        r#"# HELP wnav_master_api_db_write_pool_size write connection pool size
+    // MetricsResponse に格納してから metrics_text を取り出し、Prometheus 形式で返す
+    let metrics = MetricsResponse {
+        metrics_text: format!(
+            r#"# HELP wnav_master_api_db_write_pool_size write connection pool size
 # TYPE wnav_master_api_db_write_pool_size gauge
 wnav_master_api_db_write_pool_size {write_pool_size}
 
@@ -328,9 +333,10 @@ wnav_master_api_db_read_pool_size {read_pool_size}
 # TYPE wnav_master_api_up gauge
 wnav_master_api_up 1
 "#
-    );
+        ),
+    };
 
-    let mut response = (StatusCode::OK, metrics_text).into_response();
+    let mut response = (StatusCode::OK, metrics.metrics_text).into_response();
     response.headers_mut().insert(
         CONTENT_TYPE,
         HeaderValue::from_static("text/plain; version=0.0.4"),

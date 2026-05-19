@@ -1,5 +1,5 @@
 // SCR-HA-005 標準 Step 画面。StepEngine.completeStep() で進行イベントを生成
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import type { StandardStepPayload } from '@wnav/shared/domain/step-engine';
@@ -19,6 +19,23 @@ export default function StandardStepScreen(): JSX.Element {
   const { state: auth } = useAuth();
   const { state: exec, dispatch } = useWorkExecution();
   const [busy, setBusy] = useState(false);
+  // resolvedStepId は useEffect で一度だけ解決して保持する（handleComplete と共有してレポ二重呼び出しを防ぐ）
+  const [resolvedStepId, setResolvedStepId] = useState<string | null>(null);
+
+  // 画面表示時に SOP 定義から currentStepId を解決してコンテキストとローカル state に登録する
+  useEffect(() => {
+    const sopVersionId = exec.sopVersionId ?? '';
+    const stepIndex = exec.currentStepIndex;
+    setResolvedStepId(null);
+    void (async () => {
+      const allSteps = await new SopRepository().findStepsBySopVersionId(sopVersionId);
+      const step = allSteps[stepIndex];
+      if (step != null) {
+        setResolvedStepId(step.id);
+        dispatch({ type: 'SET_CURRENT_STEP', payload: { index: stepIndex, stepId: step.id } });
+      }
+    })();
+  }, [exec.currentStepIndex, exec.sopVersionId, dispatch]);
 
   const handleComplete = async (): Promise<void> => {
     setBusy(true);
@@ -28,13 +45,10 @@ export default function StandardStepScreen(): JSX.Element {
       const caseId = params.caseId ?? '';
       const sopVersionId = exec.sopVersionId ?? '';
       const stepIndex = exec.currentStepIndex;
+      // useEffect で解決済みの stepId を使用する（未解決なら安全なフォールバック）
+      const stepId = resolvedStepId ?? generateId();
 
-      // SOP 定義から現在ステップの ID を取得する（ランダム UUID は不変性を壊すため禁止）
-      const allSteps = await sopRepo.findStepsBySopVersionId(sopVersionId);
-      const currentStep = allSteps[stepIndex];
-      const stepId = currentStep?.id ?? generateId();
-
-      // ゲート検証（BR-BUS-001/002, FR-AU-001, FR-EV-013）を UI 層でも事前チェックしてユーザーに通知する
+      // canAdvanceToStep は engine 内部でも呼ばれるが、UI でも呼んでユーザーに理由を提示する
       const gate = await engine.canAdvanceToStep(caseId, stepIndex, sopVersionId);
       if (!gate.canAdvance) {
         const messages: Record<string, string> = {

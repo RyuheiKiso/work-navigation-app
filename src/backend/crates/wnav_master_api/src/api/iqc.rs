@@ -1,9 +1,10 @@
 // 入荷検査（IQC）ハンドラ（master-api 担当分: API-iqc-004〜005・API-dispositions-001）
 //
-// master-api は合否判定・特採承認・ディスポジション登録を担当する。
-// 入荷検査登録（API-iqc-001）と測定値入力（API-iqc-003）は terminal-api に移管済み。
+// master-api は合否判定（judge）・特採承認（concession）・ディスポジション登録を担当する。
+// 入荷検査登録（API-iqc-001）と測定値入力（API-iqc-003）は terminal-api が担当する:
+//   - POST /api/v1/iqc/incoming-inspections     → terminal_api/src/api/iqc.rs
+//   - POST /api/v1/iqc/incoming-inspections/{id}/measurements → terminal_api/src/api/iqc.rs
 // Two-Person Integrity（FR-AU-007）はディスポジション登録で必須。
-// SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
 use axum::{
     extract::{Path, State},
@@ -17,215 +18,13 @@ use uuid::Uuid;
 
 use crate::{
     dto::iqc::{
-        AddIqcMeasurementRequest, ApproveInspectionRequest, AqlJudgment, CreateDispositionRequest,
-        CreateIqcInspectionRequest, DispositionResponse, IqcInspectionResponse, IqcStatus,
+        ApproveInspectionRequest, AqlJudgment, CreateDispositionRequest,
+        DispositionResponse, IqcInspectionResponse, IqcStatus,
     },
     error::AppError,
     state::AppState,
 };
 use wnav_auth::{ApproverRole, AuthenticatedUser, MasterEditorRole, evaluate_roles};
-use wnav_hash_chain::{canonical_json, compute_chain_hash, compute_content_hash, GENESIS_PREV_HASH};
-
-// create_inspection と add_measurement は terminal-api に移管したため
-// master-api のルータには登録しない。参照実装として残す。
-#[allow(dead_code)]
-
-/// 入荷検査登録（terminal-api に移管済み）。
-///
-/// このハンドラは master-api の iqc.rs から削除し terminal-api/src/api/iqc.rs に移管した。
-/// コンパイルエラーを避けるため stub として残す。実際の処理は terminal-api が担当する。
-#[utoipa::path(
-    post,
-    path = "/api/v1/iqc/incoming-inspections",
-    tag = "iqc",
-    security(("Bearer" = [])),
-    request_body = CreateIqcInspectionRequest,
-    responses(
-        (status = 201, description = "検査登録成功", body = IqcInspectionResponse),
-        (status = 401, description = "未認証"),
-        (status = 403, description = "権限不足"),
-    )
-)]
-// terminal-api に移管済みのため master-api のルータには登録しない
-#[allow(dead_code)]
-pub async fn create_inspection(
-    user: AuthenticatedUser<MasterEditorRole>,
-    State(state): State<AppState>,
-    Json(req): Json<CreateIqcInspectionRequest>,
-) -> Result<impl IntoResponse, AppError> {
-    let new_id = Uuid::now_v7();
-    let now = Utc::now();
-
-    // IQC genesis ハッシュチェーンを計算する
-    let payload = serde_json::json!({
-        "lot_id": req.lot_id,
-        "supplier_id": req.supplier_id,
-        "part_number": req.part_number,
-        "received_quantity": req.received_quantity,
-        "aql_level": req.aql_level,
-        "sample_size": req.sample_size,
-        "received_at": req.received_at.to_rfc3339(),
-    });
-    let canonical = canonical_json(&payload);
-    let content_hash = compute_content_hash(&canonical);
-    let block_hash = compute_chain_hash(&GENESIS_PREV_HASH, &content_hash);
-    let hash_hex = hex::encode(block_hash);
-
-    sqlx::query(
-        r#"
-        INSERT INTO iqc_inspections
-            (id, lot_id, supplier_id, part_number, received_quantity, aql_level,
-             sample_size, status, created_by, received_at, created_at, current_hash)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, 'in_progress', $8, $9, $10, $11)
-        "#,
-    )
-    .bind(new_id)
-    .bind(&req.lot_id)
-    .bind(&req.supplier_id)
-    .bind(&req.part_number)
-    .bind(req.received_quantity)
-    .bind(&req.aql_level)
-    .bind(req.sample_size)
-    .bind(user.user_id)
-    .bind(req.received_at)
-    .bind(now)
-    .bind(&hash_hex)
-    .execute(&state.write_pool)
-    .await?;
-
-    tracing::info!(event = "iqc.inspection.created", inspection_id = %new_id, "IQC 検査を登録しました");
-
-    Ok((
-        StatusCode::CREATED,
-        Json(IqcInspectionResponse {
-            id: new_id,
-            lot_id: req.lot_id,
-            supplier_id: req.supplier_id,
-            part_number: req.part_number,
-            received_quantity: req.received_quantity,
-            sample_size: req.sample_size,
-            status: IqcStatus::InProgress,
-            aql_judgment: None,
-            total_defects: None,
-            created_by: user.user_id,
-            created_at: now,
-            completed_at: None,
-            current_hash: Some(hash_hex),
-        }),
-    ))
-}
-
-/// 測定値追加（terminal-api に移管済み）。
-///
-/// このハンドラは master-api の iqc.rs から削除し terminal-api/src/api/iqc.rs に移管した。
-/// コンパイルエラーを避けるため stub として残す。実際の処理は terminal-api が担当する。
-#[utoipa::path(
-    post,
-    path = "/api/v1/iqc/incoming-inspections/{id}/measurements",
-    tag = "iqc",
-    security(("Bearer" = [])),
-    params(("id" = Uuid, Path, description = "検査 ID")),
-    request_body = AddIqcMeasurementRequest,
-    responses(
-        (status = 200, description = "測定値追加成功", body = IqcInspectionResponse),
-        (status = 401, description = "未認証"),
-        (status = 403, description = "権限不足"),
-        (status = 404, description = "検査が見つからない"),
-    )
-)]
-// terminal-api に移管済みのため master-api のルータには登録しない
-#[allow(dead_code)]
-pub async fn add_measurement(
-    _user: AuthenticatedUser<MasterEditorRole>,
-    State(state): State<AppState>,
-    Path(id): Path<Uuid>,
-    Json(req): Json<AddIqcMeasurementRequest>,
-) -> Result<impl IntoResponse, AppError> {
-    let row = sqlx::query(
-        r#"
-        SELECT id, lot_id, supplier_id, part_number, received_quantity, sample_size,
-               status, created_by, created_at, current_hash
-        FROM iqc_inspections WHERE id = $1
-        "#,
-    )
-    .bind(id)
-    .fetch_optional(&state.read_pool)
-    .await?
-    .ok_or_else(|| AppError::NotFound(format!("iqc_inspection:{id}")))?;
-
-    let status: String = row.get("status");
-    if status != "in_progress" {
-        return Err(AppError::InvalidStateTransition(
-            "InProgress 状態の検査にのみ測定値を追加できます".to_string(),
-        ));
-    }
-
-    // ハッシュチェーンを更新する
-    let prev_hash_hex: Option<String> = row.get("current_hash");
-    let prev_hash_bytes = prev_hash_hex
-        .as_deref()
-        .and_then(|h| hex::decode(h).ok())
-        .unwrap_or_else(|| GENESIS_PREV_HASH.to_vec());
-    let prev_hash: [u8; 32] = prev_hash_bytes.try_into().unwrap_or(GENESIS_PREV_HASH);
-
-    let measurement_payload = serde_json::json!({
-        "measurement_name": req.measurement_name,
-        "measured_value": req.measured_value,
-        "unit": req.unit,
-        "defect_count": req.defect_count,
-        "measured_by": req.measured_by.to_string(),
-        "measured_at": req.measured_at.to_rfc3339(),
-    });
-    let canonical = canonical_json(&measurement_payload);
-    let content_hash = compute_content_hash(&canonical);
-    let block_hash = compute_chain_hash(&prev_hash, &content_hash);
-    let new_hash_hex = hex::encode(block_hash);
-
-    sqlx::query(
-        r#"
-        INSERT INTO iqc_measurements
-            (id, inspection_id, measurement_name, measured_value, unit,
-             upper_limit, lower_limit, defect_count, measured_by, measured_at, created_at)
-        VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
-        "#,
-    )
-    .bind(id)
-    .bind(&req.measurement_name)
-    .bind(req.measured_value)
-    .bind(&req.unit)
-    .bind(req.upper_limit)
-    .bind(req.lower_limit)
-    .bind(req.defect_count)
-    .bind(req.measured_by)
-    .bind(req.measured_at)
-    .execute(&state.write_pool)
-    .await?;
-
-    sqlx::query(r#"UPDATE iqc_inspections SET current_hash = $1 WHERE id = $2"#)
-        .bind(&new_hash_hex)
-        .bind(id)
-        .execute(&state.write_pool)
-        .await?;
-
-    Ok((
-        StatusCode::OK,
-        Json(IqcInspectionResponse {
-            id: row.get("id"),
-            lot_id: row.get("lot_id"),
-            supplier_id: row.get("supplier_id"),
-            part_number: row.get("part_number"),
-            received_quantity: row.get("received_quantity"),
-            sample_size: row.get("sample_size"),
-            status: IqcStatus::InProgress,
-            aql_judgment: None,
-            total_defects: None,
-            created_by: row.get("created_by"),
-            created_at: row.get("created_at"),
-            completed_at: None,
-            current_hash: Some(new_hash_hex),
-        }),
-    ))
-}
 
 /// AQL 合否判定（POST /api/v1/iqc/incoming-inspections/{id}/judge）。
 ///
@@ -359,12 +158,13 @@ pub async fn approve_inspection(
         r#"
         UPDATE iqc_inspections
         SET status = 'concessionally_approved', approved_by = $1,
-            concession_reason = $2, approved_at = $3
-        WHERE id = $4
+            concession_reason = $2, use_restrictions = $3, approved_at = $4
+        WHERE id = $5
         "#,
     )
     .bind(user.user_id)
     .bind(&req.concession_reason)
+    .bind(&req.use_restrictions)
     .bind(now)
     .bind(id)
     .execute(&state.write_pool)
@@ -374,6 +174,7 @@ pub async fn approve_inspection(
         event = "iqc.inspection.concessionally_approved",
         inspection_id = %id,
         approved_by = %user.user_id,
+        approver_comment = ?req.approver_comment,
         "IQC 検査の特採承認を完了しました",
     );
 
@@ -452,8 +253,8 @@ pub async fn create_disposition(
     sqlx::query(
         r#"
         INSERT INTO dispositions
-            (id, inspection_id, disposition_type, reason, created_by, approved_by, created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+            (id, inspection_id, disposition_type, reason, created_by, approved_by, approver_comment, created_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         "#,
     )
     .bind(new_id)
@@ -462,6 +263,7 @@ pub async fn create_disposition(
     .bind(&req.reason)
     .bind(user.user_id)
     .bind(req.approver_id)
+    .bind(&req.approver_comment)
     .bind(now)
     .execute(&state.write_pool)
     .await?;

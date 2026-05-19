@@ -1,5 +1,6 @@
 // TBL-008 steps。SOP 内ステップ。stepPayload は JSON 文字列で格納する
 import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('steps')
 @Index(['sopVersionId', 'stepNumber'])
@@ -25,13 +26,13 @@ export class LocalStep {
   @Column('text')
   payload!: string;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   isMandatory!: boolean;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   requiresEvidence!: boolean;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   requiresSign!: boolean;
 
   @Column('integer', { default: 0 })

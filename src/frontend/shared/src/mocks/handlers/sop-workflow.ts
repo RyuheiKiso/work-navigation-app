@@ -10,7 +10,7 @@ import {
   route,
 } from '../_helpers';
 import { db } from '../db/seed';
-import type { LocalizedText, MasterVersion, Sop } from '../../types';
+import type { LocalizedText, MasterVersion, Sop, Step } from '../../types';
 
 const emptyLocalized: LocalizedText = { ja: '', en: '', zh: '' };
 
@@ -47,10 +47,51 @@ export const sopWorkflowHandlers = [
     return HttpResponse.json(envelope(sop), { status: 201 });
   }),
 
-  ...route('get', 'any', '/master/sops/:id', ({ params }) => {
+  ...route('get', 'any', '/master/sops/:id', ({ request, params }) => {
     const sop = db.sops.find((s) => s.id === params['id']);
     if (!sop) return problem(404, 'ERR-DB-002', 'NotFound', 'sop が存在しません');
+    // as_of: 時点参照。MSW では publishedAt が as_of 以前の最新公開バージョンに対応する SOP を返す。
+    // インメモリ DB には版ごとの SOP スナップショットがないため、実装上は現在の SOP を返す（開発用途）。
+    const u = new URL(request.url);
+    const asOf = u.searchParams.get('as_of');
+    if (asOf) {
+      // 指定時点以前に公開されたバージョンに関連する SOP を探す（簡易実装）
+      const version = db.sopVersions
+        .filter((v) => v.sopId === sop.id && v.status === 'published' && v.publishedAt != null && v.publishedAt <= asOf)
+        .sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))[0];
+      if (version) {
+        // 実際のスナップショットは別テーブルだが、MSW ではメタ情報をそのまま返す
+        return HttpResponse.json(envelope({ ...sop, currentVersionId: version.id }));
+      }
+      // as_of が全公開版より前ならデータなし（初版扱い）
+      return problem(404, 'ERR-DB-002', 'NotFound', 'as_of 時点に公開済み SOP が存在しません');
+    }
     return HttpResponse.json(envelope(sop));
+  }),
+
+  ...route('get', 'master', '/master/sops/:id/steps', ({ params }) => {
+    const sopId = params['id'];
+    const sop = db.sops.find((s) => s.id === sopId);
+    if (!sop) return problem(404, 'ERR-DB-002', 'NotFound', 'sop が存在しません');
+    const steps: Step[] = (db.steps ?? []).filter((s: Step) => s.sopVersionId === (sop.currentVersionId ?? ''));
+    return HttpResponse.json({ data: steps });
+  }),
+
+  ...route('put', 'master', '/master/sops/:id/steps', async ({ request, params }) => {
+    const authErr = requireAuth(request);
+    if (authErr) return authErr;
+    const sopId = params['id'];
+    const sop = db.sops.find((s) => s.id === sopId);
+    if (!sop) return problem(404, 'ERR-DB-002', 'NotFound', 'sop が存在しません');
+    const body = (await request.json().catch(() => null)) as { steps?: Step[]; flowJson?: string } | null;
+    if (!body) return problem(422, 'ERR-VAL-001', 'Required field missing', 'リクエストボディが必要です');
+    // Steps を sopVersionId に紐付けて保存する（既存は上書き）
+    const sopVersionId = sop.currentVersionId ?? sopId;
+    db.steps = [
+      ...db.steps.filter((s) => s.sopVersionId !== sopVersionId),
+      ...(body.steps ?? []).map((s) => ({ ...s, sopVersionId })),
+    ];
+    return HttpResponse.json({ data: body.steps ?? [] });
   }),
 
   ...route('patch', 'master', '/master/sops/:id', async ({ request, params }) => {

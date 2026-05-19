@@ -4,8 +4,12 @@
 // OpenAPI スキーマ自動生成（utoipa）と Swagger UI を提供する。
 // TLS 終端は IIS（リバースプロキシ）に委譲するため、本クレートは HTTP のみを受け付ける。
 
+use std::sync::Arc;
+
 use axum::{
+    Extension,
     Router,
+    middleware,
     routing::{get, patch, post, put},
 };
 use utoipa::OpenApi;
@@ -16,6 +20,7 @@ use crate::{
         alerts, auth, capas, health, iqc, master, nonconformities, ops, public_config, reports,
         scraps, trace, work_assignments,
     },
+    middleware::rate_limit::{RateLimiter, rate_limit_middleware},
     state::AppState,
 };
 
@@ -134,8 +139,6 @@ use crate::{
             // IQC DTO
             crate::dto::iqc::IqcStatus,
             crate::dto::iqc::AqlJudgment,
-            crate::dto::iqc::CreateIqcInspectionRequest,
-            crate::dto::iqc::AddIqcMeasurementRequest,
             crate::dto::iqc::ApproveInspectionRequest,
             crate::dto::iqc::CreateDispositionRequest,
             crate::dto::iqc::IqcInspectionResponse,
@@ -203,7 +206,11 @@ impl utoipa::Modify for SecurityAddon {
 ///
 /// 全エンドポイントを `/api/v1` プレフィックス配下に配置する。
 /// Swagger UI は `/swagger-ui/` で提供する（開発用）。
-pub fn create_router(state: AppState) -> Router {
+/// ルーターを構築して返す。
+///
+/// `rate_limiter` を Extension として注入することで、ミドルウェアが
+/// AppState を持たずにレートリミッターを取得できるようにする。
+pub fn create_router(state: AppState, rate_limiter: Arc<RateLimiter>) -> Router {
     // API v1 ルータ
     let api_v1 = Router::new()
         // ── 認証 ──────────────────────────────────────────────────────────
@@ -293,4 +300,8 @@ pub fn create_router(state: AppState) -> Router {
         .merge(swagger)
         // AppState を全ハンドラに共有する
         .with_state(state)
+        // レートリミッターを Extension として注入する（rate_limit_middleware が使用）
+        .layer(Extension(rate_limiter))
+        // レートリミットミドルウェアを全ルートに適用する（AppError::RateLimited を返す）
+        .layer(middleware::from_fn(rate_limit_middleware))
 }

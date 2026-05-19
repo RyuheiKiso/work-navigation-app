@@ -1,8 +1,10 @@
--- partition_create_monthly.sql — BAT-004: 翌月の work_events パーティション作成
+-- partition_create_monthly.sql — 翌月の work_events パーティション事前作成スクリプト
 -- 権威ドキュメント:
 --   docs/05_詳細設計/01_データベース詳細設計/06_パーティション・アーカイブ詳細設計.md §2
 --
--- 実行タイミング: 毎月 25 日 02:00 JST（UTC 16:00 前日）に実行する
+-- 実行タイミング: 毎月 25 日 02:00 JST に実行する（月末までに翌月パーティションを作成する）
+-- 実行方法: wnav_master_api の tokio task として月次スケジュールで psql から呼び出す。
+-- BAT-004 は PII 匿名化（pii_anonymize.sql）であり、このスクリプトとは別物。
 -- 目的: 翌月のパーティションを月末までに事前作成し、月初の INSERT 欠落を防止する
 --
 -- 使用方法:

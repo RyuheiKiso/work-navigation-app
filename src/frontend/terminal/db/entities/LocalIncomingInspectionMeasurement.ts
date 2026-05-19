@@ -1,5 +1,6 @@
 // TBL-040 incoming_inspection_measurements。IQC のサンプル毎測定値
 import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('incoming_inspection_measurements')
 @Index(['inspectionId'])
@@ -16,7 +17,7 @@ export class LocalIncomingInspectionMeasurement {
   @Column('real', { nullable: true })
   measuredValue!: number | null;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   defectFlag!: boolean;
 
   @Column('text', { nullable: true })

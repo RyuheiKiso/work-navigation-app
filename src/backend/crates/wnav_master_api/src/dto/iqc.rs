@@ -35,52 +35,14 @@ pub enum AqlJudgment {
     Hold,
 }
 
-/// IQC 入荷検査登録リクエスト（API-iqc-001）
-#[derive(Debug, Deserialize, ToSchema)]
-pub struct CreateIqcInspectionRequest {
-    /// 受入ロット ID
-    pub lot_id: String,
-    /// サプライヤー ID
-    pub supplier_id: String,
-    /// 品目コード
-    pub part_number: String,
-    /// 受入数量
-    pub received_quantity: i64,
-    /// AQL レベル（例: "Level II"）
-    pub aql_level: String,
-    /// 抜取数量
-    pub sample_size: i64,
-    /// 受入日時
-    pub received_at: DateTime<Utc>,
-}
-
-/// IQC 測定値追加リクエスト（API-iqc-002 / terminal-api に移管済み・参照用）
-#[allow(dead_code)]
-#[derive(Debug, Deserialize, ToSchema)]
-pub struct AddIqcMeasurementRequest {
-    /// 測定項目名
-    pub measurement_name: String,
-    /// 測定値
-    pub measured_value: f64,
-    /// 測定単位
-    pub unit: String,
-    /// 規格上限値
-    pub upper_limit: Option<f64>,
-    /// 規格下限値
-    pub lower_limit: Option<f64>,
-    /// 不合格数
-    pub defect_count: Option<i64>,
-    /// 測定者 ID
-    pub measured_by: Uuid,
-    /// 測定日時
-    pub measured_at: DateTime<Utc>,
-}
+// CreateIqcInspectionRequest と AddIqcMeasurementRequest は terminal-api に移管済み。
+// これらの型は terminal_api/src/dto/iqc.rs で定義されている。
+// master-api は合否判定（judge）・特採承認（concession）・ディスポジションのみを担当する。
 
 /// IQC 特採承認リクエスト（API-iqc-004）
 ///
 /// ApproverRole 必須。申請者と異なるユーザーが承認する。
 #[derive(Debug, Deserialize, ToSchema)]
-#[allow(dead_code)]
 pub struct ApproveInspectionRequest {
     /// 特採理由（必須）
     pub concession_reason: String,
@@ -95,7 +57,6 @@ pub struct ApproveInspectionRequest {
 /// Two-Person Integrity 必須（FR-AU-007）。
 /// 登録者（current_user）と承認者（approver_id）が異なるユーザーである必要がある。
 #[derive(Debug, Deserialize, ToSchema)]
-#[allow(dead_code)]
 pub struct CreateDispositionRequest {
     /// 対象 IQC 検査 ID
     pub inspection_id: Uuid,

@@ -169,6 +169,20 @@ pub async fn create_draft(
     .await?;
     let version_number = format!("v{}.0.0", count + 1);
 
+    // base_version_id が指定された場合は既存バージョンのデータを初期値として使用する
+    let initial_data = if let Some(base_id) = req.base_version_id {
+        let base_row = sqlx::query(
+            r#"SELECT data FROM master_versions WHERE id = $1 AND deleted_at IS NULL"#,
+        )
+        .bind(base_id)
+        .fetch_optional(&state.read_pool)
+        .await?
+        .ok_or_else(|| AppError::NotFound(format!("base_version:{base_id}")))?;
+        base_row.get::<serde_json::Value, _>("data")
+    } else {
+        req.data.clone()
+    };
+
     // write_pool で Draft バージョンを INSERT する
     sqlx::query(
         r#"
@@ -179,7 +193,7 @@ pub async fn create_draft(
     )
     .bind(new_id)
     .bind(&version_number)
-    .bind(&req.data)
+    .bind(&initial_data)
     .bind(user.user_id)
     .bind(now)
     .bind(&req.description)
@@ -199,7 +213,7 @@ pub async fn create_draft(
             id: new_id,
             version: version_number,
             status: MasterVersionStatus::Draft,
-            data: req.data,
+            data: initial_data,
             created_by: user.user_id,
             approved_by: None,
             created_at: now,
@@ -298,10 +312,10 @@ pub async fn update_draft(
     )
 )]
 pub async fn submit_version(
-    _user: AuthenticatedUser<MasterEditorRole>,
+    user: AuthenticatedUser<MasterEditorRole>,
     State(state): State<AppState>,
     Path(id): Path<Uuid>,
-    Json(_req): Json<SubmitVersionRequest>,
+    Json(req): Json<SubmitVersionRequest>,
 ) -> Result<impl IntoResponse, AppError> {
     let existing = get_version_row(&state, id).await?;
     let status: &str = existing.get("status");
@@ -312,6 +326,8 @@ pub async fn submit_version(
         ));
     }
 
+    let submit_comment = req.comment;
+
     let now = Utc::now();
     sqlx::query(
         r#"UPDATE master_versions SET status = 'pending_approval', updated_at = $1 WHERE id = $2"#,
@@ -321,7 +337,13 @@ pub async fn submit_version(
     .execute(&state.write_pool)
     .await?;
 
-    tracing::info!(event = "master.version.submitted", version_id = %id, "バージョンを承認申請しました");
+    tracing::info!(
+        event = "master.version.submitted",
+        version_id = %id,
+        submitted_by = %user.user_id,
+        comment = ?submit_comment,
+        "バージョンを承認申請しました",
+    );
 
     Ok((
         StatusCode::OK,
@@ -352,7 +374,7 @@ pub async fn approve_version(
     user: AuthenticatedUser<ApproverRole>,
     State(state): State<AppState>,
     Path(id): Path<Uuid>,
-    Json(_req): Json<ApproveVersionRequest>,
+    Json(req): Json<ApproveVersionRequest>,
 ) -> Result<impl IntoResponse, AppError> {
     let existing = get_version_row(&state, id).await?;
     let status: &str = existing.get("status");
@@ -366,11 +388,12 @@ pub async fn approve_version(
     let now = Utc::now();
     let approver_id = user.user_id;
 
-    sqlx::query(
+    // 楽観ロック: rows_affected をチェックして concurrent update による競合を検出する
+    let update_result = sqlx::query(
         r#"
         UPDATE master_versions
         SET status = 'published', approved_by = $1, published_at = $2, updated_at = $2
-        WHERE id = $3
+        WHERE id = $3 AND status = 'pending_approval'
         "#,
     )
     .bind(approver_id)
@@ -379,10 +402,18 @@ pub async fn approve_version(
     .execute(&state.write_pool)
     .await?;
 
+    // 例: 2 名の Approver が同時に同一バージョンを承認しようとした場合
+    if update_result.rows_affected() == 0 {
+        return Err(AppError::Conflict(format!(
+            "バージョン {id} は別のリクエストによって既に更新されました"
+        )));
+    }
+
     tracing::info!(
         event = "master.version.approved",
         version_id = %id,
         approved_by = %approver_id,
+        comment = ?req.comment,
         "バージョンを承認・公開しました",
     );
 

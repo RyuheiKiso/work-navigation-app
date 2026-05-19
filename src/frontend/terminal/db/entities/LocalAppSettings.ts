@@ -1,5 +1,6 @@
 // 端末専用 app_settings。PK は常に 'singleton'、INSERT OR REPLACE で 1 レコードを維持
 import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('app_settings')
 export class LocalAppSettings {
@@ -9,7 +10,7 @@ export class LocalAppSettings {
   @Column('text', { default: 'ja' })
   locale!: string;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   darkMode!: boolean;
 
   @Column('text')

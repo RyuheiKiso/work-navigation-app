@@ -67,7 +67,6 @@ pub struct MasterVersionResponse {
 ///
 /// MasterEditorRole 以上が必要。
 #[derive(Debug, Deserialize, ToSchema)]
-#[allow(dead_code)]
 pub struct CreateMasterVersionRequest {
     /// ベースにするバージョン ID（None の場合は空の Draft を作成する）
     pub base_version_id: Option<Uuid>,
@@ -92,7 +91,6 @@ pub struct UpdateMasterVersionRequest {
 ///
 /// MasterEditorRole 以上・Draft → PendingApproval 状態遷移。
 #[derive(Debug, Deserialize, ToSchema)]
-#[allow(dead_code)]
 pub struct SubmitVersionRequest {
     /// 承認申請コメント
     pub comment: Option<String>,
@@ -103,7 +101,6 @@ pub struct SubmitVersionRequest {
 /// ApproverRole 以上・PendingApproval → Published 状態遷移。
 /// 申請者と異なるユーザーであることが必要。
 #[derive(Debug, Deserialize, ToSchema)]
-#[allow(dead_code)]
 pub struct ApproveVersionRequest {
     /// 承認コメント
     pub comment: Option<String>,

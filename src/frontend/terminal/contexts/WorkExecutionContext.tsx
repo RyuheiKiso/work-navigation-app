@@ -8,6 +8,7 @@ export interface WorkExecutionState {
   workExecutionId: string | null;
   sopVersionId: string | null;
   currentStepIndex: number;
+  currentStepId: string | null;
   totalSteps: number;
   caseLockStatus: CaseLockStatus;
 }
@@ -19,6 +20,7 @@ export type WorkExecutionAction =
     }
   | { type: 'ADVANCE_STEP' }
   | { type: 'SET_STEP_INDEX'; payload: { index: number } }
+  | { type: 'SET_CURRENT_STEP'; payload: { index: number; stepId: string } }
   | { type: 'SET_LOCK_STATUS'; payload: { status: CaseLockStatus } }
   | { type: 'CLEAR' };
 
@@ -27,6 +29,7 @@ const initialState: WorkExecutionState = {
   workExecutionId: null,
   sopVersionId: null,
   currentStepIndex: 0,
+  currentStepId: null,
   totalSteps: 0,
   caseLockStatus: 'NONE',
 };
@@ -44,11 +47,15 @@ export const workExecutionReducer = (
         sopVersionId: action.payload.sopVersionId,
         totalSteps: action.payload.totalSteps,
         currentStepIndex: 0,
+        currentStepId: null,
       };
     case 'ADVANCE_STEP':
-      return { ...state, currentStepIndex: Math.min(state.totalSteps, state.currentStepIndex + 1) };
+      return { ...state, currentStepIndex: Math.min(state.totalSteps, state.currentStepIndex + 1), currentStepId: null };
     case 'SET_STEP_INDEX':
-      return { ...state, currentStepIndex: action.payload.index };
+      return { ...state, currentStepIndex: action.payload.index, currentStepId: null };
+    // SET_CURRENT_STEP: ステップ画面が表示された時点で SOP 定義から解決した stepId を登録する
+    case 'SET_CURRENT_STEP':
+      return { ...state, currentStepIndex: action.payload.index, currentStepId: action.payload.stepId };
     case 'SET_LOCK_STATUS':
       return { ...state, caseLockStatus: action.payload.status };
     case 'CLEAR':

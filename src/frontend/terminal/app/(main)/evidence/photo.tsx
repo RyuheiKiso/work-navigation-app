@@ -28,7 +28,7 @@ export default function EvidencePhotoScreen(): JSX.Element {
     }
     await evidence.capturePhoto({
       workExecutionId: exec.workExecutionId ?? 'unknown',
-      stepId: exec.caseId ?? 'unknown',
+      stepId: exec.currentStepId ?? 'unknown',
       filePath: photo.uri,
       fileBytes: bytes,
       width: photo.width,

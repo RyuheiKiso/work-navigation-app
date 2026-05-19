@@ -1,5 +1,6 @@
 // TBL-001 work_events の端末ミラー。Append-only で UPDATE/DELETE 禁止
 import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('work_events')
 @Index(['caseId'])
@@ -39,6 +40,6 @@ export class LocalWorkEvent {
   @Column('text')
   terminalId!: string;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   synced!: boolean;
 }

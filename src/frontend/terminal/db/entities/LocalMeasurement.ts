@@ -1,5 +1,6 @@
 // TBL-010 measurements。数値測定値と単位を保持し USL/LSL とのスペック判定に使用する
 import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
+import { boolTransformer } from './_transformers';
 
 @Entity('measurements')
 @Index(['workExecutionId'])
@@ -26,7 +27,7 @@ export class LocalMeasurement {
   @Column('real', { nullable: true })
   lsl!: number | null;
 
-  @Column('integer', { default: 0 })
+  @Column('integer', { default: 0, transformer: boolTransformer })
   inSpec!: boolean;
 
   @Column('text')

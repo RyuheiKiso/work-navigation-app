@@ -63,8 +63,6 @@ fn parse_assignment_status(s: &str) -> Result<AssignmentStatus, DomainError> {
 }
 
 /// AssignmentStatus を DB 格納文字列に変換する。
-/// 現在は直接 SQL リテラルで更新しているが、汎用更新時に使用する。
-#[allow(dead_code)]
 fn assignment_status_to_str(s: &AssignmentStatus) -> &'static str {
     match s {
         AssignmentStatus::Pending => "PENDING",
@@ -143,13 +141,16 @@ impl WorkAssignmentRepository for PgWorkAssignmentRepository {
 
     /// 作業指示を配信済みに更新する。
     async fn mark_dispatched(&self, assignment_id: Uuid) -> Result<(), DomainError> {
+        // assignment_status_to_str を使って文字列リテラルのハードコードを排除する
+        let dispatched_str = assignment_status_to_str(&AssignmentStatus::Dispatched);
         sqlx::query(
             r#"
             UPDATE work_assignments
-            SET status = 'DISPATCHED'
-            WHERE assignment_id = $1
+            SET status = $1
+            WHERE assignment_id = $2
             "#,
         )
+        .bind(dispatched_str)
         .bind(assignment_id)
         .execute(&self.pool)
         .await

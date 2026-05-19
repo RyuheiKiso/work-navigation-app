@@ -1,4 +1,5 @@
 // SOP は読み取り中心。マスタ差分取得時にのみ INSERT/UPDATE を許可する
+import { IsNull } from 'typeorm';
 import { getDataSource } from '../data-source';
 import { LocalSop } from '../entities/LocalSop';
 import { LocalStep } from '../entities/LocalStep';
@@ -17,7 +18,7 @@ export class SopRepository {
   }
 
   async findActiveSops(): Promise<LocalSop[]> {
-    return this.sopRepo.find({ where: { deletedAt: null as unknown as string }, order: { sopCode: 'ASC' } });
+    return this.sopRepo.find({ where: { deletedAt: IsNull() }, order: { sopCode: 'ASC' } });
   }
 
   async findStepsBySopVersionId(sopVersionId: string): Promise<LocalStep[]> {
