@@ -54,7 +54,8 @@ pub struct CreateIqcInspectionRequest {
     pub received_at: DateTime<Utc>,
 }
 
-/// IQC 測定値追加リクエスト（API-iqc-002）
+/// IQC 測定値追加リクエスト（API-iqc-002 / terminal-api に移管済み・参照用）
+#[allow(dead_code)]
 #[derive(Debug, Deserialize, ToSchema)]
 pub struct AddIqcMeasurementRequest {
     /// 測定項目名

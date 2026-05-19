@@ -23,7 +23,7 @@ interface FlowState {
 }
 
 // SopFlowCanvas（CMP-MA-005）。Step を ReactFlow ノードに、flowRules を Edge にマッピングする。
-// DAG 編集の本格機能はタスク #10 で実装し、ここでは表示と接続の基本機能のみ。
+// ノード・エッジ変更は onFlowChange 経由で sopEditorStore に保存され auto-save の対象になる。
 export function SopFlowEditor({
   steps,
   flow,

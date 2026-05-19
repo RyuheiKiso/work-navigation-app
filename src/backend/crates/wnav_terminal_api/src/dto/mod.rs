@@ -6,6 +6,8 @@
 pub mod auth;
 pub mod evidences;
 pub mod electronic_signatures;
+pub mod iqc;
+pub mod reworks;
 pub mod work_orders;
 pub mod work_executions;
 pub mod step_events;

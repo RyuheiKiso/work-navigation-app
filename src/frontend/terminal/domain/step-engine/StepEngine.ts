@@ -26,6 +26,7 @@ import { SopRepository } from '../../db/repositories/SopRepository';
 export interface CompleteStepParams {
   caseId: string;
   stepId: string;
+  stepIndex: number;
   sopVersionId: string;
   workerId: string;
   terminalId: string;
@@ -147,7 +148,12 @@ export class StepEngine {
   }
 
   // Step 完了イベントを HashChain に連結し WorkEvent と Outbox の双方に追記する
+  // FNC-FE-002: canAdvanceToStep で全ゲートを事前検証し、不合格なら ERR-BIZ-001 で即座に中断する
   async completeStep(params: CompleteStepParams): Promise<{ eventId: string; contentHash: string }> {
+    const gate = await this.canAdvanceToStep(params.caseId, params.stepIndex, params.sopVersionId);
+    if (!gate.canAdvance) {
+      throw new Error(`ERR-BIZ-001: ステップ進行不可 [${gate.blockedReason ?? 'UNKNOWN'}]`);
+    }
     const prevEvent = await this.workEventRepo.findLatestByCaseId(params.caseId);
     const prevHash = prevEvent?.contentHash ?? GENESIS_HASH;
     const eventPayload = { stepId: params.stepId, inputData: params.inputData };

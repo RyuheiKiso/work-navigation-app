@@ -2,8 +2,8 @@ import type React from 'react';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Box, Button, Stack, TextField, Alert, Paper, Typography } from '@mui/material';
-import type { Sop } from '@wnav/shared/types';
+import { Box, Button, Stack, TextField, Alert, Paper, Typography, CircularProgress } from '@mui/material';
+import type { MasterVersion, Sop } from '@wnav/shared/types';
 import { resolveLocale } from '@wnav/shared/i18n';
 import { api } from '@/api/client';
 import { queryKeys } from '@/api/queryKeys';
@@ -27,21 +27,86 @@ export function ReviewRequestPage(): React.ReactElement {
     enabled: !!id,
   });
 
+  // 過去の公開済みバージョン一覧を取得して最新の published を特定する
+  const versionsQuery = useQuery({
+    queryKey: ['master', 'sops', id, 'versions'],
+    queryFn: async (): Promise<MasterVersion[]> => {
+      const r = await api.getList<MasterVersion>(`/master/sops/${id}/versions`);
+      return r.data;
+    },
+    enabled: !!id,
+  });
+
+  const lastPublished = versionsQuery.data
+    ?.filter((v) => v.status === 'published' && v.publishedAt != null)
+    .sort((a, b) => {
+      const aAt = a.publishedAt ?? '';
+      const bAt = b.publishedAt ?? '';
+      return bAt.localeCompare(aAt);
+    })[0] ?? null;
+
+  // 直前の公開版 SOP を時点参照で取得する（初版の場合は skip）
+  const prevSopQuery = useQuery({
+    queryKey: ['master', 'sops', id, 'asOf', lastPublished?.publishedAt],
+    queryFn: async (): Promise<Sop> => {
+      // publishedAt の時点で有効だったマスタを取得する（asOf = 公開日時）
+      const r = await api.get<Sop>(`/master/sops/${id}?as_of=${encodeURIComponent(lastPublished!.publishedAt!)}`);
+      return r.data;
+    },
+    enabled: !!id && lastPublished != null,
+  });
+
   const review = useMutation({
     mutationFn: async () => {
-      await api.post(`/master/sops/${id}/review`, { comment });
+      // OpenAPI operationId: submitSopForReview → /submit エンドポイントを使用する
+      await api.post(`/master/sops/${id}/submit`, { comment });
     },
     onSuccess: () => navigate(`/master/sops/${id}/edit`, { state: { reviewRequested: true } }),
     onError: (e: unknown) => setError(e instanceof Error ? e.message : 'レビュー依頼に失敗しました'),
   });
 
-  if (sopQuery.isLoading) return <Typography>読み込み中...</Typography>;
+  if (sopQuery.isLoading || versionsQuery.isLoading) {
+    return <CircularProgress aria-label="読み込み中" />;
+  }
   if (!sopQuery.data) return <Alert severity="error">SOP が見つかりません</Alert>;
+
+  const current = sopQuery.data;
+  // 直前公開版がなければ初版（before 列は「—」表示になる）
+  const prev = prevSopQuery.data ?? null;
+
+  const isFirstVersion = lastPublished == null;
+
+  const diffFields = [
+    {
+      field: 'SOPコード',
+      before: prev?.sopCode ?? (isFirstVersion ? '(初版)' : null),
+      after: current.sopCode,
+      changed: prev != null && prev.sopCode !== current.sopCode,
+    },
+    {
+      field: '名称（ja）',
+      before: prev != null ? resolveLocale(prev.nameJson, 'ja') : (isFirstVersion ? '(初版)' : null),
+      after: resolveLocale(current.nameJson, 'ja'),
+      changed: prev != null && resolveLocale(prev.nameJson, 'ja') !== resolveLocale(current.nameJson, 'ja'),
+    },
+    {
+      field: '説明（ja）',
+      before: prev != null ? resolveLocale(prev.descriptionJson, 'ja') : (isFirstVersion ? '(初版)' : null),
+      after: resolveLocale(current.descriptionJson, 'ja'),
+      changed: prev != null && resolveLocale(prev.descriptionJson, 'ja') !== resolveLocale(current.descriptionJson, 'ja'),
+    },
+    {
+      field: 'SOP種別',
+      before: prev?.sopType ?? (isFirstVersion ? '(初版)' : null),
+      after: current.sopType,
+      changed: prev != null && prev.sopType !== current.sopType,
+    },
+  ];
 
   return (
     <Box>
       <PageHeader
-        title={`レビュー依頼: ${resolveLocale(sopQuery.data.nameJson, 'ja')}`}
+        title={`レビュー依頼: ${resolveLocale(current.nameJson, 'ja')}`}
         subtitle="差分を確認し、レビュアー宛にコメント付きで依頼します"
       />
       {error && (
@@ -53,17 +118,16 @@ export function ReviewRequestPage(): React.ReactElement {
         <Paper sx={{ p: 2 }} elevation={1}>
           <Typography variant="h3" gutterBottom>
             差分プレビュー
+            {isFirstVersion && (
+              <Typography component="span" variant="caption" color="text.secondary" sx={{ ml: 1 }}>
+                （初回公開 — 比較対象なし）
+              </Typography>
+            )}
           </Typography>
           <VersionDiffViewer
-            fields={[
-              { field: 'sopCode', before: sopQuery.data.sopCode, after: sopQuery.data.sopCode, changed: false },
-              {
-                field: '名称（ja）',
-                before: '(旧版未保存)',
-                after: resolveLocale(sopQuery.data.nameJson, 'ja'),
-                changed: true,
-              },
-            ]}
+            beforeLabel={lastPublished != null ? `旧版 v${lastPublished.version}` : '旧版'}
+            afterLabel="新版（ドラフト）"
+            fields={diffFields}
           />
         </Paper>
         <TextField

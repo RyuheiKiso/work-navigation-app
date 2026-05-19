@@ -1,14 +1,16 @@
 // トレサビハンドラ（API-trace-001〜002）
 //
-// ケーストレース（順方向）とロットトレース（逆方向）を担当する。
+// 順方向トレース（GET /trace/forward?case_id=...）と
+// 逆方向トレース（GET /trace/backward?lot_id=...）を担当する。
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
 use axum::{
-    extract::{Path, State},
+    extract::{Query, State},
     http::StatusCode,
     response::IntoResponse,
     Json,
 };
+use serde::Deserialize;
 use sqlx::Row as _;
 use uuid::Uuid;
 
@@ -19,29 +21,44 @@ use crate::{
 };
 use wnav_auth::{AuditorRole, AuthenticatedUser};
 
-/// ケーストレース（GET /api/v1/trace/case/{caseId}）。
+/// 順方向トレースクエリパラメータ（GET /api/v1/trace/forward）
+#[derive(Debug, Deserialize)]
+pub struct ForwardTraceQuery {
+    /// 作業指示 Case ID（必須）
+    pub case_id: Uuid,
+}
+
+/// 逆方向トレースクエリパラメータ（GET /api/v1/trace/backward）
+#[derive(Debug, Deserialize)]
+pub struct BackwardTraceQuery {
+    /// ロット ID（必須）
+    pub lot_id: String,
+}
+
+/// 順方向トレース（GET /api/v1/trace/forward）。
 ///
-/// AuditorRole 以上が必要。指定 case_id のイベントを時系列で返す。
+/// AuditorRole 以上が必要。case_id で指定した作業指示のイベントを時系列で返す。
 #[utoipa::path(
     get,
-    path = "/api/v1/trace/case/{caseId}",
+    path = "/api/v1/trace/forward",
     tag = "trace",
     security(("Bearer" = [])),
     params(
-        ("caseId" = Uuid, Path, description = "Case ID"),
+        ("case_id" = Uuid, Query, description = "Case ID"),
     ),
     responses(
-        (status = 200, description = "ケーストレース", body = CaseTraceResponse),
+        (status = 200, description = "順方向トレース結果", body = CaseTraceResponse),
         (status = 401, description = "未認証"),
         (status = 403, description = "権限不足"),
         (status = 404, description = "Case が見つからない"),
     )
 )]
-pub async fn case_trace(
+pub async fn forward_trace(
     _user: AuthenticatedUser<AuditorRole>,
     State(state): State<AppState>,
-    Path(case_id): Path<Uuid>,
+    Query(q): Query<ForwardTraceQuery>,
 ) -> Result<impl IntoResponse, AppError> {
+    let case_id = q.case_id;
     // case の存在確認
     let case_exists: bool = sqlx::query_scalar(
         r#"SELECT EXISTS(SELECT 1 FROM work_cases WHERE id = $1)"#,
@@ -105,29 +122,30 @@ pub async fn case_trace(
     ))
 }
 
-/// ロットトレース（GET /api/v1/trace/lot/{lotId}）。
+/// 逆方向トレース（GET /api/v1/trace/backward）。
 ///
-/// AuditorRole 以上が必要。逆方向トレース結果を返す。
+/// AuditorRole 以上が必要。lot_id で指定したロットの逆方向トレース結果を返す。
 #[utoipa::path(
     get,
-    path = "/api/v1/trace/lot/{lotId}",
+    path = "/api/v1/trace/backward",
     tag = "trace",
     security(("Bearer" = [])),
     params(
-        ("lotId" = String, Path, description = "ロット ID"),
+        ("lot_id" = String, Query, description = "ロット ID"),
     ),
     responses(
-        (status = 200, description = "ロットトレース", body = LotTraceResponse),
+        (status = 200, description = "逆方向トレース結果", body = LotTraceResponse),
         (status = 401, description = "未認証"),
         (status = 403, description = "権限不足"),
         (status = 404, description = "ロットが見つからない"),
     )
 )]
-pub async fn lot_trace(
+pub async fn backward_trace(
     _user: AuthenticatedUser<AuditorRole>,
     State(state): State<AppState>,
-    Path(lot_id): Path<String>,
+    Query(q): Query<BackwardTraceQuery>,
 ) -> Result<impl IntoResponse, AppError> {
+    let lot_id = q.lot_id;
     let row = sqlx::query(
         r#"
         SELECT lot_id, lot_type, process_id, processed_from, processed_to

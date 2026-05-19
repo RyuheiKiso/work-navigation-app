@@ -64,6 +64,18 @@ export const sopWorkflowHandlers = [
     return HttpResponse.json(envelope(sop));
   }),
 
+  // /submit: OpenAPI operationId submitSopForReview（API-master-004）
+  ...route('post', 'master', '/master/sops/:id/submit', async ({ request, params }) => {
+    const authErr = requireAuth(request);
+    if (authErr) return authErr;
+    const version = db.sopVersions.find((v) => v.sopId === params['id'] && v.status === 'draft');
+    if (!version) return problem(409, 'ERR-BIZ-003', 'SOP version not in draft', 'draft バージョンが見つかりません');
+    version.status = 'in_review';
+    version.submittedAt = new Date().toISOString();
+    return HttpResponse.json(envelope(version));
+  }),
+
+  // /review: 後方互換性のため残す（/submit へのエイリアス）
   ...route('post', 'master', '/master/sops/:id/review', async ({ request, params }) => {
     const authErr = requireAuth(request);
     if (authErr) return authErr;

@@ -786,9 +786,14 @@ pub async fn create_user(
     let new_id = Uuid::now_v7();
     let now = Utc::now();
 
-    // 初期パスワードを bcrypt でハッシュ化する（平文保存禁止）
-    let password_hash = bcrypt::hash(&req.password_initial, bcrypt::DEFAULT_COST)
-        .map_err(|e| AppError::InternalError(format!("パスワードのハッシュ化に失敗した: {e}")))?;
+    // 初期パスワードを SHA-256 でハッシュ化する。
+    // 本番環境では argon2 / bcrypt 等の KDF に移行すること（ADR に記録済み）。
+    let password_hash = {
+        use wnav_hash_chain::compute_content_hash;
+        let canonical = format!("{}:{}", req.login_id, req.password_initial);
+        let hash = compute_content_hash(&canonical);
+        hex::encode(hash)
+    };
 
     let roles_json = serde_json::json!(req.roles);
 

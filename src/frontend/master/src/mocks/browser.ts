@@ -1,4 +1,4 @@
-// MSW のブラウザワーカーは shared/mocks/browser に集約されている（タスク #3）。
+// MSW のブラウザワーカーは shared/mocks/browser に集約されている。
 // 開発モードでのみ起動し、未ハンドルリクエストは bypass する（onUnhandledRequest: 'bypass'）。
 import { worker } from '@wnav/shared/mocks/browser';
 

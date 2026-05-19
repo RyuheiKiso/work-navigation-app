@@ -133,6 +133,8 @@ async fn main() -> anyhow::Result<()> {
     // AppState 構築（write_pool は含まない）
     // ─────────────────────────────────────────────────────────────────────────
     let config_arc = Arc::new(config.clone());
+    // BAT-003 用に Arc を事前にクローンしておく（AppState に移動させる前に取得する）
+    let config_arc_for_batch = Arc::clone(&config_arc);
     let state = AppState {
         event_insert_pool: event_insert_pool.clone(),
         read_pool,
@@ -183,10 +185,20 @@ async fn main() -> anyhow::Result<()> {
     let sse_retry_shutdown = shutdown_tx.subscribe();
     tokio::spawn(batch::sse_retry::run_sse_retry(sse_retry_pool, sse_retry_shutdown));
 
+    // BAT-003: Master Sync Puller（設定間隔ごとに master-api からマスタを Pull 取得する）
+    let master_sync_pool = event_insert_pool.clone();
+    let master_sync_config = config_arc_for_batch;
+    let master_sync_shutdown = shutdown_tx.subscribe();
+    tokio::spawn(batch::master_sync::run_master_sync(
+        master_sync_pool,
+        master_sync_config,
+        master_sync_shutdown,
+    ));
+
     tracing::info!(
         log_id = "LOG-START-003",
         event = "batch_tasks.started",
-        "バッチタスクを起動した（BAT-002 / BAT-013 / BAT-014）"
+        "バッチタスクを起動した（BAT-002 / BAT-003 / BAT-013 / BAT-014）"
     );
 
     // ─────────────────────────────────────────────────────────────────────────

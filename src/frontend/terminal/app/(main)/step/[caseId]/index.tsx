@@ -1,6 +1,6 @@
 // SCR-HA-005 標準 Step 画面。StepEngine.completeStep() で進行イベントを生成
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import type { StandardStepPayload } from '@wnav/shared/domain/step-engine';
 import { generateId } from '@wnav/shared/domain/id';
@@ -11,6 +11,7 @@ import { useWorkExecution } from '../../../../contexts/WorkExecutionContext';
 import { StepEngine } from '../../../../domain/step-engine/StepEngine';
 import { WorkEventRepository } from '../../../../db/repositories/WorkEventRepository';
 import { OutboxRepository } from '../../../../db/repositories/OutboxRepository';
+import { SopRepository } from '../../../../db/repositories/SopRepository';
 
 export default function StandardStepScreen(): JSX.Element {
   const params = useLocalSearchParams<{ caseId: string }>();
@@ -22,18 +23,39 @@ export default function StandardStepScreen(): JSX.Element {
   const handleComplete = async (): Promise<void> => {
     setBusy(true);
     try {
-      const engine = new StepEngine(new WorkEventRepository(), new OutboxRepository());
-      const stepId = exec.workExecutionId ?? generateId();
+      const engine = new StepEngine(new WorkEventRepository(), new OutboxRepository(), new SopRepository());
+      const caseId = params.caseId ?? '';
+      const sopVersionId = exec.sopVersionId ?? '';
+      const stepIndex = exec.currentStepIndex;
+
+      // ゲート検証（BR-BUS-001/002, FR-AU-001, FR-EV-013）を UI 層でも事前チェックしてユーザーに通知する
+      const gate = await engine.canAdvanceToStep(caseId, stepIndex, sopVersionId);
+      if (!gate.canAdvance) {
+        const messages: Record<string, string> = {
+          PREVIOUS_STEP_NOT_COMPLETED: '前のステップが完了していません',
+          EVIDENCE_REQUIRED: '証拠（写真・QR）を記録してください',
+          SIGN_REQUIRED: '電子署名が必要です',
+          WRONG_TOOL_SCAN: '使用器具のQRスキャン照合が未完了です',
+          SKILL_LEVEL_INSUFFICIENT: 'スキルレベルが不足しています',
+          CONDITION_BRANCH_UNRESOLVED: '分岐条件が未解決です',
+          OUT_OF_SPEC: '測定値が規格外です',
+        };
+        Alert.alert('ステップ完了不可', messages[gate.blockedReason ?? ''] ?? '要件を満たしていません');
+        return;
+      }
+
+      const stepId = exec.currentStepId ?? generateId();
       const payload: StandardStepPayload = {
         inputType: 'boolean_check',
         stepId,
-        stepNumber: exec.currentStepIndex + 1,
+        stepNumber: stepIndex + 1,
         value: true,
       };
       await engine.completeStep({
-        caseId: params.caseId ?? '',
+        caseId,
         stepId,
-        sopVersionId: exec.sopVersionId ?? '',
+        stepIndex,
+        sopVersionId,
         workerId: auth.user?.userId ?? 'unknown',
         terminalId: 'terminal-1',
         payload,

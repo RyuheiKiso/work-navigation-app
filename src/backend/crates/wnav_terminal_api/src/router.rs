@@ -10,8 +10,8 @@ use axum::{
 
 use crate::{
     api::{
-        andon, auth, electronic_signatures, evidences, health, kaizen, sse, step_events, sync,
-        work_assignments, work_executions, work_orders,
+        andon, auth, electronic_signatures, evidences, health, iqc, kaizen, nonconformities,
+        reworks, sse, step_events, sync, work_assignments, work_executions, work_orders,
     },
     state::AppState,
 };
@@ -91,6 +91,20 @@ pub fn create_router() -> Router<AppState> {
         .route("/alerts", post(andon::create_andon_alert))
         // ─── Kaizen 改善提案 ──────────────────────────────────────────
         .route("/kaizen-proposals", post(kaizen::create_kaizen_proposal))
+        // ─── IQC（terminal-api 担当分: 入荷検査開始・測定値追加） ──────
+        .route("/iqc/incoming-inspections", post(iqc::create_inspection))
+        .route(
+            "/iqc/incoming-inspections/{id}/measurements",
+            post(iqc::add_measurement),
+        )
+        // ─── リワーク（terminal-api 担当分） ──────────────────────────
+        .route("/reworks", post(reworks::create_rework))
+        .route(
+            "/rework-verifications",
+            post(reworks::create_rework_verification),
+        )
+        // ─── 非適合品登録（terminal-api 担当分）──────────────────────
+        .route("/nonconformities", post(nonconformities::register_nonconformity))
         // ─── システム ─────────────────────────────────────────────────
         .route("/readyz", get(health::readyz));
 

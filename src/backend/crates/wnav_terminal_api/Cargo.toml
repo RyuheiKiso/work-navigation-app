@@ -36,3 +36,6 @@ anyhow = "1"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 futures = "0.3"
+# BAT-003: Master Sync Puller で master-api に HTTP リクエストを送信するために使用する
+# rustls-tls を使用して OpenSSL への依存を避ける（既存の tls-none sqlx 設定に準拠）
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }

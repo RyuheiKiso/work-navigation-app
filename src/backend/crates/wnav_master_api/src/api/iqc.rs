@@ -1,6 +1,7 @@
-// 入荷検査（IQC）ハンドラ（API-iqc-001〜005）
+// 入荷検査（IQC）ハンドラ（master-api 担当分: API-iqc-004〜005・API-dispositions-001）
 //
-// 入荷検査登録・測定値追加・検査完了・特採承認・ディスポジション登録を担当する。
+// master-api は合否判定・特採承認・ディスポジション登録を担当する。
+// 入荷検査登録（API-iqc-001）と測定値入力（API-iqc-003）は terminal-api に移管済み。
 // Two-Person Integrity（FR-AU-007）はディスポジション登録で必須。
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
@@ -25,12 +26,17 @@ use crate::{
 use wnav_auth::{ApproverRole, AuthenticatedUser, MasterEditorRole, evaluate_roles};
 use wnav_hash_chain::{canonical_json, compute_chain_hash, compute_content_hash, GENESIS_PREV_HASH};
 
-/// 入荷検査登録（POST /api/v1/iqc/inspections）。
+// create_inspection と add_measurement は terminal-api に移管したため
+// master-api のルータには登録しない。参照実装として残す。
+#[allow(dead_code)]
+
+/// 入荷検査登録（terminal-api に移管済み）。
 ///
-/// MasterEditorRole 以上が必要。
+/// このハンドラは master-api の iqc.rs から削除し terminal-api/src/api/iqc.rs に移管した。
+/// コンパイルエラーを避けるため stub として残す。実際の処理は terminal-api が担当する。
 #[utoipa::path(
     post,
-    path = "/api/v1/iqc/inspections",
+    path = "/api/v1/iqc/incoming-inspections",
     tag = "iqc",
     security(("Bearer" = [])),
     request_body = CreateIqcInspectionRequest,
@@ -40,6 +46,8 @@ use wnav_hash_chain::{canonical_json, compute_chain_hash, compute_content_hash, 
         (status = 403, description = "権限不足"),
     )
 )]
+// terminal-api に移管済みのため master-api のルータには登録しない
+#[allow(dead_code)]
 pub async fn create_inspection(
     user: AuthenticatedUser<MasterEditorRole>,
     State(state): State<AppState>,
@@ -107,12 +115,13 @@ pub async fn create_inspection(
     ))
 }
 
-/// 測定値追加（PATCH /api/v1/iqc/inspections/{id}）。
+/// 測定値追加（terminal-api に移管済み）。
 ///
-/// MasterEditorRole 以上が必要。
+/// このハンドラは master-api の iqc.rs から削除し terminal-api/src/api/iqc.rs に移管した。
+/// コンパイルエラーを避けるため stub として残す。実際の処理は terminal-api が担当する。
 #[utoipa::path(
-    patch,
-    path = "/api/v1/iqc/inspections/{id}",
+    post,
+    path = "/api/v1/iqc/incoming-inspections/{id}/measurements",
     tag = "iqc",
     security(("Bearer" = [])),
     params(("id" = Uuid, Path, description = "検査 ID")),
@@ -124,6 +133,8 @@ pub async fn create_inspection(
         (status = 404, description = "検査が見つからない"),
     )
 )]
+// terminal-api に移管済みのため master-api のルータには登録しない
+#[allow(dead_code)]
 pub async fn add_measurement(
     _user: AuthenticatedUser<MasterEditorRole>,
     State(state): State<AppState>,
@@ -216,12 +227,12 @@ pub async fn add_measurement(
     ))
 }
 
-/// 検査完了・AQL 自動判定（POST /api/v1/iqc/inspections/{id}/submit）。
+/// AQL 合否判定（POST /api/v1/iqc/incoming-inspections/{id}/judge）。
 ///
-/// MasterEditorRole 以上が必要。
+/// MasterEditorRole 以上が必要。品質管理者による AQL 合否判定。
 #[utoipa::path(
     post,
-    path = "/api/v1/iqc/inspections/{id}/submit",
+    path = "/api/v1/iqc/incoming-inspections/{id}/judge",
     tag = "iqc",
     security(("Bearer" = [])),
     params(("id" = Uuid, Path, description = "検査 ID")),
@@ -299,12 +310,12 @@ pub async fn submit_inspection(
     ))
 }
 
-/// 特採承認（POST /api/v1/iqc/inspections/{id}/approve）。
+/// 特採承認（POST /api/v1/iqc/incoming-inspections/{id}/concession）。
 ///
-/// ApproverRole 必須。
+/// ApproverRole 必須。品質管理者による特採（CONCESSION）承認。
 #[utoipa::path(
     post,
-    path = "/api/v1/iqc/inspections/{id}/approve",
+    path = "/api/v1/iqc/incoming-inspections/{id}/concession",
     tag = "iqc",
     security(("Bearer" = [])),
     params(("id" = Uuid, Path, description = "検査 ID")),

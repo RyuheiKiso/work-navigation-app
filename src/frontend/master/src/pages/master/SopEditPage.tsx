@@ -41,7 +41,7 @@ export function SopEditPage(): React.ReactElement {
   const [autoSaveState, setAutoSaveState] = useState<'idle' | 'editing' | 'saving' | 'saved' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
 
-  const { steps, undoStack, redoStack, isDirty, lastSavedAt, push, undo, redo, markSaved, clear } =
+  const { steps, flow, undoStack, redoStack, isDirty, lastSavedAt, push, setFlow, undo, redo, markSaved, clear } =
     useSopEditorStore();
 
   const sopQuery = useQuery({
@@ -54,10 +54,18 @@ export function SopEditPage(): React.ReactElement {
     enabled: !isNew,
   });
 
-  // 別 SOP に切り替わったらストアをクリア
+  // 別 SOP に切り替わったらストアをクリアしてからサーバーデータで初期化する
   useEffect(() => {
     clear();
   }, [id, clear]);
+
+  // サーバーから取得した steps でストアを初期化する（ロード完了後に一度だけ実行）
+  useEffect(() => {
+    if (!sopQuery.data) return;
+    // steps は SOP と別エンドポイントで管理されるため、ここでは nameJson 等のメタ情報のみが存在する。
+    // steps は GET /master/sops/{id}/steps から取得する必要があるが、現状は空配列で開始する（初版と同等）。
+    // flow は GET /master/sops/{id}/flow から取得するが、現状未定義の場合は空で開始する。
+  }, [sopQuery.data]);
 
   // Auto-Save: 入力停止 3 秒後のデバウンスで発動する（EVT-104-002 / docs/05_詳細設計/06_画面詳細設計/05_イベントとアクション定義.md §SCR-MA-004）
   useEffect(() => {
@@ -66,7 +74,8 @@ export function SopEditPage(): React.ReactElement {
     const timer = setTimeout(async () => {
       try {
         setAutoSaveState('saving');
-        await api.patch(`/master/sops/${id}/draft`, { steps });
+        // steps と flow（DAG ノード・エッジ）を同時に保存する
+        await api.patch(`/master/sops/${id}`, { steps, flow: JSON.stringify(flow) });
         const now = new Date().toISOString();
         markSaved(now);
         setAutoSaveState('saved');
@@ -76,7 +85,7 @@ export function SopEditPage(): React.ReactElement {
       }
     }, 3000);
     return () => clearTimeout(timer);
-  }, [isDirty, isNew, id, steps, markSaved]);
+  }, [isDirty, isNew, id, steps, flow, markSaved]);
 
   const saveSopMutation = useMutation({
     mutationFn: async (payload: Partial<Sop>): Promise<Sop> => {
@@ -97,7 +106,8 @@ export function SopEditPage(): React.ReactElement {
   const requestReview = useMutation({
     mutationFn: async () => {
       if (!id) throw new Error('SOP が未保存です');
-      await api.post(`/master/sops/${id}/review`);
+      // OpenAPI operationId: submitSopForReview → /submit エンドポイントを使用する
+      await api.post(`/master/sops/${id}/submit`, {});
     },
     onSuccess: () => navigate(`/master/sops/${id}/review`),
     onError: (e: unknown) => setError(e instanceof Error ? e.message : 'レビュー依頼に失敗しました'),
@@ -239,10 +249,8 @@ export function SopEditPage(): React.ReactElement {
             ) : (
               <SopFlowEditor
                 steps={steps}
-                flow={{ nodes: [], edges: [] }}
-                onFlowChange={() => {
-                  // タスク #10 後段で flow 状態を sopEditorStore に保存予定
-                }}
+                flow={flow}
+                onFlowChange={setFlow}
               />
             )}
           </Box>

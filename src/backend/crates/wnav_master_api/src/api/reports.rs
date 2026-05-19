@@ -12,7 +12,6 @@ use axum::{
 };
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
-use sqlx::Row as _;
 use uuid::Uuid;
 
 use crate::{
@@ -20,6 +19,7 @@ use crate::{
     error::AppError,
     state::AppState,
 };
+// NOTE: parse_report_type は audit-xes 移行により不要となった
 use wnav_auth::{AuditorRole, AuthenticatedUser};
 
 /// XES 形式監査帳票の条件指定リクエスト（POST /api/v1/reports/audit-xes）
@@ -189,7 +189,8 @@ fn format_report_type(rt: &ReportType) -> String {
     .to_string()
 }
 
-/// DB 格納文字列を ReportType に変換するヘルパー
+/// DB 格納文字列を ReportType に変換するヘルパー（将来の参照用に残す）
+#[allow(dead_code)]
 fn parse_report_type(s: &str) -> ReportType {
     match s {
         "sop_execution_record" => ReportType::SopExecutionRecord,

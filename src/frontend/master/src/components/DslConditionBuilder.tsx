@@ -4,7 +4,7 @@ import Editor from '@monaco-editor/react';
 import { Box, Alert, Typography } from '@mui/material';
 
 // JSON Logic DSL エディタ。eval() 禁止規約（src/CLAUDE.md §動的評価禁止）に従い、文字列を JSON.parse でのみ評価する。
-// バリデーションは json-logic-js のホワイトリスト演算子で行う（実装はタスク #10）。
+// ホワイトリスト演算子のみ許可し、不正な演算子は即時エラー表示する。
 const WHITELIST_OPS = ['==', '!=', '<', '>', '<=', '>=', 'and', 'or', '!', 'in', 'var', 'if', '+', '-', '*', '/', '%'] as const;
 
 export function DslConditionBuilder({
