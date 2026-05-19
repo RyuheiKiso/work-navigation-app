@@ -1,0 +1,2142 @@
+openapi: "3.1.0"
+info:
+  title: WNAV API
+  version: 1.0.0
+  description: |
+    作業ナビゲーションシステム REST API。terminal-api（ポート 8080）と master-api（ポート 8081）の統合仕様。
+    エラーは RFC 9457 Problem Details 形式で返却する。
+  contact:
+    name: WNAV Engineering
+    email: engineering@wnav.example.com
+servers:
+  - url: http://localhost:8080/api/v1
+    description: terminal-api ローカル開発
+  - url: http://localhost:8081/api/v1
+    description: master-api ローカル開発
+  - url: https://wnav-terminal.factory.local/api/v1
+    description: terminal-api 本番
+  - url: https://wnav-master.factory.local/api/v1
+    description: master-api 本番
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: auth
+    description: 認証・認可（API-auth-001〜004）
+  - name: work-executions
+    description: 作業実行（API-work-execs-001〜005）
+  - name: evidences
+    description: エビデンス（API-evidences-001）
+  - name: electronic-signs
+    description: 電子サイン（API-electronic-signs-001〜003）
+  - name: master
+    description: マスタ管理（API-master-001〜007）
+  - name: alerts
+    description: アンドン（API-andon-001〜002）
+  - name: capa
+    description: CAPA（API-capa-001〜002）
+  - name: kaizen
+    description: 改善提案（API-kaizen-001）
+  - name: nonconformities
+    description: 非適合品（補足仕様）
+  - name: work-assignments
+    description: 作業指示割当（API-sync-003〜005）
+  - name: iqc
+    description: IQC（API-iqc-001〜005）
+  - name: rework
+    description: リワーク（API-reworks-001 等）
+  - name: dispositions
+    description: ディスポジション（API-dispositions-001）
+  - name: ops
+    description: 運用（API-ops-001〜002）
+  - name: reports
+    description: 帳票（API-reports-001〜002）
+  - name: system
+    description: ヘルスチェック（API-system-001〜003）
+  - name: audit
+    description: 監査ログ・トレース（API-trace-001〜002）
+
+paths:
+  /auth/login:
+    post:
+      tags: [auth]
+      operationId: postAuthLogin
+      summary: ログイン（API-auth-001）
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AuthLoginRequest' }
+      responses:
+        '200': { description: 認証成功, content: { application/json: { schema: { $ref: '#/components/schemas/AuthLoginResponseEnvelope' } } } }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+        '423': { $ref: '#/components/responses/Locked' }
+
+  /auth/refresh:
+    post:
+      tags: [auth]
+      operationId: postAuthRefresh
+      summary: トークン更新（API-auth-002）
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AuthRefreshRequest' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/AuthRefreshResponseEnvelope' } } } }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /auth/logout:
+    post:
+      tags: [auth]
+      operationId: postAuthLogout
+      summary: ログアウト（API-auth-003）
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '204': { description: ログアウト完了 }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /auth/jwks:
+    get:
+      tags: [auth]
+      operationId: getJwks
+      summary: JWKS 公開鍵取得（API-auth-004 補足）
+      security: []
+      responses:
+        '200': { description: JWKS, content: { application/json: { schema: { $ref: '#/components/schemas/Jwks' } } } }
+
+  /work-executions:
+    post:
+      tags: [work-executions]
+      operationId: postWorkExecution
+      summary: 作業実行開始（API-work-execs-001）
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateWorkExecutionRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/WorkExecutionEnvelope' } } } }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+  /work-executions/{id}/heartbeat:
+    put:
+      tags: [work-executions]
+      operationId: putWorkExecutionHeartbeat
+      summary: 作業実行ハートビート
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { type: object } } } }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /work-executions/{id}/suspend:
+    post:
+      tags: [work-executions]
+      operationId: postWorkExecutionSuspend
+      summary: 作業中断（API-work-execs-003）
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SuspendWorkExecutionRequest' }
+      responses:
+        '200': { description: 中断成功, content: { application/json: { schema: { $ref: '#/components/schemas/SuspensionEnvelope' } } } }
+        '409': { $ref: '#/components/responses/Conflict' }
+
+  /work-executions/{id}/resume:
+    post:
+      tags: [work-executions]
+      operationId: postWorkExecutionResume
+      summary: 作業再開（API-work-execs-004）
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ResumeWorkExecutionRequest' }
+      responses:
+        '200': { description: 再開成功, content: { application/json: { schema: { $ref: '#/components/schemas/WorkExecutionEnvelope' } } } }
+
+  /work-executions/{id}/complete:
+    post:
+      tags: [work-executions]
+      operationId: postWorkExecutionComplete
+      summary: 作業完了（API-work-execs-005）
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CompleteWorkExecutionRequest' }
+      responses:
+        '200': { description: 完了成功, content: { application/json: { schema: { $ref: '#/components/schemas/WorkExecutionEnvelope' } } } }
+        '409': { $ref: '#/components/responses/Conflict' }
+
+  /evidences:
+    post:
+      tags: [evidences]
+      operationId: postEvidence
+      summary: エビデンスアップロード（API-evidences-001）
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [metadata, file]
+              properties:
+                metadata: { type: string, description: JSON 文字列としてシリアライズされた EvidenceMetadata }
+                file: { type: string, format: binary }
+      responses:
+        '201': { description: アップロード成功, content: { application/json: { schema: { $ref: '#/components/schemas/EvidenceEnvelope' } } } }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+  /electronic-signs:
+    post:
+      tags: [electronic-signs]
+      operationId: postElectronicSign
+      summary: 電子サイン作成（API-electronic-signs-001）
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateElectronicSignRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/ElectronicSignEnvelope' } } } }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+    get:
+      tags: [electronic-signs]
+      operationId: listElectronicSigns
+      summary: 電子サイン一覧（API-electronic-signs-003）
+      parameters:
+        - { name: work_execution_id, in: query, schema: { type: string } }
+        - { name: signer_id, in: query, schema: { type: string } }
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/ElectronicSignListEnvelope' } } } }
+
+  /master/processes:
+    get:
+      tags: [master]
+      operationId: listProcesses
+      summary: 工程一覧
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+        - { name: is_active, in: query, schema: { type: boolean } }
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/ProcessListEnvelope' } } } }
+    post:
+      tags: [master]
+      operationId: createProcess
+      summary: 工程作成
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Process' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/ProcessEnvelope' } } } }
+
+  /master/processes/{id}:
+    get:
+      tags: [master]
+      operationId: getProcess
+      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      responses:
+        '200': { description: 取得, content: { application/json: { schema: { $ref: '#/components/schemas/ProcessEnvelope' } } } }
+        '404': { $ref: '#/components/responses/NotFound' }
+    patch:
+      tags: [master]
+      operationId: updateProcess
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Process' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/ProcessEnvelope' } } } }
+
+  /master/operations:
+    get:
+      tags: [master]
+      operationId: listOperations
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/OperationListEnvelope' } } } }
+    post:
+      tags: [master]
+      operationId: createOperation
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Operation' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/OperationEnvelope' } } } }
+
+  /master/operations/{id}:
+    get:
+      tags: [master]
+      operationId: getOperation
+      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      responses:
+        '200': { description: 取得, content: { application/json: { schema: { $ref: '#/components/schemas/OperationEnvelope' } } } }
+    patch:
+      tags: [master]
+      operationId: updateOperation
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Operation' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/OperationEnvelope' } } } }
+
+  /master/products:
+    get:
+      tags: [master]
+      operationId: listProducts
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/ProductListEnvelope' } } } }
+    post:
+      tags: [master]
+      operationId: createProduct
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Product' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/ProductEnvelope' } } } }
+
+  /master/products/{id}:
+    get:
+      tags: [master]
+      operationId: getProduct
+      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      responses:
+        '200': { description: 取得, content: { application/json: { schema: { $ref: '#/components/schemas/ProductEnvelope' } } } }
+    patch:
+      tags: [master]
+      operationId: updateProduct
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Product' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/ProductEnvelope' } } } }
+
+  /master/sops:
+    get:
+      tags: [master]
+      operationId: listSops
+      parameters:
+        - { name: process_id, in: query, schema: { type: string } }
+        - { name: has_published_version, in: query, schema: { type: boolean } }
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/SopListEnvelope' } } } }
+    post:
+      tags: [master]
+      operationId: createSop
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Sop' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/SopEnvelope' } } } }
+
+  /master/sops/{id}:
+    get:
+      tags: [master]
+      operationId: getSop
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+        - name: as_of
+          in: query
+          description: 時点参照（ISO 8601 UTC）。指定した時点で有効だった SOP を返す
+          required: false
+          schema: { type: string, format: date-time }
+      responses:
+        '200': { description: 取得, content: { application/json: { schema: { $ref: '#/components/schemas/SopEnvelope' } } } }
+    patch:
+      tags: [master]
+      operationId: updateSop
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Sop' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/SopEnvelope' } } } }
+
+  /master/sops/{id}/steps:
+    get:
+      tags: [master]
+      operationId: listSopSteps
+      summary: SOP ステップ一覧（API-master-010）
+      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      responses:
+        '200': { description: ステップ一覧, content: { application/json: { schema: { type: object, properties: { data: { type: array, items: { $ref: '#/components/schemas/Step' } } } } } } }
+    put:
+      tags: [master]
+      operationId: replaceSopSteps
+      summary: SOP ステップ一括保存（API-master-011）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object, properties: { steps: { type: array, items: { $ref: '#/components/schemas/Step' } }, flowJson: { type: string } } }
+      responses:
+        '200': { description: 保存成功, content: { application/json: { schema: { type: object, properties: { data: { type: array, items: { $ref: '#/components/schemas/Step' } } } } } } }
+
+  /master/sops/{id}/submit:
+    post:
+      tags: [master]
+      operationId: submitSopForReview
+      summary: SOP レビュー提出（API-master-004）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SopWorkflowRequest' }
+      responses:
+        '200': { description: 提出成功, content: { application/json: { schema: { $ref: '#/components/schemas/MasterVersionEnvelope' } } } }
+
+  /master/sops/{id}/approve:
+    post:
+      tags: [master]
+      operationId: approveSop
+      summary: SOP 承認（API-master-005）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SopApprovalRequest' }
+      responses:
+        '200': { description: 承認成功, content: { application/json: { schema: { $ref: '#/components/schemas/MasterVersionEnvelope' } } } }
+
+  /master/sops/{id}/publish:
+    post:
+      tags: [master]
+      operationId: publishSop
+      summary: SOP 発行
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      responses:
+        '200': { description: 発行成功, content: { application/json: { schema: { $ref: '#/components/schemas/MasterVersionEnvelope' } } } }
+
+  /master/sops/{id}/deprecate:
+    post:
+      tags: [master]
+      operationId: deprecateSop
+      summary: SOP 廃止
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      responses:
+        '200': { description: 廃止成功, content: { application/json: { schema: { $ref: '#/components/schemas/MasterVersionEnvelope' } } } }
+
+  /master/sops/{id}/versions:
+    get:
+      tags: [master]
+      operationId: listSopVersions
+      summary: SOP バージョン一覧（API-master-001）
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/MasterVersionListEnvelope' } } } }
+
+  /master/users:
+    get:
+      tags: [master]
+      operationId: listUsers
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/UserListEnvelope' } } } }
+    post:
+      tags: [master]
+      operationId: createUser
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateUserRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/UserEnvelope' } } } }
+
+  /master/users/{id}:
+    get:
+      tags: [master]
+      operationId: getUser
+      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      responses:
+        '200': { description: 取得, content: { application/json: { schema: { $ref: '#/components/schemas/UserEnvelope' } } } }
+    patch:
+      tags: [master]
+      operationId: updateUser
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/User' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/UserEnvelope' } } } }
+
+  /master/roles:
+    get:
+      tags: [master]
+      operationId: listRoles
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { type: object } } } }
+
+  /master/skills:
+    get:
+      tags: [master]
+      operationId: listSkills
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { type: object } } } }
+
+  /master/materials:
+    get:
+      tags: [master]
+      operationId: listMaterials
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/MaterialListEnvelope' } } } }
+    post:
+      tags: [master]
+      operationId: createMaterial
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Material' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/MaterialEnvelope' } } } }
+
+  /master/materials/{id}:
+    patch:
+      tags: [master]
+      operationId: updateMaterial
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Material' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/MaterialEnvelope' } } } }
+
+  /master/suppliers:
+    get:
+      tags: [master]
+      operationId: listSuppliers
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/SupplierListEnvelope' } } } }
+    post:
+      tags: [master]
+      operationId: createSupplier
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Supplier' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/SupplierEnvelope' } } } }
+
+  /master/suppliers/{id}:
+    patch:
+      tags: [master]
+      operationId: updateSupplier
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Supplier' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/SupplierEnvelope' } } } }
+
+  /master/sampling-plans:
+    get:
+      tags: [master]
+      operationId: listSamplingPlans
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/SamplingPlanListEnvelope' } } } }
+    post:
+      tags: [master]
+      operationId: createSamplingPlan
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SamplingPlan' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/SamplingPlanEnvelope' } } } }
+
+  /master/sampling-plans/{id}:
+    patch:
+      tags: [master]
+      operationId: updateSamplingPlan
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SamplingPlan' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/SamplingPlanEnvelope' } } } }
+
+  /alerts:
+    get:
+      tags: [alerts]
+      operationId: listAlerts
+      parameters:
+        - { name: status, in: query, schema: { type: string } }
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/AlertListEnvelope' } } } }
+    post:
+      tags: [alerts]
+      operationId: createAlert
+      summary: アンドン発報（API-andon-001）
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateAlertRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/AlertEnvelope' } } } }
+
+  /alerts/{id}/acknowledge:
+    patch:
+      tags: [alerts]
+      operationId: acknowledgeAlert
+      summary: アンドン確認（API-andon-002）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AcknowledgeAlertRequest' }
+      responses:
+        '200': { description: 確認成功, content: { application/json: { schema: { $ref: '#/components/schemas/AlertEnvelope' } } } }
+
+  /alerts/{id}/resolve:
+    post:
+      tags: [alerts]
+      operationId: resolveAlert
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ResolveAlertRequest' }
+      responses:
+        '200': { description: 解決成功, content: { application/json: { schema: { $ref: '#/components/schemas/AlertEnvelope' } } } }
+
+  /nonconformities:
+    post:
+      tags: [nonconformities]
+      operationId: createNonconformity
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateNonconformityRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/NonconformityEnvelope' } } } }
+
+  /capas:
+    post:
+      tags: [capa]
+      operationId: createCapa
+      summary: CAPA 作成（API-capa-001）
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateCapaRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/CapaEnvelope' } } } }
+
+  /capas/{id}:
+    patch:
+      tags: [capa]
+      operationId: updateCapa
+      summary: CAPA 更新（API-capa-002）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateCapaRequest' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/CapaEnvelope' } } } }
+
+  /kaizen-proposals:
+    post:
+      tags: [kaizen]
+      operationId: createKaizen
+      summary: 改善提案投稿（API-kaizen-001）
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateKaizenRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/KaizenEnvelope' } } } }
+
+  /work-assignments:
+    get:
+      tags: [work-assignments]
+      operationId: listWorkAssignments
+      summary: 作業指示割当一覧（API-sync-005）
+      parameters:
+        - { name: status, in: query, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer, default: 50 } }
+        - { name: after, in: query, schema: { type: string } }
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/WorkAssignmentListEnvelope' } } } }
+    post:
+      tags: [work-assignments]
+      operationId: createWorkAssignment
+      summary: 作業指示 Push 受信（API-sync-003）
+      security: []
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateWorkAssignmentRequest' }
+      responses:
+        '202': { description: 受付成功, content: { application/json: { schema: { $ref: '#/components/schemas/WorkAssignmentEnvelope' } } } }
+
+  /work-assignments/stream:
+    get:
+      tags: [work-assignments]
+      operationId: streamWorkAssignments
+      summary: SSE 配信（API-sync-004）
+      responses:
+        '200':
+          description: SSE ストリーム
+          content:
+            text/event-stream:
+              schema: { type: string }
+
+  /work-assignments/{id}/ack:
+    post:
+      tags: [work-assignments]
+      operationId: ackWorkAssignment
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200': { description: ACK 完了, content: { application/json: { schema: { $ref: '#/components/schemas/WorkAssignmentEnvelope' } } } }
+
+  /iqc/incoming-inspections:
+    get:
+      tags: [iqc]
+      operationId: listIncomingInspections
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/IncomingInspectionListEnvelope' } } } }
+    post:
+      tags: [iqc]
+      operationId: createIncomingInspection
+      summary: 入荷検査作成（API-iqc-001）
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateIncomingInspectionRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/IncomingInspectionEnvelope' } } } }
+
+  /iqc/incoming-inspections/{id}:
+    get:
+      tags: [iqc]
+      operationId: getIncomingInspection
+      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      responses:
+        '200': { description: 取得, content: { application/json: { schema: { $ref: '#/components/schemas/IncomingInspectionEnvelope' } } } }
+
+  /iqc/incoming-inspections/{id}/measurements:
+    post:
+      tags: [iqc]
+      operationId: addIqcMeasurement
+      summary: 測定値登録（API-iqc-003）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/IqcMeasurementRequest' }
+      responses:
+        '201': { description: 登録成功, content: { application/json: { schema: { $ref: '#/components/schemas/IqcMeasurementEnvelope' } } } }
+
+  /iqc/incoming-inspections/{id}/judge:
+    post:
+      tags: [iqc]
+      operationId: judgeIncomingInspection
+      summary: 合否判定（API-iqc-004）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      responses:
+        '200': { description: 判定結果, content: { application/json: { schema: { $ref: '#/components/schemas/IncomingInspectionEnvelope' } } } }
+
+  /concession-approvals:
+    get:
+      tags: [iqc]
+      operationId: listConcessions
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/ConcessionListEnvelope' } } } }
+    post:
+      tags: [iqc]
+      operationId: createConcession
+      summary: 特採承認作成
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateConcessionRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/ConcessionEnvelope' } } } }
+
+  /concession-approvals/{id}/sign:
+    post:
+      tags: [iqc]
+      operationId: signConcession
+      summary: 特採承認サイン
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object, properties: { electronic_sign_id: { type: string } }, required: [electronic_sign_id] }
+      responses:
+        '200': { description: 署名成功, content: { application/json: { schema: { $ref: '#/components/schemas/ConcessionEnvelope' } } } }
+
+  /reworks:
+    get:
+      tags: [rework]
+      operationId: listReworks
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/ReworkListEnvelope' } } } }
+    post:
+      tags: [rework]
+      operationId: createRework
+      summary: リワーク開始（API-reworks-001）
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateReworkRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/ReworkEnvelope' } } } }
+
+  /reworks/{id}:
+    get:
+      tags: [rework]
+      operationId: getRework
+      parameters: [ { $ref: '#/components/parameters/PathId' } ]
+      responses:
+        '200': { description: 取得, content: { application/json: { schema: { $ref: '#/components/schemas/ReworkEnvelope' } } } }
+    patch:
+      tags: [rework]
+      operationId: updateRework
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Rework' }
+      responses:
+        '200': { description: 更新成功, content: { application/json: { schema: { $ref: '#/components/schemas/ReworkEnvelope' } } } }
+
+  /reworks/{id}/verifications:
+    post:
+      tags: [rework]
+      operationId: addReworkVerification
+      summary: 再検査記録（API-rework-verifications-001）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateReworkVerificationRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/ReworkVerificationEnvelope' } } } }
+
+  /dispositions:
+    get:
+      tags: [dispositions]
+      operationId: listDispositions
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { $ref: '#/components/schemas/DispositionListEnvelope' } } } }
+    post:
+      tags: [dispositions]
+      operationId: createDisposition
+      summary: ディスポジション承認（API-dispositions-001）
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateDispositionRequest' }
+      responses:
+        '201': { description: 作成成功, content: { application/json: { schema: { $ref: '#/components/schemas/DispositionEnvelope' } } } }
+
+  /dispositions/{id}/sign:
+    post:
+      tags: [dispositions]
+      operationId: signDisposition
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object, properties: { electronic_sign_id: { type: string } }, required: [electronic_sign_id] }
+      responses:
+        '200': { description: 署名成功, content: { application/json: { schema: { $ref: '#/components/schemas/DispositionEnvelope' } } } }
+
+  /audit-logs:
+    get:
+      tags: [audit]
+      operationId: listAuditLogs
+      parameters: [ { $ref: '#/components/parameters/Page' }, { $ref: '#/components/parameters/PerPage' } ]
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { type: object } } } }
+
+  /hash-chain/verify:
+    get:
+      tags: [audit]
+      operationId: verifyHashChain
+      summary: ハッシュチェーン検証
+      responses:
+        '200':
+          description: 検証結果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      verified: { type: boolean }
+                      total_blocks: { type: integer }
+                      first_broken_block_id: { type: string, nullable: true }
+
+  /outbox/dlq:
+    get:
+      tags: [ops]
+      operationId: listOutboxDlq
+      summary: Outbox DLQ 一覧（API-ops-001）
+      responses:
+        '200': { description: 一覧, content: { application/json: { schema: { type: object } } } }
+
+  /outbox/dlq/{id}/retry:
+    post:
+      tags: [ops]
+      operationId: retryOutboxDlq
+      summary: Outbox DLQ 再送（API-ops-002）
+      parameters: [ { $ref: '#/components/parameters/PathId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [requeued_by, reason]
+              properties:
+                requeued_by: { type: string }
+                reason: { type: string }
+      responses:
+        '200': { description: 再送成功, content: { application/json: { schema: { type: object } } } }
+
+  /reports/{type}:
+    get:
+      tags: [reports]
+      operationId: getReport
+      summary: 帳票取得
+      parameters:
+        - { name: type, in: path, required: true, schema: { type: string, enum: [sop-execution, audit-xes] } }
+        - { name: date_from, in: query, schema: { type: string, format: date } }
+        - { name: date_to, in: query, schema: { type: string, format: date } }
+      responses:
+        '200': { description: 帳票, content: { application/json: { schema: { type: object } } } }
+
+  /system/backup-status:
+    get:
+      tags: [system]
+      operationId: getBackupStatus
+      responses:
+        '200': { description: バックアップ状況, content: { application/json: { schema: { type: object } } } }
+
+  /system/metrics:
+    get:
+      tags: [system]
+      operationId: getSystemMetrics
+      responses:
+        '200': { description: メトリクス, content: { application/json: { schema: { type: object } } } }
+
+  /healthz:
+    get:
+      tags: [system]
+      operationId: getHealth
+      security: []
+      responses:
+        '200': { description: 起動中, content: { application/json: { schema: { type: object, properties: { status: { type: string }, timestamp: { type: string } } } } } }
+
+  /readyz:
+    get:
+      tags: [system]
+      operationId: getReadiness
+      security: []
+      responses:
+        '200': { description: Ready, content: { application/json: { schema: { type: object } } } }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: RS256 で署名された JWT を Bearer トークンとして送信する
+
+  parameters:
+    PathId:
+      name: id
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema: { type: string, format: uuid, description: UUID v7 形式 }
+    Page:
+      name: page
+      in: query
+      schema: { type: integer, default: 1, minimum: 1 }
+    PerPage:
+      name: per_page
+      in: query
+      schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+
+  responses:
+    Unauthorized:
+      description: 認証失敗
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }
+    Forbidden:
+      description: 認可失敗
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }
+    NotFound:
+      description: 未検出
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }
+    Conflict:
+      description: 競合
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }
+    ValidationError:
+      description: バリデーション失敗
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }
+    Locked:
+      description: アカウントロック
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }
+
+  schemas:
+    LocalizedText:
+      type: object
+      required: [ja, en, zh]
+      properties:
+        ja: { type: string }
+        en: { type: string }
+        zh: { type: string }
+
+    ResponseMeta:
+      type: object
+      required: [request_id, server_time, api_version]
+      properties:
+        request_id: { type: string, format: uuid }
+        server_time: { type: string, format: date-time }
+        api_version: { type: string, enum: [v1] }
+
+    PageMeta:
+      type: object
+      required: [total, page, per_page, total_pages]
+      properties:
+        total: { type: integer }
+        page: { type: integer }
+        per_page: { type: integer }
+        total_pages: { type: integer }
+
+    ProblemDetails:
+      type: object
+      required: [type, title, status, detail]
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: string, format: uri }
+        error_id: { type: string }
+        violations:
+          type: array
+          items:
+            type: object
+            properties:
+              field: { type: string }
+              message: { type: string }
+              value: {}
+
+    Jwks:
+      type: object
+      required: [keys]
+      properties:
+        keys:
+          type: array
+          items:
+            type: object
+
+    AuthLoginRequest:
+      type: object
+      required: [login_id, password, device_id, factory_id]
+      properties:
+        login_id: { type: string }
+        password: { type: string }
+        device_id: { type: string, format: uuid }
+        factory_id: { type: string, format: uuid }
+
+    AuthLoginResponse:
+      type: object
+      required: [access_token, refresh_token, token_type, expires_in, refresh_expires_in, roles, user_id, factory_id]
+      properties:
+        access_token: { type: string }
+        refresh_token: { type: string, format: uuid }
+        token_type: { type: string, enum: [Bearer] }
+        expires_in: { type: integer }
+        refresh_expires_in: { type: integer }
+        roles: { type: array, items: { type: string } }
+        user_id: { type: string, format: uuid }
+        factory_id: { type: string, format: uuid }
+
+    AuthLoginResponseEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/AuthLoginResponse' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    AuthRefreshRequest:
+      type: object
+      required: [refresh_token]
+      properties:
+        refresh_token: { type: string, format: uuid }
+
+    AuthRefreshResponse:
+      type: object
+      required: [access_token, token_type, expires_in]
+      properties:
+        access_token: { type: string }
+        token_type: { type: string }
+        expires_in: { type: integer }
+
+    AuthRefreshResponseEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/AuthRefreshResponse' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    User:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        login_id: { type: string }
+        username: { type: string }
+        display_name_json: { $ref: '#/components/schemas/LocalizedText' }
+        email: { type: string, nullable: true }
+        role: { type: string }
+        roles: { type: array, items: { type: string } }
+        factory_id: { type: string, format: uuid }
+        locale: { type: string, enum: [ja, en, zh] }
+        is_active: { type: boolean }
+        created_at: { type: string, format: date-time }
+        deleted_at: { type: string, format: date-time, nullable: true }
+
+    CreateUserRequest:
+      type: object
+      required: [login_id, display_name, factory_id, roles]
+      properties:
+        login_id: { type: string }
+        display_name: { type: string }
+        email: { type: string, nullable: true }
+        password_initial: { type: string }
+        factory_id: { type: string, format: uuid }
+        roles: { type: array, items: { type: string } }
+        skills:
+          type: array
+          items:
+            type: object
+            properties:
+              skill_id: { type: string, format: uuid }
+              level: { type: integer }
+
+    UserEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/User' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    UserListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/User' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    Process:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        process_code: { type: string }
+        name_json: { $ref: '#/components/schemas/LocalizedText' }
+        description_json: { $ref: '#/components/schemas/LocalizedText' }
+        is_active: { type: boolean }
+        deleted_at: { type: string, format: date-time, nullable: true }
+
+    ProcessEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Process' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    ProcessListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Process' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    Operation:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        operation_code: { type: string }
+        name_json: { $ref: '#/components/schemas/LocalizedText' }
+        process_id: { type: string, format: uuid }
+        deleted_at: { type: string, format: date-time, nullable: true }
+
+    OperationEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Operation' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    OperationListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Operation' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    Product:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        product_code: { type: string }
+        name_json: { $ref: '#/components/schemas/LocalizedText' }
+        deleted_at: { type: string, format: date-time, nullable: true }
+
+    ProductEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Product' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    ProductListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Product' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    Sop:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        sop_code: { type: string }
+        name_json: { $ref: '#/components/schemas/LocalizedText' }
+        description_json: { $ref: '#/components/schemas/LocalizedText' }
+        sop_type: { type: string, enum: [STANDARD, REWORK] }
+        process_id: { type: string, format: uuid }
+        operation_id: { type: string, format: uuid }
+        current_version_id: { type: string, format: uuid, nullable: true }
+        deleted_at: { type: string, format: date-time, nullable: true }
+
+    SopEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Sop' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    SopListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Sop' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    MasterVersion:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        sop_id: { type: string, format: uuid }
+        version: { type: string }
+        status: { type: string, enum: [draft, in_review, published, deprecated] }
+        change_summary: { type: string }
+        step_count: { type: integer }
+        created_at: { type: string, format: date-time }
+        approved_by: { type: string, format: uuid, nullable: true }
+        approved_at: { type: string, format: date-time, nullable: true }
+        published_at: { type: string, format: date-time, nullable: true }
+        deprecated_at: { type: string, format: date-time, nullable: true }
+        deleted_at: { type: string, format: date-time, nullable: true }
+
+    MasterVersionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/MasterVersion' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    MasterVersionListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/MasterVersion' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    SopWorkflowRequest:
+      type: object
+      properties:
+        submitted_by: { type: string, format: uuid }
+        review_comment: { type: string }
+
+    SopApprovalRequest:
+      type: object
+      required: [approved_by, electronic_sign_id]
+      properties:
+        approved_by: { type: string, format: uuid }
+        approval_comment: { type: string }
+        electronic_sign_id: { type: string, format: uuid }
+
+    CreateWorkExecutionRequest:
+      type: object
+      required: [work_order_id, operator_id, device_id, start_timestamp_client]
+      properties:
+        work_order_id: { type: string, format: uuid }
+        operator_id: { type: string, format: uuid }
+        device_id: { type: string, format: uuid }
+        start_timestamp_client: { type: string, format: date-time }
+
+    WorkExecution:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        work_order_id: { type: string, format: uuid }
+        operator_id: { type: string, format: uuid }
+        device_id: { type: string, format: uuid }
+        status: { type: string, enum: [in_progress, suspended, completed, cancelled] }
+        current_step_id: { type: string, format: uuid, nullable: true }
+        completed_step_count: { type: integer }
+        total_step_count: { type: integer }
+        started_at: { type: string, format: date-time }
+        last_event_at: { type: string, format: date-time }
+        completed_at: { type: string, format: date-time, nullable: true }
+        created_at: { type: string, format: date-time }
+        hash_chain_block_id: { type: string, format: uuid, nullable: true }
+        hash_chain_value: { type: string, nullable: true }
+        sop_version_snapshot:
+          type: object
+          properties:
+            sop_id: { type: string, format: uuid }
+            version: { type: string }
+            snapshot_hash: { type: string }
+
+    WorkExecutionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/WorkExecution' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    SuspendWorkExecutionRequest:
+      type: object
+      required: [reason_code, timestamp_client]
+      properties:
+        reason_code: { type: string, enum: [equipment_breakdown, material_shortage, quality_issue, emergency, other] }
+        reason_detail: { type: string }
+        timestamp_client: { type: string, format: date-time }
+
+    ResumeWorkExecutionRequest:
+      type: object
+      required: [resumed_by, timestamp_client]
+      properties:
+        resumed_by: { type: string, format: uuid }
+        timestamp_client: { type: string, format: date-time }
+
+    CompleteWorkExecutionRequest:
+      type: object
+      required: [completed_by, timestamp_client]
+      properties:
+        completed_by: { type: string, format: uuid }
+        timestamp_client: { type: string, format: date-time }
+        final_remarks: { type: string }
+
+    SuspensionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          properties:
+            id: { type: string, format: uuid }
+            status: { type: string }
+            suspension_id: { type: string, format: uuid }
+            suspended_at: { type: string, format: date-time }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    EvidenceMetadata:
+      type: object
+      required: [work_execution_id, step_id, evidence_type, timestamp_client, sha256_client]
+      properties:
+        work_execution_id: { type: string, format: uuid }
+        step_id: { type: string, format: uuid }
+        evidence_type: { type: string, enum: [photo, document, measurement_sheet] }
+        description: { type: string }
+        timestamp_client: { type: string, format: date-time }
+        sha256_client: { type: string }
+
+    Evidence:
+      type: object
+      properties:
+        evidence_id: { type: string, format: uuid }
+        file_hash_sha256: { type: string }
+        file_path: { type: string }
+        file_size_bytes: { type: integer }
+        evidence_type: { type: string }
+        width_px: { type: integer, nullable: true }
+        height_px: { type: integer, nullable: true }
+        work_execution_id: { type: string, format: uuid }
+        step_id: { type: string, format: uuid }
+        uploaded_by: { type: string, format: uuid }
+        uploaded_at: { type: string, format: date-time }
+
+    EvidenceEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Evidence' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    CreateElectronicSignRequest:
+      type: object
+      required: [signer_id, signed_content_hash, pin_hash, context_type, context_id, timestamp_client, device_signature]
+      properties:
+        signer_id: { type: string, format: uuid }
+        signed_content_hash: { type: string }
+        pin_hash: { type: string }
+        context_type: { type: string, enum: [step_sign, work_complete_sign, approval_sign, quality_check_sign] }
+        context_id: { type: string, format: uuid }
+        step_id: { type: string, format: uuid }
+        timestamp_client: { type: string, format: date-time }
+        device_signature: { type: string }
+
+    ElectronicSign:
+      type: object
+      properties:
+        sign_id: { type: string, format: uuid }
+        signer_id: { type: string, format: uuid }
+        signed_content_hash: { type: string }
+        context_type: { type: string }
+        context_id: { type: string, format: uuid }
+        signed_at: { type: string, format: date-time }
+        hash_chain_block_id: { type: string, format: uuid }
+        hash_chain_value: { type: string }
+
+    ElectronicSignEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/ElectronicSign' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    ElectronicSignListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/ElectronicSign' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    Material:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        material_code: { type: string }
+        name_json: { $ref: '#/components/schemas/LocalizedText' }
+        material_type: { type: string }
+        unit: { type: string }
+        deleted_at: { type: string, format: date-time, nullable: true }
+
+    MaterialEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Material' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    MaterialListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Material' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    Supplier:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        supplier_code: { type: string }
+        name_json: { $ref: '#/components/schemas/LocalizedText' }
+        contact_email: { type: string, nullable: true }
+        deleted_at: { type: string, format: date-time, nullable: true }
+
+    SupplierEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Supplier' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    SupplierListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Supplier' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    SamplingPlan:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        plan_code: { type: string }
+        name_json: { $ref: '#/components/schemas/LocalizedText' }
+        aql_value: { type: number }
+        inspection_level: { type: string, enum: [I, II, III] }
+        plan_snapshot: { type: string }
+        deleted_at: { type: string, format: date-time, nullable: true }
+
+    SamplingPlanEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/SamplingPlan' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    SamplingPlanListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/SamplingPlan' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    AndonAlert:
+      type: object
+      properties:
+        alert_id: { type: string, format: uuid }
+        alert_type: { type: string, enum: [quality, safety, equipment, process] }
+        severity: { type: string, enum: [low, medium, high, critical] }
+        status: { type: string }
+        work_execution_id: { type: string, format: uuid, nullable: true }
+        raised_by: { type: string, format: uuid }
+        title: { type: string }
+        description: { type: string }
+        raised_at: { type: string, format: date-time }
+        acknowledged_at: { type: string, format: date-time, nullable: true }
+        acknowledged_by: { type: string, format: uuid, nullable: true }
+        resolved_at: { type: string, format: date-time, nullable: true }
+        resolved_by: { type: string, format: uuid, nullable: true }
+        resolution_note: { type: string, nullable: true }
+        notification_sent: { type: boolean }
+
+    CreateAlertRequest:
+      type: object
+      required: [alert_type, severity, raised_by, title, description, timestamp_client]
+      properties:
+        alert_type: { type: string }
+        severity: { type: string }
+        work_execution_id: { type: string, format: uuid }
+        step_id: { type: string, format: uuid }
+        raised_by: { type: string, format: uuid }
+        title: { type: string }
+        description: { type: string }
+        timestamp_client: { type: string, format: date-time }
+
+    AcknowledgeAlertRequest:
+      type: object
+      required: [acknowledged_by, timestamp_client]
+      properties:
+        acknowledged_by: { type: string, format: uuid }
+        acknowledgement_note: { type: string }
+        timestamp_client: { type: string, format: date-time }
+
+    ResolveAlertRequest:
+      type: object
+      required: [resolved_by, timestamp_client]
+      properties:
+        resolved_by: { type: string, format: uuid }
+        resolution_note: { type: string }
+        nonconformity_id: { type: string, format: uuid }
+        timestamp_client: { type: string, format: date-time }
+
+    AlertEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/AndonAlert' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    AlertListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/AndonAlert' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    CreateNonconformityRequest:
+      type: object
+      required: [nc_type, description, discovered_by, timestamp_client]
+      properties:
+        alert_id: { type: string, format: uuid }
+        work_execution_id: { type: string, format: uuid }
+        lot_id: { type: string, format: uuid }
+        nc_type: { type: string }
+        description: { type: string }
+        discovered_by: { type: string, format: uuid }
+        discovery_step_id: { type: string, format: uuid }
+        evidence_ids: { type: array, items: { type: string, format: uuid } }
+        timestamp_client: { type: string, format: date-time }
+
+    Nonconformity:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        alert_id: { type: string, format: uuid, nullable: true }
+        nc_type: { type: string }
+        description: { type: string }
+        discovered_by: { type: string, format: uuid }
+        evidence_ids: { type: array, items: { type: string, format: uuid } }
+        created_at: { type: string, format: date-time }
+
+    NonconformityEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Nonconformity' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    Capa:
+      type: object
+      properties:
+        capa_id: { type: string, format: uuid }
+        nonconformity_id: { type: string, format: uuid, nullable: true }
+        title: { type: string }
+        status: { type: string, enum: [open, in_progress, pending_verification, closed] }
+        root_cause_analysis: { type: string }
+        corrective_action: { type: string }
+        preventive_action: { type: string }
+        assigned_to: { type: string, format: uuid }
+        due_date: { type: string, format: date }
+        created_at: { type: string, format: date-time }
+
+    CreateCapaRequest:
+      type: object
+      required: [title, root_cause_analysis, corrective_action, assigned_to, due_date, created_by, timestamp_client]
+      properties:
+        nonconformity_id: { type: string, format: uuid }
+        title: { type: string }
+        root_cause_analysis: { type: string }
+        corrective_action: { type: string }
+        preventive_action: { type: string }
+        assigned_to: { type: string, format: uuid }
+        due_date: { type: string, format: date }
+        created_by: { type: string, format: uuid }
+        timestamp_client: { type: string, format: date-time }
+
+    UpdateCapaRequest:
+      type: object
+      required: [updated_by, timestamp_client]
+      properties:
+        status: { type: string }
+        progress_note: { type: string }
+        corrective_action: { type: string }
+        preventive_action: { type: string }
+        due_date: { type: string, format: date }
+        updated_by: { type: string, format: uuid }
+        timestamp_client: { type: string, format: date-time }
+
+    CapaEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Capa' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    CreateKaizenRequest:
+      type: object
+      required: [proposer_id, category, title, current_situation, proposal_detail, timestamp_client]
+      properties:
+        proposer_id: { type: string, format: uuid }
+        process_id: { type: string, format: uuid }
+        category: { type: string }
+        title: { type: string }
+        current_situation: { type: string }
+        proposal_detail: { type: string }
+        expected_benefit: { type: string }
+        related_sop_id: { type: string, format: uuid }
+        evidence_ids: { type: array, items: { type: string, format: uuid } }
+        timestamp_client: { type: string, format: date-time }
+
+    Kaizen:
+      type: object
+      properties:
+        proposal_id: { type: string, format: uuid }
+        status: { type: string }
+        title: { type: string }
+        proposer_id: { type: string, format: uuid }
+        created_at: { type: string, format: date-time }
+
+    KaizenEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Kaizen' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    CreateWorkAssignmentRequest:
+      type: object
+      required: [external_order_id, external_system, work_pattern_key, target_terminal_key]
+      properties:
+        external_order_id: { type: string }
+        external_system: { type: string }
+        work_pattern_key: { type: string }
+        target_terminal_key: { type: string }
+        lot_id_ext: { type: string }
+        suggested_worker_key: { type: string }
+        suggested_equipment_key: { type: string }
+        due_at: { type: string, format: date-time }
+        priority: { type: integer }
+
+    WorkAssignment:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        assignment_id: { type: string, format: uuid }
+        sop_id: { type: string, format: uuid }
+        sop_name: { type: string }
+        target_terminal_id: { type: string, format: uuid }
+        lot_id: { type: string, format: uuid, nullable: true }
+        lot_number: { type: string, nullable: true }
+        suggested_worker_id: { type: string, format: uuid, nullable: true }
+        suggested_equipment_id: { type: string, format: uuid, nullable: true }
+        due_at: { type: string, format: date-time, nullable: true }
+        priority: { type: integer }
+        status: { type: string }
+        received_at: { type: string, format: date-time }
+        acknowledged_at: { type: string, format: date-time, nullable: true }
+
+    WorkAssignmentEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/WorkAssignment' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    WorkAssignmentListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/WorkAssignment' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                limit: { type: integer }
+                has_more: { type: boolean }
+                next_cursor: { type: string, nullable: true }
+
+    CreateIncomingInspectionRequest:
+      type: object
+      required: [lot_id, supplier_id, material_id, lot_quantity]
+      properties:
+        lot_id: { type: string, format: uuid }
+        supplier_id: { type: string, format: uuid }
+        material_id: { type: string, format: uuid }
+        lot_quantity: { type: integer }
+
+    IncomingInspection:
+      type: object
+      properties:
+        inspection_id: { type: string, format: uuid }
+        lot_id: { type: string, format: uuid }
+        supplier_id: { type: string, format: uuid }
+        material_id: { type: string, format: uuid }
+        sampling_plan_id: { type: string, format: uuid }
+        sample_size_n: { type: integer }
+        accept_number_ac: { type: integer }
+        reject_number_re: { type: integer }
+        severity_state: { type: string, enum: [NORMAL, TIGHTENED, REDUCED] }
+        qc_status: { type: string }
+        defect_count: { type: integer }
+
+    IncomingInspectionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/IncomingInspection' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    IncomingInspectionListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/IncomingInspection' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    IqcMeasurementRequest:
+      type: object
+      required: [sample_no, measured_value, defect_flag]
+      properties:
+        sample_no: { type: integer }
+        measured_value: { type: number, nullable: true }
+        defect_flag: { type: boolean }
+        evidence_file_id: { type: string, format: uuid, nullable: true }
+
+    IqcMeasurementEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          properties:
+            id: { type: string, format: uuid }
+            inspection_id: { type: string, format: uuid }
+            sample_no: { type: integer }
+            measured_value: { type: number, nullable: true }
+            defect_flag: { type: boolean }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    CreateConcessionRequest:
+      type: object
+      required: [incoming_inspection_id, reason, requested_by]
+      properties:
+        incoming_inspection_id: { type: string, format: uuid }
+        reason: { type: string }
+        validity_scope: { type: object }
+        valid_until: { type: string, format: date }
+        requested_by: { type: string, format: uuid }
+        electronic_sign_id: { type: string, format: uuid }
+
+    Concession:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        incoming_inspection_id: { type: string, format: uuid }
+        status: { type: string }
+        reason: { type: string }
+        valid_until: { type: string, format: date, nullable: true }
+        created_at: { type: string, format: date-time }
+
+    ConcessionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Concession' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    ConcessionListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Concession' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    Rework:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        parent_case_id: { type: string, format: uuid }
+        rework_case_id: { type: string, format: uuid }
+        nonconformity_id: { type: string, format: uuid }
+        sop_id: { type: string, format: uuid }
+        rework_sop_version_id: { type: string, format: uuid }
+        assigned_to: { type: string, format: uuid, nullable: true }
+        status: { type: string }
+        rework_count: { type: integer }
+        deadline: { type: string, format: date-time, nullable: true }
+        created_at: { type: string, format: date-time }
+
+    CreateReworkRequest:
+      type: object
+      required: [parent_case_id, nonconformity_id, sop_id]
+      properties:
+        parent_case_id: { type: string, format: uuid }
+        nonconformity_id: { type: string, format: uuid }
+        sop_id: { type: string, format: uuid }
+        rework_sop_version_id: { type: string, format: uuid }
+        assigned_to: { type: string, format: uuid }
+        deadline: { type: string, format: date-time }
+
+    ReworkEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Rework' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    ReworkListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Rework' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }
+
+    CreateReworkVerificationRequest:
+      type: object
+      required: [verifier_id, passed]
+      properties:
+        verifier_id: { type: string, format: uuid }
+        passed: { type: boolean }
+        note: { type: string }
+        evidence_ids: { type: array, items: { type: string, format: uuid } }
+
+    ReworkVerification:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        rework_id: { type: string, format: uuid }
+        verifier_id: { type: string, format: uuid }
+        passed: { type: boolean }
+        verified_at: { type: string, format: date-time }
+        note: { type: string }
+
+    ReworkVerificationEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/ReworkVerification' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    Disposition:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        nonconformity_id: { type: string, format: uuid }
+        decision: { type: string, enum: [REWORK, SCRAP, RETURN, USE_AS_IS] }
+        decision_reason: { type: string }
+        quality_admin_sign_id: { type: string, format: uuid, nullable: true }
+        supervisor_sign_id: { type: string, format: uuid, nullable: true }
+        signed_at: { type: string, format: date-time, nullable: true }
+        created_at: { type: string, format: date-time }
+
+    CreateDispositionRequest:
+      type: object
+      required: [nonconformity_id, decision, decision_reason, quality_admin_sign_id, supervisor_sign_id]
+      properties:
+        nonconformity_id: { type: string, format: uuid }
+        decision: { type: string }
+        decision_reason: { type: string }
+        quality_admin_sign_id: { type: string, format: uuid }
+        supervisor_sign_id: { type: string, format: uuid }
+
+    DispositionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { $ref: '#/components/schemas/Disposition' }
+        meta: { $ref: '#/components/schemas/ResponseMeta' }
+
+    DispositionListEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Disposition' } }
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/ResponseMeta'
+            - type: object
+              properties:
+                pagination: { $ref: '#/components/schemas/PageMeta' }

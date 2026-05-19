@@ -1,0 +1,26 @@
+[package]
+name = "wnav_auth"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+wnav_domain = { path = "../wnav_domain" }
+wnav_common = { path = "../wnav_common" }
+uuid = { version = "1", features = ["v7", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tracing = "0.1"
+async-trait = "0.1"
+jsonwebtoken = "9"
+axum = { version = "0.8", features = ["macros"] }
+axum-extra = { version = "0.10", features = ["typed-header"] }
+tower = { version = "0.5" }
+http = "1"
+tokio = { version = "1", features = ["sync"] }
+bcrypt = "0.15"
+
+[lints]
+workspace = true

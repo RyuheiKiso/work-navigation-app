@@ -1,0 +1,228 @@
+-- V20260517120056__create_views.sql
+-- VW-001〜005・VW-007〜008 通常ビュー（7 件）を作成する。
+-- VW-006 mv_daily_work_summary（マテリアライズドビュー）は V20260517120057 で定義する。
+--
+-- 対象ドキュメント: docs/05_詳細設計/01_データベース詳細設計/04_ビュー・マテリアライズドビュー設計（VWカタログ）.md
+
+-- =============================================================================
+-- VW-001: v_active_work_executions
+-- 目的: 進行中（IN_PROGRESS）および中断中（SUSPENDED）の作業セッション一覧
+--       管理コンソール SCR-MC-001 および StepEngine の作業状態確認で参照する。
+-- ベースインデックス: IDX-007（work_executions.status Partial）
+-- =============================================================================
+CREATE OR REPLACE VIEW v_active_work_executions AS
+SELECT
+    we.work_execution_id,
+    we.sop_id,
+    we.sop_version_id,
+    we.primary_worker_id,
+    we.device_id,
+    we.work_order_id,
+    we.status,
+    we.started_at,
+    we.current_step_index,
+    we.created_at,
+    we.updated_at,
+    -- JOIN 削減のためビューに含める結合カラム
+    u.display_name                                          AS worker_display_name,
+    u.login_id                                              AS worker_login_id,
+    s.sop_code,
+    mv.version_number                                       AS sop_version_number,
+    d.device_type,
+    d.serial_number                                         AS device_serial,
+    -- 経過時間（UI 表示用）
+    EXTRACT(EPOCH FROM (NOW() - we.started_at))::INTEGER    AS elapsed_seconds
+FROM work_executions we
+    INNER JOIN users           u  ON u.user_id             = we.primary_worker_id
+    INNER JOIN sops            s  ON s.sop_id              = we.sop_id
+    INNER JOIN master_versions mv ON mv.master_version_id  = we.sop_version_id
+    INNER JOIN devices         d  ON d.device_id           = we.device_id
+WHERE we.status IN ('IN_PROGRESS', 'SUSPENDED')
+  AND u.is_active = TRUE;
+
+COMMENT ON VIEW v_active_work_executions IS
+    'VW-001 — 進行中（IN_PROGRESS）および中断中（SUSPENDED）の作業セッション一覧。IDX-007 を使用。管理コンソール SCR-MC-001 および StepEngine の作業状態確認で参照する。';
+
+-- =============================================================================
+-- VW-002: v_published_sops
+-- 目的: 公開中 SOP と最新版 master_version の結合ビュー
+--       SOP 選択 UI および StepEngine の版数引き当てで参照する。
+-- ベースインデックス: IDX-008（sops.operation_id, is_active 複合）
+-- =============================================================================
+CREATE OR REPLACE VIEW v_published_sops AS
+SELECT
+    s.sop_id,
+    s.sop_code,
+    s.operation_id,
+    s.current_version_id,
+    mv.version_number               AS current_version_number,
+    mv.effective_date,
+    mv.published_by,
+    mv.sign_id                      AS publish_sign_id,
+    op.operation_code,
+    op.name                         AS operation_name,
+    op.process_id,
+    pr.process_code,
+    pr.name                         AS process_name
+FROM sops s
+    INNER JOIN master_versions mv ON mv.master_version_id = s.current_version_id
+    INNER JOIN operations      op ON op.operation_id      = s.operation_id
+    INNER JOIN processes       pr ON pr.process_id        = op.process_id
+WHERE s.is_active   = TRUE
+  AND mv.status     = 'PUBLISHED'
+  AND op.is_active  = TRUE
+  AND pr.is_active  = TRUE;
+
+COMMENT ON VIEW v_published_sops IS
+    'VW-002 — is_active=TRUE かつ current_version_id が PUBLISHED 状態の SOP 一覧。StepEngine の SOP 引き当て（FR-NV-002）およびマスタ管理画面の SOP 一覧で使用。IDX-008 を活用。';
+
+-- =============================================================================
+-- VW-003: v_user_skills_full
+-- 目的: ユーザー × スキル認定情報の結合ビュー（スキルゲート判定 FR-NV-008）
+-- ベースインデックス: IDX-012（users.user_id Partial is_active=TRUE）
+-- =============================================================================
+CREATE OR REPLACE VIEW v_user_skills_full AS
+SELECT
+    u.user_id,
+    u.display_name,
+    u.login_id,
+    sk.skill_id,
+    sk.skill_code,
+    sk.skill_name,
+    sk.skill_level                  AS skill_max_level,
+    us.achieved_level,
+    us.certified_at,
+    us.certified_by,
+    -- ゲート判定補助列: 達成レベルが最大レベル以上であれば完全認定とみなす
+    CASE
+        WHEN us.achieved_level >= sk.skill_level THEN TRUE
+        ELSE FALSE
+    END                             AS is_fully_certified
+FROM users u
+    INNER JOIN user_skills us ON us.user_id  = u.user_id
+    INNER JOIN skills      sk ON sk.skill_id = us.skill_id
+WHERE u.is_active  = TRUE
+  AND sk.is_active = TRUE;
+
+COMMENT ON VIEW v_user_skills_full IS
+    'VW-003 — アクティブユーザーのスキル認定一覧（users × user_skills × skills）。スキルゲート（BR-BUS-015）でステップ開始前の達成レベル確認に使用。IDX-012 を活用。';
+
+-- =============================================================================
+-- VW-004: v_step_sequence
+-- 目的: SOP 内ステップの順序付き一覧（StepEngine のシーケンス構築・画面表示）
+-- ベースインデックス: IDX-009（steps.sop_id, step_number 複合 B-Tree ASC）
+-- =============================================================================
+CREATE OR REPLACE VIEW v_step_sequence AS
+SELECT
+    st.step_id,
+    st.sop_id,
+    st.step_number,
+    st.input_type,
+    st.instruction_text,
+    st.judgment_condition,
+    st.evidence_required,
+    st.fmea_rpn_flag,
+    st.skill_level_required,
+    st.expected_unit,
+    st.media_refs,
+    st.tips_refs,
+    -- SOP 情報
+    s.sop_code,
+    s.current_version_id            AS sop_current_version_id,
+    -- step_flow_rules の存在フラグ（条件分岐有無の簡易確認）
+    EXISTS (
+        SELECT 1 FROM step_flow_rules sfr
+        WHERE sfr.from_step_id = st.step_id
+          AND sfr.is_active    = TRUE
+    )                               AS has_flow_rules
+FROM steps st
+    INNER JOIN sops s ON s.sop_id = st.sop_id
+WHERE s.is_active = TRUE
+ORDER BY st.sop_id, st.step_number ASC;
+
+COMMENT ON VIEW v_step_sequence IS
+    'VW-004 — SOP 内ステップを sop_id + step_number 昇順で返す。StepEngine のシーケンス構築（FR-NV-003）およびマスタ管理画面のステップ一覧で使用。IDX-009 を活用。';
+
+-- =============================================================================
+-- VW-005: v_work_event_xes
+-- 目的: XES（IEEE 1849）エクスポート形式に変換するビュー（RP-002 XES エクスポート・FR-AU-005）
+-- XES 標準属性名を column alias に使用し、エクスポート時の変換コストをゼロにする。
+-- =============================================================================
+CREATE OR REPLACE VIEW v_work_event_xes AS
+SELECT
+    -- XES 必須 5 属性
+    we.case_id                                  AS "case:id",
+    we.activity                                 AS "concept:name",
+    we.timestamp_server                         AS "time:timestamp",
+    u.display_name                              AS "org:resource",
+    -- XES 拡張属性
+    we.event_id                                 AS "event_id",
+    we.timestamp_client                         AS "time:timestamp_client",
+    we.sop_version_id                           AS "sop:version_id",
+    mv.version_number                           AS "sop:version_number",
+    we.step_id                                  AS "step:id",
+    we.payload                                  AS "payload",
+    we.terminal_id                              AS "device:terminal_id",
+    we.is_offline                               AS "offline:flag",
+    we.sync_lag_ms                              AS "offline:sync_lag_ms",
+    -- ハッシュ（改ざん検知証拠）
+    we.prev_hash                                AS "integrity:prev_hash",
+    we.content_hash                             AS "integrity:content_hash"
+FROM work_events we
+    INNER JOIN users           u  ON u.user_id            = we.resource
+    INNER JOIN master_versions mv ON mv.master_version_id = we.sop_version_id;
+
+COMMENT ON VIEW v_work_event_xes IS
+    'VW-005 — XES（IEEE 1849）互換エクスポートビュー。column alias に XES 標準属性名（concept:name / time:timestamp / org:resource）を使用。FR-AU-005 および RP-002（XES エクスポート帳票）で参照する。';
+
+-- =============================================================================
+-- VW-007: v_andon_active
+-- 目的: 発報中（ALERTING）のアンドン一覧（管理コンソール SCR-MC-006）
+-- work_executions および sops は LEFT JOIN（work_execution_id が NULL の場合もある）
+-- =============================================================================
+CREATE OR REPLACE VIEW v_andon_active AS
+SELECT
+    aa.alert_id,
+    aa.work_execution_id,
+    aa.raised_by,
+    aa.alert_type,
+    aa.status,
+    aa.raised_at,
+    -- 経過時間（UI 表示用）
+    EXTRACT(EPOCH FROM (NOW() - aa.raised_at))::INTEGER AS elapsed_seconds_since_alert,
+    -- 結合カラム
+    u_raised.display_name               AS raised_by_name,
+    we.sop_id,
+    s.sop_code,
+    we.primary_worker_id,
+    u_worker.display_name               AS worker_display_name
+FROM andon_alerts aa
+    INNER JOIN users           u_raised  ON u_raised.user_id      = aa.raised_by
+    LEFT  JOIN work_executions we        ON we.work_execution_id  = aa.work_execution_id
+    LEFT  JOIN sops            s         ON s.sop_id              = we.sop_id
+    LEFT  JOIN users           u_worker  ON u_worker.user_id      = we.primary_worker_id
+WHERE aa.status = 'ALERTING';
+
+COMMENT ON VIEW v_andon_active IS
+    'VW-007 — status=ALERTING のアンドン一覧。管理コンソール SCR-MC-006 のリアルタイムアンドン表示に使用。work_executions と sops は LEFT JOIN（アンドンが作業セッションに紐付かない場合に対応）。';
+
+-- =============================================================================
+-- VW-008: v_hash_chain_latest
+-- 目的: ハッシュチェーンの最新ブロック取得（BAT-001 週次検証の起点・改ざん検知）
+-- ベースインデックス: IDX-014（hash_chain_blocks.created_at DESC）
+-- =============================================================================
+CREATE OR REPLACE VIEW v_hash_chain_latest AS
+SELECT
+    block_id,
+    block_period,
+    event_count,
+    last_event_id,
+    last_content_hash,
+    created_at,
+    block_hash
+FROM hash_chain_blocks
+ORDER BY created_at DESC
+LIMIT 1;
+
+COMMENT ON VIEW v_hash_chain_latest IS
+    'VW-008 — hash_chain_blocks の最新 1 レコード。BAT-001（週次ハッシュチェーン検証）がチェーン継続点（last_content_hash）を取得する起点。IDX-014 を活用。';

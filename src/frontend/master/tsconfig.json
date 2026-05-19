@@ -1,0 +1,27 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@wnav/shared": ["../shared/src/index.ts"],
+      "@wnav/shared/types": ["../shared/src/types/index.ts"],
+      "@wnav/shared/design-tokens": ["../shared/src/design-tokens/tokens.ts"],
+      "@wnav/shared/i18n": ["../shared/src/i18n/resolveLocale.ts"],
+      "@wnav/shared/validators": ["../shared/src/validators/index.ts"],
+      "@wnav/shared/domain/hash-chain": ["../shared/src/domain/hash-chain/index.ts"],
+      "@wnav/shared/domain/step-engine": ["../shared/src/domain/step-engine/index.ts"],
+      "@wnav/shared/domain/aql": ["../shared/src/domain/aql/index.ts"],
+      "@wnav/shared/domain/id": ["../shared/src/domain/id/index.ts"],
+      "@wnav/shared/mocks": ["../shared/src/mocks/index.ts"],
+      "@wnav/shared/mocks/browser": ["../shared/src/mocks/browser.ts"],
+      "@wnav/shared/mocks/native": ["../shared/src/mocks/native.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts", "playwright.config.ts", "tests"],
+  "exclude": ["node_modules", "dist"]
+}

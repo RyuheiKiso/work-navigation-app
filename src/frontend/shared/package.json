@@ -1,0 +1,41 @@
+{
+  "name": "@wnav/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types/index.ts",
+    "./domain/step-engine": "./src/domain/step-engine/index.ts",
+    "./domain/hash-chain": "./src/domain/hash-chain/index.ts",
+    "./domain/aql": "./src/domain/aql/index.ts",
+    "./domain/id": "./src/domain/id/index.ts",
+    "./design-tokens": "./src/design-tokens/tokens.ts",
+    "./validators": "./src/validators/index.ts",
+    "./i18n": "./src/i18n/resolveLocale.ts",
+    "./mocks": "./src/mocks/index.ts",
+    "./mocks/browser": "./src/mocks/browser.ts",
+    "./mocks/native": "./src/mocks/native.ts"
+  },
+  "scripts": {
+    "gen:openapi": "openapi-typescript openapi/wnav-openapi.yaml -o openapi/generated/api.d.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/json-logic-js": "^2.0.8",
+    "@types/uuid": "^10.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "openapi-typescript": "^7.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^2.0.0"
+  },
+  "dependencies": {
+    "@noble/hashes": "^1.7.0",
+    "json-logic-js": "^2.0.5",
+    "msw": "^2.7.0",
+    "uuid": "^10.0.0",
+    "zod": "^3.24.0"
+  }
+}

@@ -1,0 +1,24 @@
+# recovery.conf.template — フェイルオーバー時のリカバリ設定テンプレート
+# 権威ドキュメント:
+#   docs/09_運用・保守/運用手順/10_ActiveStandby切替手順（OPS-PROC-010）.md §4.3
+#   docs/04_概要設計/08_運用方式設計/04_バックアップ・リストア方式.md §5 Step 3
+#
+# 使用方法（OPS-PROC-010 §4.3 に従う）:
+#   1. Standby ノードでフェイルオーバーを実施する場合、このテンプレートを
+#      postgresql.conf の末尾に include するか、設定値を直接 postgresql.conf に追記する
+#   2. standby.signal ファイルを作成してリカバリモードを有効化する:
+#      touch /var/lib/postgresql/data/standby.signal
+#   3. PostgreSQL を再起動すると WAL を適用してプライマリに昇格する:
+#      pg_ctl promote -D /var/lib/postgresql/data
+#
+# 注意:
+#   PostgreSQL 12 以降、recovery.conf は廃止されている。
+#   代わりに postgresql.conf + standby.signal ファイルの組み合わせで設定する。
+
+# WAL アーカイブからファイルをリストアするコマンド（%f: WAL ファイル名, %p: リストア先パス）
+# archive_command が gzip 圧縮（.gz）で保存するため、restore_command は gunzip で解凍する。
+# アーカイブファイル形式: /wal_archive/%f.gz（archive_command: cp && gzip -f）
+restore_command = 'gunzip -c /wal_archive/%f.gz > %p'
+
+# リカバリ完了後の動作（promote: プライマリとして昇格する）
+recovery_target_action = 'promote'

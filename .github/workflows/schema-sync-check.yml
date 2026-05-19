@@ -1,0 +1,96 @@
+name: PG ↔ SQLite スキーマ同期チェック
+
+# ミラー対象テーブルの DDL 変更時に PG と SQLite の乖離を検出する（ADR-006 / 07a_PG_SQLiteスキーマ同期戦略.md §4）
+on:
+  pull_request:
+    paths:
+      # PG マイグレーション
+      - 'src/infra/database/migrations/**'
+      # SQLite TypeORM エンティティ・マイグレーション
+      - 'src/frontend/terminal/db/entities/**'
+      - 'src/frontend/terminal/db/migrations/**'
+      # 比較スクリプト自体の変更
+      - 'src/frontend/scripts/extract-entity-schema.ts'
+      - 'src/frontend/scripts/compare-pg-sqlite-schema.ts'
+
+jobs:
+  pg-sqlite-drift-check:
+    name: PG ↔ SQLite ドリフト検出
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    services:
+      # テスト用 PostgreSQL（本番と同じバージョン）
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: wnav_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test_secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://postgres:test_secret@localhost:5432/wnav_test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: src/frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: src/frontend
+        run: npm ci
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Install sqlx-cli
+        run: cargo install sqlx-cli --no-default-features --features postgres
+
+      - name: Run PG migrations
+        working-directory: src/backend
+        run: |
+          # バックエンドが未実装の場合は infra/database から直接適用する
+          if [ -f "Cargo.toml" ]; then
+            sqlx migrate run
+          else
+            psql "$DATABASE_URL" -f ../infra/database/migrations/V20260517120000__initial.sql || true
+          fi
+
+      - name: Extract PG schema（ミラー対象12テーブル + TBL-051）
+        run: |
+          TABLES="work_events outbox_events work_executions sops steps evidence_files suspensions andon_alerts nonconformities lots instruments case_locks"
+          for table in $TABLES; do
+            psql "$DATABASE_URL" -c "\d+ $table" > /tmp/pg_${table}.txt 2>/dev/null || echo "Table $table not found" > /tmp/pg_${table}.txt
+          done
+
+      - name: Extract TypeORM Entity AST
+        working-directory: src/frontend
+        run: npx ts-node --project tsconfig.base.json scripts/extract-entity-schema.ts > /tmp/sqlite_entities.json
+
+      - name: Compare PG vs SQLite schemas
+        working-directory: src/frontend
+        run: npx ts-node --project tsconfig.base.json scripts/compare-pg-sqlite-schema.ts
+        # 不一致がある場合: exit 1 でジョブを失敗させる
+
+      - name: Upload diff report（失敗時）
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: schema-drift-report
+          path: /tmp/schema-drift-*.txt
+          retention-days: 7
