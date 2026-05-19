@@ -5,7 +5,9 @@
 //
 // 権威ドキュメント: docs/05_詳細設計/08_テストケース詳細設計/03_統合テストケース（API）.md
 
-use wnav_hash_chain::{canonical_json, compute_chain_hash, compute_content_hash, GENESIS_PREV_HASH};
+use wnav_hash_chain::{
+    GENESIS_PREV_HASH, canonical_json, compute_chain_hash, compute_content_hash,
+};
 
 /// ケーストレース API がハッシュチェーン順（sequence_number 昇順）に全イベントを返すことを確認する（TST-intg-014）。
 /// work_events が timestamp_server 順に並んでいることを検証する。
@@ -125,13 +127,12 @@ async fn tst_intg_014_lot_trace_reverse_direction_from_child_to_parent() {
             match child_insert {
                 Ok(_) => {
                     // 子ロットから親ロットへの逆方向トレースを確認する
-                    let traced_parent: Option<uuid::Uuid> = sqlx::query_scalar(
-                        "SELECT parent_lot_id FROM lots WHERE lot_id = $1",
-                    )
-                    .bind(child_lot_id)
-                    .fetch_optional(&pool)
-                    .await
-                    .expect("parent_lot_id の取得に失敗しました");
+                    let traced_parent: Option<uuid::Uuid> =
+                        sqlx::query_scalar("SELECT parent_lot_id FROM lots WHERE lot_id = $1")
+                            .bind(child_lot_id)
+                            .fetch_optional(&pool)
+                            .await
+                            .expect("parent_lot_id の取得に失敗しました");
 
                     assert_eq!(
                         traced_parent,

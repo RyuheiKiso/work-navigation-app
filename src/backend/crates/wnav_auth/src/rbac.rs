@@ -4,10 +4,7 @@
 
 use std::marker::PhantomData;
 
-use axum::{
-    extract::FromRequestParts,
-    http::request::Parts,
-};
+use axum::{extract::FromRequestParts, http::request::Parts};
 
 use crate::{current_user::CurrentUser, error::AuthError};
 
@@ -18,7 +15,7 @@ use crate::{current_user::CurrentUser, error::AuthError};
 /// RBAC ロールを型レベルで表現するマーカー Trait。
 /// `AuthenticatedUser<R>` の型パラメータ R に使用する。
 pub trait Role: Send + Sync + 'static {
-    /// DB / JWT の roles フィールドで使用するロール名（snake_case）
+    /// DB / JWT の roles フィールドで使用するロール名（`snake_case`）
     fn role_name() -> &'static str;
 }
 
@@ -116,7 +113,7 @@ where
 
     /// Bearer トークンを検証し、要求ロールを保有するかチェックする。
     /// 失敗時は RFC 7807 Problem Details 形式の 401/403 レスポンスを返す。
-    /// axum 0.8 では async_trait を使わず impl Future を直接返す形式を使用する。
+    /// axum 0.8 では `async_trait` を使わず `impl Future` を直接返す形式を使用する。
     fn from_request_parts(
         parts: &mut Parts,
         _state: &S,
@@ -163,8 +160,8 @@ where
 
 /// ロール名から effective なロール名一覧を返す（ロール階層展開）。
 ///
-/// ロール階層: SystemAdmin > QualityAdmin / MasterAdmin > Supervisor > Operator
-/// SystemAdmin は全ロールの権限を包含する最上位ロール。
+/// ロール階層: `SystemAdmin` > `QualityAdmin` / `MasterAdmin` > `Supervisor` > `Operator`
+/// `SystemAdmin` は全ロールの権限を包含する最上位ロール。
 /// Executive は独立した閲覧専用ロール（ロール階層に含まれない）。
 pub fn effective_role_names(role: &str) -> Vec<&'static str> {
     match role {

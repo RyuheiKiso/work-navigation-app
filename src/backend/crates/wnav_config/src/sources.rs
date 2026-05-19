@@ -2,8 +2,8 @@
 // base YAML → profile YAML → 環境変数オーバーレイ → secret_ref 解決 の順でマージする
 
 use figment::{
-    providers::{Env, Format, Yaml},
     Figment,
+    providers::{Env, Format, Yaml},
 };
 
 use crate::{error::ConfigError, profile::Profile, secret_ref::SecretRefProvider};
@@ -56,10 +56,7 @@ fn check_schema_version(figment: &Figment) -> Result<(), ConfigError> {
         .unwrap_or(0);
 
     if got != 1 {
-        return Err(ConfigError::SchemaVersionMismatch {
-            expected: 1,
-            got,
-        });
+        return Err(ConfigError::SchemaVersionMismatch { expected: 1, got });
     }
     Ok(())
 }

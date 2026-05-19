@@ -5,9 +5,9 @@
 // ERR-SYS-001〜005）を網羅する。
 
 use axum::{
+    Json,
     http::StatusCode,
     response::{IntoResponse, Response},
-    Json,
 };
 use serde::Serialize;
 use thiserror::Error;
@@ -319,21 +319,11 @@ impl IntoResponse for AppError {
 
         // クライアントへは内部詳細を公開しないシンプルなメッセージを返す
         let detail = match &self {
-            AppError::StepSequenceViolation => {
-                "直前のステップが完了していません。".to_string()
-            }
-            AppError::EvidenceGate => {
-                "必須エビデンスが添付されていません。".to_string()
-            }
-            AppError::CaseOccupied => {
-                "このケースは別の端末で占有中です。".to_string()
-            }
-            AppError::AccountLocked => {
-                "アカウントがロックされています。".to_string()
-            }
-            AppError::MissingIdempotencyKey => {
-                "Idempotency-Key ヘッダが必要です。".to_string()
-            }
+            AppError::StepSequenceViolation => "直前のステップが完了していません。".to_string(),
+            AppError::EvidenceGate => "必須エビデンスが添付されていません。".to_string(),
+            AppError::CaseOccupied => "このケースは別の端末で占有中です。".to_string(),
+            AppError::AccountLocked => "アカウントがロックされています。".to_string(),
+            AppError::MissingIdempotencyKey => "Idempotency-Key ヘッダが必要です。".to_string(),
             AppError::HashChainBroken => {
                 "整合性エラーが検出されました。管理者に連絡してください。".to_string()
             }

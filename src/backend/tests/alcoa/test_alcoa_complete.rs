@@ -6,8 +6,8 @@
 // 権威ドキュメント: docs/05_詳細設計/08_テストケース詳細設計/05_ALCOA+検証テストケース.md
 
 use wnav_hash_chain::{
-    canonical_json, compute_chain_hash, compute_content_hash, verify_chain, ChainBlock,
-    ChainVerifyError, GENESIS_PREV_HASH,
+    ChainBlock, ChainVerifyError, GENESIS_PREV_HASH, canonical_json, compute_chain_hash,
+    compute_content_hash, verify_chain,
 };
 
 // =====================================================
@@ -22,12 +22,11 @@ async fn tst_alcoa_001_attributable_all_events_have_resource() {
     let (pool, _container) = common::setup_test_db().await;
 
     // resource が NULL の work_events が 0 件であることを確認する
-    let null_resource_count: i64 = sqlx::query_scalar(
-        "SELECT COUNT(*) FROM work_events WHERE resource IS NULL",
-    )
-    .fetch_one(&pool)
-    .await
-    .unwrap_or(0);
+    let null_resource_count: i64 =
+        sqlx::query_scalar("SELECT COUNT(*) FROM work_events WHERE resource IS NULL")
+            .fetch_one(&pool)
+            .await
+            .unwrap_or(0);
 
     assert_eq!(
         null_resource_count, 0,
@@ -220,12 +219,11 @@ async fn tst_alcoa_004_original_update_is_forbidden_by_trigger() {
     }
 
     // UPDATE を試みる（Append-only トリガーにより拒否されるはず）
-    let update_result = sqlx::query(
-        "UPDATE work_events SET activity = 'tampered' WHERE event_id = $1",
-    )
-    .bind(event_id)
-    .execute(&pool)
-    .await;
+    let update_result =
+        sqlx::query("UPDATE work_events SET activity = 'tampered' WHERE event_id = $1")
+            .bind(event_id)
+            .execute(&pool)
+            .await;
 
     assert!(
         update_result.is_err(),
@@ -261,12 +259,10 @@ async fn tst_alcoa_004_original_hash_chain_delete_is_forbidden() {
         return;
     }
 
-    let delete_result = sqlx::query(
-        "DELETE FROM hash_chain_blocks WHERE block_id = $1",
-    )
-    .bind(block_id)
-    .execute(&pool)
-    .await;
+    let delete_result = sqlx::query("DELETE FROM hash_chain_blocks WHERE block_id = $1")
+        .bind(block_id)
+        .execute(&pool)
+        .await;
 
     assert!(
         delete_result.is_err(),
@@ -300,7 +296,10 @@ fn tst_alcoa_005_accurate_boundary_values_are_valid() {
     let step_min: f64 = 0.0;
     let step_max: f64 = 100.0;
 
-    assert!(validate_numeric_input(0.0, step_min, step_max).is_ok(), "min 値（0）は有効であるべきです");
+    assert!(
+        validate_numeric_input(0.0, step_min, step_max).is_ok(),
+        "min 値（0）は有効であるべきです"
+    );
     assert!(
         validate_numeric_input(100.0, step_min, step_max).is_ok(),
         "max 値（100）は有効であるべきです"
@@ -462,12 +461,10 @@ async fn tst_alcoa_008_enduring_records_cannot_be_deleted() {
     }
 
     // DELETE を試みる（Append-only トリガーにより拒否されるはず）
-    let delete_result = sqlx::query(
-        "DELETE FROM work_events WHERE event_id = $1",
-    )
-    .bind(event_id)
-    .execute(&pool)
-    .await;
+    let delete_result = sqlx::query("DELETE FROM work_events WHERE event_id = $1")
+        .bind(event_id)
+        .execute(&pool)
+        .await;
 
     assert!(
         delete_result.is_err(),
@@ -510,11 +507,9 @@ async fn tst_alcoa_009_available_db_connection_is_healthy() {
 async fn tst_alcoa_009_available_work_events_are_selectable() {
     let (pool, _container) = common::setup_test_db().await;
 
-    let select_result = sqlx::query_scalar::<_, i64>(
-        "SELECT COUNT(*) FROM work_events",
-    )
-    .fetch_one(&pool)
-    .await;
+    let select_result = sqlx::query_scalar::<_, i64>("SELECT COUNT(*) FROM work_events")
+        .fetch_one(&pool)
+        .await;
 
     assert!(
         select_result.is_ok(),
@@ -541,7 +536,11 @@ fn tst_alcoa_010_hash_chain_integrity_valid_chain_passes() {
     let block3 = make_block(case_id, 3, block2.block_hash, &payload3);
 
     let result = verify_chain(&[block1, block2, block3]);
-    assert!(result.is_ok(), "正常なハッシュチェーンが検証を通過すべきです: {:?}", result.err());
+    assert!(
+        result.is_ok(),
+        "正常なハッシュチェーンが検証を通過すべきです: {:?}",
+        result.err()
+    );
 }
 
 /// verify_chain が改ざんされたチェーンを検知することを確認する（TST-alcoa-010）。

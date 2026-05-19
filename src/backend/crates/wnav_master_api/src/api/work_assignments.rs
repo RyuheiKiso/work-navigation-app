@@ -5,11 +5,11 @@
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
 use axum::{
+    Json,
     body::to_bytes,
     extract::{Request, State},
     http::StatusCode,
     response::IntoResponse,
-    Json,
 };
 use chrono::Utc;
 use sqlx::Row as _;
@@ -69,12 +69,10 @@ pub async fn receive_work_assignment(
     let server_received_at = Utc::now().timestamp_millis();
 
     // idempotency_key で重複チェック
-    let existing = sqlx::query(
-        r#"SELECT id FROM work_assignments WHERE idempotency_key = $1"#,
-    )
-    .bind(payload.idempotency_key)
-    .fetch_optional(&state.read_pool)
-    .await?;
+    let existing = sqlx::query(r#"SELECT id FROM work_assignments WHERE idempotency_key = $1"#)
+        .bind(payload.idempotency_key)
+        .fetch_optional(&state.read_pool)
+        .await?;
 
     if let Some(existing_row) = existing {
         let existing_id: Uuid = existing_row.get("id");
@@ -171,18 +169,13 @@ async fn fetch_webhook_hmac_key(state: &AppState) -> Result<String, AppError> {
 }
 
 /// HMAC-SHA256 署名を検証するヘルパー（定数時間比較でタイミング攻撃を防止する）。
-fn verify_hmac_signature(
-    body: &[u8],
-    signature: &str,
-    secret: &str,
-) -> Result<(), AppError> {
+fn verify_hmac_signature(body: &[u8], signature: &str, secret: &str) -> Result<(), AppError> {
     use hmac::{Hmac, Mac};
     use sha2::Sha256;
     type HmacSha256 = Hmac<Sha256>;
 
     let hex_sig = signature.strip_prefix("sha256=").unwrap_or(signature);
-    let expected_bytes =
-        hex::decode(hex_sig).map_err(|_| AppError::InvalidSignature)?;
+    let expected_bytes = hex::decode(hex_sig).map_err(|_| AppError::InvalidSignature)?;
 
     let mut mac = HmacSha256::new_from_slice(secret.as_bytes())
         .map_err(|_| AppError::Internal("HMAC 初期化エラー".to_string()))?;

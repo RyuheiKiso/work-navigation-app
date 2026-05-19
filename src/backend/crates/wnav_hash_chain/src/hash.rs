@@ -68,9 +68,9 @@ pub fn hex_to_bytes32(hex_str: &str) -> Result<[u8; 32], crate::error::HashChain
     }
     let bytes = hex::decode(hex_str)
         .map_err(|e| crate::error::HashChainError::InvalidHex(e.to_string()))?;
-    bytes
-        .try_into()
-        .map_err(|_| crate::error::HashChainError::InvalidHex("バイト変換に失敗しました".to_string()))
+    bytes.try_into().map_err(|_| {
+        crate::error::HashChainError::InvalidHex("バイト変換に失敗しました".to_string())
+    })
 }
 
 #[cfg(test)]

@@ -170,10 +170,7 @@ impl CaseLockRepository for PgCaseLockRepository {
     }
 
     /// EXPIRED 閾値を超えたロックを検索する（バッチジョブ BAT-013 用）。
-    async fn find_expired(
-        &self,
-        threshold: DateTime<Utc>,
-    ) -> Result<Vec<CaseLock>, DomainError> {
+    async fn find_expired(&self, threshold: DateTime<Utc>) -> Result<Vec<CaseLock>, DomainError> {
         let rows = sqlx::query_as::<_, CaseLockRow>(
             r#"
             SELECT case_id, terminal_id, locked_by, locked_at, heartbeat_at, status

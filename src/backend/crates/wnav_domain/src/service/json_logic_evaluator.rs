@@ -123,7 +123,7 @@ impl JsonLogicEvaluator {
                     Value::Bool(b) => b,
                     // 非 bool の結果は truthy 評価する
                     Value::Null => false,
-                    Value::Number(n) => n.as_f64().map_or(false, |v| v != 0.0),
+                    Value::Number(n) => n.as_f64().is_some_and(|v| v != 0.0),
                     Value::String(s) => !s.is_empty(),
                     Value::Array(arr) => !arr.is_empty(),
                     Value::Object(_) => true,
@@ -178,7 +178,8 @@ mod tests {
     #[test]
     fn test_validate_rule_depth_exceeds() {
         // 深度 5 超過のルールが正しくエラーを返すことを確認する（BR-BUS-022）
-        let deep_rule = json!({"and": [{"and": [{"and": [{"and": [{"and": [{"==": [1, 1]}]}]}]}]}]});
+        let deep_rule =
+            json!({"and": [{"and": [{"and": [{"and": [{"and": [{"==": [1, 1]}]}]}]}]}]});
         let result = JsonLogicEvaluator::validate_rule_depth(&deep_rule, 0, 5);
         assert!(result.is_err());
     }

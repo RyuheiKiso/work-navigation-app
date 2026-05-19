@@ -3,12 +3,7 @@
 // CFG-002: デフォルト rpm を設定から読み込む。
 // ユーザー ID（認証済み）または IP アドレス（未認証）をキーとする。
 
-use axum::{
-    extract::Request,
-    http::StatusCode,
-    middleware::Next,
-    response::Response,
-};
+use axum::{extract::Request, http::StatusCode, middleware::Next, response::Response};
 
 /// トークンバケット方式でレート制限するシンプルなミドルウェア。
 ///

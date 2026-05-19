@@ -7,8 +7,7 @@ use sqlx::PgPool;
 use uuid::Uuid;
 
 use wnav_domain::{
-    error::DomainError,
-    model::electronic_signature::ElectronicSignature,
+    error::DomainError, model::electronic_signature::ElectronicSignature,
     repository::ElectronicSignatureRepository,
 };
 
@@ -88,10 +87,7 @@ impl ElectronicSignatureRepository for PgElectronicSignatureRepository {
     }
 
     /// イベント ID に紐づく電子サイン一覧を取得する。
-    async fn find_by_event(
-        &self,
-        event_id: Uuid,
-    ) -> Result<Vec<ElectronicSignature>, DomainError> {
+    async fn find_by_event(&self, event_id: Uuid) -> Result<Vec<ElectronicSignature>, DomainError> {
         let rows = sqlx::query_as::<_, ElectronicSignatureRow>(
             r#"
             SELECT

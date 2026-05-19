@@ -9,12 +9,7 @@ use std::{
     time::Instant,
 };
 
-use axum::{
-    Extension,
-    extract::Request,
-    middleware::Next,
-    response::Response,
-};
+use axum::{Extension, extract::Request, middleware::Next, response::Response};
 
 use crate::error::AppError;
 
@@ -41,10 +36,12 @@ impl RateLimiter {
     /// トークンを消費する。超過時は false を返す。
     fn consume(&self, key: &str) -> bool {
         let mut buckets = self.buckets.lock().unwrap_or_else(|e| e.into_inner());
-        let bucket = buckets.entry(key.to_string()).or_insert_with(|| TokenBucket {
-            tokens: self.rpm as f64,
-            last_refill: Instant::now(),
-        });
+        let bucket = buckets
+            .entry(key.to_string())
+            .or_insert_with(|| TokenBucket {
+                tokens: self.rpm as f64,
+                last_refill: Instant::now(),
+            });
         let elapsed = bucket.last_refill.elapsed();
         let refill = elapsed.as_secs_f64() * (self.rpm as f64 / 60.0);
         bucket.tokens = (bucket.tokens + refill).min(self.rpm as f64);

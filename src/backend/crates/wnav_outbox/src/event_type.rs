@@ -51,7 +51,7 @@ pub enum OutboxEventType {
 
 impl OutboxEventType {
     /// DB の CHECK 制約値と一致する文字列を返す（DDL-003 同期必須）。
-    pub fn as_str(&self) -> &'static str {
+    pub const fn as_str(&self) -> &'static str {
         match self {
             Self::WorkEvent => "work_event",
             Self::ElectronicSign => "electronic_sign",

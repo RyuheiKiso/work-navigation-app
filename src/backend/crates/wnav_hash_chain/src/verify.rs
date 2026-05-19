@@ -47,9 +47,7 @@ pub enum ChainVerifyError {
     },
 
     /// シーケンス番号が不連続な場合のエラー（ブロック欠落）。
-    #[error(
-        "チェーンのシーケンス番号が不連続です: case_id={case_id}, gap_at={sequence_number}"
-    )]
+    #[error("チェーンのシーケンス番号が不連続です: case_id={case_id}, gap_at={sequence_number}")]
     SequenceGap {
         /// シーケンスギャップが発生した作業セッション ID
         case_id: Uuid,
@@ -82,10 +80,10 @@ pub fn verify_chain(blocks: &[ChainBlock]) -> Result<(), ChainVerifyError> {
 
     // genesis ブロックは GENESIS_PREV_HASH から始まる
     let mut expected_prev_hash = GENESIS_PREV_HASH;
-    let mut expected_seq: i64 = 1;
 
-    for block in blocks {
-        // シーケンス番号の連続性を確認する
+    for (idx, block) in blocks.iter().enumerate() {
+        // シーケンス番号は 1 始まりで連続しているか確認する（enumerate の 0 始まりに +1 して比較する）
+        let expected_seq = (idx as i64) + 1;
         if block.sequence_number != expected_seq {
             return Err(ChainVerifyError::SequenceGap {
                 case_id: block.case_id,
@@ -114,9 +112,8 @@ pub fn verify_chain(blocks: &[ChainBlock]) -> Result<(), ChainVerifyError> {
             });
         }
 
-        // 次のブロックの期待値を更新する
+        // 次のブロックの期待 prev_hash を更新する
         expected_prev_hash = block.block_hash;
-        expected_seq += 1;
     }
 
     Ok(())
@@ -126,7 +123,7 @@ pub fn verify_chain(blocks: &[ChainBlock]) -> Result<(), ChainVerifyError> {
 mod tests {
     use super::*;
     use crate::canonical::canonical_json;
-    use crate::hash::{compute_chain_hash, compute_content_hash, GENESIS_PREV_HASH};
+    use crate::hash::{GENESIS_PREV_HASH, compute_chain_hash, compute_content_hash};
     use chrono::Utc;
     use serde_json::json;
 

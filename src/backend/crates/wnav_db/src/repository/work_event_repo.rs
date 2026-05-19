@@ -7,7 +7,9 @@ use async_trait::async_trait;
 use sqlx::PgPool;
 use uuid::Uuid;
 
-use wnav_domain::{error::DomainError, model::work_event::WorkEvent, repository::WorkEventRepository};
+use wnav_domain::{
+    error::DomainError, model::work_event::WorkEvent, repository::WorkEventRepository,
+};
 
 use crate::row_types::WorkEventRow;
 

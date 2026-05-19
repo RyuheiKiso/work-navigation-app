@@ -14,12 +14,10 @@ use crate::model::work_execution::{WorkEventActivity, WorkExecution, WorkExecuti
 use crate::repository::{
     CreateWorkExecutionCmd, OutboxRepository, WorkEventRepository, WorkExecutionRepository,
 };
-use crate::rules::{
-    br_bus_001_lock_step, br_bus_003_evidence_required, br_bus_004_sign_required,
-};
+use crate::rules::{br_bus_001_lock_step, br_bus_003_evidence_required, br_bus_004_sign_required};
 use crate::service::step_engine_service::StepEngineService;
 use crate::service::work_execution_service::{
-    CompleteStepCmd, CompleteWorkCmd, ResumeCmd, StartWorkCmd, Suspension, SuspendCmd,
+    CompleteStepCmd, CompleteWorkCmd, ResumeCmd, StartWorkCmd, SuspendCmd, Suspension,
     WorkExecutionService,
 };
 

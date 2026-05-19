@@ -7,7 +7,7 @@ use uuid::Uuid;
 use crate::{error::WebhookError, signature::sign_payload};
 
 /// Webhook 配信設定。
-/// wnav_config の WebhookConfig からデシリアライズして使用する。
+/// `wnav_config` の `WebhookConfig` からデシリアライズして使用する。
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct WebhookSenderConfig {
     /// HMAC-SHA256 署名秘密鍵（UTF-8 文字列として使用）
@@ -38,7 +38,7 @@ pub struct WebhookSender {
 }
 
 impl WebhookSender {
-    /// WebhookSender を生成する。
+    /// `WebhookSender` を生成する。
     ///
     /// # 引数
     /// - `config`: Webhook 配信設定

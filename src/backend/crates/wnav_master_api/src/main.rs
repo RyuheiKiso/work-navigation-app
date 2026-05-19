@@ -15,8 +15,6 @@
 
 // unsafe コードを禁止する（src/CLAUDE.md および src/backend/CLAUDE.md の必須要件）
 #![forbid(unsafe_code)]
-// Clippy の全 lint を有効化する（ワークスペース設定で deny 済みだが明示する）
-#![deny(clippy::all, clippy::pedantic)]
 // 例外: doc コメントのリンク省略は許容
 #![allow(clippy::missing_errors_doc)]
 #![allow(clippy::missing_panics_doc)]
@@ -73,13 +71,15 @@ async fn main() -> anyhow::Result<()> {
     };
 
     let (write_pool, read_pool) = wnav_db::init_master_pools(
-        &config.database.host,
-        config.database.port,
-        &config.database.name,
-        &config.database.write.user,
-        config.database.write.password.expose(),
-        &config.database.read.user,
-        config.database.read.password.expose(),
+        wnav_db::MasterPoolParams {
+            host: &config.database.host,
+            port: config.database.port,
+            db_name: &config.database.name,
+            write_user: &config.database.write.user,
+            write_password: config.database.write.password.expose(),
+            read_user: &config.database.read.user,
+            read_password: config.database.read.password.expose(),
+        },
         &db_cfg,
     )
     .await
@@ -97,8 +97,8 @@ async fn main() -> anyhow::Result<()> {
     let key_store = Arc::new(JwtKeyStore::with_signing_key(
         config.jwt_private.private_key.expose(),
         config.shared.jwt_public.public_key.expose(),
-        "2026-Q2",       // 鍵ローテーション識別子（90 日ごとに更新）
-        "master-api",    // aud クレームの値（terminal-api トークンを拒否する）
+        "2026-Q2",    // 鍵ローテーション識別子（90 日ごとに更新）
+        "master-api", // aud クレームの値（terminal-api トークンを拒否する）
     ));
 
     tracing::info!("JWT キーストア初期化完了（aud = 'master-api'）");
@@ -197,21 +197,18 @@ async fn main() -> anyhow::Result<()> {
     );
 
     // HTTP サーバーを起動する（axum::serve はシグナルハンドリングなしで無限待機）
-    axum::serve(listener, app)
-        .await
-        .unwrap_or_else(|e| {
-            tracing::error!(error = %e, "axum サーバーが異常終了しました");
-            std::process::exit(1);
-        });
+    axum::serve(listener, app).await.unwrap_or_else(|e| {
+        tracing::error!(error = %e, "axum サーバーが異常終了しました");
+        std::process::exit(1);
+    });
 
     Ok(())
 }
 
 /// JSON 構造化ログ tracing サブスクライバを初期化する。
 fn init_tracing(log_level: &str) {
-    let filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| {
-        EnvFilter::new(format!("{log_level},tower_http=info,axum=info"))
-    });
+    let filter = EnvFilter::try_from_default_env()
+        .unwrap_or_else(|_| EnvFilter::new(format!("{log_level},tower_http=info,axum=info")));
 
     tracing_subscriber::registry()
         .with(filter)

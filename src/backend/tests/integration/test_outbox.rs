@@ -18,7 +18,10 @@ async fn tst_intg_007_outbox_event_created_with_work_event() {
     let outbox_id = uuid::Uuid::now_v7();
 
     // 同一トランザクションで work_events と outbox_events を INSERT する
-    let mut tx = pool.begin().await.expect("トランザクション開始に失敗しました");
+    let mut tx = pool
+        .begin()
+        .await
+        .expect("トランザクション開始に失敗しました");
 
     // outbox_events に PENDING イベントを INSERT する
     let outbox_insert = sqlx::query(
@@ -39,7 +42,9 @@ async fn tst_intg_007_outbox_event_created_with_work_event() {
     }
 
     // トランザクションをコミットする
-    tx.commit().await.expect("トランザクションのコミットに失敗しました");
+    tx.commit()
+        .await
+        .expect("トランザクションのコミットに失敗しました");
 
     // outbox_events に PENDING レコードが存在することを確認する
     let outbox_count: i64 = sqlx::query_scalar(
@@ -99,13 +104,12 @@ async fn tst_intg_007_outbox_consumer_updates_status_to_sent() {
     );
 
     // SENT に更新されていることを確認する
-    let status: Option<String> = sqlx::query_scalar(
-        "SELECT status FROM outbox_events WHERE outbox_id = $1",
-    )
-    .bind(outbox_id)
-    .fetch_optional(&pool)
-    .await
-    .expect("status 取得に失敗しました");
+    let status: Option<String> =
+        sqlx::query_scalar("SELECT status FROM outbox_events WHERE outbox_id = $1")
+            .bind(outbox_id)
+            .fetch_optional(&pool)
+            .await
+            .expect("status 取得に失敗しました");
 
     assert_eq!(
         status.as_deref(),
@@ -160,13 +164,12 @@ async fn tst_intg_007_outbox_dead_lettered_after_max_retry() {
     );
 
     // DEAD_LETTERED になっていることを確認する
-    let status: Option<String> = sqlx::query_scalar(
-        "SELECT status FROM outbox_events WHERE outbox_id = $1",
-    )
-    .bind(outbox_id)
-    .fetch_optional(&pool)
-    .await
-    .expect("status 取得に失敗しました");
+    let status: Option<String> =
+        sqlx::query_scalar("SELECT status FROM outbox_events WHERE outbox_id = $1")
+            .bind(outbox_id)
+            .fetch_optional(&pool)
+            .await
+            .expect("status 取得に失敗しました");
 
     assert_eq!(
         status.as_deref(),

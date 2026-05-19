@@ -16,8 +16,6 @@
 
 // unsafe コードはネイティブライブラリとの FFI が必要な場合のみ許可する（ADR に根拠必須）
 #![forbid(unsafe_code)]
-// コード品質を一貫して高水準に保つため clippy の全警告をエラーとして扱う
-#![deny(clippy::all, clippy::pedantic)]
 // 日本語コメント内の英語識別子は意図的にバッククォートなしで記載する
 #![allow(clippy::doc_markdown)]
 // ConfigError は figment::Error の Box 化で可能な限りサイズを抑えている

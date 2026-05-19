@@ -8,13 +8,13 @@ use serde::Deserialize;
 /// 親機 API クライアントの設定。
 #[derive(Debug, Clone, Deserialize)]
 pub struct ParentApiConfig {
-    /// 親機 API のベース URL（例: "https://parent-system.example.com"）
+    /// 親機 API のベース URL（例: `<https://parent-system.example.com>`）
     pub base_url: String,
     /// OAuth 2.1 Client Credentials の client_id
     pub client_id: String,
     /// OAuth 2.1 Client Credentials の client_secret
     pub client_secret: String,
-    /// トークンエンドポイント URL（例: "https://auth.example.com/oauth/token"）
+    /// トークンエンドポイント URL（例: `<https://auth.example.com/oauth/token>`）
     pub token_endpoint: String,
     /// HTTP リクエストのタイムアウト（秒）
     pub timeout_secs: u64,
@@ -70,6 +70,7 @@ pub struct ParentSystemApiClient {
 
 impl ParentSystemApiClient {
     /// 設定から親機 API クライアントを初期化する。
+    #[must_use]
     pub fn new(config: &ParentApiConfig) -> Self {
         // タイムアウト設定付きで reqwest クライアントを構築する
         let client = Client::builder()
@@ -139,6 +140,12 @@ impl ParentSystemApiClient {
     ///
     /// # 送信先
     /// `POST {base_url}/api/v1/sync/outbox/inbound`
+    ///
+    /// # Errors
+    ///
+    /// - [`ApiClientError::Auth`] — OAuth 2.1 トークン取得に失敗した場合
+    /// - [`ApiClientError::Http`] — HTTP リクエストが失敗した場合
+    #[must_use = "送信結果（エラーの有無）を確認してください"]
     pub async fn post_outbox_inbound(
         &self,
         payload: &serde_json::Value,

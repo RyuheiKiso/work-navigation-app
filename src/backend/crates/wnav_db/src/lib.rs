@@ -15,8 +15,6 @@
 
 // unsafe コードを禁止する（src/CLAUDE.md および src/backend/CLAUDE.md の必須要件）
 #![forbid(unsafe_code)]
-// Clippy の全 lint を有効化する（ワークスペース設定で deny 済みだが明示する）
-#![deny(clippy::all, clippy::pedantic)]
 // 例外: doc コメントのリンク省略は許容
 #![allow(clippy::missing_errors_doc)]
 #![allow(clippy::missing_panics_doc)]
@@ -40,33 +38,47 @@ use sqlx::PgPool;
 pub use error::DbError;
 pub use pool::{DbConfig, connect};
 
-/// (DB ロール分離) wnav_terminal_api 向けの 2 プール初期化。
+/// (DB ロール分離) `wnav_terminal_api` 向けの 2 プール初期化のパラメータ。
+pub struct TerminalPoolParams<'a> {
+    /// 接続先 PostgreSQL ホスト
+    pub host: &'a str,
+    /// 接続先 PostgreSQL ポート
+    pub port: u16,
+    /// 接続先データベース名
+    pub db_name: &'a str,
+    /// `app_event_insert` ロールのユーザー名
+    pub event_insert_user: &'a str,
+    /// `app_event_insert` ロールのパスワード
+    pub event_insert_password: &'a str,
+    /// `app_read` ロールのユーザー名
+    pub read_user: &'a str,
+    /// `app_read` ロールのパスワード
+    pub read_password: &'a str,
+}
+
+/// (DB ロール分離) `wnav_terminal_api` 向けの 2 プール初期化。
 ///
-/// - `event_insert_pool`: app_event_insert ロール（INSERT 専用）
-/// - `read_pool`: app_read ロール（SELECT 専用）
+/// - `event_insert_pool`: `app_event_insert` ロール（INSERT 専用）
+/// - `read_pool`: `app_read` ロール（SELECT 専用）
 ///
 /// # 引数
-/// - `host`, `port`, `db_name`: 接続先 PostgreSQL の場所
-/// - `event_insert_user/password`: app_event_insert ロールのクレデンシャル
-/// - `read_user/password`: app_read ロールのクレデンシャル
+/// - `params`: 接続先・クレデンシャルをまとめた `TerminalPoolParams`
 /// - `cfg`: コネクションプール設定
 ///
-/// # エラー
+/// # Errors
 /// 接続確立に失敗した場合は `DbError::Connection` を返す。
 pub async fn init_terminal_pools(
-    host: &str,
-    port: u16,
-    db_name: &str,
-    event_insert_user: &str,
-    event_insert_password: &str,
-    read_user: &str,
-    read_password: &str,
+    params: TerminalPoolParams<'_>,
     cfg: &DbConfig,
 ) -> Result<(PgPool, PgPool), DbError> {
     // app_event_insert プール: INSERT 専用（Append-only テーブルへの書き込み）
     let event_insert_url = format!(
         "postgres://{}:{}@{}:{}/{}",
-        event_insert_user, event_insert_password, host, port, db_name
+        params.event_insert_user,
+        params.event_insert_password,
+        params.host,
+        params.port,
+        params.db_name
     );
     let event_insert_pool = connect(&event_insert_url, cfg)
         .await
@@ -75,7 +87,7 @@ pub async fn init_terminal_pools(
     // app_read プール: SELECT 専用（全テーブルの読み取り）
     let read_url = format!(
         "postgres://{}:{}@{}:{}/{}",
-        read_user, read_password, host, port, db_name
+        params.read_user, params.read_password, params.host, params.port, params.db_name
     );
     let read_pool = connect(&read_url, cfg)
         .await
@@ -84,33 +96,43 @@ pub async fn init_terminal_pools(
     Ok((event_insert_pool, read_pool))
 }
 
-/// (DB ロール分離) wnav_master_api 向けの 2 プール初期化。
+/// (DB ロール分離) `wnav_master_api` 向けの 2 プール初期化のパラメータ。
+pub struct MasterPoolParams<'a> {
+    /// 接続先 PostgreSQL ホスト
+    pub host: &'a str,
+    /// 接続先 PostgreSQL ポート
+    pub port: u16,
+    /// 接続先データベース名
+    pub db_name: &'a str,
+    /// `app_write` ロールのユーザー名
+    pub write_user: &'a str,
+    /// `app_write` ロールのパスワード
+    pub write_password: &'a str,
+    /// `app_read` ロールのユーザー名
+    pub read_user: &'a str,
+    /// `app_read` ロールのパスワード
+    pub read_password: &'a str,
+}
+
+/// (DB ロール分離) `wnav_master_api` 向けの 2 プール初期化。
 ///
-/// - `write_pool`: app_write ロール（SELECT/INSERT/UPDATE。マスタ CRUD）
-/// - `read_pool`: app_read ロール（SELECT 専用）
+/// - `write_pool`: `app_write` ロール（SELECT/INSERT/UPDATE。マスタ CRUD）
+/// - `read_pool`: `app_read` ロール（SELECT 専用）
 ///
 /// # 引数
-/// - `host`, `port`, `db_name`: 接続先 PostgreSQL の場所
-/// - `write_user/password`: app_write ロールのクレデンシャル
-/// - `read_user/password`: app_read ロールのクレデンシャル
+/// - `params`: 接続先・クレデンシャルをまとめた `MasterPoolParams`
 /// - `cfg`: コネクションプール設定
 ///
-/// # エラー
+/// # Errors
 /// 接続確立に失敗した場合は `DbError::Connection` を返す。
 pub async fn init_master_pools(
-    host: &str,
-    port: u16,
-    db_name: &str,
-    write_user: &str,
-    write_password: &str,
-    read_user: &str,
-    read_password: &str,
+    params: MasterPoolParams<'_>,
     cfg: &DbConfig,
 ) -> Result<(PgPool, PgPool), DbError> {
     // app_write プール: SELECT/INSERT/UPDATE（マスタデータ CRUD）
     let write_url = format!(
         "postgres://{}:{}@{}:{}/{}",
-        write_user, write_password, host, port, db_name
+        params.write_user, params.write_password, params.host, params.port, params.db_name
     );
     let write_pool = connect(&write_url, cfg)
         .await
@@ -119,7 +141,7 @@ pub async fn init_master_pools(
     // app_read プール: SELECT 専用（Audit Trail 照会・ダッシュボード）
     let read_url = format!(
         "postgres://{}:{}@{}:{}/{}",
-        read_user, read_password, host, port, db_name
+        params.read_user, params.read_password, params.host, params.port, params.db_name
     );
     let read_pool = connect(&read_url, cfg)
         .await

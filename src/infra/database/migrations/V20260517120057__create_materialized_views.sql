@@ -1,6 +1,6 @@
 -- V20260517120057__create_materialized_views.sql
 -- VW-006 mv_daily_work_summary マテリアライズドビューを作成する。
--- REFRESH 方針: 毎日 06:00 に pg_cron または BAT-004 が REFRESH CONCURRENTLY を実行する。
+-- REFRESH 方針: 毎日 06:00 に BAT-010（RP-006 集計レポート生成）が REFRESH CONCURRENTLY を実行する。
 -- UNIQUE インデックス（work_date, sop_id）付与により REFRESH CONCURRENTLY が使用可能。
 --
 -- 対象ドキュメント: docs/05_詳細設計/01_データベース詳細設計/04_ビュー・マテリアライズドビュー設計（VWカタログ）.md

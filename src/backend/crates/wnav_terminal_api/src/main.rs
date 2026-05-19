@@ -14,8 +14,6 @@
 
 // unsafe コードを完全に禁止する（src/backend/CLAUDE.md 必須要件）
 #![forbid(unsafe_code)]
-// Clippy の全 lint をエラーとして扱う（コード品質の維持）
-#![deny(clippy::all, clippy::pedantic)]
 // 例外: doc コメントのリンク省略は許容
 #![allow(clippy::missing_errors_doc)]
 #![allow(clippy::missing_panics_doc)]
@@ -41,11 +39,7 @@ use tracing_subscriber::{EnvFilter, fmt, layer::SubscriberExt, util::SubscriberI
 use wnav_auth::JwtKeyStore;
 use wnav_db::pool::{DbConfig, connect};
 
-use crate::{
-    middleware::apply_middleware,
-    router::create_router,
-    state::AppState,
-};
+use crate::{middleware::apply_middleware, router::create_router, state::AppState};
 
 /// wnav_terminal_api バイナリのエントリポイント。
 #[tokio::main]
@@ -106,12 +100,10 @@ async fn main() -> anyhow::Result<()> {
         config.database.port,
         config.database.name,
     );
-    let read_pool = connect(&read_url, &db_cfg)
-        .await
-        .unwrap_or_else(|e| {
-            tracing::error!(error = %e, "read_pool の接続に失敗した");
-            std::process::exit(1);
-        });
+    let read_pool = connect(&read_url, &db_cfg).await.unwrap_or_else(|e| {
+        tracing::error!(error = %e, "read_pool の接続に失敗した");
+        std::process::exit(1);
+    });
 
     tracing::info!(
         log_id = "LOG-START-002",
@@ -160,14 +152,12 @@ async fn main() -> anyhow::Result<()> {
         hmac_secret: config.webhook.hmac_key.expose().to_string(),
         http_timeout_secs: 30,
     };
-    let outbox_consumer = wnav_outbox::OutboxConsumer::from_config(
-        event_insert_pool.clone(),
-        outbox_config,
-    )
-    .unwrap_or_else(|e| {
-        tracing::error!(error = %e, "Outbox Consumer の初期化に失敗した");
-        std::process::exit(1);
-    });
+    let outbox_consumer =
+        wnav_outbox::OutboxConsumer::from_config(event_insert_pool.clone(), outbox_config)
+            .unwrap_or_else(|e| {
+                tracing::error!(error = %e, "Outbox Consumer の初期化に失敗した");
+                std::process::exit(1);
+            });
     let outbox_arc = Arc::new(outbox_consumer);
     let outbox_shutdown = shutdown_tx.subscribe();
     tokio::spawn(wnav_outbox::run_consumer(outbox_arc, outbox_shutdown));
@@ -183,7 +173,10 @@ async fn main() -> anyhow::Result<()> {
     // BAT-014: SSE Retry（1 分ごとに failed sse_dispatch_log を再送試行する）
     let sse_retry_pool = event_insert_pool.clone();
     let sse_retry_shutdown = shutdown_tx.subscribe();
-    tokio::spawn(batch::sse_retry::run_sse_retry(sse_retry_pool, sse_retry_shutdown));
+    tokio::spawn(batch::sse_retry::run_sse_retry(
+        sse_retry_pool,
+        sse_retry_shutdown,
+    ));
 
     // BAT-003: Master Sync Puller（設定間隔ごとに master-api からマスタを Pull 取得する）
     let master_sync_pool = event_insert_pool.clone();
@@ -254,8 +247,7 @@ async fn main() -> anyhow::Result<()> {
 /// tracing サブスクライバを JSON 構造化ログ形式で初期化する。
 fn init_tracing(log_level: &str) {
     // RUST_LOG 環境変数が設定されている場合はそれを優先する
-    let filter = EnvFilter::try_from_default_env()
-        .unwrap_or_else(|_| EnvFilter::new(log_level));
+    let filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new(log_level));
 
     tracing_subscriber::registry()
         .with(filter)

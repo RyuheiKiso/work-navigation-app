@@ -45,7 +45,8 @@ fn tst_intg_009_iqc_marginal_defects_gives_concession_decision() {
     let wide_plan_ac = 3_usize;
     let wide_plan_re = 7_usize;
     let marginal_defect_count = 5_usize; // Ac（3）< 5 < Re（7）
-    let concession_decision = compute_aql_decision(200, wide_plan_ac, wide_plan_re, marginal_defect_count);
+    let concession_decision =
+        compute_aql_decision(200, wide_plan_ac, wide_plan_re, marginal_defect_count);
     assert_eq!(
         concession_decision,
         AqlDecision::Concession,

@@ -68,13 +68,12 @@ async fn tst_intg_012_sop_rollback_records_as_append_only() {
     );
 
     // レコードが残っていること（物理削除されていないこと）を確認する
-    let still_exists: bool = sqlx::query_scalar(
-        "SELECT EXISTS (SELECT 1 FROM sops WHERE sop_id = $1)",
-    )
-    .bind(sop_id)
-    .fetch_one(&pool)
-    .await
-    .unwrap_or(false);
+    let still_exists: bool =
+        sqlx::query_scalar("SELECT EXISTS (SELECT 1 FROM sops WHERE sop_id = $1)")
+            .bind(sop_id)
+            .fetch_one(&pool)
+            .await
+            .unwrap_or(false);
 
     assert!(
         still_exists,
@@ -82,12 +81,11 @@ async fn tst_intg_012_sop_rollback_records_as_append_only() {
     );
 
     // 状態が ARCHIVED であることを確認する
-    let status: Option<String> =
-        sqlx::query_scalar("SELECT status FROM sops WHERE sop_id = $1")
-            .bind(sop_id)
-            .fetch_optional(&pool)
-            .await
-            .expect("status 取得に失敗しました");
+    let status: Option<String> = sqlx::query_scalar("SELECT status FROM sops WHERE sop_id = $1")
+        .bind(sop_id)
+        .fetch_optional(&pool)
+        .await
+        .expect("status 取得に失敗しました");
 
     assert_eq!(
         status.as_deref(),
@@ -144,12 +142,10 @@ async fn tst_intg_012_previous_sop_version_remains_accessible() {
     .await;
 
     // v1 を ARCHIVED にする（ロールバックではなくバージョンアップ後の廃止）
-    let archive_v1 = sqlx::query(
-        "UPDATE sops SET status = 'ARCHIVED' WHERE sop_id = $1",
-    )
-    .bind(sop_id_v1)
-    .execute(&pool)
-    .await;
+    let archive_v1 = sqlx::query("UPDATE sops SET status = 'ARCHIVED' WHERE sop_id = $1")
+        .bind(sop_id_v1)
+        .execute(&pool)
+        .await;
 
     if create_v2.is_ok() && archive_v1.is_ok() {
         // ARCHIVED になった v1 が参照可能であることを確認する（時点参照固定）

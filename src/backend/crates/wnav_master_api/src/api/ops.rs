@@ -4,10 +4,10 @@
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
 use axum::{
+    Json,
     extract::{Path, State},
     http::{HeaderValue, StatusCode, header::CONTENT_TYPE},
     response::IntoResponse,
-    Json,
 };
 use chrono::Utc;
 use sqlx::Row as _;
@@ -24,7 +24,7 @@ use crate::{
     error::AppError,
     state::AppState,
 };
-use wnav_auth::{AdminRole, AuthenticatedUser, AuditorRole};
+use wnav_auth::{AdminRole, AuditorRole, AuthenticatedUser};
 
 /// DLQ 一覧取得（GET /api/v1/ops/outbox/dlq）。
 ///
@@ -286,7 +286,10 @@ pub async fn trigger_master_sync(
     .execute(&state.write_pool)
     .await?;
 
-    tracing::info!(event = "ops.master_sync.triggered", "マスタ同期をトリガーしました");
+    tracing::info!(
+        event = "ops.master_sync.triggered",
+        "マスタ同期をトリガーしました"
+    );
 
     Ok((
         StatusCode::ACCEPTED,

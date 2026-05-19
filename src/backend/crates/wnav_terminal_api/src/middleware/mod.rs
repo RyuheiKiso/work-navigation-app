@@ -96,9 +96,7 @@ pub fn extract_rate_limit_key(
 }
 
 /// Bearer トークンを Authorization ヘッダから抽出する
-pub fn extract_bearer_token(
-    request: &axum::extract::Request,
-) -> Option<String> {
+pub fn extract_bearer_token(request: &axum::extract::Request) -> Option<String> {
     request
         .headers()
         .get(axum::http::header::AUTHORIZATION)
@@ -140,10 +138,7 @@ impl RateLimiter {
 
     /// トークンを消費する。成功時は true、レート超過時は false を返す。
     pub fn consume(&self, key: &str) -> bool {
-        let mut buckets = self
-            .buckets
-            .lock()
-            .expect("RateLimiter mutex poisoned");
+        let mut buckets = self.buckets.lock().expect("RateLimiter mutex poisoned");
 
         let bucket = buckets
             .entry(key.to_string())

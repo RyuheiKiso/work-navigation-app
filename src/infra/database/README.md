@@ -25,19 +25,22 @@ src/infra/database/
 │   └── V20260517120060__seed_step_type_definitions.sql
 ├── scripts/
 │   ├── apply_migrations.sh             # マイグレーション実行ラッパー
-│   ├── backup.sh                       # BAT-001 日次バックアップ（AES-256-GCM 暗号化）
-│   ├── restore.sh                      # リストア（5 ステップ）
-│   ├── failover.sh                     # Active/Standby フェイルオーバ
-│   ├── wal_archive.sh                  # BAT-002 WAL アーカイブ
-│   ├── evidence_rsync.sh               # BAT-003 証拠ファイル NAS 同期
-│   ├── partition_create_monthly.sql    # BAT-004 翌月パーティション作成
-│   ├── cold_archive.sh                 # BAT-005 コールドアーカイブ
-│   ├── verify_hash_chain.sql           # BAT-001 ハッシュチェーン整合性検証
-│   ├── idempotency_keys_gc.sql         # TBL-035 24h TTL ガベージコレクション
-│   ├── case_locks_expire.sql           # BAT-013 case_locks ハートビートタイムアウト
-│   ├── work_assignments_expire.sql     # BAT-015 作業指示期限切れ
-│   ├── rework_cost_aggregate.sql       # BAT-011 リワーク原価集計
-│   └── health_check.sh                 # pg_isready ヘルスチェック
+│   ├── backup.sh                           # BAT-005 日次バックアップ（AES-256-GCM 暗号化・90日保持）
+│   ├── restore.sh                          # リストア（5 ステップ）
+│   ├── failover.sh                         # Active/Standby フェイルオーバ
+│   ├── wal_archive.sh                      # WAL アーカイブ（postgresql.conf archive_command から呼び出し）
+│   ├── evidence_rsync.sh                   # 証拠ファイル NAS 同期（日次 03:00 JST）
+│   ├── partition_create_monthly.sql        # 翌月 work_events パーティション作成（月次 25 日）
+│   ├── cold_archive.sh                     # 61 ヶ月超パーティションのコールドアーカイブ
+│   ├── verify_hash_chain.sql               # BAT-001 ハッシュチェーン整合性検証
+│   ├── pii_anonymize.sql                   # BAT-004 退職ユーザー PII 匿名化
+│   ├── refresh_mv_daily_work_summary.sql   # BAT-010 mv_daily_work_summary REFRESH CONCURRENTLY
+│   ├── idempotency_keys_gc.sql             # idempotency_keys 24h TTL ガベージコレクション
+│   ├── case_locks_expire.sql               # BAT-013 case_locks ハートビートタイムアウト
+│   ├── work_assignments_expire.sql         # BAT-015 作業指示期限切れ
+│   ├── rework_cost_aggregate.sql           # BAT-011 リワーク原価集計
+│   ├── apply_migrations.sh                 # sqlx migrate 実行ラッパー
+│   └── health_check.sh                     # pg_isready ヘルスチェック
 └── json-schemas/                       # JSONB 列の JSON Schema 定義（15 本）
     ├── instruction_text.v1.schema.json
     ├── judgment_condition.v1.schema.json
@@ -146,23 +149,25 @@ Active/Standby 構成での Standby 昇格（RTO 目標: 60 分）:
 
 | BAT-ID | スクリプト | 実行タイミング | 説明 |
 |---|---|---|---|
-| BAT-001 | `verify_hash_chain.sql` | 週次（月曜 01:00 JST） | ハッシュチェーン整合性検証 |
-| BAT-002 | `wal_archive.sh` | 連続（archive_command） | WAL アーカイブ |
-| BAT-003 | `evidence_rsync.sh` | 日次 03:00 JST | 証拠ファイル NAS 同期 |
-| BAT-004 | `partition_create_monthly.sql` | 毎月 25 日 02:00 JST | 翌月パーティション作成 |
-| BAT-005 | `cold_archive.sh` | 月次（手動トリガ） | 61 ヶ月超パーティションのコールドアーカイブ |
+| BAT-001 | `verify_hash_chain.sql` | 週次（月曜 03:00 JST） | ハッシュチェーン整合性検証 |
+| BAT-004 | `pii_anonymize.sql` | 日次 01:00 JST | 退職ユーザー PII 匿名化 |
+| BAT-005 | `backup.sh` | 日次 02:00 JST | 日次フルバックアップ（90 日保持） |
+| BAT-010 | `refresh_mv_daily_work_summary.sql` | 日次 06:00 / 週次月 07:00 / 月次 1 日 07:00 | mv_daily_work_summary REFRESH CONCURRENTLY |
 | BAT-011 | `rework_cost_aggregate.sql` | 日次 03:00 JST | リワーク原価集計 |
-| BAT-013 | `case_locks_expire.sql` | 毎分（またはタイマー） | case_locks ハートビートタイムアウト |
-| BAT-015 | `work_assignments_expire.sql` | 15 分毎（または毎分） | 作業指示期限切れ |
-| TTL | `idempotency_keys_gc.sql` | 毎時（またはバッチ） | idempotency_keys 24h TTL 削除 |
-| BAT-001 | `backup.sh` | 日次 02:00 JST | 日次バックアップ（7 世代） |
+| BAT-013 | `case_locks_expire.sql` | 毎分 | case_locks ハートビートタイムアウト |
+| BAT-015 | `work_assignments_expire.sql` | 5 分毎 | 作業指示期限切れ遷移 |
+| — | `wal_archive.sh` | 連続（archive_command） | WAL アーカイブ（postgresql.conf から呼び出し） |
+| — | `evidence_rsync.sh` | 日次 03:00 JST | 証拠ファイル NAS 同期 |
+| — | `partition_create_monthly.sql` | 毎月 25 日 02:00 JST | 翌月 work_events パーティション作成 |
+| — | `cold_archive.sh` | 月次（手動トリガ） | 61 ヶ月超パーティションのコールドアーカイブ |
+| — | `idempotency_keys_gc.sql` | 毎時 | idempotency_keys 24h TTL 削除 |
 
 ## 検証チェックリスト
 
 マイグレーション適用後に以下を確認する:
 
 ```sql
--- テーブル数（53 テーブル + 12 work_events パーティション + _sqlx_migrations = 66 以上）
+-- テーブル数（57 テーブル + 12 work_events パーティション + _sqlx_migrations = 70 以上）
 SELECT COUNT(*) FROM pg_tables WHERE schemaname = 'public';
 
 -- ビュー数（通常ビュー 7 + マテリアライズドビュー 1 = 8）

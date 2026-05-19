@@ -7,9 +7,7 @@
 use std::sync::Arc;
 
 use axum::{
-    Extension,
-    Router,
-    middleware,
+    Extension, Router, middleware,
     routing::{get, patch, post, put},
 };
 use utoipa::OpenApi;
@@ -218,26 +216,31 @@ pub fn create_router(state: AppState, rate_limiter: Arc<RateLimiter>) -> Router 
         .route("/auth/refresh", post(auth::refresh))
         .route("/auth/logout", post(auth::logout))
         .route("/auth/keys/rotate", post(auth::rotate_keys))
-
         // ── マスタバージョン管理 ──────────────────────────────────────────
         .route("/master-versions", get(master::list_versions))
         .route("/master-versions/draft", post(master::create_draft))
         .route("/master-versions/:id", patch(master::update_draft))
         .route("/master-versions/:id/submit", post(master::submit_version))
-        .route("/master-versions/:id/approve", post(master::approve_version))
-        .route("/master-versions/:id/rollback", post(master::rollback_version))
+        .route(
+            "/master-versions/:id/approve",
+            post(master::approve_version),
+        )
+        .route(
+            "/master-versions/:id/rollback",
+            post(master::rollback_version),
+        )
         .route("/master-versions/:id/dry-run", post(master::dry_run))
-
         // ── 補足マスタエンドポイント ──────────────────────────────────────
         .route("/master/processes", get(master::list_processes))
         .route("/master/sops", get(master::list_sops))
         .route("/master/users", get(master::list_users))
         .route("/master/users", post(master::create_user))
         .route("/master/users/:id/roles", put(master::assign_roles))
-
         // ── 作業指示 Push 受信 ─────────────────────────────────────────────
-        .route("/work-assignments", post(work_assignments::receive_work_assignment))
-
+        .route(
+            "/work-assignments",
+            post(work_assignments::receive_work_assignment),
+        )
         // ── 運用・監視 ────────────────────────────────────────────────────
         .route("/ops/health", get(health::ops_health))
         .route("/ops/metrics", get(ops::metrics))
@@ -245,42 +248,42 @@ pub fn create_router(state: AppState, rate_limiter: Arc<RateLimiter>) -> Router 
         .route("/ops/outbox/:id/requeue", post(ops::requeue))
         .route("/ops/hash-chain/verify", post(ops::verify_hash_chain))
         .route("/ops/master-sync", post(ops::trigger_master_sync))
-
         // ── 帳票生成 ──────────────────────────────────────────────────────
         // SOP 実行記録帳票（非同期ジョブ登録）
         .route("/reports/sop-execution", post(reports::generate_report))
         // XES 形式監査帳票（条件指定が複雑なため POST を使用する）
         .route("/reports/audit-xes", post(reports::audit_xes))
-
         // ── トレサビ ──────────────────────────────────────────────────────
         // 順方向トレース: case_id でイベントを全件取得
         .route("/trace/forward", get(trace::forward_trace))
         // 逆方向トレース: lot_id でイベントを全件取得
         .route("/trace/backward", get(trace::backward_trace))
-
         // ── 入荷検査（IQC）master-api 担当分: 合否判定・特採承認 ──────────
-        .route("/iqc/incoming-inspections/:id/judge", post(iqc::submit_inspection))
-        .route("/iqc/incoming-inspections/:id/concession", post(iqc::approve_inspection))
+        .route(
+            "/iqc/incoming-inspections/:id/judge",
+            post(iqc::submit_inspection),
+        )
+        .route(
+            "/iqc/incoming-inspections/:id/concession",
+            post(iqc::approve_inspection),
+        )
         .route("/dispositions", post(iqc::create_disposition))
-
         // ── アンドン対応（master-api）─────────────────────────────────────
         // 管理コンソールからのアラート対応・解決（AuditorRole 以上必須）
         .route("/alerts/:id/acknowledge", patch(alerts::acknowledge_alert))
-
         // ── CAPA 管理（master-api）───────────────────────────────────────
         .route("/capas", post(capas::create_capa))
         .route("/capas/:id", patch(capas::update_capa))
-
         // ── 非適合品登録（master-api）────────────────────────────────────
-        .route("/nonconformities", post(nonconformities::register_nonconformity))
-
+        .route(
+            "/nonconformities",
+            post(nonconformities::register_nonconformity),
+        )
         // ── 廃却・返品 ────────────────────────────────────────────────────
         .route("/scrap-records", post(scraps::create_scrap_record))
         .route("/return-records", post(scraps::create_return_record))
-
         // ── 公開設定（認証不要）──────────────────────────────────────────
         .route("/public/config", get(public_config::get_public_config))
-
         // ── OpenAPI スキーマ配信 ──────────────────────────────────────────
         .route(
             "/openapi.json",
@@ -288,8 +291,7 @@ pub fn create_router(state: AppState, rate_limiter: Arc<RateLimiter>) -> Router 
         );
 
     // Swagger UI（開発環境用）
-    let swagger = SwaggerUi::new("/swagger-ui")
-        .url("/api/v1/openapi.json", ApiDoc::openapi());
+    let swagger = SwaggerUi::new("/swagger-ui").url("/api/v1/openapi.json", ApiDoc::openapi());
 
     Router::new()
         // システムレベルのヘルスチェック（認証不要）

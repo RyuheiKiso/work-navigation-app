@@ -21,18 +21,25 @@ export default function StandardStepScreen(): JSX.Element {
   const [busy, setBusy] = useState(false);
   // resolvedStepId は useEffect で一度だけ解決して保持する（handleComplete と共有してレポ二重呼び出しを防ぐ）
   const [resolvedStepId, setResolvedStepId] = useState<string | null>(null);
+  // stepIdLoading: true の間は完了ボタンを無効化して不正な generateId() フォールバックを防ぐ
+  const [stepIdLoading, setStepIdLoading] = useState(true);
 
   // 画面表示時に SOP 定義から currentStepId を解決してコンテキストとローカル state に登録する
   useEffect(() => {
     const sopVersionId = exec.sopVersionId ?? '';
     const stepIndex = exec.currentStepIndex;
     setResolvedStepId(null);
+    setStepIdLoading(true);
     void (async () => {
-      const allSteps = await new SopRepository().findStepsBySopVersionId(sopVersionId);
-      const step = allSteps[stepIndex];
-      if (step != null) {
-        setResolvedStepId(step.id);
-        dispatch({ type: 'SET_CURRENT_STEP', payload: { index: stepIndex, stepId: step.id } });
+      try {
+        const allSteps = await new SopRepository().findStepsBySopVersionId(sopVersionId);
+        const step = allSteps[stepIndex];
+        if (step != null) {
+          setResolvedStepId(step.id);
+          dispatch({ type: 'SET_CURRENT_STEP', payload: { index: stepIndex, stepId: step.id } });
+        }
+      } finally {
+        setStepIdLoading(false);
       }
     })();
   }, [exec.currentStepIndex, exec.sopVersionId, dispatch]);
@@ -114,10 +121,9 @@ export default function StandardStepScreen(): JSX.Element {
       <WNavButton
         label="ステップ完了"
         accessibilityLabel="このステップを完了"
-        onPress={() => {
-          void handleComplete();
-        }}
-        loading={busy}
+        onPress={() => { void handleComplete(); }}
+        loading={busy || stepIdLoading}
+        disabled={stepIdLoading}
       />
     </ScrollView>
   );

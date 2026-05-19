@@ -34,10 +34,9 @@ impl TryFrom<EvidenceFileRow> for EvidenceFile {
     fn try_from(row: EvidenceFileRow) -> Result<Self, Self::Error> {
         let evidence_type = parse_evidence_type(&row.evidence_type)?;
         // BYTEA 32 バイトを固定長配列に変換する
-        let file_hash: [u8; 32] = row
-            .file_hash
-            .try_into()
-            .map_err(|_| DomainError::Internal("file_hash が 32 バイトではありません".to_string()))?;
+        let file_hash: [u8; 32] = row.file_hash.try_into().map_err(|_| {
+            DomainError::Internal("file_hash が 32 バイトではありません".to_string())
+        })?;
 
         Ok(Self {
             evidence_id: row.evidence_id,
@@ -61,7 +60,9 @@ fn parse_evidence_type(s: &str) -> Result<EvidenceType, DomainError> {
         "QR_SCAN" => Ok(EvidenceType::QrScan),
         "SIGNATURE" => Ok(EvidenceType::Signature),
         "OTHER" => Ok(EvidenceType::Other),
-        other => Err(DomainError::Internal(format!("不明な EvidenceType: {other}"))),
+        other => Err(DomainError::Internal(format!(
+            "不明な EvidenceType: {other}"
+        ))),
     }
 }
 

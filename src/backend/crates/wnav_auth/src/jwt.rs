@@ -45,7 +45,7 @@ pub fn validate_private_key_pem(pem: &str) -> Result<(), AuthError> {
 }
 
 impl JwtKeyStore {
-    /// 検証専用の JwtKeyStore を生成する（terminal-api / master-api 共通）。
+    /// 検証専用の `JwtKeyStore` を生成する（`terminal-api` / `master-api` 共通）。
     ///
     /// # 引数
     /// - `public_key_pem`: RSA-4096 公開鍵（PEM 形式）
@@ -63,7 +63,7 @@ impl JwtKeyStore {
         }
     }
 
-    /// 発行・検証両用の JwtKeyStore を生成する（master-api のみ）。
+    /// 発行・検証両用の `JwtKeyStore` を生成する（`master-api` のみ）。
     ///
     /// # 引数
     /// - `private_key_pem`: RSA-4096 秘密鍵（PEM 形式）
@@ -104,7 +104,7 @@ impl JwtKeyStore {
     /// 検証内容:
     /// - RS256 署名
     /// - iss: "wnav.factory.example"
-    /// - aud: self.expected_audience と一致すること
+    /// - aud: `self.expected_audience` と一致すること
     /// - exp: 期限切れでないこと
     /// - kid: 鍵ストアに存在すること
     #[tracing::instrument(skip(self, token), err)]
@@ -113,18 +113,18 @@ impl JwtKeyStore {
         let header = decode_header(token)
             .map_err(|_| AuthError::InvalidToken("failed to decode JWT header".to_string()))?;
 
-        let kid = header
-            .kid
-            .ok_or(AuthError::MissingKid)?;
+        let kid = header.kid.ok_or(AuthError::MissingKid)?;
 
-        // 鍵ストアから kid に対応する公開鍵 PEM を取得する
-        let keys = self.keys.read().await;
-        let pem = keys
-            .get(&kid)
-            .ok_or_else(|| AuthError::UnknownKid(kid.clone()))?;
+        // 鍵ストアから kid に対応する公開鍵 PEM を取得する（guard をクローン後に早期解放する）
+        let pem: String = {
+            let keys = self.keys.read().await;
+            keys.get(&kid)
+                .ok_or_else(|| AuthError::UnknownKid(kid.clone()))?
+                .clone()
+        };
 
-        let decoding_key = DecodingKey::from_rsa_pem(pem.as_bytes())
-            .map_err(|_| AuthError::InvalidPublicKey)?;
+        let decoding_key =
+            DecodingKey::from_rsa_pem(pem.as_bytes()).map_err(|_| AuthError::InvalidPublicKey)?;
 
         // aud・iss・exp を検証する
         let mut validation = Validation::new(Algorithm::RS256);
@@ -133,15 +133,11 @@ impl JwtKeyStore {
         validation.validate_exp = true;
 
         let token_data: TokenData<JwtClaims> =
-            decode(token, &decoding_key, &validation).map_err(|e| {
-                match e.kind() {
-                    jsonwebtoken::errors::ErrorKind::ExpiredSignature => AuthError::TokenExpired,
-                    jsonwebtoken::errors::ErrorKind::InvalidSignature => {
-                        AuthError::InvalidSignature
-                    }
-                    jsonwebtoken::errors::ErrorKind::InvalidAudience => AuthError::InvalidAudience,
-                    _ => AuthError::InvalidToken(e.to_string()),
-                }
+            decode(token, &decoding_key, &validation).map_err(|e| match e.kind() {
+                jsonwebtoken::errors::ErrorKind::ExpiredSignature => AuthError::TokenExpired,
+                jsonwebtoken::errors::ErrorKind::InvalidSignature => AuthError::InvalidSignature,
+                jsonwebtoken::errors::ErrorKind::InvalidAudience => AuthError::InvalidAudience,
+                _ => AuthError::InvalidToken(e.to_string()),
             })?;
 
         Ok(token_data.claims)

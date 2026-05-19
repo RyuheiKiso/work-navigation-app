@@ -2,9 +2,8 @@
 // YAML ツリー内の { secret_ref: "env:VAR" } 形式のマップを検出して実値に置換する
 
 use figment::{
-    map,
+    Metadata, Profile, Provider, map,
     value::{Dict, Map, Value},
-    Metadata, Profile, Provider,
 };
 use std::collections::HashMap;
 
@@ -48,8 +47,7 @@ impl SecretResolver for EnvSecretResolver {
 
     // 環境変数が存在しない場合はエラーにして起動を失敗させる
     fn resolve(&self, id: &str) -> Result<String, SecretResolveError> {
-        std::env::var(id)
-            .map_err(|_| SecretResolveError::EnvVarNotFound(id.to_string()))
+        std::env::var(id).map_err(|_| SecretResolveError::EnvVarNotFound(id.to_string()))
     }
 }
 
@@ -106,7 +104,9 @@ impl SecretResolver for DpapiSecretResolver {
     // 現時点では実装プレースホルダ。Windows API ラッパークレートが確定次第実装する
     fn resolve(&self, _id: &str) -> Result<String, SecretResolveError> {
         // DPAPI 実装は Windows 専用クレート確定後に追加する
-        Err(SecretResolveError::UnknownScheme("dpapi (not yet implemented)".to_string()))
+        Err(SecretResolveError::UnknownScheme(
+            "dpapi (not yet implemented)".to_string(),
+        ))
     }
 }
 
@@ -207,7 +207,9 @@ impl SecretRefProvider {
     fn resolve_secret_ref(&self, ref_str: &str) -> Result<String, String> {
         // ":" で最初の区切りのみ分割してスキームと ID を取り出す
         let Some((scheme, id)) = ref_str.split_once(':') else {
-            return Err(format!("invalid format (expected 'scheme:id'): '{ref_str}'"));
+            return Err(format!(
+                "invalid format (expected 'scheme:id'): '{ref_str}'"
+            ));
         };
 
         // 登録済みリゾルバからスキームに一致するものを探す

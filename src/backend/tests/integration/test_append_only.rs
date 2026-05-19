@@ -38,12 +38,11 @@ async fn tst_intg_002_work_events_update_is_forbidden() {
     .expect("work_events への INSERT は成功するはずです");
 
     // UPDATE を試みる（Append-only トリガーにより拒否されるはず）
-    let update_result = sqlx::query(
-        "UPDATE work_events SET activity = 'tampered' WHERE event_id = $1",
-    )
-    .bind(event_id)
-    .execute(&pool)
-    .await;
+    let update_result =
+        sqlx::query("UPDATE work_events SET activity = 'tampered' WHERE event_id = $1")
+            .bind(event_id)
+            .execute(&pool)
+            .await;
 
     assert!(
         update_result.is_err(),
@@ -90,12 +89,10 @@ async fn tst_intg_002_work_events_delete_is_forbidden() {
     .expect("work_events への INSERT は成功するはずです");
 
     // DELETE を試みる（Append-only トリガーにより拒否されるはず）
-    let delete_result = sqlx::query(
-        "DELETE FROM work_events WHERE event_id = $1",
-    )
-    .bind(event_id)
-    .execute(&pool)
-    .await;
+    let delete_result = sqlx::query("DELETE FROM work_events WHERE event_id = $1")
+        .bind(event_id)
+        .execute(&pool)
+        .await;
 
     assert!(
         delete_result.is_err(),
@@ -128,12 +125,11 @@ async fn tst_intg_002_hash_chain_blocks_update_is_forbidden() {
 
     // INSERT が成功した場合のみ UPDATE テストを実行する
     if insert_result.is_ok() {
-        let update_result = sqlx::query(
-            "UPDATE hash_chain_blocks SET sequence_number = 99 WHERE block_id = $1",
-        )
-        .bind(block_id)
-        .execute(&pool)
-        .await;
+        let update_result =
+            sqlx::query("UPDATE hash_chain_blocks SET sequence_number = 99 WHERE block_id = $1")
+                .bind(block_id)
+                .execute(&pool)
+                .await;
 
         assert!(
             update_result.is_err(),
@@ -165,12 +161,11 @@ async fn tst_intg_002_auth_logs_update_is_forbidden() {
     .await;
 
     if insert_result.is_ok() {
-        let update_result = sqlx::query(
-            "UPDATE auth_logs SET event_type = 'TAMPERED' WHERE log_id = $1",
-        )
-        .bind(log_id)
-        .execute(&pool)
-        .await;
+        let update_result =
+            sqlx::query("UPDATE auth_logs SET event_type = 'TAMPERED' WHERE log_id = $1")
+                .bind(log_id)
+                .execute(&pool)
+                .await;
 
         assert!(
             update_result.is_err(),

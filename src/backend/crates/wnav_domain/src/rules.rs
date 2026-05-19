@@ -19,10 +19,7 @@ const _INDIVIDUAL_METRICS_FORBIDDEN: () = ();
 /// (BR-BUS-001) ロックステップ強制。
 /// 現在ステップの番号と試みたステップの番号が一致しているかを検証する。
 /// ステップスキップは ERR-BIZ-001 に対応する。
-pub fn br_bus_001_lock_step(
-    execution: &WorkExecution,
-    step: &Step,
-) -> Result<(), DomainError> {
+pub fn br_bus_001_lock_step(execution: &WorkExecution, step: &Step) -> Result<(), DomainError> {
     // step_number は 1 基準、current_step_index は 0 基準
     // 次に実行すべきステップは current_step_index + 1
     let expected_step_number = execution.current_step_index + 1;
@@ -62,10 +59,7 @@ pub fn br_bus_002_skill_gate(
 /// (BR-BUS-003) 証拠記録必須チェック。
 /// ステップが証拠必須（evidence_required = true）の場合、
 /// evidence_ids が空でないことを検証する（ERR-BIZ-003）。
-pub fn br_bus_003_evidence_required(
-    step: &Step,
-    evidence_ids: &[Uuid],
-) -> Result<(), DomainError> {
+pub fn br_bus_003_evidence_required(step: &Step, evidence_ids: &[Uuid]) -> Result<(), DomainError> {
     if step.evidence_required && evidence_ids.is_empty() {
         return Err(DomainError::EvidenceRequired);
     }
@@ -75,10 +69,7 @@ pub fn br_bus_003_evidence_required(
 /// (BR-BUS-004) 電子サイン必須チェック。
 /// ステップが電子サイン必須（sign_required = true）の場合、
 /// sign_id が Some であることを検証する（ERR-BIZ-002）。
-pub fn br_bus_004_sign_required(
-    step: &Step,
-    sign_id: Option<Uuid>,
-) -> Result<(), DomainError> {
+pub fn br_bus_004_sign_required(step: &Step, sign_id: Option<Uuid>) -> Result<(), DomainError> {
     if step.sign_required && sign_id.is_none() {
         return Err(DomainError::SignRequired);
     }
@@ -211,7 +202,10 @@ mod tests {
         let step = make_step(2, false, false);
         assert!(matches!(
             br_bus_001_lock_step(&execution, &step),
-            Err(DomainError::StepSequenceViolation { current_step: 0, attempted_step: 2 })
+            Err(DomainError::StepSequenceViolation {
+                current_step: 0,
+                attempted_step: 2
+            })
         ));
     }
 
@@ -354,7 +348,10 @@ mod tests {
         };
         assert!(matches!(
             br_bus_002_skill_gate(&user, &sop, 3),
-            Err(DomainError::InsufficientSkillLevel { required: 3, actual: 1 })
+            Err(DomainError::InsufficientSkillLevel {
+                required: 3,
+                actual: 1
+            })
         ));
     }
 }

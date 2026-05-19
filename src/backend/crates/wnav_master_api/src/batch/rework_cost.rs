@@ -10,7 +10,10 @@ const DAILY_INTERVAL_SEC: u64 = 24 * 3600;
 
 /// BAT-011 を常駐 tokio task として実行する。
 pub async fn run(write_pool: PgPool, read_pool: PgPool) {
-    tracing::info!(bat_id = "BAT-011", "リワーク・コスト集計バッチを起動しました");
+    tracing::info!(
+        bat_id = "BAT-011",
+        "リワーク・コスト集計バッチを起動しました"
+    );
 
     loop {
         tokio::time::sleep(Duration::from_secs(DAILY_INTERVAL_SEC)).await;
@@ -19,7 +22,11 @@ pub async fn run(write_pool: PgPool, read_pool: PgPool) {
 
         match run_aggregation(&write_pool, &read_pool).await {
             Ok(inserted) => {
-                tracing::info!(bat_id = "BAT-011", inserted_count = inserted, "リワーク・コスト集計処理が完了しました");
+                tracing::info!(
+                    bat_id = "BAT-011",
+                    inserted_count = inserted,
+                    "リワーク・コスト集計処理が完了しました"
+                );
             }
             Err(e) => {
                 tracing::error!(bat_id = "BAT-011", error = %e, "リワーク・コスト集計処理に失敗しました");

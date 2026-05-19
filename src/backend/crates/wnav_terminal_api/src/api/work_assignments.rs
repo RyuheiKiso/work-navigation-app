@@ -68,7 +68,22 @@ pub async fn list_work_assignments(
         .collect();
 
     // カーソルページング（limit + 1 件取得して has_more を判定する）
-    let rows = sqlx::query_as::<_, (Uuid, Uuid, String, Option<Uuid>, Option<String>, Option<Uuid>, Option<Uuid>, Option<chrono::DateTime<Utc>>, i32, String, chrono::DateTime<Utc>)>(
+    let rows = sqlx::query_as::<
+        _,
+        (
+            Uuid,
+            Uuid,
+            String,
+            Option<Uuid>,
+            Option<String>,
+            Option<Uuid>,
+            Option<Uuid>,
+            Option<chrono::DateTime<Utc>>,
+            i32,
+            String,
+            chrono::DateTime<Utc>,
+        ),
+    >(
         r"
         SELECT
             wa.id,
@@ -109,8 +124,8 @@ pub async fn list_work_assignments(
     let items: Vec<WorkAssignmentDto> = rows
         .into_iter()
         .take(limit as usize)
-        .map(|(id, sop_id, sop_name, lot_id, lot_number, suggested_worker_id, suggested_equipment_id, due_at, priority, status, received_at)| {
-            WorkAssignmentDto {
+        .map(
+            |(
                 id,
                 sop_id,
                 sop_name,
@@ -122,8 +137,22 @@ pub async fn list_work_assignments(
                 priority,
                 status,
                 received_at,
-            }
-        })
+            )| {
+                WorkAssignmentDto {
+                    id,
+                    sop_id,
+                    sop_name,
+                    lot_id,
+                    lot_number,
+                    suggested_worker_id,
+                    suggested_equipment_id,
+                    due_at,
+                    priority,
+                    status,
+                    received_at,
+                }
+            },
+        )
         .collect();
 
     let next_cursor = if has_more {

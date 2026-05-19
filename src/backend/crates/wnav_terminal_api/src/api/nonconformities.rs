@@ -3,12 +3,7 @@
 // 現場端末からの非適合品起票を担当する。
 // event_insert_pool（app_event_insert ロール）を使用する。
 
-use axum::{
-    extract::State,
-    http::StatusCode,
-    response::IntoResponse,
-    Json,
-};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use chrono::Utc;
 use uuid::Uuid;
 

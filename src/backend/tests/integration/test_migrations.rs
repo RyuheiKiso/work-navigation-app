@@ -133,12 +133,11 @@ async fn tst_intg_001_migration_versions_recorded() {
     let (pool, _container) = common::setup_test_db().await;
 
     // sqlx は _sqlx_migrations テーブルにバージョンを記録する
-    let applied: i64 = sqlx::query_scalar(
-        "SELECT COUNT(*) FROM _sqlx_migrations WHERE success = true",
-    )
-    .fetch_one(&pool)
-    .await
-    .expect("マイグレーションバージョン取得に失敗しました");
+    let applied: i64 =
+        sqlx::query_scalar("SELECT COUNT(*) FROM _sqlx_migrations WHERE success = true")
+            .fetch_one(&pool)
+            .await
+            .expect("マイグレーションバージョン取得に失敗しました");
 
     // 少なくとも 1 件のマイグレーションが適用されていること
     assert!(applied >= 1, "適用済みマイグレーションが 0 件です");

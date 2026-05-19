@@ -5,10 +5,10 @@
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
 use axum::{
+    Json,
     extract::{Path, State},
     http::StatusCode,
     response::IntoResponse,
-    Json,
 };
 use chrono::Utc;
 use uuid::Uuid;
@@ -147,9 +147,7 @@ pub async fn update_capa(
         .as_deref()
         .unwrap_or(existing.get("corrective_action"))
         .to_string();
-    let new_due_date: chrono::NaiveDate = req
-        .due_date
-        .unwrap_or_else(|| existing.get("due_date"));
+    let new_due_date: chrono::NaiveDate = req.due_date.unwrap_or_else(|| existing.get("due_date"));
 
     sqlx::query(
         r#"

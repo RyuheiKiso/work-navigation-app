@@ -86,20 +86,22 @@ pub async fn run_master_sync(
 /// master-api の URL は WNAV_MASTER_API_URL 環境変数から取得する（デフォルト: localhost:8081）。
 async fn sync_master(pool: &PgPool, config: &TerminalApiConfig) -> anyhow::Result<usize> {
     // 前回の同期バージョンを取得する（未記録の場合は 0 から開始）
-    let last_sync_version: i64 = sqlx::query_scalar(
-        r#"SELECT COALESCE(MAX(sync_version), 0) FROM local_sync_state"#,
-    )
-    .fetch_one(pool)
-    .await
-    .unwrap_or(0);
+    let last_sync_version: i64 =
+        sqlx::query_scalar(r#"SELECT COALESCE(MAX(sync_version), 0) FROM local_sync_state"#)
+            .fetch_one(pool)
+            .await
+            .unwrap_or(0);
 
     // master-api の URL を環境変数から取得する（設定ファイルに専用フィールドがないため環境変数を使用する）
-    let master_api_base = std::env::var("WNAV_MASTER_API_URL")
-        .unwrap_or_else(|_| {
-            // デフォルト: terminal-api と同一ホストの 8081 ポートを使用する
-            let host = config.server.terminal_api.bind_addr.replace("0.0.0.0", "127.0.0.1");
-            format!("http://{}:8081", host)
-        });
+    let master_api_base = std::env::var("WNAV_MASTER_API_URL").unwrap_or_else(|_| {
+        // デフォルト: terminal-api と同一ホストの 8081 ポートを使用する
+        let host = config
+            .server
+            .terminal_api
+            .bind_addr
+            .replace("0.0.0.0", "127.0.0.1");
+        format!("http://{}:8081", host)
+    });
 
     // master-api の sync エンドポイントに差分リクエストを送信する
     let master_api_url = format!(
@@ -130,8 +132,16 @@ async fn sync_master(pool: &PgPool, config: &TerminalApiConfig) -> anyhow::Resul
         .unwrap_or(last_sync_version);
 
     // 差分データを取得して UPSERT する
-    let sops = body.get("sops").and_then(|v| v.as_array()).cloned().unwrap_or_default();
-    let steps = body.get("steps").and_then(|v| v.as_array()).cloned().unwrap_or_default();
+    let sops = body
+        .get("sops")
+        .and_then(|v| v.as_array())
+        .cloned()
+        .unwrap_or_default();
+    let steps = body
+        .get("steps")
+        .and_then(|v| v.as_array())
+        .cloned()
+        .unwrap_or_default();
     let total_synced = sops.len() + steps.len();
 
     // SOP データを UPSERT する
@@ -192,7 +202,11 @@ async fn upsert_sop(pool: &PgPool, sop: &serde_json::Value) -> anyhow::Result<()
     .bind(id)
     .bind(sop.get("name").and_then(|v| v.as_str()).unwrap_or(""))
     .bind(sop.get("process_id").and_then(|v| v.as_str()))
-    .bind(sop.get("is_active").and_then(|v| v.as_bool()).unwrap_or(true))
+    .bind(
+        sop.get("is_active")
+            .and_then(|v| v.as_bool())
+            .unwrap_or(true),
+    )
     .execute(pool)
     .await?;
 
@@ -217,10 +231,22 @@ async fn upsert_step(pool: &PgPool, step: &serde_json::Value) -> anyhow::Result<
     )
     .bind(id)
     .bind(step.get("sop_id").and_then(|v| v.as_str()))
-    .bind(step.get("step_number").and_then(|v| v.as_i64()).unwrap_or(0))
+    .bind(
+        step.get("step_number")
+            .and_then(|v| v.as_i64())
+            .unwrap_or(0),
+    )
     .bind(step.get("title").and_then(|v| v.as_str()).unwrap_or(""))
-    .bind(step.get("instruction").and_then(|v| v.as_str()).unwrap_or(""))
-    .bind(step.get("step_type").and_then(|v| v.as_str()).unwrap_or("operation"))
+    .bind(
+        step.get("instruction")
+            .and_then(|v| v.as_str())
+            .unwrap_or(""),
+    )
+    .bind(
+        step.get("step_type")
+            .and_then(|v| v.as_str())
+            .unwrap_or("operation"),
+    )
     .execute(pool)
     .await?;
 

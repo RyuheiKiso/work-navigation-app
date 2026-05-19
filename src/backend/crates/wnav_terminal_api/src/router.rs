@@ -104,7 +104,10 @@ pub fn create_router() -> Router<AppState> {
             post(reworks::create_rework_verification),
         )
         // ─── 非適合品登録（terminal-api 担当分）──────────────────────
-        .route("/nonconformities", post(nonconformities::register_nonconformity))
+        .route(
+            "/nonconformities",
+            post(nonconformities::register_nonconformity),
+        )
         // ─── システム ─────────────────────────────────────────────────
         .route("/readyz", get(health::readyz));
 

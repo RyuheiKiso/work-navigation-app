@@ -5,10 +5,10 @@
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
 use axum::{
+    Json,
     extract::{Query, State},
     http::StatusCode,
     response::IntoResponse,
-    Json,
 };
 use serde::Deserialize;
 use sqlx::Row as _;
@@ -60,12 +60,11 @@ pub async fn forward_trace(
 ) -> Result<impl IntoResponse, AppError> {
     let case_id = q.case_id;
     // case の存在確認
-    let case_exists: bool = sqlx::query_scalar(
-        r#"SELECT EXISTS(SELECT 1 FROM work_cases WHERE id = $1)"#,
-    )
-    .bind(case_id)
-    .fetch_one(&state.read_pool)
-    .await?;
+    let case_exists: bool =
+        sqlx::query_scalar(r#"SELECT EXISTS(SELECT 1 FROM work_cases WHERE id = $1)"#)
+            .bind(case_id)
+            .fetch_one(&state.read_pool)
+            .await?;
 
     if !case_exists {
         return Err(AppError::NotFound(format!("case:{case_id}")));
@@ -98,7 +97,8 @@ pub async fn forward_trace(
             worker_id: r.get("worker_id"),
             device_id: r.get("device_id"),
             hash_valid: r.get::<bool, _>("hash_present"),
-            payload: r.get::<Option<serde_json::Value>, _>("payload")
+            payload: r
+                .get::<Option<serde_json::Value>, _>("payload")
                 .unwrap_or(serde_json::Value::Null),
             created_at: r.get("created_at"),
         })
@@ -158,12 +158,11 @@ pub async fn backward_trace(
     .await?
     .ok_or_else(|| AppError::NotFound(format!("lot:{lot_id}")))?;
 
-    let case_ids: Vec<Uuid> = sqlx::query_scalar(
-        r#"SELECT case_id FROM lot_case_mappings WHERE lot_id = $1"#,
-    )
-    .bind(&lot_id)
-    .fetch_all(&state.read_pool)
-    .await?;
+    let case_ids: Vec<Uuid> =
+        sqlx::query_scalar(r#"SELECT case_id FROM lot_case_mappings WHERE lot_id = $1"#)
+            .bind(&lot_id)
+            .fetch_all(&state.read_pool)
+            .await?;
 
     let upstream_lots: Vec<String> = sqlx::query_scalar(
         r#"SELECT upstream_lot_id FROM lot_lineage WHERE downstream_lot_id = $1"#,
@@ -179,12 +178,11 @@ pub async fn backward_trace(
     .fetch_all(&state.read_pool)
     .await?;
 
-    let nonconformance_count: i64 = sqlx::query_scalar(
-        r#"SELECT COUNT(*) FROM nonconformances WHERE lot_id = $1"#,
-    )
-    .bind(&lot_id)
-    .fetch_one(&state.read_pool)
-    .await?;
+    let nonconformance_count: i64 =
+        sqlx::query_scalar(r#"SELECT COUNT(*) FROM nonconformances WHERE lot_id = $1"#)
+            .bind(&lot_id)
+            .fetch_one(&state.read_pool)
+            .await?;
 
     let nonconformance_lot_ids = if nonconformance_count > 0 {
         vec![lot_id.clone()]

@@ -220,12 +220,10 @@ async fn get_prev_hash(pool: &sqlx::PgPool, work_execution_id: Uuid) -> Result<S
     .await
     .map_err(|_| AppError::DatabaseError)?;
 
-    Ok(prev
-        .map(|(h,)| h)
-        .unwrap_or_else(|| {
-            // genesis ハッシュ: SHA-256("") の hex 表現
-            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855".to_string()
-        }))
+    Ok(prev.map(|(h,)| h).unwrap_or_else(|| {
+        // genesis ハッシュ: SHA-256("") の hex 表現
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855".to_string()
+    }))
 }
 
 /// SHA-256 ハッシュを計算する（ハッシュチェーン計算）。

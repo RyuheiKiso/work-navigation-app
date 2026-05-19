@@ -2,6 +2,7 @@ import { v7 as uuidv7 } from 'uuid';
 import {
   HttpResponse,
   envelope,
+  extractBearer,
   problem,
   requireAuth,
   route,
@@ -52,7 +53,11 @@ export const authHandlers = [
       factoryId: user.factoryId,
     };
     storeIdempotency(idem.key, idem.bodyHash, response, 200);
-    return HttpResponse.json(envelope(response), { status: 200 });
+    // モック環境では httpOnly Cookie が使えないため通常 Cookie で代替する
+    return HttpResponse.json(envelope(response), {
+      status: 200,
+      headers: { 'Set-Cookie': `wnav_mock_token=${accessToken}; Path=/; SameSite=Lax` },
+    });
   }),
 
   ...route('post', 'any', '/auth/refresh', async ({ request }) => {
@@ -79,6 +84,35 @@ export const authHandlers = [
     const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
     if (token) db.jtiBlacklist.add(token);
     return new HttpResponse(null, { status: 204 });
+  }),
+
+  // Cookie ベースのセッション確認エンドポイント（master-api 専用）
+  ...route('get', 'master', '/auth/me', ({ request }) => {
+    const cookieHeader = request.headers.get('cookie') ?? '';
+    const cookieMatch = /wnav_mock_token=([^\s;]+)/.exec(cookieHeader);
+    // Authorization ヘッダも許容（将来の Bearer 移行に備えるフォールバック）
+    const bearerToken = extractBearer(request);
+    const token = bearerToken ?? (cookieMatch ? cookieMatch[1] : null);
+
+    if (!token) return problem(401, 'ERR-AUTH-001', 'Unauthorized', '認証が必要です');
+    if (db.jtiBlacklist.has(token)) return problem(401, 'ERR-AUTH-001', 'Unauthorized', 'トークンは無効化済みです');
+
+    // fakeJwt 形式: mock-jwt.{audience}.{userId}.{ts}
+    const parts = token.split('.');
+    const userId = parts[2];
+    if (!userId) return problem(401, 'ERR-AUTH-001', 'Unauthorized', 'トークン形式が不正です');
+
+    const user = db.users.find((u) => u.id === userId);
+    if (!user) return problem(401, 'ERR-AUTH-001', 'Unauthorized', 'ユーザーが見つかりません');
+
+    return HttpResponse.json(envelope({
+      id: user.id,
+      loginId: user.loginId,
+      role: user.role,
+      roles: user.roles,
+      locale: user.locale,
+      factoryId: user.factoryId,
+    }));
   }),
 
   ...route('get', 'any', '/auth/jwks', () => {

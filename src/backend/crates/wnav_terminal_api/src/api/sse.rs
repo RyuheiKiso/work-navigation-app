@@ -68,9 +68,9 @@ pub async fn sse_assignments(
         .collect();
 
     // 定期 keepalive イベントストリームを生成する（CFG-029: 25 秒間隔）
-    let keepalive_stream = tokio_stream::wrappers::IntervalStream::new(
-        tokio::time::interval(Duration::from_secs(keep_alive_sec)),
-    )
+    let keepalive_stream = tokio_stream::wrappers::IntervalStream::new(tokio::time::interval(
+        Duration::from_secs(keep_alive_sec),
+    ))
     .map(move |_| {
         let event_id = Uuid::now_v7().to_string();
         let data = serde_json::json!({
@@ -78,12 +78,7 @@ pub async fn sse_assignments(
         })
         .to_string();
 
-        Ok::<Event, Infallible>(
-            Event::default()
-                .id(event_id)
-                .event("keepalive")
-                .data(data),
-        )
+        Ok::<Event, Infallible>(Event::default().id(event_id).event("keepalive").data(data))
     });
 
     // 初期配信 + keepalive を結合したストリームを返す
@@ -103,11 +98,19 @@ pub async fn sse_assignments(
 }
 
 /// 未配信の作業割当を取得する（初期配信用）
-async fn fetch_pending_assignments(
-    state: &AppState,
-    terminal_id: Uuid,
-) -> Vec<serde_json::Value> {
-    let rows = sqlx::query_as::<_, (Uuid, Uuid, Option<Uuid>, Option<chrono::DateTime<Utc>>, i32, String, chrono::DateTime<Utc>)>(
+async fn fetch_pending_assignments(state: &AppState, terminal_id: Uuid) -> Vec<serde_json::Value> {
+    let rows = sqlx::query_as::<
+        _,
+        (
+            Uuid,
+            Uuid,
+            Option<Uuid>,
+            Option<chrono::DateTime<Utc>>,
+            i32,
+            String,
+            chrono::DateTime<Utc>,
+        ),
+    >(
         r"
         SELECT id, sop_id, lot_id, due_at, priority, status, received_at
         FROM work_assignments
@@ -123,16 +126,18 @@ async fn fetch_pending_assignments(
     .unwrap_or_default();
 
     rows.into_iter()
-        .map(|(id, sop_id, lot_id, due_at, priority, status, received_at)| {
-            serde_json::json!({
-                "assignment_id": id,
-                "sop_id": sop_id,
-                "lot_id": lot_id,
-                "due_at": due_at,
-                "priority": priority,
-                "status": status,
-                "received_at": received_at,
-            })
-        })
+        .map(
+            |(id, sop_id, lot_id, due_at, priority, status, received_at)| {
+                serde_json::json!({
+                    "assignment_id": id,
+                    "sop_id": sop_id,
+                    "lot_id": lot_id,
+                    "due_at": due_at,
+                    "priority": priority,
+                    "status": status,
+                    "received_at": received_at,
+                })
+            },
+        )
         .collect()
 }

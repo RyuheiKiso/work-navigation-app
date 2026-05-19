@@ -32,18 +32,15 @@ impl TryFrom<HashChainBlockRow> for HashChainBlock {
     type Error = DomainError;
 
     fn try_from(row: HashChainBlockRow) -> Result<Self, Self::Error> {
-        let prev_block_hash: [u8; 32] = row
-            .prev_block_hash
-            .try_into()
-            .map_err(|_| DomainError::Internal("prev_block_hash が 32 バイトではありません".to_string()))?;
-        let content_hash: [u8; 32] = row
-            .content_hash
-            .try_into()
-            .map_err(|_| DomainError::Internal("content_hash が 32 バイトではありません".to_string()))?;
-        let block_hash: [u8; 32] = row
-            .block_hash
-            .try_into()
-            .map_err(|_| DomainError::Internal("block_hash が 32 バイトではありません".to_string()))?;
+        let prev_block_hash: [u8; 32] = row.prev_block_hash.try_into().map_err(|_| {
+            DomainError::Internal("prev_block_hash が 32 バイトではありません".to_string())
+        })?;
+        let content_hash: [u8; 32] = row.content_hash.try_into().map_err(|_| {
+            DomainError::Internal("content_hash が 32 バイトではありません".to_string())
+        })?;
+        let block_hash: [u8; 32] = row.block_hash.try_into().map_err(|_| {
+            DomainError::Internal("block_hash が 32 バイトではありません".to_string())
+        })?;
 
         Ok(Self {
             block_id: row.block_id,

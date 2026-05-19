@@ -1,5 +1,5 @@
 #!/bin/bash
-# cold_archive.sh — BAT-005: コールドアーカイブスクリプト
+# cold_archive.sh — コールドアーカイブスクリプト（月次メンテナンス・手動トリガ）
 # 権威ドキュメント:
 #   docs/05_詳細設計/01_データベース詳細設計/06_パーティション・アーカイブ詳細設計.md §3-3
 #
@@ -37,7 +37,7 @@ DUMP_PATH="${COLD_DIR}/${PARTITION}.dump.gz.enc"
 # コールドアーカイブディレクトリが存在しない場合は作成する
 mkdir -p "${COLD_DIR}"
 
-echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] BAT-005 コールドアーカイブ開始"
+echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] コールドアーカイブ開始"
 echo "  対象パーティション: ${PARTITION}"
 echo "  保存先: ${DUMP_PATH}"
 
@@ -84,4 +84,4 @@ echo "  1. ダンプの整合性を確認する: sha256sum -c ${DUMP_PATH}.sha25
 echo "  2. ダンプが正常であることを確認した後、以下を実行してパーティションを削除する:"
 echo "     psql \"\${DATABASE_URL}\" -c \"DROP TABLE ${PARTITION};\""
 echo ""
-echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] BAT-005 コールドアーカイブ完了（DROP TABLE は手動で実施すること）"
+echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] コールドアーカイブ完了（DROP TABLE は手動で実施すること）"

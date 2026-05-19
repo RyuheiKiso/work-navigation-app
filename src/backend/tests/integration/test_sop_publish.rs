@@ -123,12 +123,11 @@ async fn tst_intg_008_sop_state_transitions_recorded_in_db() {
     );
 
     // UnderReview → Published への遷移を記録する（電子サイン済み想定）
-    let publish_result = sqlx::query(
-        "UPDATE sops SET status = 'PUBLISHED', updated_at = NOW() WHERE sop_id = $1",
-    )
-    .bind(sop_id)
-    .execute(&pool)
-    .await;
+    let publish_result =
+        sqlx::query("UPDATE sops SET status = 'PUBLISHED', updated_at = NOW() WHERE sop_id = $1")
+            .bind(sop_id)
+            .execute(&pool)
+            .await;
 
     assert!(
         publish_result.is_ok(),
@@ -136,13 +135,11 @@ async fn tst_intg_008_sop_state_transitions_recorded_in_db() {
     );
 
     // 最終状態が PUBLISHED であることを確認する
-    let status: Option<String> = sqlx::query_scalar(
-        "SELECT status FROM sops WHERE sop_id = $1",
-    )
-    .bind(sop_id)
-    .fetch_optional(&pool)
-    .await
-    .expect("status 取得に失敗しました");
+    let status: Option<String> = sqlx::query_scalar("SELECT status FROM sops WHERE sop_id = $1")
+        .bind(sop_id)
+        .fetch_optional(&pool)
+        .await
+        .expect("status 取得に失敗しました");
 
     assert_eq!(
         status.as_deref(),

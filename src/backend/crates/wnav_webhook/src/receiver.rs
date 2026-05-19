@@ -22,11 +22,12 @@ pub struct WebhookReceiver {
 }
 
 impl WebhookReceiver {
-    /// WebhookReceiver を生成する。
+    /// `WebhookReceiver` を生成する。
     ///
     /// # 引数
     /// - `hmac_secret`: HMAC 秘密鍵文字列（配信側と同一）
-    pub fn new(hmac_secret: String) -> Self {
+    #[must_use]
+    pub const fn new(hmac_secret: String) -> Self {
         Self {
             hmac_secret,
             timestamp_tolerance_secs: DEFAULT_TIMESTAMP_TOLERANCE_SECS,
@@ -34,7 +35,8 @@ impl WebhookReceiver {
     }
 
     /// タイムスタンプ許容時間窓を変更するビルダーメソッド。
-    pub fn with_timestamp_tolerance(mut self, secs: i64) -> Self {
+    #[must_use]
+    pub const fn with_timestamp_tolerance(mut self, secs: i64) -> Self {
         self.timestamp_tolerance_secs = secs;
         self
     }

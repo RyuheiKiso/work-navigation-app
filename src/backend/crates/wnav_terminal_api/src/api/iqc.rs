@@ -6,10 +6,10 @@
 // event_insert_pool（app_event_insert ロール）を使用する。
 
 use axum::{
+    Json,
     extract::{Path, State},
     http::StatusCode,
     response::IntoResponse,
-    Json,
 };
 use chrono::Utc;
 use uuid::Uuid;
@@ -35,13 +35,12 @@ pub async fn create_inspection(
     let now = Utc::now();
 
     // サンプリングプランを material_id から解決する（プランが存在しない場合は None）
-    let sampling_plan_id: Option<Uuid> = sqlx::query_scalar(
-        r#"SELECT id FROM sampling_plans WHERE material_id = $1 LIMIT 1"#,
-    )
-    .bind(req.material_id)
-    .fetch_optional(&state.read_pool)
-    .await
-    .map_err(|_| AppError::DatabaseError)?;
+    let sampling_plan_id: Option<Uuid> =
+        sqlx::query_scalar(r#"SELECT id FROM sampling_plans WHERE material_id = $1 LIMIT 1"#)
+            .bind(req.material_id)
+            .fetch_optional(&state.read_pool)
+            .await
+            .map_err(|_| AppError::DatabaseError)?;
 
     // 入荷検査レコードを Append-only で挿入する
     sqlx::query(

@@ -7,7 +7,6 @@
 // 権威ドキュメント: docs/02_企画/システム化計画/18_拡張可能Stepエンジン（アドオン機構）.md
 
 use criterion::{BenchmarkId, Criterion, Throughput, criterion_group, criterion_main};
-use jsonlogic_rs;
 
 /// TST-perf-004: JSON Logic 評価速度測定（AND/OR ネスト深度 5）。
 /// 製造現場のポカヨケルールを模した複雑な条件を評価する速度を確認する。
@@ -117,9 +116,7 @@ fn bench_json_logic_nesting_comparison(c: &mut Criterion) {
             BenchmarkId::new("and_depth", depth),
             &(rule, data),
             |b, (r, d)| {
-                b.iter(|| {
-                    jsonlogic_rs::apply(r, d)
-                });
+                b.iter(|| jsonlogic_rs::apply(r, d));
             },
         );
     }

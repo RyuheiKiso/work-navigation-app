@@ -56,10 +56,7 @@ pub async fn auth_middleware(
     let token = token.to_string();
 
     // JWT を検証して Claims を取得する（aud = "master-api" の検証を含む）
-    let claims = key_store
-        .verify(&token)
-        .await
-        .map_err(AppError::from)?;
+    let claims = key_store.verify(&token).await.map_err(AppError::from)?;
 
     // Claims から CurrentUser を生成して Request Extension に注入する
     let current_user = CurrentUser {

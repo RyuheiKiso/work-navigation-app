@@ -138,13 +138,12 @@ impl SopRepository for PgSopRepository {
         .await
         .map_err(crate::error::map_sqlx)?;
 
-        let total: i64 = sqlx::query_scalar(
-            "SELECT COUNT(*) FROM sops WHERE ($1::text IS NULL OR status = $1)",
-        )
-        .bind(status_str.as_deref())
-        .fetch_one(&self.pool)
-        .await
-        .map_err(crate::error::map_sqlx)?;
+        let total: i64 =
+            sqlx::query_scalar("SELECT COUNT(*) FROM sops WHERE ($1::text IS NULL OR status = $1)")
+                .bind(status_str.as_deref())
+                .fetch_one(&self.pool)
+                .await
+                .map_err(crate::error::map_sqlx)?;
 
         let items = rows
             .into_iter()

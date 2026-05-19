@@ -22,19 +22,19 @@ use uuid::Uuid;
 /// | kid | 鍵ローテーション識別子（例: "2026-Q2"）|
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct JwtClaims {
-    /// Subject: user_id（UUID v7）
+    /// Subject: `user_id`（UUID v7）
     pub sub: Uuid,
     /// Issuer: "wnav.factory.example"
     pub iss: String,
     /// Audience: バイナリ種別を示す文字列
-    /// - terminal-api: wnav_terminal_api 宛て
-    /// - master-api: wnav_master_api 宛て
+    /// - `terminal-api`: `wnav_terminal_api` 宛て
+    /// - `master-api`: `wnav_master_api` 宛て
     pub aud: String,
     /// Issued At（Unix 秒）
     pub iat: i64,
     /// Expiration（Unix 秒、iat + 28800 = 8 時間）
     pub exp: i64,
-    /// ロール名リスト（例: ["operator"]、RoleId の snake_case 表現）
+    /// ロール名リスト（例: `["operator"]`、`RoleId` の `snake_case` 表現）
     pub roles: Vec<String>,
     /// 工場 ID（UUID v7）
     pub factory_id: Uuid,
@@ -52,7 +52,7 @@ pub struct JwtClaims {
 pub struct JwtIssueCmd {
     /// 発行対象ユーザー ID（UUID v7）
     pub user_id: Uuid,
-    /// 付与するロール一覧（RoleId の snake_case 文字列）
+    /// 付与するロール一覧（`RoleId` の `snake_case` 文字列）
     pub roles: Vec<String>,
     /// 工場 ID（UUID v7）
     pub factory_id: Uuid,
@@ -61,7 +61,7 @@ pub struct JwtIssueCmd {
     /// 鍵 ID（ローテーション識別用。例: "2026-Q2"）
     pub kid: String,
     /// 発行先バイナリの audience 文字列（§1-1 参照）
-    /// - "terminal-api": wnav_terminal_api 宛て
-    /// - "master-api": wnav_master_api 宛て
+    /// - `"terminal-api"`: `wnav_terminal_api` 宛て
+    /// - `"master-api"`: `wnav_master_api` 宛て
     pub audience: String,
 }

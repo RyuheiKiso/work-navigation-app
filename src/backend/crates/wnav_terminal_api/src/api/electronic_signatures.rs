@@ -135,7 +135,19 @@ pub async fn get_electronic_signature(
     Extension(_current_user): Extension<CurrentUser>,
     Path(id): Path<Uuid>,
 ) -> Result<Json<ApiResponse<ElectronicSignatureDetailData>>, AppError> {
-    let row = sqlx::query_as::<_, (Uuid, Uuid, String, String, Uuid, Option<Uuid>, chrono::DateTime<Utc>, Option<Uuid>)>(
+    let row = sqlx::query_as::<
+        _,
+        (
+            Uuid,
+            Uuid,
+            String,
+            String,
+            Uuid,
+            Option<Uuid>,
+            chrono::DateTime<Utc>,
+            Option<Uuid>,
+        ),
+    >(
         r"
         SELECT id, signer_id, signed_content_hash, context_type, context_id,
                step_id, signed_at, device_id
@@ -149,7 +161,17 @@ pub async fn get_electronic_signature(
     .await
     .map_err(|_| AppError::DatabaseError)?;
 
-    let Some((sign_id, signer_id, signed_content_hash, context_type, context_id, step_id, signed_at, device_id)) = row else {
+    let Some((
+        sign_id,
+        signer_id,
+        signed_content_hash,
+        context_type,
+        context_id,
+        step_id,
+        signed_at,
+        device_id,
+    )) = row
+    else {
         return Err(AppError::NotFound);
     };
 
@@ -190,19 +212,33 @@ pub async fn list_electronic_signatures(
     Query(query): Query<ElectronicSignatureQuery>,
 ) -> Result<Json<PaginatedResponse<ElectronicSignatureDetailData>>, AppError> {
     let page = query.page.unwrap_or(1).max(1);
-    let per_page = query.per_page.unwrap_or(50).min(200).max(1);
+    let per_page = query.per_page.unwrap_or(50).clamp(1, 200);
     let offset = (page - 1) * per_page;
 
     // quality_admin / system_admin は全件、operator は自身の署名のみ参照可
-    let signer_filter = if current_user.roles.iter().any(|r| {
-        matches!(r.as_str(), "quality_admin" | "system_admin")
-    }) {
+    let signer_filter = if current_user
+        .roles
+        .iter()
+        .any(|r| matches!(r.as_str(), "quality_admin" | "system_admin"))
+    {
         query.signer_id
     } else {
         Some(current_user.user_id)
     };
 
-    let rows = sqlx::query_as::<_, (Uuid, Uuid, String, String, Uuid, Option<Uuid>, chrono::DateTime<Utc>, Option<Uuid>)>(
+    let rows = sqlx::query_as::<
+        _,
+        (
+            Uuid,
+            Uuid,
+            String,
+            String,
+            Uuid,
+            Option<Uuid>,
+            chrono::DateTime<Utc>,
+            Option<Uuid>,
+        ),
+    >(
         r"
         SELECT id, signer_id, signed_content_hash, context_type, context_id,
                step_id, signed_at, device_id
@@ -221,24 +257,35 @@ pub async fn list_electronic_signatures(
 
     let items: Vec<ElectronicSignatureDetailData> = rows
         .into_iter()
-        .map(|(sign_id, signer_id, signed_content_hash, context_type, context_id, step_id, signed_at, device_id)| {
-            ElectronicSignatureDetailData {
+        .map(
+            |(
                 sign_id,
                 signer_id,
-                signer_name: None,
-                signer_role: None,
                 signed_content_hash,
                 context_type,
                 context_id,
                 step_id,
                 signed_at,
-                hash_chain_block_id: None,
-                hash_chain_value: None,
-                hash_chain_prev: None,
-                verification_status: "valid".to_string(),
                 device_id,
-            }
-        })
+            )| {
+                ElectronicSignatureDetailData {
+                    sign_id,
+                    signer_id,
+                    signer_name: None,
+                    signer_role: None,
+                    signed_content_hash,
+                    context_type,
+                    context_id,
+                    step_id,
+                    signed_at,
+                    hash_chain_block_id: None,
+                    hash_chain_value: None,
+                    hash_chain_prev: None,
+                    verification_status: "valid".to_string(),
+                    device_id,
+                }
+            },
+        )
         .collect();
 
     let total: i64 = sqlx::query_as::<_, (i64,)>(

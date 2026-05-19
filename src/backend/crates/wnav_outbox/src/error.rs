@@ -9,6 +9,7 @@ use uuid::Uuid;
 /// - `WebhookFailed`: Webhook 配信失敗（HTTP エラー・署名エラー等）
 /// - `MaxRetriesExceeded`: 最大リトライ回数を超過（DLQ 移行前に発生）
 /// - `InvalidConfig`: 設定値不正（hex デコード失敗等）
+#[allow(clippy::doc_markdown)]
 #[derive(Debug, thiserror::Error)]
 pub enum OutboxError {
     /// sqlx データベースエラー

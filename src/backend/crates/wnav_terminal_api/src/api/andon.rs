@@ -2,12 +2,7 @@
 //
 // POST /api/v1/alerts — アンドン発報（terminal-api 担当）
 
-use axum::{
-    Extension,
-    Json,
-    extract::State,
-    http::StatusCode,
-};
+use axum::{Extension, Json, extract::State, http::StatusCode};
 use chrono::Utc;
 use uuid::Uuid;
 

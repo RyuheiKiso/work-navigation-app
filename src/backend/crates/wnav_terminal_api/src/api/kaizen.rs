@@ -2,11 +2,7 @@
 //
 // POST /api/v1/kaizen-proposals — 改善提案起票（terminal-api 担当）
 
-use axum::{
-    Extension, Json,
-    extract::State,
-    http::StatusCode,
-};
+use axum::{Extension, Json, extract::State, http::StatusCode};
 use chrono::Utc;
 use uuid::Uuid;
 
@@ -55,10 +51,12 @@ pub async fn create_kaizen_proposal(
     // evidence_ids は最大 10 件
     if let Some(ref ids) = body.evidence_ids {
         if ids.len() > 10 {
-            return Err(AppError::ValueOutOfRange(Some(vec![crate::error::Violation {
-                field: "evidence_ids".to_string(),
-                message: "evidence_ids は最大 10 件です。".to_string(),
-            }])));
+            return Err(AppError::ValueOutOfRange(Some(vec![
+                crate::error::Violation {
+                    field: "evidence_ids".to_string(),
+                    message: "evidence_ids は最大 10 件です。".to_string(),
+                },
+            ])));
         }
     }
 

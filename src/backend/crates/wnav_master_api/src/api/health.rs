@@ -3,7 +3,7 @@
 // GET /healthz — 軽量ヘルスチェック（認証不要）
 // GET /api/v1/ops/health — DB 疎通 + JWT キー存在確認を含む詳細ヘルスチェック
 
-use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 
 use crate::{
     dto::health::{ComponentStatus, HealthComponents, HealthResponse},

@@ -6,10 +6,10 @@
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
 use axum::{
+    Json,
     extract::{Path, State},
     http::StatusCode,
     response::IntoResponse,
-    Json,
 };
 use chrono::Utc;
 use uuid::Uuid;
@@ -50,7 +50,11 @@ pub async fn acknowledge_alert(
     let now = Utc::now();
 
     // resolved フラグに応じて status を変更する
-    let new_status = if req.resolved { "resolved" } else { "acknowledged" };
+    let new_status = if req.resolved {
+        "resolved"
+    } else {
+        "acknowledged"
+    };
 
     // アラートが存在することを確認してから更新する
     let affected = sqlx::query(

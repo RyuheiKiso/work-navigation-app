@@ -3,13 +3,7 @@
 // 各リクエストに UUID v7 の X-Request-Id を付与し、
 // 受信・送信をそれぞれ JSON 構造化ログとして出力する（LOG-001 / LOG-002）。
 
-use axum::{
-    body::Body,
-    extract::Request,
-    http::HeaderValue,
-    middleware::Next,
-    response::Response,
-};
+use axum::{body::Body, extract::Request, http::HeaderValue, middleware::Next, response::Response};
 use uuid::Uuid;
 
 /// X-Request-Id 付与・構造化ログ出力ミドルウェア。

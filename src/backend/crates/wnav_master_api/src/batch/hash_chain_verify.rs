@@ -37,9 +37,9 @@ pub async fn run(write_pool: PgPool, read_pool: PgPool, cron_expr: String) {
 
 /// ハッシュチェーン検証の実処理
 async fn run_verification(read_pool: &PgPool) {
+    use chrono::Utc;
     use sqlx::Row as _;
     use wnav_hash_chain::{ChainBlock, verify_chain};
-    use chrono::Utc;
 
     let case_ids: Vec<uuid::Uuid> = match sqlx::query_scalar(
         r#"SELECT DISTINCT case_id FROM work_event_blocks ORDER BY case_id"#,

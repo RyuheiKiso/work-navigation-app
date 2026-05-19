@@ -6,8 +6,7 @@ use axum::{
     body::Body,
     extract::Request,
     http::{
-        HeaderMap,
-        StatusCode,
+        HeaderMap, StatusCode,
         header::{AUTHORIZATION, WWW_AUTHENTICATE},
     },
     middleware::Next,
@@ -24,7 +23,9 @@ fn extract_bearer_token(headers: &HeaderMap) -> Result<&str, AuthError> {
         .get(AUTHORIZATION)
         .ok_or(AuthError::MissingToken)?
         .to_str()
-        .map_err(|_| AuthError::InvalidToken("Authorization header is not valid UTF-8".to_string()))?;
+        .map_err(|_| {
+            AuthError::InvalidToken("Authorization header is not valid UTF-8".to_string())
+        })?;
 
     // "Bearer " プレフィックスを確認してトークン部分を返す
     auth_header
@@ -32,7 +33,7 @@ fn extract_bearer_token(headers: &HeaderMap) -> Result<&str, AuthError> {
         .ok_or(AuthError::MissingToken)
 }
 
-/// JWT 検証 Tower ミドルウェア（auth_layer）。
+/// JWT 検証 Tower ミドルウェア（`auth_layer`）。
 ///
 /// リクエストの Authorization: Bearer ヘッダから JWT を取得し、
 /// RS256 で検証して `CurrentUser` を Request Extension に注入する。
@@ -62,9 +63,10 @@ pub async fn auth_middleware(
         Err(e) => {
             tracing::warn!(event = "auth.invalid_token", error = %e);
             let mut response = e.into_response();
-            response
-                .headers_mut()
-                .insert(WWW_AUTHENTICATE, r#"Bearer realm="wnav", error="invalid_token""#.parse().unwrap());
+            response.headers_mut().insert(
+                WWW_AUTHENTICATE,
+                r#"Bearer realm="wnav", error="invalid_token""#.parse().unwrap(),
+            );
             return response;
         }
     };
@@ -88,7 +90,7 @@ pub async fn auth_middleware(
     next.run(req).await
 }
 
-/// 認証ログ記録 Tower ミドルウェア（auth_log_layer）。
+/// 認証ログ記録 Tower ミドルウェア（`auth_log_layer`）。
 ///
 /// 認証成功・失敗・ロックアウトを構造化ログとして記録する。
 /// このミドルウェアは `auth_middleware` の前段に配置する。

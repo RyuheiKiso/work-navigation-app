@@ -100,7 +100,7 @@ COMMENT ON COLUMN work_events.is_offline       IS 'TRUE のとき、オフライ
 COMMENT ON COLUMN work_events.sync_lag_ms      IS 'オフライン同期遅延（ミリ秒）。is_offline=TRUE 時に設定される。NULL は即時記録。';
 
 -- 月次パーティション（2026年1月〜12月の初期定義）
--- 毎月1日に BAT-004 が翌月のパーティションを自動作成する
+-- 毎月 25 日に partition_create_monthly.sql（月次メンテナンス）が翌月パーティションを作成する
 CREATE TABLE IF NOT EXISTS work_events_y2026m01
     PARTITION OF work_events
     FOR VALUES FROM ('2026-01-01 00:00:00+00') TO ('2026-02-01 00:00:00+00');

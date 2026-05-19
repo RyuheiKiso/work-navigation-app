@@ -67,10 +67,7 @@ impl HashChainService {
 
     /// BAT-001 週次検証の呼び出し口。
     /// 指定した case_id のチェーン連続性を検証する。
-    pub async fn verify_chain(
-        &self,
-        case_id: Uuid,
-    ) -> Result<ChainVerifyResult, DomainError> {
+    pub async fn verify_chain(&self, case_id: Uuid) -> Result<ChainVerifyResult, DomainError> {
         let blocks = self.block_repo.list_by_case(case_id).await?;
 
         let block_count = blocks.len();
@@ -140,11 +137,11 @@ pub struct ChainVerifyResult {
 /// ChainVerifyError からシーケンス番号を抽出するヘルパー。
 fn extract_broken_sequence(error: &wnav_hash_chain::ChainVerifyError) -> Option<i64> {
     match error {
-        wnav_hash_chain::ChainVerifyError::HashMismatch { sequence_number, .. } => {
-            Some(*sequence_number)
-        }
-        wnav_hash_chain::ChainVerifyError::SequenceGap { sequence_number, .. } => {
-            Some(*sequence_number)
-        }
+        wnav_hash_chain::ChainVerifyError::HashMismatch {
+            sequence_number, ..
+        } => Some(*sequence_number),
+        wnav_hash_chain::ChainVerifyError::SequenceGap {
+            sequence_number, ..
+        } => Some(*sequence_number),
     }
 }

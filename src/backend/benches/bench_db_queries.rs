@@ -101,7 +101,7 @@ fn bench_work_executions_filter_select(c: &mut Criterion) {
         group.bench_function("filter_in_progress_struct_1000", |b| {
             b.iter(|| {
                 // WorkExecution のフィルタリングをメモリ上でシミュレートする
-                let statuses = vec!["IN_PROGRESS", "SUSPENDED", "COMPLETED", "NOT_STARTED"];
+                let statuses = ["IN_PROGRESS", "SUSPENDED", "COMPLETED", "NOT_STARTED"];
                 let executions: Vec<&str> = statuses
                     .iter()
                     .cycle()
@@ -171,9 +171,7 @@ fn bench_payload_serialization(c: &mut Criterion) {
         let serialized = serde_json::to_string(&typical_payload).expect("シリアライズ失敗");
         b.iter(|| {
             let deserialized: Vec<serde_json::Value> = (0..1000)
-                .map(|_| {
-                    serde_json::from_str(&serialized).expect("デシリアライズ失敗")
-                })
+                .map(|_| serde_json::from_str(&serialized).expect("デシリアライズ失敗"))
                 .collect();
             deserialized
         });

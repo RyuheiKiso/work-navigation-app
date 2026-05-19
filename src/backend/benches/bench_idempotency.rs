@@ -96,11 +96,7 @@ fn bench_idempotency_ttl_check(c: &mut Criterion) {
     group.bench_function("ttl_check_1000_mixed", |b| {
         b.iter(|| {
             let current = std::time::Instant::now();
-            let valid_count = expires
-                .iter()
-                .filter(|&&exp| exp > current)
-                .count();
-            valid_count
+            expires.iter().filter(|&&exp| exp > current).count()
         });
     });
 

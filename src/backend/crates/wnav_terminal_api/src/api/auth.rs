@@ -4,12 +4,7 @@
 // POST /api/v1/auth/refresh — JWT リフレッシュ
 // POST /api/v1/auth/logout  — JWT 失効（jti ブラックリスト）
 
-use axum::{
-    Extension,
-    Json,
-    extract::State,
-    http::StatusCode,
-};
+use axum::{Extension, Json, extract::State, http::StatusCode};
 use chrono::Utc;
 use uuid::Uuid;
 
@@ -82,7 +77,17 @@ pub async fn login(
     // TBL-016 でユーザーを検索する（read_pool を使用する）
     // 実装簡略: ユーザーが存在しない場合は ERR-AUTH-001 を返す
     // 本番では sqlx::query! でコンパイル時検証を行う
-    let user_row = sqlx::query_as::<_, (Uuid, String, Vec<String>, Uuid, Option<i32>, Option<chrono::DateTime<Utc>>)>(
+    let user_row = sqlx::query_as::<
+        _,
+        (
+            Uuid,
+            String,
+            Vec<String>,
+            Uuid,
+            Option<i32>,
+            Option<chrono::DateTime<Utc>>,
+        ),
+    >(
         r"
         SELECT id, password_hash, roles, factory_id, failed_login_count, locked_until
         FROM users
@@ -98,8 +103,7 @@ pub async fn login(
         AppError::DatabaseError
     })?;
 
-    let Some((user_id, password_hash, roles, factory_id, failed_count, locked_until)) =
-        user_row
+    let Some((user_id, password_hash, roles, factory_id, failed_count, locked_until)) = user_row
     else {
         // ユーザーが存在しない場合: ERR-AUTH-001
         return Err(AppError::Unauthorized);

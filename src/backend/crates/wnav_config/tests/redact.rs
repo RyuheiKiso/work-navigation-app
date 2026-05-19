@@ -17,8 +17,7 @@ fn test_secret_debug_does_not_contain_plain_text() {
 
     // serde_json で平文値から Secret を生成する
     let json = r#"{"secret": "super_secret_password_12345"}"#;
-    let wrapper: Wrapper =
-        serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
+    let wrapper: Wrapper = serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
 
     // Debug 出力を取得する
     let debug_output = format!("{:?}", wrapper.secret);
@@ -55,8 +54,7 @@ fn test_secret_expose_returns_plain_text() {
     }
 
     let json = r#"{"secret": "exposed_value_xyz"}"#;
-    let wrapper: Wrapper =
-        serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
+    let wrapper: Wrapper = serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
 
     // expose() が正しい平文値を返すことを確認する
     assert_eq!(
@@ -80,8 +78,7 @@ fn test_secret_debug_shows_byte_count() {
 
     // ASCII 文字列 8 バイトの Secret を作成する
     let json = r#"{"secret": "12345678"}"#;
-    let wrapper: Wrapper =
-        serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
+    let wrapper: Wrapper = serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
 
     let debug_output = format!("{:?}", wrapper.secret);
 
@@ -105,8 +102,7 @@ fn test_secret_clone_does_not_expose_in_debug() {
     }
 
     let json = r#"{"secret": "clone_test_password"}"#;
-    let wrapper: Wrapper =
-        serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
+    let wrapper: Wrapper = serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
 
     let cloned = wrapper.secret.clone();
     let debug_output = format!("{cloned:?}");
@@ -130,8 +126,7 @@ fn test_secret_empty_string_is_masked() {
     }
 
     let json = r#"{"secret": ""}"#;
-    let wrapper: Wrapper =
-        serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
+    let wrapper: Wrapper = serde_json::from_str(json).expect("Wrapper のデシリアライズに失敗");
 
     let debug_output = format!("{:?}", wrapper.secret);
 

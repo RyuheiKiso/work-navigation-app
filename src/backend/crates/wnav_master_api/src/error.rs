@@ -2,9 +2,9 @@
 // `AppError` は全ハンドラが返す統一エラー型。`IntoResponse` で HTTP レスポンスに変換する。
 
 use axum::{
+    Json,
     http::StatusCode,
     response::{IntoResponse, Response},
-    Json,
 };
 use wnav_common::ProblemDetails;
 
@@ -13,7 +13,6 @@ use wnav_common::ProblemDetails;
 #[derive(Debug, thiserror::Error)]
 pub enum AppError {
     // ── 認証・認可エラー ──────────────────────────────────────────────────
-
     /// Authorization ヘッダまたは Bearer トークンが存在しない
     #[error("Authorization token is missing")]
     Unauthorized,
@@ -27,7 +26,6 @@ pub enum AppError {
     Forbidden,
 
     // ── リソースエラー ────────────────────────────────────────────────────
-
     /// 要求リソースが見つからない
     #[error("Resource not found: {0}")]
     NotFound(String),
@@ -37,7 +35,6 @@ pub enum AppError {
     Conflict(String),
 
     // ── バリデーションエラー ──────────────────────────────────────────────
-
     /// リクエストボディのバリデーション失敗
     #[error("Validation failed: {0}")]
     Validation(String),
@@ -47,7 +44,6 @@ pub enum AppError {
     InvalidSignature,
 
     // ── ビジネスルール違反 ────────────────────────────────────────────────
-
     /// Two-Person Integrity 違反（同一人物が両承認者になっている）
     #[error("Two-Person Integrity violation: approver and submitter must be different users")]
     TwoPersonIntegrityViolation,
@@ -57,13 +53,11 @@ pub enum AppError {
     InvalidStateTransition(String),
 
     // ── レートリミット ────────────────────────────────────────────────────
-
     /// レートリミット超過
     #[error("Rate limit exceeded")]
     RateLimited,
 
     // ── サーバーエラー ────────────────────────────────────────────────────
-
     /// データベースエラー
     #[error("Database error: {0}")]
     Database(String),
@@ -99,9 +93,7 @@ impl AppError {
             Self::NotFound(_) => "https://errors.wnav.example.com/resource/not-found",
             Self::Conflict(_) => "https://errors.wnav.example.com/resource/conflict",
             Self::Validation(_) => "https://errors.wnav.example.com/validation/invalid-input",
-            Self::InvalidSignature => {
-                "https://errors.wnav.example.com/webhook/invalid-signature"
-            }
+            Self::InvalidSignature => "https://errors.wnav.example.com/webhook/invalid-signature",
             Self::TwoPersonIntegrityViolation => {
                 "https://errors.wnav.example.com/business/two-person-integrity"
             }
@@ -135,9 +127,7 @@ impl AppError {
     /// クライアント向けの安全なエラー詳細を返す（内部情報は含まない）
     fn user_detail(&self) -> String {
         match self {
-            Self::Unauthorized => {
-                "Authentication is required to access this resource.".to_string()
-            }
+            Self::Unauthorized => "Authentication is required to access this resource.".to_string(),
             Self::JwtExpired => "The JWT token has expired. Please log in again.".to_string(),
             Self::Forbidden => {
                 "Your role does not have permission to perform this operation.".to_string()
@@ -145,16 +135,12 @@ impl AppError {
             Self::NotFound(resource) => format!("{resource} was not found."),
             Self::Conflict(msg) => msg.clone(),
             Self::Validation(msg) => msg.clone(),
-            Self::InvalidSignature => {
-                "HMAC-SHA256 signature verification failed.".to_string()
-            }
+            Self::InvalidSignature => "HMAC-SHA256 signature verification failed.".to_string(),
             Self::TwoPersonIntegrityViolation => {
                 "The submitter and approver must be different users (FR-AU-007).".to_string()
             }
             Self::InvalidStateTransition(msg) => msg.clone(),
-            Self::RateLimited => {
-                "Too many requests. Please wait before retrying.".to_string()
-            }
+            Self::RateLimited => "Too many requests. Please wait before retrying.".to_string(),
             Self::Database(_) => "A database error occurred. Please try again later.".to_string(),
             Self::Internal(_) => {
                 "An internal server error occurred. Please try again later.".to_string()

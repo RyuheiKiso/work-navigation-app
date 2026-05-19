@@ -6,10 +6,10 @@
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
 use axum::{
+    Json,
     extract::{Path, Query, State},
     http::StatusCode,
     response::IntoResponse,
-    Json,
 };
 use chrono::{DateTime, Utc};
 use serde::Deserialize;
@@ -162,22 +162,20 @@ pub async fn create_draft(
     let now = Utc::now();
 
     // バージョン番号を採番する（現在の最大番号 + 1）
-    let count: i64 = sqlx::query_scalar(
-        r#"SELECT COUNT(*) FROM master_versions WHERE deleted_at IS NULL"#,
-    )
-    .fetch_one(&state.read_pool)
-    .await?;
+    let count: i64 =
+        sqlx::query_scalar(r#"SELECT COUNT(*) FROM master_versions WHERE deleted_at IS NULL"#)
+            .fetch_one(&state.read_pool)
+            .await?;
     let version_number = format!("v{}.0.0", count + 1);
 
     // base_version_id が指定された場合は既存バージョンのデータを初期値として使用する
     let initial_data = if let Some(base_id) = req.base_version_id {
-        let base_row = sqlx::query(
-            r#"SELECT data FROM master_versions WHERE id = $1 AND deleted_at IS NULL"#,
-        )
-        .bind(base_id)
-        .fetch_optional(&state.read_pool)
-        .await?
-        .ok_or_else(|| AppError::NotFound(format!("base_version:{base_id}")))?;
+        let base_row =
+            sqlx::query(r#"SELECT data FROM master_versions WHERE id = $1 AND deleted_at IS NULL"#)
+                .bind(base_id)
+                .fetch_optional(&state.read_pool)
+                .await?
+                .ok_or_else(|| AppError::NotFound(format!("base_version:{base_id}")))?;
         base_row.get::<serde_json::Value, _>("data")
     } else {
         req.data.clone()
@@ -347,7 +345,12 @@ pub async fn submit_version(
 
     Ok((
         StatusCode::OK,
-        Json(build_response_from_row(&existing, MasterVersionStatus::PendingApproval, now, None)),
+        Json(build_response_from_row(
+            &existing,
+            MasterVersionStatus::PendingApproval,
+            now,
+            None,
+        )),
     ))
 }
 
@@ -419,7 +422,12 @@ pub async fn approve_version(
 
     Ok((
         StatusCode::OK,
-        Json(build_response_from_row(&existing, MasterVersionStatus::Published, now, Some(approver_id))),
+        Json(build_response_from_row(
+            &existing,
+            MasterVersionStatus::Published,
+            now,
+            Some(approver_id),
+        )),
     ))
 }
 
@@ -483,7 +491,12 @@ pub async fn rollback_version(
 
     Ok((
         StatusCode::OK,
-        Json(build_response_from_row(&existing, MasterVersionStatus::Archived, now, None)),
+        Json(build_response_from_row(
+            &existing,
+            MasterVersionStatus::Archived,
+            now,
+            None,
+        )),
     ))
 }
 
@@ -537,10 +550,7 @@ pub async fn dry_run(
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// バージョン行を取得するヘルパー（存在しない場合は 404 を返す）
-async fn get_version_row(
-    state: &AppState,
-    id: Uuid,
-) -> Result<sqlx::postgres::PgRow, AppError> {
+async fn get_version_row(state: &AppState, id: Uuid) -> Result<sqlx::postgres::PgRow, AppError> {
     sqlx::query(
         r#"
         SELECT id, version_number, status, data, created_by, created_at, updated_at, description

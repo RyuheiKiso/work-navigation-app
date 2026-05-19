@@ -30,22 +30,17 @@ pub async fn auth_middleware(
     }
 
     // Authorization ヘッダから Bearer トークンを抽出する
-    let token = crate::middleware::extract_bearer_token(&request)
-        .ok_or(AppError::Unauthorized)?;
+    let token = crate::middleware::extract_bearer_token(&request).ok_or(AppError::Unauthorized)?;
 
     // JWT を検証して Claims を取得する（aud = "terminal-api" を確認する）
-    let claims = state
-        .jwt_key_store
-        .verify(&token)
-        .await
-        .map_err(|e| {
-            tracing::warn!(
-                log_id = "LOG-003",
-                error = %e,
-                "JWT 検証に失敗した"
-            );
-            AppError::Unauthorized
-        })?;
+    let claims = state.jwt_key_store.verify(&token).await.map_err(|e| {
+        tracing::warn!(
+            log_id = "LOG-003",
+            error = %e,
+            "JWT 検証に失敗した"
+        );
+        AppError::Unauthorized
+    })?;
 
     // jti ブラックリストチェック（ログアウト済みトークンの拒否）は
     // 本番では read_pool で TBL-032 を確認する。

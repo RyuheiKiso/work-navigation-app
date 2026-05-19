@@ -20,7 +20,11 @@ pub async fn run(write_pool: PgPool) {
 
         match run_anonymization(&write_pool).await {
             Ok(count) => {
-                tracing::info!(bat_id = "BAT-004", anonymized_count = count, "PII 匿名化処理が完了しました");
+                tracing::info!(
+                    bat_id = "BAT-004",
+                    anonymized_count = count,
+                    "PII 匿名化処理が完了しました"
+                );
             }
             Err(e) => {
                 tracing::error!(bat_id = "BAT-004", error = %e, "PII 匿名化処理に失敗しました");

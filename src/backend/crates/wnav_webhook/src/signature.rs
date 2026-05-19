@@ -25,8 +25,8 @@ pub fn sign_payload(payload: &[u8], secret: &str) -> String {
     type HmacSha256 = Hmac<Sha256>;
 
     // HMAC-SHA256 インスタンスを生成して署名を計算する
-    let mut mac = HmacSha256::new_from_slice(secret.as_bytes())
-        .expect("HMAC can take key of any size");
+    let mut mac =
+        HmacSha256::new_from_slice(secret.as_bytes()).expect("HMAC can take key of any size");
     mac.update(payload);
     let result = mac.finalize();
 
@@ -52,16 +52,12 @@ pub fn verify_signature(
     header_value: &str,
 ) -> Result<(), WebhookError> {
     // expected_hex を "sha256=" プレフィックスを除いて取得する
-    let expected_hex = header_value
-        .strip_prefix("sha256=")
-        .unwrap_or(header_value);
+    let expected_hex = header_value.strip_prefix("sha256=").unwrap_or(header_value);
 
     // 受信ペイロードで署名を計算する
     let computed = sign_payload(payload, secret);
     // "sha256=" プレフィックスを除いた hex 部分を取得する
-    let computed_hex = computed
-        .strip_prefix("sha256=")
-        .unwrap_or(&computed);
+    let computed_hex = computed.strip_prefix("sha256=").unwrap_or(&computed);
 
     let computed_bytes = computed_hex.as_bytes();
     let expected_bytes = expected_hex.as_bytes();
@@ -84,7 +80,7 @@ pub fn verify_signature(
 /// タイムスタンプ検証（リプレイ攻撃防止）。
 ///
 /// `X-WNav-Timestamp` ヘッダのエポック秒が現在時刻との差分が `tolerance_secs` 以内か確認する。
-/// tolerance_secs のデフォルトは 300 秒（5 分）推奨。
+/// `tolerance_secs` のデフォルトは 300 秒（5 分）推奨。
 ///
 /// # 引数
 /// - `timestamp_str`: エポック秒の文字列
@@ -92,10 +88,7 @@ pub fn verify_signature(
 ///
 /// # エラー
 /// - `WebhookError::RequestTimeout`: タイムスタンプが許容範囲外の場合
-pub fn verify_timestamp(
-    timestamp_str: &str,
-    tolerance_secs: i64,
-) -> Result<(), WebhookError> {
+pub fn verify_timestamp(timestamp_str: &str, tolerance_secs: i64) -> Result<(), WebhookError> {
     // タイムスタンプを Unix 秒としてパースする
     let ts: i64 = timestamp_str
         .parse()

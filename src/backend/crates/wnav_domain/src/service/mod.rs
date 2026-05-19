@@ -16,7 +16,7 @@ pub use json_logic_evaluator::{JsonLogicError, JsonLogicEvaluator};
 pub use master_version_service::{DryRunResult, MasterVersionService};
 pub use step_engine_service::StepEngineService;
 pub use work_execution_service::{
-    CompleteStepCmd, CompleteWorkCmd, ResumeCmd, StartWorkCmd, Suspension, SuspendCmd,
+    CompleteStepCmd, CompleteWorkCmd, ResumeCmd, StartWorkCmd, SuspendCmd, Suspension,
     WorkExecutionService,
 };
 pub use work_execution_service_impl::WorkExecutionServiceImpl;

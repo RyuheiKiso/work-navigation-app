@@ -153,11 +153,10 @@ impl UserRepository for PgUserRepository {
         .await
         .map_err(crate::error::map_sqlx)?;
 
-        let total: i64 =
-            sqlx::query_scalar("SELECT COUNT(*) FROM users WHERE is_active = TRUE")
-                .fetch_one(&self.pool)
-                .await
-                .map_err(crate::error::map_sqlx)?;
+        let total: i64 = sqlx::query_scalar("SELECT COUNT(*) FROM users WHERE is_active = TRUE")
+            .fetch_one(&self.pool)
+            .await
+            .map_err(crate::error::map_sqlx)?;
 
         let items = rows
             .into_iter()
@@ -176,7 +175,10 @@ impl UserRepository for PgUserRepository {
     async fn create(&self, cmd: CreateUserCmd) -> Result<User, DomainError> {
         // roles を JSONB 配列文字列に変換する
         let roles_json: serde_json::Value = serde_json::Value::Array(
-            cmd.roles.iter().map(|r| serde_json::Value::String(role_to_str(r).to_owned())).collect(),
+            cmd.roles
+                .iter()
+                .map(|r| serde_json::Value::String(role_to_str(r).to_owned()))
+                .collect(),
         );
 
         let row = sqlx::query_as::<_, UserRow>(
@@ -209,7 +211,10 @@ impl UserRepository for PgUserRepository {
     /// ユーザーのロール一覧を更新する。
     async fn update_roles(&self, id: Uuid, roles: Vec<RoleId>) -> Result<User, DomainError> {
         let roles_json: serde_json::Value = serde_json::Value::Array(
-            roles.iter().map(|r| serde_json::Value::String(role_to_str(r).to_owned())).collect(),
+            roles
+                .iter()
+                .map(|r| serde_json::Value::String(role_to_str(r).to_owned()))
+                .collect(),
         );
 
         let row = sqlx::query_as::<_, UserRow>(

@@ -7,8 +7,8 @@
 // 権威ドキュメント: docs/05_詳細設計/08_テストケース詳細設計/05_ALCOA+検証テストケース.md TST-alcoa-007
 
 use wnav_hash_chain::{
-    canonical_json, compute_chain_hash, compute_content_hash, verify_chain, ChainBlock,
-    ChainVerifyError, GENESIS_PREV_HASH,
+    ChainBlock, ChainVerifyError, GENESIS_PREV_HASH, canonical_json, compute_chain_hash,
+    compute_content_hash, verify_chain,
 };
 
 /// 3 件のブロックで構成されるハッシュチェーンが正しく連続することを確認する（TST-intg-006）。
@@ -45,9 +45,11 @@ fn tst_intg_006_verify_chain_returns_ok_for_valid_chain() {
     let case_id = uuid::Uuid::now_v7();
 
     // メモリ上でチェーンブロックを構築する
-    let payload1 = serde_json::json!({ "activity": "work.started", "case_id": case_id.to_string() });
+    let payload1 =
+        serde_json::json!({ "activity": "work.started", "case_id": case_id.to_string() });
     let payload2 = serde_json::json!({ "activity": "step.completed", "case_id": case_id.to_string(), "step": 1 });
-    let payload3 = serde_json::json!({ "activity": "work.completed", "case_id": case_id.to_string() });
+    let payload3 =
+        serde_json::json!({ "activity": "work.completed", "case_id": case_id.to_string() });
 
     let block1 = make_chain_block(case_id, 1, GENESIS_PREV_HASH, &payload1);
     let block2 = make_chain_block(case_id, 2, block1.block_hash, &payload2);
@@ -130,11 +132,8 @@ fn make_chain_block(
 }
 
 /// 3 件のチェーンブロックを DB に INSERT して ChainBlock の Vec を返すヘルパー関数。
-async fn insert_three_chain_blocks(
-    pool: &sqlx::PgPool,
-    case_id: uuid::Uuid,
-) -> Vec<ChainBlock> {
-    let payloads = vec![
+async fn insert_three_chain_blocks(pool: &sqlx::PgPool, case_id: uuid::Uuid) -> Vec<ChainBlock> {
+    let payloads = [
         serde_json::json!({ "activity": "work.started", "case_id": case_id.to_string() }),
         serde_json::json!({ "activity": "step.completed", "case_id": case_id.to_string(), "step": 1 }),
         serde_json::json!({ "activity": "work.completed", "case_id": case_id.to_string() }),

@@ -21,7 +21,10 @@ fn tst_intg_010_rework_pending_to_in_progress() {
 #[test]
 fn tst_intg_010_rework_in_progress_to_pending_verification() {
     assert!(
-        can_transition_rework(&ReworkStatus::InProgress, &ReworkStatus::PendingVerification),
+        can_transition_rework(
+            &ReworkStatus::InProgress,
+            &ReworkStatus::PendingVerification
+        ),
         "InProgress → PendingVerification は合法な遷移であるべきです"
     );
 }
@@ -102,7 +105,10 @@ async fn tst_intg_010_rework_state_transitions_in_db() {
             .bind(rework_id)
             .execute(&pool)
             .await;
-            assert!(to_in_progress.is_ok(), "PENDING → IN_PROGRESS への遷移が失敗しました");
+            assert!(
+                to_in_progress.is_ok(),
+                "PENDING → IN_PROGRESS への遷移が失敗しました"
+            );
 
             // IN_PROGRESS → PENDING_VERIFICATION への遷移
             let to_pending_verification = sqlx::query(
@@ -125,16 +131,18 @@ async fn tst_intg_010_rework_state_transitions_in_db() {
             .bind(rework_id)
             .execute(&pool)
             .await;
-            assert!(to_verified.is_ok(), "PENDING_VERIFICATION → VERIFIED への遷移が失敗しました");
+            assert!(
+                to_verified.is_ok(),
+                "PENDING_VERIFICATION → VERIFIED への遷移が失敗しました"
+            );
 
             // 最終状態が VERIFIED であることを確認する
-            let final_status: Option<String> = sqlx::query_scalar(
-                "SELECT status FROM reworks WHERE rework_id = $1",
-            )
-            .bind(rework_id)
-            .fetch_optional(&pool)
-            .await
-            .expect("status 取得に失敗しました");
+            let final_status: Option<String> =
+                sqlx::query_scalar("SELECT status FROM reworks WHERE rework_id = $1")
+                    .bind(rework_id)
+                    .fetch_optional(&pool)
+                    .await
+                    .expect("status 取得に失敗しました");
 
             assert_eq!(
                 final_status.as_deref(),
@@ -207,7 +215,10 @@ fn validate_two_person_integrity(
     verifier_secondary: uuid::Uuid,
 ) -> Result<(), String> {
     if verifier_primary == verifier_secondary {
-        Err("ERR-BIZ-023: リワーク実施者と再検査者が同一ユーザーです（Two-Person Integrity 違反）".to_string())
+        Err(
+            "ERR-BIZ-023: リワーク実施者と再検査者が同一ユーザーです（Two-Person Integrity 違反）"
+                .to_string(),
+        )
     } else {
         Ok(())
     }

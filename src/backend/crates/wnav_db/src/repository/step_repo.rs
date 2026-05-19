@@ -42,7 +42,9 @@ impl TryFrom<StepRow> for Step {
             evidence_required: row.evidence_required,
             sign_required: row.sign_required,
             skippable: row.skippable,
-            estimated_duration_secs: row.estimated_duration_secs.map(|v| u32::try_from(v).unwrap_or(0)),
+            estimated_duration_secs: row
+                .estimated_duration_secs
+                .map(|v| u32::try_from(v).unwrap_or(0)),
             step_type,
         })
     }
@@ -146,7 +148,10 @@ impl StepRepository for PgStepRepository {
             .bind(step.evidence_required)
             .bind(step.sign_required)
             .bind(step.skippable)
-            .bind(step.estimated_duration_secs.map(|v| i32::try_from(v).unwrap_or(0)))
+            .bind(
+                step.estimated_duration_secs
+                    .map(|v| i32::try_from(v).unwrap_or(0)),
+            )
             .bind(step_type_to_str(&step.step_type))
             .fetch_one(&self.pool)
             .await

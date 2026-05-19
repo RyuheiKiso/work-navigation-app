@@ -5,12 +5,7 @@
 // Two-Person Integrity: 作業者 ≠ 検証者（BR-BUS-042）を強制する。
 // event_insert_pool（app_event_insert ロール）を使用する。
 
-use axum::{
-    extract::State,
-    http::StatusCode,
-    response::IntoResponse,
-    Json,
-};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use chrono::Utc;
 use uuid::Uuid;
 
@@ -99,13 +94,12 @@ pub async fn create_rework_verification(
     Json(req): Json<CreateReworkVerificationRequest>,
 ) -> Result<impl IntoResponse, AppError> {
     // リワークの存在確認と実施者 ID 取得
-    let operator_id: Option<Uuid> = sqlx::query_scalar(
-        r#"SELECT operator_id FROM reworks WHERE id = $1"#,
-    )
-    .bind(req.rework_id)
-    .fetch_optional(&state.read_pool)
-    .await
-    .map_err(|_| AppError::DatabaseError)?;
+    let operator_id: Option<Uuid> =
+        sqlx::query_scalar(r#"SELECT operator_id FROM reworks WHERE id = $1"#)
+            .bind(req.rework_id)
+            .fetch_optional(&state.read_pool)
+            .await
+            .map_err(|_| AppError::DatabaseError)?;
 
     let operator_id = operator_id.ok_or(AppError::NotFound)?;
 

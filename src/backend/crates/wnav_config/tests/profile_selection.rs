@@ -106,11 +106,8 @@ profile: {profile}
 
     std::fs::write(dir_path.join("config.base.yml"), base_yaml)
         .expect("config.base.yml 書き込みに失敗");
-    std::fs::write(
-        dir_path.join(format!("config.{profile}.yml")),
-        profile_yaml,
-    )
-    .expect("config.{profile}.yml 書き込みに失敗");
+    std::fs::write(dir_path.join(format!("config.{profile}.yml")), profile_yaml)
+        .expect("config.{profile}.yml 書き込みに失敗");
 
     (dir, dir_path)
 }

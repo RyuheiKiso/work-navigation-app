@@ -64,7 +64,8 @@ impl MasterVersionService {
         let steps = self.step_repo.find_by_sop(version.sop_id).await?;
         if steps.is_empty() {
             return Err(DomainError::Internal(
-                "SOP にステップが存在しません。レビュー申請には 1 件以上のステップが必要です".to_string(),
+                "SOP にステップが存在しません。レビュー申請には 1 件以上のステップが必要です"
+                    .to_string(),
             ));
         }
 
@@ -106,7 +107,11 @@ impl MasterVersionService {
         tracing::info!(version_id = %version_id, approved_by = %approved_by, "マスタバージョンを公開しました");
 
         self.master_version_repo
-            .update_status(version_id, MasterVersionStatus::Published, Some(approved_by))
+            .update_status(
+                version_id,
+                MasterVersionStatus::Published,
+                Some(approved_by),
+            )
             .await
     }
 

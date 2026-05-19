@@ -28,7 +28,7 @@ pub enum AuthError {
     #[error("JWT signature is invalid")]
     InvalidSignature,
 
-    /// aud クレームが自バイナリの expected_audience と一致しない
+    /// aud クレームが自バイナリの `expected_audience` と一致しない
     #[error("JWT audience is invalid")]
     InvalidAudience,
 
@@ -125,7 +125,7 @@ impl IntoResponse for AuthError {
                 StatusCode::FORBIDDEN,
                 "https://errors.wnav.example.com/auth/insufficient-role",
                 "Insufficient Role",
-                format!("Required role: '{}'. Your roles do not include it.", required),
+                format!("Required role: '{required}'. Your roles do not include it."),
             ),
             Self::UserNotFound => (
                 StatusCode::UNAUTHORIZED,

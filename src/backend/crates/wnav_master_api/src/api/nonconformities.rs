@@ -5,12 +5,7 @@
 // CAPA との連携に必要なため TBL-013（nonconformities）にレコードを挿入する。
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
-use axum::{
-    extract::State,
-    http::StatusCode,
-    response::IntoResponse,
-    Json,
-};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use chrono::Utc;
 use uuid::Uuid;
 

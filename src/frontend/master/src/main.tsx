@@ -48,7 +48,7 @@ async function bootstrap(): Promise<void> {
           <ThemeProvider theme={lightTheme}>
             <CssBaseline />
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
-              <BrowserRouter>
+              <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
                 <App />
               </BrowserRouter>
             </LocalizationProvider>

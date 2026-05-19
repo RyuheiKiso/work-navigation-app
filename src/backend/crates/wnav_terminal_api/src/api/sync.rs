@@ -49,30 +49,31 @@ pub async fn sync_master(
     });
 
     // SOP データを取得する（差分同期）
-    let sops: Vec<serde_json::Value> = sqlx::query_as::<_, (uuid::Uuid, String, String, chrono::DateTime<Utc>)>(
-        r"
+    let sops: Vec<serde_json::Value> =
+        sqlx::query_as::<_, (uuid::Uuid, String, String, chrono::DateTime<Utc>)>(
+            r"
         SELECT id, name_json::text, version, updated_at
         FROM sops
         WHERE factory_id = $1 AND updated_at > $2 AND deleted_at IS NULL
         ORDER BY updated_at ASC
         LIMIT 1000
         ",
-    )
-    .bind(current_user.factory_id)
-    .bind(since)
-    .fetch_all(&state.read_pool)
-    .await
-    .unwrap_or_default()
-    .into_iter()
-    .map(|(id, name_json, version, updated_at)| {
-        serde_json::json!({
-            "id": id,
-            "name_json": name_json,
-            "version": version,
-            "updated_at": updated_at,
+        )
+        .bind(current_user.factory_id)
+        .bind(since)
+        .fetch_all(&state.read_pool)
+        .await
+        .unwrap_or_default()
+        .into_iter()
+        .map(|(id, name_json, version, updated_at)| {
+            serde_json::json!({
+                "id": id,
+                "name_json": name_json,
+                "version": version,
+                "updated_at": updated_at,
+            })
         })
-    })
-    .collect();
+        .collect();
 
     let data = MasterSyncData {
         sync_timestamp: Utc::now(),

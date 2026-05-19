@@ -19,8 +19,6 @@
 
 // unsafe コードを禁止する（src/CLAUDE.md および src/backend/CLAUDE.md の必須要件）
 #![forbid(unsafe_code)]
-// Clippy の全 lint を有効化する（ワークスペース設定で deny 済みだが明示する）
-#![deny(clippy::all, clippy::pedantic)]
 // 例外: doc コメントのリンク省略は許容（テスト補助関数等）
 #![allow(clippy::missing_errors_doc)]
 #![allow(clippy::missing_panics_doc)]
@@ -46,7 +44,7 @@ pub use middleware::{auth_log_middleware, auth_middleware};
 pub use password::{hash_password, verify_password};
 pub use rbac::{
     AdminRole, ApproverRole, AuditorRole, AuthenticatedUser, MasterEditorRole, OperatorRole, Role,
-    SupervisorRole, evaluate_roles, effective_role_names,
+    SupervisorRole, effective_role_names, evaluate_roles,
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -100,8 +98,7 @@ mod tests {
         let kid = "test-2026-Q2";
         let audience = "terminal-api";
 
-        let key_store =
-            JwtKeyStore::with_signing_key(&private_pem, &public_pem, kid, audience);
+        let key_store = JwtKeyStore::with_signing_key(&private_pem, &public_pem, kid, audience);
 
         let cmd = JwtIssueCmd {
             user_id: Uuid::now_v7(),
@@ -145,14 +142,12 @@ mod tests {
         let token = issuer_store.issue(cmd, 28800).expect("JWT issue failed");
 
         // master-api として検証すると InvalidAudience エラーになることを確認する
-        let verifier_store =
-            JwtKeyStore::new(&public_pem, kid, "master-api");
+        let verifier_store = JwtKeyStore::new(&public_pem, kid, "master-api");
         let result = verifier_store.verify(&token).await;
 
         assert!(
             matches!(result, Err(AuthError::InvalidAudience)),
-            "expected InvalidAudience, got {:?}",
-            result
+            "expected InvalidAudience, got {result:?}"
         );
     }
 
@@ -163,8 +158,7 @@ mod tests {
         let kid = "test-2026-Q2";
         let audience = "terminal-api";
 
-        let key_store =
-            JwtKeyStore::with_signing_key(&private_pem, &public_pem, kid, audience);
+        let key_store = JwtKeyStore::with_signing_key(&private_pem, &public_pem, kid, audience);
 
         let cmd = JwtIssueCmd {
             user_id: Uuid::now_v7(),
@@ -181,36 +175,23 @@ mod tests {
 
         assert!(
             matches!(result, Err(AuthError::TokenExpired)),
-            "expected TokenExpired, got {:?}",
-            result
+            "expected TokenExpired, got {result:?}"
         );
     }
 
     #[test]
     fn test_rbac_role_hierarchy() {
         // ロール階層テスト: system_admin は全ロール権限を包含する
-        assert!(evaluate_roles(
-            &["system_admin".to_string()],
-            "operator"
-        ));
-        assert!(evaluate_roles(
-            &["system_admin".to_string()],
-            "supervisor"
-        ));
+        assert!(evaluate_roles(&["system_admin".to_string()], "operator"));
+        assert!(evaluate_roles(&["system_admin".to_string()], "supervisor"));
         assert!(evaluate_roles(
             &["system_admin".to_string()],
             "quality_admin"
         ));
-        assert!(evaluate_roles(
-            &["system_admin".to_string()],
-            "executive"
-        ));
+        assert!(evaluate_roles(&["system_admin".to_string()], "executive"));
 
         // supervisor は operator を包含するが quality_admin は含まない
-        assert!(evaluate_roles(
-            &["supervisor".to_string()],
-            "operator"
-        ));
+        assert!(evaluate_roles(&["supervisor".to_string()], "operator"));
         assert!(!evaluate_roles(
             &["supervisor".to_string()],
             "quality_admin"
@@ -229,7 +210,10 @@ mod tests {
         let hash = hash_password(plain).expect("hash failed");
 
         // ハッシュが bcrypt 形式であることを確認する
-        assert!(hash.starts_with("$2b$"), "expected bcrypt hash, got: {}", hash);
+        assert!(
+            hash.starts_with("$2b$"),
+            "expected bcrypt hash, got: {hash}"
+        );
 
         // 正しいパスワードで検証が通ることを確認する
         assert!(

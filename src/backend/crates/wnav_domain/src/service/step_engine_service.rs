@@ -36,10 +36,7 @@ impl StepEngineService {
 
     /// (ALG-002) ステップの完了条件を評価する。
     /// condition_dsl が None の場合は常に true（条件なし）を返す。
-    pub fn evaluate_completion_condition(
-        step: &Step,
-        context: &serde_json::Value,
-    ) -> bool {
+    pub fn evaluate_completion_condition(step: &Step, context: &serde_json::Value) -> bool {
         // condition_dsl が未設定の場合は常に完了可能（条件なし）
         let Some(rule) = &step.condition_dsl else {
             return true;

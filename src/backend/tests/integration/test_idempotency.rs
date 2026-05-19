@@ -45,13 +45,12 @@ async fn tst_intg_004_duplicate_idempotency_key_produces_single_record() {
             );
 
             // DB に 1 件しか存在しないことを確認する
-            let count: i64 = sqlx::query_scalar(
-                "SELECT COUNT(*) FROM idempotency_keys WHERE key_id = $1",
-            )
-            .bind(idempotency_key)
-            .fetch_one(&pool)
-            .await
-            .expect("カウントの取得に失敗しました");
+            let count: i64 =
+                sqlx::query_scalar("SELECT COUNT(*) FROM idempotency_keys WHERE key_id = $1")
+                    .bind(idempotency_key)
+                    .fetch_one(&pool)
+                    .await
+                    .expect("カウントの取得に失敗しました");
 
             assert_eq!(
                 count, 1,

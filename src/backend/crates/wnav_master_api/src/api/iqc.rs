@@ -7,10 +7,10 @@
 // Two-Person Integrity（FR-AU-007）はディスポジション登録で必須。
 
 use axum::{
+    Json,
     extract::{Path, State},
     http::StatusCode,
     response::IntoResponse,
-    Json,
 };
 use chrono::Utc;
 use sqlx::Row as _;
@@ -18,8 +18,8 @@ use uuid::Uuid;
 
 use crate::{
     dto::iqc::{
-        ApproveInspectionRequest, AqlJudgment, CreateDispositionRequest,
-        DispositionResponse, IqcInspectionResponse, IqcStatus,
+        ApproveInspectionRequest, AqlJudgment, CreateDispositionRequest, DispositionResponse,
+        IqcInspectionResponse, IqcStatus,
     },
     error::AppError,
     state::AppState,

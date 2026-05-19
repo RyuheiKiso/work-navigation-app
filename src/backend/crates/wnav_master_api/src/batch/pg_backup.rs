@@ -10,7 +10,10 @@ const DAILY_INTERVAL_SEC: u64 = 24 * 3600;
 
 /// BAT-005 を常駐 tokio task として実行する。
 pub async fn run(write_pool: PgPool, backup_notification_url: String) {
-    tracing::info!(bat_id = "BAT-005", "PG バックアップ通知バッチを起動しました");
+    tracing::info!(
+        bat_id = "BAT-005",
+        "PG バックアップ通知バッチを起動しました"
+    );
 
     loop {
         tokio::time::sleep(Duration::from_secs(DAILY_INTERVAL_SEC)).await;
@@ -39,7 +42,10 @@ pub async fn run(write_pool: PgPool, backup_notification_url: String) {
 
 async fn send_backup_notification(url: &str) -> Result<(), reqwest::Error> {
     if url.is_empty() {
-        tracing::debug!(bat_id = "BAT-005", "通知 URL が設定されていません。スキップします");
+        tracing::debug!(
+            bat_id = "BAT-005",
+            "通知 URL が設定されていません。スキップします"
+        );
         return Ok(());
     }
 

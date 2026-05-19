@@ -7,7 +7,7 @@
 
 use criterion::{BenchmarkId, Criterion, Throughput, criterion_group, criterion_main};
 use wnav_hash_chain::{
-    canonical_json, compute_chain_hash, compute_content_hash, GENESIS_PREV_HASH,
+    GENESIS_PREV_HASH, canonical_json, compute_chain_hash, compute_content_hash,
 };
 
 /// TST-perf-001: hash chain 計算のスループット測定（1000 件のシーケンシャル計算）。
@@ -87,22 +87,14 @@ fn bench_canonical_json_nesting_depth(c: &mut Criterion) {
     // ネスト深度 10 の JSON（極端なケース）
     let depth_10 = create_nested_json(10);
 
-    for (depth, payload) in [
-        (3, depth_3),
-        (5, depth_5),
-        (10, depth_10),
-    ] {
-        group.bench_with_input(
-            BenchmarkId::new("depth", depth),
-            &payload,
-            |b, p| {
-                b.iter(|| {
-                    let canonical = canonical_json(p);
-                    // canonical JSON から SHA-256 を計算する
-                    compute_content_hash(&canonical)
-                });
-            },
-        );
+    for (depth, payload) in [(3, depth_3), (5, depth_5), (10, depth_10)] {
+        group.bench_with_input(BenchmarkId::new("depth", depth), &payload, |b, p| {
+            b.iter(|| {
+                let canonical = canonical_json(p);
+                // canonical JSON から SHA-256 を計算する
+                compute_content_hash(&canonical)
+            });
+        });
     }
 
     group.finish();
@@ -117,15 +109,11 @@ fn bench_single_chain_hash(c: &mut Criterion) {
     let content_hash = compute_content_hash(canonical);
 
     group.bench_function("compute_chain_hash", |b| {
-        b.iter(|| {
-            compute_chain_hash(&GENESIS_PREV_HASH, &content_hash)
-        });
+        b.iter(|| compute_chain_hash(&GENESIS_PREV_HASH, &content_hash));
     });
 
     group.bench_function("compute_content_hash", |b| {
-        b.iter(|| {
-            compute_content_hash(canonical)
-        });
+        b.iter(|| compute_content_hash(canonical));
     });
 
     group.bench_function("canonical_json_simple", |b| {
@@ -134,9 +122,7 @@ fn bench_single_chain_hash(c: &mut Criterion) {
             "a_key": "first",
             "m_key": "middle",
         });
-        b.iter(|| {
-            canonical_json(&payload)
-        });
+        b.iter(|| canonical_json(&payload));
     });
 
     group.finish();

@@ -2,7 +2,7 @@
 //
 // GET /api/v1/public/config — 認証不要の SPA 起動時設定取得 API。
 
-use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 
 use crate::{dto::public_config::PublicConfigResponse, error::AppError, state::AppState};
 

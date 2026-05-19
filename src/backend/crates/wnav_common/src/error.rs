@@ -21,7 +21,7 @@
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct ProblemDetails {
     /// エラー種別を示す URI（RFC 7807 の "type" フィールド）
-    /// 例: "https://errors.wnav.example.com/auth/unauthorized"
+    /// 例: `<https://errors.wnav.example.com/auth/unauthorized>`
     #[serde(rename = "type")]
     pub problem_type: String,
 
@@ -47,9 +47,10 @@ impl ProblemDetails {
     ///
     /// # 引数
     /// - `status`: HTTP ステータスコード（例: 401, 403, 404, 422, 500）
-    /// - `problem_type`: エラー種別 URI（例: "about:blank" または "https://errors.wnav.example.com/..."）
+    /// - `problem_type`: エラー種別 URI（例: "about:blank" または `<https://errors.wnav.example.com/...>`）
     /// - `title`: エラーの短いタイトル（例: "Unauthorized", "Forbidden"）
     /// - `detail`: エラーの詳細説明（クライアント向け、内部情報を含めない）
+    #[must_use]
     pub fn new(status: u16, problem_type: &str, title: &str, detail: &str) -> Self {
         Self {
             problem_type: problem_type.to_string(),
@@ -61,6 +62,7 @@ impl ProblemDetails {
     }
 
     /// instance フィールドを設定したビルダーメソッド。
+    #[must_use]
     pub fn with_instance(mut self, instance: &str) -> Self {
         self.instance = Some(instance.to_string());
         self
@@ -107,12 +109,7 @@ mod tests {
     #[test]
     fn test_problem_details_serialization() {
         // RFC 7807 準拠の JSON シリアライズが正しいことを確認する
-        let problem = ProblemDetails::new(
-            403,
-            "about:blank",
-            "Forbidden",
-            "Insufficient role",
-        );
+        let problem = ProblemDetails::new(403, "about:blank", "Forbidden", "Insufficient role");
 
         let json = serde_json::to_string(&problem).expect("シリアライズに失敗した");
 
@@ -128,8 +125,13 @@ mod tests {
     #[test]
     fn test_problem_details_instance_in_json() {
         // instance がある場合は JSON に含まれることを確認する
-        let problem = ProblemDetails::new(500, "about:blank", "Internal Server Error", "An unexpected error occurred")
-            .with_instance("/api/v1/work-events");
+        let problem = ProblemDetails::new(
+            500,
+            "about:blank",
+            "Internal Server Error",
+            "An unexpected error occurred",
+        )
+        .with_instance("/api/v1/work-events");
 
         let json = serde_json::to_string(&problem).expect("シリアライズに失敗した");
         assert!(json.contains("\"instance\""));

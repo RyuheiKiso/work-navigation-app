@@ -62,7 +62,10 @@ impl PgAuthLogRepository {
 
     /// Append-only: 認証ログを INSERT する。
     /// UPDATE・DELETE は Append-only 原則により提供しない。
-    pub async fn insert(&self, cmd: InsertAuthLogCmd) -> Result<(), wnav_domain::error::DomainError> {
+    pub async fn insert(
+        &self,
+        cmd: InsertAuthLogCmd,
+    ) -> Result<(), wnav_domain::error::DomainError> {
         sqlx::query(
             r#"
             INSERT INTO auth_logs (

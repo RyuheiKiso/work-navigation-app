@@ -3,10 +3,9 @@
 // POST /api/v1/evidences — エビデンスファイルメタデータ登録（multipart/form-data）
 
 use axum::{
-    Extension,
+    Extension, Json,
     extract::{Multipart, State},
     http::StatusCode,
-    Json,
 };
 use chrono::Utc;
 use uuid::Uuid;
@@ -56,7 +55,10 @@ pub async fn upload_evidence(
 
         match field_name.as_str() {
             "metadata" => {
-                let data = field.bytes().await.map_err(|_| AppError::InvalidFormat(None))?;
+                let data = field
+                    .bytes()
+                    .await
+                    .map_err(|_| AppError::InvalidFormat(None))?;
                 metadata = Some(
                     serde_json::from_slice::<EvidenceMetadata>(&data)
                         .map_err(|_| AppError::RequiredFieldMissing(None))?,
@@ -64,15 +66,16 @@ pub async fn upload_evidence(
             }
             "file" => {
                 // ファイル名は現時点では使用しない（将来的に保存パスの生成に利用する）
-                let _file_name = field
-                    .file_name()
-                    .unwrap_or("unknown")
-                    .to_string();
+                let _file_name = field.file_name().unwrap_or("unknown").to_string();
                 file_mime = field
                     .content_type()
                     .unwrap_or("application/octet-stream")
                     .to_string();
-                file_bytes = field.bytes().await.map_err(|_| AppError::InvalidFormat(None))?.to_vec();
+                file_bytes = field
+                    .bytes()
+                    .await
+                    .map_err(|_| AppError::InvalidFormat(None))?
+                    .to_vec();
             }
             _ => {}
         }
@@ -88,40 +91,38 @@ pub async fn upload_evidence(
     // ファイルサイズチェック（最大 20 MB = 20 * 1024 * 1024 バイト）
     let max_size = 20 * 1024 * 1024;
     if file_bytes.len() > max_size {
-        return Err(AppError::ValueOutOfRange(Some(vec![crate::error::Violation {
-            field: "file".to_string(),
-            message: "ファイルサイズが 20MB を超えています。".to_string(),
-        }])));
+        return Err(AppError::ValueOutOfRange(Some(vec![
+            crate::error::Violation {
+                field: "file".to_string(),
+                message: "ファイルサイズが 20MB を超えています。".to_string(),
+            },
+        ])));
     }
 
     // MIME type チェック
-    let allowed_mimes = [
-        "image/jpeg",
-        "image/png",
-        "image/webp",
-        "application/pdf",
-    ];
+    let allowed_mimes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
     if !allowed_mimes.contains(&file_mime.as_str()) {
         return Err(AppError::InvalidFormat(None));
     }
 
     // sha256_client の形式チェック（hex 64 文字）
     if metadata.sha256_client.len() != 64 {
-        return Err(AppError::InvalidFormat(Some(vec![crate::error::Violation {
-            field: "sha256_client".to_string(),
-            message: "sha256_client は hex 64 文字で指定してください。".to_string(),
-        }])));
+        return Err(AppError::InvalidFormat(Some(vec![
+            crate::error::Violation {
+                field: "sha256_client".to_string(),
+                message: "sha256_client は hex 64 文字で指定してください。".to_string(),
+            },
+        ])));
     }
 
     // work_execution の in_progress 確認
-    let exec_status: Option<String> = sqlx::query_as::<_, (String,)>(
-        r"SELECT status FROM work_executions WHERE id = $1 LIMIT 1",
-    )
-    .bind(metadata.work_execution_id)
-    .fetch_optional(&state.read_pool)
-    .await
-    .map_err(|_| AppError::DatabaseError)?
-    .map(|(s,)| s);
+    let exec_status: Option<String> =
+        sqlx::query_as::<_, (String,)>(r"SELECT status FROM work_executions WHERE id = $1 LIMIT 1")
+            .bind(metadata.work_execution_id)
+            .fetch_optional(&state.read_pool)
+            .await
+            .map_err(|_| AppError::DatabaseError)?
+            .map(|(s,)| s);
 
     match exec_status.as_deref() {
         Some("in_progress") => {}

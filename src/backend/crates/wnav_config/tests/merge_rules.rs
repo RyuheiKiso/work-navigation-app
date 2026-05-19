@@ -121,12 +121,18 @@ schema_version: 1
 
     std::fs::write(dir_path.join("config.base.yml"), &base_yaml)
         .expect("config.base.yml 書き込みに失敗");
-    std::fs::write(dir_path.join(format!("config.{profile}.yml")), &profile_yaml)
-        .expect("config.{profile}.yml 書き込みに失敗");
+    std::fs::write(
+        dir_path.join(format!("config.{profile}.yml")),
+        &profile_yaml,
+    )
+    .expect("config.{profile}.yml 書き込みに失敗");
 
     // マージルール検証テストでは環境変数オーバーレイを使わずに figment を直接構築する
     // WNAV__* 環境変数が他のテストスレッドから残留している場合に影響を受けないようにする
-    use figment::{providers::{Format, Yaml}, Figment};
+    use figment::{
+        Figment,
+        providers::{Format, Yaml},
+    };
     let figment = Figment::new()
         .merge(Yaml::file(dir_path.join("config.base.yml")))
         .merge(Yaml::file(dir_path.join(format!("config.{profile}.yml"))));
@@ -155,7 +161,10 @@ database:
         .expect("database.host 取得失敗")
         .deserialize()
         .expect("deserialize 失敗");
-    assert_eq!(host, "overridden-host", "database.host がプロファイルで上書きされていない");
+    assert_eq!(
+        host, "overridden-host",
+        "database.host がプロファイルで上書きされていない"
+    );
 
     // 指定していないキーは base の値が引き継がれることを確認する
     let name: String = figment
@@ -163,7 +172,10 @@ database:
         .expect("database.name 取得失敗")
         .deserialize()
         .expect("deserialize 失敗");
-    assert_eq!(name, "wnav_base", "database.name が base から引き継がれていない");
+    assert_eq!(
+        name, "wnav_base",
+        "database.name が base から引き継がれていない"
+    );
 }
 
 #[test]
@@ -299,7 +311,10 @@ frontend_master:
         .expect("database.host 取得失敗")
         .deserialize()
         .expect("deserialize 失敗");
-    assert_eq!(host, "env-overridden-host", "環境変数による上書きが反映されていない");
+    assert_eq!(
+        host, "env-overridden-host",
+        "環境変数による上書きが反映されていない"
+    );
 
     unsafe {
         std::env::remove_var("WNAV_PROFILE");

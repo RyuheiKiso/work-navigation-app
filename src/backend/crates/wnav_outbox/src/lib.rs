@@ -20,8 +20,6 @@
 
 // unsafe コードを禁止する（src/CLAUDE.md および src/backend/CLAUDE.md の必須要件）
 #![forbid(unsafe_code)]
-// Clippy の全 lint を有効化する（ワークスペース設定で deny 済みだが明示する）
-#![deny(clippy::all, clippy::pedantic)]
 // 例外: doc コメントのリンク省略は許容
 #![allow(clippy::missing_errors_doc)]
 #![allow(clippy::missing_panics_doc)]

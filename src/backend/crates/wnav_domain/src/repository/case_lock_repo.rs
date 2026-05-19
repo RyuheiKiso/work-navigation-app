@@ -32,8 +32,5 @@ pub trait CaseLockRepository: Send + Sync + 'static {
     async fn find_active(&self, case_id: Uuid) -> Result<Option<CaseLock>, DomainError>;
 
     /// EXPIRED 閾値を超えたロックを検索する（バッチジョブ BAT-013 用）。
-    async fn find_expired(
-        &self,
-        threshold: DateTime<Utc>,
-    ) -> Result<Vec<CaseLock>, DomainError>;
+    async fn find_expired(&self, threshold: DateTime<Utc>) -> Result<Vec<CaseLock>, DomainError>;
 }

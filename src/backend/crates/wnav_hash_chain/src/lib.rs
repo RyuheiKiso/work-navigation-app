@@ -31,15 +31,15 @@ pub use correction::{
 };
 pub use error::HashChainError;
 pub use hash::{
-    bytes32_to_hex, compute_chain_hash, compute_content_hash, hex_to_bytes32, GENESIS_PREV_HASH,
+    GENESIS_PREV_HASH, bytes32_to_hex, compute_chain_hash, compute_content_hash, hex_to_bytes32,
 };
-pub use verify::{verify_chain, ChainBlock, ChainVerifyError};
+pub use verify::{ChainBlock, ChainVerifyError, verify_chain};
 
 #[cfg(test)]
 mod tests {
     use crate::canonical::canonical_json;
-    use crate::hash::{compute_chain_hash, compute_content_hash, GENESIS_PREV_HASH};
-    use crate::verify::{verify_chain, ChainBlock, ChainVerifyError};
+    use crate::hash::{GENESIS_PREV_HASH, compute_chain_hash, compute_content_hash};
+    use crate::verify::{ChainBlock, ChainVerifyError, verify_chain};
     use chrono::Utc;
     use serde_json::json;
     use uuid::Uuid;
@@ -82,10 +82,7 @@ mod tests {
         assert_eq!(canonical2, canonical3);
 
         // アルファベット順のキーで出力されることを確認する
-        assert_eq!(
-            canonical1,
-            r#"{"a":"first","m":"middle","z":"last"}"#
-        );
+        assert_eq!(canonical1, r#"{"a":"first","m":"middle","z":"last"}"#);
 
         // 同一 canonical JSON から同一のコンテンツハッシュが得られることを確認する
         let h1 = compute_content_hash(&canonical1);
@@ -99,17 +96,22 @@ mod tests {
         let case_id = Uuid::now_v7();
 
         // genesis ブロック（prev = [0u8;32]）
-        let canonical1 = canonical_json(&json!({ "activity": "case_started", "case_id": case_id.to_string() }));
+        let canonical1 =
+            canonical_json(&json!({ "activity": "case_started", "case_id": case_id.to_string() }));
         let content1 = compute_content_hash(&canonical1);
         let chain1 = compute_chain_hash(&GENESIS_PREV_HASH, &content1);
 
         // ブロック1（prev = genesis の chain_hash）
-        let canonical2 = canonical_json(&json!({ "activity": "step_1_completed", "case_id": case_id.to_string() }));
+        let canonical2 = canonical_json(
+            &json!({ "activity": "step_1_completed", "case_id": case_id.to_string() }),
+        );
         let content2 = compute_content_hash(&canonical2);
         let chain2 = compute_chain_hash(&chain1, &content2);
 
         // ブロック2（prev = ブロック1 の chain_hash）
-        let canonical3 = canonical_json(&json!({ "activity": "case_completed", "case_id": case_id.to_string() }));
+        let canonical3 = canonical_json(
+            &json!({ "activity": "case_completed", "case_id": case_id.to_string() }),
+        );
         let content3 = compute_content_hash(&canonical3);
         let chain3 = compute_chain_hash(&chain2, &content3);
 
@@ -131,9 +133,24 @@ mod tests {
         // verify_chain: 正常チェーンが Ok を返すことを確認する
         let case_id = Uuid::now_v7();
 
-        let block1 = make_block(case_id, 1, GENESIS_PREV_HASH, &json!({ "activity": "start" }));
-        let block2 = make_block(case_id, 2, block1.block_hash, &json!({ "activity": "step1" }));
-        let block3 = make_block(case_id, 3, block2.block_hash, &json!({ "activity": "finish" }));
+        let block1 = make_block(
+            case_id,
+            1,
+            GENESIS_PREV_HASH,
+            &json!({ "activity": "start" }),
+        );
+        let block2 = make_block(
+            case_id,
+            2,
+            block1.block_hash,
+            &json!({ "activity": "step1" }),
+        );
+        let block3 = make_block(
+            case_id,
+            3,
+            block2.block_hash,
+            &json!({ "activity": "finish" }),
+        );
 
         assert!(verify_chain(&[block1, block2, block3]).is_ok());
     }
@@ -143,11 +160,26 @@ mod tests {
         // verify_chain: 破断チェーンが HashMismatch エラーを返すことを確認する
         let case_id = Uuid::now_v7();
 
-        let block1 = make_block(case_id, 1, GENESIS_PREV_HASH, &json!({ "activity": "start" }));
-        let mut block2 = make_block(case_id, 2, block1.block_hash, &json!({ "activity": "step1" }));
+        let block1 = make_block(
+            case_id,
+            1,
+            GENESIS_PREV_HASH,
+            &json!({ "activity": "start" }),
+        );
+        let mut block2 = make_block(
+            case_id,
+            2,
+            block1.block_hash,
+            &json!({ "activity": "step1" }),
+        );
         // block_hash を改ざんして破断させる
         block2.block_hash = [0xFF_u8; 32];
-        let block3 = make_block(case_id, 3, block2.block_hash, &json!({ "activity": "finish" }));
+        let block3 = make_block(
+            case_id,
+            3,
+            block2.block_hash,
+            &json!({ "activity": "finish" }),
+        );
 
         let result = verify_chain(&[block1, block2, block3]);
         assert!(matches!(result, Err(ChainVerifyError::HashMismatch { .. })));
@@ -158,9 +190,19 @@ mod tests {
         // verify_chain: シーケンスギャップが SequenceGap エラーを返すことを確認する
         let case_id = Uuid::now_v7();
 
-        let block1 = make_block(case_id, 1, GENESIS_PREV_HASH, &json!({ "activity": "start" }));
+        let block1 = make_block(
+            case_id,
+            1,
+            GENESIS_PREV_HASH,
+            &json!({ "activity": "start" }),
+        );
         // シーケンス番号を 2 を飛ばして 3 にする
-        let block_gap = make_block(case_id, 3, block1.block_hash, &json!({ "activity": "finish" }));
+        let block_gap = make_block(
+            case_id,
+            3,
+            block1.block_hash,
+            &json!({ "activity": "finish" }),
+        );
 
         let result = verify_chain(&[block1, block_gap]);
         assert!(matches!(result, Err(ChainVerifyError::SequenceGap { .. })));
@@ -175,8 +217,18 @@ mod tests {
         let original_event_id = Uuid::now_v7();
 
         // 正常ブロックを 2 つ作成する
-        let block1 = make_block(case_id, 1, GENESIS_PREV_HASH, &json!({ "activity": "start" }));
-        let block2 = make_block(case_id, 2, block1.block_hash, &json!({ "activity": "step1" }));
+        let block1 = make_block(
+            case_id,
+            1,
+            GENESIS_PREV_HASH,
+            &json!({ "activity": "start" }),
+        );
+        let block2 = make_block(
+            case_id,
+            2,
+            block1.block_hash,
+            &json!({ "activity": "step1" }),
+        );
 
         // block2 を「破断ブロック」として補正ブロックを計算する
         let correction_payload = json!({

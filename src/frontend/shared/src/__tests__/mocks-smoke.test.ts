@@ -71,4 +71,57 @@ describe('MSW ハンドラ基本スモーク', () => {
 
     expect(res1.status).toBe(res2.status);
   });
+
+  it('GET /master/sops/:id/steps → ステップ一覧を返す', async () => {
+    // まず SOP を取得して ID を確認する
+    const sopsRes = await fetch('http://localhost:8080/api/v1/master/sops', {
+      headers: { Authorization: 'Bearer master-admin-token' },
+    });
+    expect(sopsRes.status).toBe(200);
+    const sopsBody = await sopsRes.json() as { data: Array<{ id: string }> };
+    const sopId = sopsBody.data[0]?.id;
+    if (!sopId) return; // シードデータなし
+
+    const res = await fetch(`http://localhost:8080/api/v1/master/sops/${sopId}/steps`, {
+      headers: { Authorization: 'Bearer master-admin-token' },
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json() as { data: unknown[] };
+    expect(Array.isArray(body.data)).toBe(true);
+  });
+
+  it('PUT /master/sops/:id/steps → ステップを保存する', async () => {
+    const sopsRes = await fetch('http://localhost:8080/api/v1/master/sops', {
+      headers: { Authorization: 'Bearer master-admin-token' },
+    });
+    const sopsBody = await sopsRes.json() as { data: Array<{ id: string }> };
+    const sopId = sopsBody.data[0]?.id;
+    if (!sopId) return;
+
+    const res = await fetch(`http://localhost:8080/api/v1/master/sops/${sopId}/steps`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer master-admin-token', 'Idempotency-Key': 'steps-save-smoke-001' },
+      body: JSON.stringify({ steps: [], flowJson: '{}' }),
+    });
+    expect(res.status).toBe(200);
+  });
+
+  it('POST /master/sops/:id/submit → ドラフトを審査提出する', async () => {
+    // まずドラフト状態の SOP バージョンが必要
+    // シード DB にドラフトバージョンがあれば 200、なければ 409
+    const sopsRes = await fetch('http://localhost:8080/api/v1/master/sops', {
+      headers: { Authorization: 'Bearer master-admin-token' },
+    });
+    const sopsBody = await sopsRes.json() as { data: Array<{ id: string }> };
+    const sopId = sopsBody.data[0]?.id;
+    if (!sopId) return;
+
+    const res = await fetch(`http://localhost:8080/api/v1/master/sops/${sopId}/submit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer master-admin-token', 'Idempotency-Key': 'submit-smoke-001' },
+      body: JSON.stringify({ comment: 'スモークテスト提出' }),
+    });
+    // ドラフトがあれば 200、なければ 409（どちらもエンドポイントが正しく存在すれば OK）
+    expect([200, 409]).toContain(res.status);
+  });
 });

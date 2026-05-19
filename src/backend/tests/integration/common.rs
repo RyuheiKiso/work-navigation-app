@@ -34,13 +34,10 @@ pub async fn setup_test_db() -> (PgPool, ContainerAsync<Postgres>) {
         .await
         .expect("ポート取得に失敗しました");
 
-    let db_url = format!(
-        "postgres://wnav_test:wnav_test@{host}:{port}/wnav_test"
-    );
+    let db_url = format!("postgres://wnav_test:wnav_test@{host}:{port}/wnav_test");
 
     // 接続プールを作成する（テスト用なので max_connections を小さくする）
-    let pool = PgPool::connect_lazy(&db_url)
-        .expect("PgPool の作成に失敗しました");
+    let pool = PgPool::connect_lazy(&db_url).expect("PgPool の作成に失敗しました");
 
     // マイグレーションを手動で適用する
     // sqlx::migrate!() マクロは sqlx 形式のファイル名（01_foo.sql）を期待するが、
@@ -118,19 +115,15 @@ async fn apply_migrations_from_files(pool: &PgPool) {
     let mut entries: Vec<_> = std::fs::read_dir(migrations_dir)
         .expect("migrations ディレクトリの読み込みに失敗しました")
         .filter_map(|e| e.ok())
-        .filter(|e| {
-            e.path()
-                .extension()
-                .is_some_and(|ext| ext == "sql")
-        })
+        .filter(|e| e.path().extension().is_some_and(|ext| ext == "sql"))
         .collect();
 
     // ファイル名でソートして順番に適用する（Flyway 形式: V20xxxxxxxx__xxx.sql）
     entries.sort_by_key(|e| e.file_name());
 
     for entry in entries {
-        let sql = std::fs::read_to_string(entry.path())
-            .expect("SQL ファイルの読み込みに失敗しました");
+        let sql =
+            std::fs::read_to_string(entry.path()).expect("SQL ファイルの読み込みに失敗しました");
         // 各 SQL ファイルをトランザクション内で実行する（エラーは無視してスキップする）
         let _ = sqlx::raw_sql(&sql).execute(pool).await;
     }

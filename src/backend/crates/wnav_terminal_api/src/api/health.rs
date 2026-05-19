@@ -45,9 +45,7 @@ pub async fn healthz() -> Json<HealthResponse> {
     ),
     tag = "system",
 )]
-pub async fn readyz(
-    State(state): State<AppState>,
-) -> (StatusCode, Json<ReadyzResponse>) {
+pub async fn readyz(State(state): State<AppState>) -> (StatusCode, Json<ReadyzResponse>) {
     // event_insert_pool への疎通確認
     let db_status = sqlx::query("SELECT 1")
         .execute(&state.event_insert_pool)

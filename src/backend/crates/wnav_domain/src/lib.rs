@@ -13,8 +13,6 @@
 
 // unsafe コードを禁止する（src/CLAUDE.md および src/backend/CLAUDE.md の必須要件）
 #![forbid(unsafe_code)]
-// Clippy の全 lint を有効化する（ワークスペース設定で deny 済みだが明示する）
-#![deny(clippy::all, clippy::pedantic)]
 // 例外: doc コメントのリンク省略は許容（テスト補助関数等）
 #![allow(clippy::missing_errors_doc)]
 #![allow(clippy::missing_panics_doc)]
@@ -32,4 +30,6 @@ pub mod service;
 
 // 主要な型を再エクスポートして使いやすくする
 pub use error::DomainError;
-pub use events::{DomainEvent, DomainEventReceiver, DomainEventSender, create_domain_event_channel};
+pub use events::{
+    DomainEvent, DomainEventReceiver, DomainEventSender, create_domain_event_channel,
+};

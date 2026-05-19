@@ -47,6 +47,7 @@ impl FakeClock {
     /// 指定した時刻で固定時計を作成する。
     ///
     /// `Arc` で包んで返すことで、複数のコンポーネントが同一の FakeClock を共有できる。
+    #[must_use]
     pub fn new(t: DateTime<Utc>) -> Arc<Self> {
         Arc::new(Self {
             fixed_time: std::sync::Mutex::new(t),
@@ -56,18 +57,26 @@ impl FakeClock {
     /// 固定時刻を指定した Duration だけ進める。
     ///
     /// タイムアウト・TTL 期限切れのテストに使用する。
+    ///
+    /// # Panics
+    ///
+    /// 内部 `Mutex` がポイズンされた場合（別スレッドがロック保持中にパニックした場合）にパニックする。
     pub fn advance(&self, duration: Duration) {
         // Mutex のロックを取得して時刻を更新する
         let mut t = self
             .fixed_time
             .lock()
             .expect("FakeClock の Mutex がポイズンされています");
-        *t = *t + duration;
+        *t += duration;
     }
 
     /// 固定時刻を指定した時刻に変更する。
     ///
     /// 特定の日付・時刻でテストしたい場合に使用する（例: 日付境界・月末処理）。
+    ///
+    /// # Panics
+    ///
+    /// 内部 `Mutex` がポイズンされた場合（別スレッドがロック保持中にパニックした場合）にパニックする。
     pub fn set(&self, t: DateTime<Utc>) {
         // Mutex のロックを取得して時刻を上書きする
         *self
@@ -94,6 +103,7 @@ pub type ClockRef = Arc<dyn Clock>;
 /// 本番用 ClockRef（SystemClock）を生成する。
 ///
 /// main.rs やアプリケーションの初期化コードで呼び出す。
+#[must_use]
 pub fn system_clock() -> ClockRef {
     Arc::new(SystemClock)
 }

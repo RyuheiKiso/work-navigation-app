@@ -13,7 +13,7 @@ use uuid::Uuid;
 
 use crate::{
     dto::{
-        response_envelope::{PaginatedResponse, ApiResponse},
+        response_envelope::{ApiResponse, PaginatedResponse},
         work_orders::{CreateWorkOrderRequest, WorkOrderDto, WorkOrderQuery},
     },
     error::AppError,
@@ -44,11 +44,31 @@ pub async fn list_work_orders(
     Query(query): Query<WorkOrderQuery>,
 ) -> Result<Json<PaginatedResponse<WorkOrderDto>>, AppError> {
     let page = query.page.unwrap_or(1).max(1);
-    let per_page = query.per_page.unwrap_or(50).min(200).max(1);
+    let per_page = query.per_page.unwrap_or(50).clamp(1, 200);
     let offset = (page - 1) * per_page;
 
     // read_pool で作業指示一覧を取得する
-    let rows = sqlx::query_as::<_, (Uuid, String, String, Uuid, String, Uuid, String, Option<Uuid>, Option<String>, Option<Uuid>, Option<String>, Option<chrono::DateTime<Utc>>, Option<chrono::DateTime<Utc>>, Option<Uuid>, chrono::DateTime<Utc>, chrono::DateTime<Utc>)>(
+    let rows = sqlx::query_as::<
+        _,
+        (
+            Uuid,
+            String,
+            String,
+            Uuid,
+            String,
+            Uuid,
+            String,
+            Option<Uuid>,
+            Option<String>,
+            Option<Uuid>,
+            Option<String>,
+            Option<chrono::DateTime<Utc>>,
+            Option<chrono::DateTime<Utc>>,
+            Option<Uuid>,
+            chrono::DateTime<Utc>,
+            chrono::DateTime<Utc>,
+        ),
+    >(
         r"
         SELECT
             wo.id,
@@ -90,8 +110,8 @@ pub async fn list_work_orders(
 
     let items: Vec<WorkOrderDto> = rows
         .into_iter()
-        .map(|(id, work_order_number, status, process_id, process_name, sop_id, sop_version, lot_id, lot_number, product_id, product_name, scheduled_start, scheduled_end, assigned_to, created_at, updated_at)| {
-            WorkOrderDto {
+        .map(
+            |(
                 id,
                 work_order_number,
                 status,
@@ -108,8 +128,27 @@ pub async fn list_work_orders(
                 assigned_to,
                 created_at,
                 updated_at,
-            }
-        })
+            )| {
+                WorkOrderDto {
+                    id,
+                    work_order_number,
+                    status,
+                    process_id,
+                    process_name,
+                    sop_id,
+                    sop_version,
+                    lot_id,
+                    lot_number,
+                    product_id,
+                    product_name,
+                    scheduled_start,
+                    scheduled_end,
+                    assigned_to,
+                    created_at,
+                    updated_at,
+                }
+            },
+        )
         .collect();
 
     // 全件数を取得する
@@ -148,7 +187,27 @@ pub async fn get_work_order(
     Extension(current_user): Extension<CurrentUser>,
     Path(id): Path<Uuid>,
 ) -> Result<Json<ApiResponse<WorkOrderDto>>, AppError> {
-    let row = sqlx::query_as::<_, (Uuid, String, String, Uuid, String, Uuid, String, Option<Uuid>, Option<String>, Option<Uuid>, Option<String>, Option<chrono::DateTime<Utc>>, Option<chrono::DateTime<Utc>>, Option<Uuid>, chrono::DateTime<Utc>, chrono::DateTime<Utc>)>(
+    let row = sqlx::query_as::<
+        _,
+        (
+            Uuid,
+            String,
+            String,
+            Uuid,
+            String,
+            Uuid,
+            String,
+            Option<Uuid>,
+            Option<String>,
+            Option<Uuid>,
+            Option<String>,
+            Option<chrono::DateTime<Utc>>,
+            Option<chrono::DateTime<Utc>>,
+            Option<Uuid>,
+            chrono::DateTime<Utc>,
+            chrono::DateTime<Utc>,
+        ),
+    >(
         r"
         SELECT
             wo.id,
@@ -184,7 +243,25 @@ pub async fn get_work_order(
     .await
     .map_err(|_| AppError::DatabaseError)?;
 
-    let Some((id, work_order_number, status, process_id, process_name, sop_id, sop_version, lot_id, lot_number, product_id, product_name, scheduled_start, scheduled_end, assigned_to, created_at, updated_at)) = row else {
+    let Some((
+        id,
+        work_order_number,
+        status,
+        process_id,
+        process_name,
+        sop_id,
+        sop_version,
+        lot_id,
+        lot_number,
+        product_id,
+        product_name,
+        scheduled_start,
+        scheduled_end,
+        assigned_to,
+        created_at,
+        updated_at,
+    )) = row
+    else {
         return Err(AppError::NotFound);
     };
 
@@ -235,9 +312,10 @@ pub async fn create_work_order(
     let _server_received_at = Utc::now().timestamp_millis();
 
     // RBAC: supervisor / master_admin / system_admin のみ作成可
-    let has_permission = current_user.roles.iter().any(|r| {
-        matches!(r.as_str(), "supervisor" | "master_admin" | "system_admin")
-    });
+    let has_permission = current_user
+        .roles
+        .iter()
+        .any(|r| matches!(r.as_str(), "supervisor" | "master_admin" | "system_admin"));
     if !has_permission {
         return Err(AppError::Forbidden);
     }

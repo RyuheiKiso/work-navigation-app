@@ -17,8 +17,6 @@
 
 // unsafe コードを禁止する（src/CLAUDE.md および src/backend/CLAUDE.md の必須要件）
 #![forbid(unsafe_code)]
-// Clippy の全 lint を有効化する（ワークスペース設定で deny 済みだが明示する）
-#![deny(clippy::all, clippy::pedantic)]
 // 例外: doc コメントのリンク省略は許容
 #![allow(clippy::missing_errors_doc)]
 #![allow(clippy::missing_panics_doc)]
@@ -55,12 +53,16 @@ mod tests {
 
         assert!(
             signature.starts_with("sha256="),
-            "expected 'sha256=' prefix, got: {}",
-            signature
+            "expected 'sha256=' prefix, got: {signature}"
         );
         // hex 部分は 64 文字（SHA-256 = 256bit = 32byte = 64 hex chars）
         let hex_part = signature.strip_prefix("sha256=").unwrap();
-        assert_eq!(hex_part.len(), 64, "expected 64 hex chars, got: {}", hex_part.len());
+        assert_eq!(
+            hex_part.len(),
+            64,
+            "expected 64 hex chars, got: {}",
+            hex_part.len()
+        );
     }
 
     #[test]
@@ -180,7 +182,8 @@ mod tests {
         let receiver = WebhookReceiver::new(secret.to_string());
 
         let payload = b"receiver test payload";
-        let bad_signature = "sha256=000000000000000000000000000000000000000000000000000000000000bad1";
+        let bad_signature =
+            "sha256=000000000000000000000000000000000000000000000000000000000000bad1";
 
         let result = receiver.verify_request(payload, bad_signature, None);
         assert!(

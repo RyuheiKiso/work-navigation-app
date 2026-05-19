@@ -5,9 +5,7 @@
 #[derive(Debug, thiserror::Error)]
 pub enum HashChainError {
     /// hex 文字列の長さが不正な場合のエラー。
-    #[error(
-        "hex 文字列の長さが不正です: 期待値={expected}, 実際値={actual}"
-    )]
+    #[error("hex 文字列の長さが不正です: 期待値={expected}, 実際値={actual}")]
     InvalidHexLength {
         /// 期待する長さ（通常 64）
         expected: usize,

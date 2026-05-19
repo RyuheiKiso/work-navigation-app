@@ -62,12 +62,11 @@ async fn tst_intg_003_read_role_can_select() {
 
     setup_app_read_role(&pool).await;
 
-    let has_select: bool = sqlx::query_scalar(
-        "SELECT has_table_privilege('app_read', 'work_events', 'SELECT')",
-    )
-    .fetch_one(&pool)
-    .await
-    .unwrap_or(false);
+    let has_select: bool =
+        sqlx::query_scalar("SELECT has_table_privilege('app_read', 'work_events', 'SELECT')")
+            .fetch_one(&pool)
+            .await
+            .unwrap_or(false);
 
     assert!(
         has_select,
@@ -83,12 +82,11 @@ async fn tst_intg_003_read_role_cannot_insert() {
 
     setup_app_read_role(&pool).await;
 
-    let has_insert: bool = sqlx::query_scalar(
-        "SELECT has_table_privilege('app_read', 'work_events', 'INSERT')",
-    )
-    .fetch_one(&pool)
-    .await
-    .unwrap_or(true);
+    let has_insert: bool =
+        sqlx::query_scalar("SELECT has_table_privilege('app_read', 'work_events', 'INSERT')")
+            .fetch_one(&pool)
+            .await
+            .unwrap_or(true);
 
     assert!(
         !has_insert,
@@ -104,19 +102,17 @@ async fn tst_intg_003_write_role_can_insert_update_master_tables() {
 
     setup_app_write_role(&pool).await;
 
-    let has_insert: bool = sqlx::query_scalar(
-        "SELECT has_table_privilege('app_write', 'sops', 'INSERT')",
-    )
-    .fetch_one(&pool)
-    .await
-    .unwrap_or(false);
+    let has_insert: bool =
+        sqlx::query_scalar("SELECT has_table_privilege('app_write', 'sops', 'INSERT')")
+            .fetch_one(&pool)
+            .await
+            .unwrap_or(false);
 
-    let has_update: bool = sqlx::query_scalar(
-        "SELECT has_table_privilege('app_write', 'sops', 'UPDATE')",
-    )
-    .fetch_one(&pool)
-    .await
-    .unwrap_or(false);
+    let has_update: bool =
+        sqlx::query_scalar("SELECT has_table_privilege('app_write', 'sops', 'UPDATE')")
+            .fetch_one(&pool)
+            .await
+            .unwrap_or(false);
 
     assert!(
         has_insert,
@@ -137,12 +133,11 @@ async fn tst_intg_003_write_role_cannot_insert_work_events() {
 
     setup_app_write_role(&pool).await;
 
-    let has_insert: bool = sqlx::query_scalar(
-        "SELECT has_table_privilege('app_write', 'work_events', 'INSERT')",
-    )
-    .fetch_one(&pool)
-    .await
-    .unwrap_or(true);
+    let has_insert: bool =
+        sqlx::query_scalar("SELECT has_table_privilege('app_write', 'work_events', 'INSERT')")
+            .fetch_one(&pool)
+            .await
+            .unwrap_or(true);
 
     assert!(
         !has_insert,
@@ -174,16 +169,12 @@ async fn setup_app_event_insert_role(pool: &sqlx::PgPool) {
         .await;
 
     // case_locks・idempotency_keys は例外的に INSERT/UPDATE/DELETE を許可する（ADR 例外制御）
-    let _ = sqlx::query(
-        "GRANT INSERT, UPDATE, DELETE ON case_locks TO app_event_insert",
-    )
-    .execute(pool)
-    .await;
-    let _ = sqlx::query(
-        "GRANT INSERT, UPDATE, DELETE ON idempotency_keys TO app_event_insert",
-    )
-    .execute(pool)
-    .await;
+    let _ = sqlx::query("GRANT INSERT, UPDATE, DELETE ON case_locks TO app_event_insert")
+        .execute(pool)
+        .await;
+    let _ = sqlx::query("GRANT INSERT, UPDATE, DELETE ON idempotency_keys TO app_event_insert")
+        .execute(pool)
+        .await;
 }
 
 /// app_read ロールをセットアップするヘルパー関数。
@@ -218,7 +209,13 @@ async fn setup_app_write_role(pool: &sqlx::PgPool) {
 
     // マスタテーブルに SELECT/INSERT/UPDATE を付与する（work_events は除く）
     let master_tables = vec![
-        "sops", "sop_versions", "operations", "steps", "users", "suppliers", "materials",
+        "sops",
+        "sop_versions",
+        "operations",
+        "steps",
+        "users",
+        "suppliers",
+        "materials",
     ];
     for table in master_tables {
         let _ = sqlx::query(&format!(

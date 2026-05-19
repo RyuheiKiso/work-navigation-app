@@ -12,6 +12,7 @@ use uuid::Uuid;
 /// - ORDER BY id で時系列ソートが可能（UUID v4 より高性能）
 /// - すべての主キー生成はこの関数経由で行う
 /// - DB の DEFAULT 句による UUID 生成は使用しない（バージョン統一のため）
+#[must_use]
 pub fn new_id() -> Uuid {
     // タイムスタンプ埋め込みの UUID v7 を生成する
     Uuid::now_v7()
@@ -21,6 +22,7 @@ pub fn new_id() -> Uuid {
 ///
 /// event_id と同一の UUID v7 を使用することで、
 /// WorkEvent.event_id と outbox_events.idempotency_key が一致する設計を実現する。
+#[must_use]
 pub fn new_idempotency_key() -> Uuid {
     // Idempotency Key も UUID v7 で生成する（タイムスタンプ埋め込み）
     Uuid::now_v7()
@@ -30,6 +32,7 @@ pub fn new_idempotency_key() -> Uuid {
 ///
 /// API レスポンスや JSON シリアライズ時に使用する。
 /// フォーマット: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx（ハイフン区切り小文字）
+#[must_use]
 pub fn id_to_string(id: &Uuid) -> String {
     id.to_string()
 }

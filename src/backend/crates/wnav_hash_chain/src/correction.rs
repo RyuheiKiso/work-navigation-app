@@ -3,8 +3,8 @@
 // chain_hash を引き継いでチェーンを継続する補正ブロックのハッシュを計算する。
 
 use crate::canonical::canonical_json;
-use crate::hash::compute_content_hash;
 use crate::hash::compute_chain_hash;
+use crate::hash::compute_content_hash;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use uuid::Uuid;
@@ -55,10 +55,7 @@ pub fn compute_correction_chain_hash(
         .or_insert_with(|| serde_json::Value::String(original_event_id.to_string()));
 
     // is_correction フラグを確実に true に設定する
-    merged.insert(
-        "is_correction".to_string(),
-        serde_json::Value::Bool(true),
-    );
+    merged.insert("is_correction".to_string(), serde_json::Value::Bool(true));
 
     // BTreeMap を serde_json::Value に変換して canonical JSON を生成する
     let merged_value = serde_json::Value::Object(

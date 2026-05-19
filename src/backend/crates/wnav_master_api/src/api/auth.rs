@@ -3,7 +3,7 @@
 // ログイン・トークン更新・ログアウト・鍵ローテーション。
 // aud = "master-api" で JWT を発行する。
 
-use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use uuid::Uuid;
 
 use crate::{
@@ -14,7 +14,9 @@ use crate::{
     error::AppError,
     state::AppState,
 };
-use wnav_auth::{AdminRole, AuthenticatedUser, JwtIssueCmd, validate_private_key_pem, verify_password};
+use wnav_auth::{
+    AdminRole, AuthenticatedUser, JwtIssueCmd, validate_private_key_pem, verify_password,
+};
 
 /// ログイン（POST /api/v1/auth/login）。
 ///
@@ -54,7 +56,8 @@ pub async fn login(
     }
 
     let password_hash: String = user.get("password_hash");
-    let is_valid = verify_password(&req.password, &password_hash).map_err(|_| AppError::Unauthorized)?;
+    let is_valid =
+        verify_password(&req.password, &password_hash).map_err(|_| AppError::Unauthorized)?;
     if !is_valid {
         return Err(AppError::Unauthorized);
     }
@@ -261,8 +264,9 @@ pub async fn rotate_keys(
     Json(req): Json<KeyRotateRequest>,
 ) -> Result<impl IntoResponse, AppError> {
     // 新しい秘密鍵 PEM の構文を事前検証する（不正な PEM を拒否する）
-    validate_private_key_pem(&req.new_private_key_pem)
-        .map_err(|_| AppError::Validation("new_private_key_pem の PEM 形式が不正です".to_string()))?;
+    validate_private_key_pem(&req.new_private_key_pem).map_err(|_| {
+        AppError::Validation("new_private_key_pem の PEM 形式が不正です".to_string())
+    })?;
 
     // 新しい公開鍵を JwtKeyStore に追加する（Grace Period で旧鍵も残す）
     state

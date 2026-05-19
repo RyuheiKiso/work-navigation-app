@@ -4,12 +4,7 @@
 // audit-xes は条件指定が複雑なため GET ではなく POST を使用する。
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
-use axum::{
-    extract::State,
-    http::StatusCode,
-    response::IntoResponse,
-    Json,
-};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
@@ -187,4 +182,3 @@ fn format_report_type(rt: &ReportType) -> String {
     }
     .to_string()
 }
-

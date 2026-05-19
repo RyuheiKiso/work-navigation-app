@@ -18,9 +18,9 @@ use crate::{
     dto::{
         response_envelope::ApiResponse,
         work_executions::{
-            CompleteWorkData, CompleteWorkRequest, ResumeData, ResumeRequest,
-            StartWorkData, StartWorkRequest, SopVersionSnapshot, SuspendData, SuspendRequest,
-            WorkEventSummary, WorkExecutionDetailData,
+            CompleteWorkData, CompleteWorkRequest, ResumeData, ResumeRequest, SopVersionSnapshot,
+            StartWorkData, StartWorkRequest, SuspendData, SuspendRequest, WorkEventSummary,
+            WorkExecutionDetailData,
         },
     },
     error::AppError,
@@ -150,7 +150,19 @@ pub async fn get_work_execution(
     Extension(_current_user): Extension<CurrentUser>,
     Path(id): Path<Uuid>,
 ) -> Result<Json<ApiResponse<WorkExecutionDetailData>>, AppError> {
-    let row = sqlx::query_as::<_, (Uuid, Uuid, Uuid, Uuid, String, Option<Uuid>, chrono::DateTime<Utc>, Option<chrono::DateTime<Utc>>)>(
+    let row = sqlx::query_as::<
+        _,
+        (
+            Uuid,
+            Uuid,
+            Uuid,
+            Uuid,
+            String,
+            Option<Uuid>,
+            chrono::DateTime<Utc>,
+            Option<chrono::DateTime<Utc>>,
+        ),
+    >(
         r"
         SELECT id, work_order_id, operator_id, device_id, status,
                current_step_id, started_at, last_event_at
@@ -164,7 +176,17 @@ pub async fn get_work_execution(
     .await
     .map_err(|_| AppError::DatabaseError)?;
 
-    let Some((id, work_order_id, operator_id, device_id, status, current_step_id, started_at, last_event_at)) = row else {
+    let Some((
+        id,
+        work_order_id,
+        operator_id,
+        device_id,
+        status,
+        current_step_id,
+        started_at,
+        last_event_at,
+    )) = row
+    else {
         return Err(AppError::NotFound);
     };
 

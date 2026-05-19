@@ -71,9 +71,7 @@ fn tst_sec_002_jwt_tampered_token_is_rejected() {
     );
 
     // 署名検証は別途実施（実際の wnav_auth::verify_jwt のテストは wnav_auth クレートで行う）
-    println!(
-        "TST-sec-002: JWT 形式は有効ですが署名検証は wnav_auth クレートが担当します"
-    );
+    println!("TST-sec-002: JWT 形式は有効ですが署名検証は wnav_auth クレートが担当します");
 }
 
 /// JWT ペイロードのロール変更が検知されることを確認する（TST-sec-002 補完）。
@@ -145,7 +143,8 @@ fn tst_sec_004_hmac_tampered_signature_is_rejected() {
 
     let secret = b"test_webhook_secret_key";
     let payload = b"test_payload_content";
-    let tampered_signature = "sha256=0000000000000000000000000000000000000000000000000000000000000000";
+    let tampered_signature =
+        "sha256=0000000000000000000000000000000000000000000000000000000000000000";
 
     // 正しい HMAC を計算する
     let mut mac = HmacSha256::new_from_slice(secret).expect("HMAC 初期化に失敗しました");
@@ -201,7 +200,8 @@ async fn tst_sec_005_idempotency_replay_returns_cached_without_db_write() {
     let (pool, _container) = common::setup_test_db().await;
 
     let idempotency_key = uuid::Uuid::now_v7();
-    let expected_response = serde_json::json!({"status": "cached", "event_id": idempotency_key.to_string()});
+    let expected_response =
+        serde_json::json!({"status": "cached", "event_id": idempotency_key.to_string()});
 
     // 初回リクエストのキャッシュを記録する
     let cache_result = sqlx::query(
@@ -232,13 +232,12 @@ async fn tst_sec_005_idempotency_replay_returns_cached_without_db_write() {
             );
 
             // DB の work_events に追加の INSERT がないことを確認する（DB 書き込みなし）
-            let event_count_before: i64 = sqlx::query_scalar(
-                "SELECT COUNT(*) FROM work_events WHERE event_id = $1",
-            )
-            .bind(idempotency_key)
-            .fetch_one(&pool)
-            .await
-            .unwrap_or(0);
+            let event_count_before: i64 =
+                sqlx::query_scalar("SELECT COUNT(*) FROM work_events WHERE event_id = $1")
+                    .bind(idempotency_key)
+                    .fetch_one(&pool)
+                    .await
+                    .unwrap_or(0);
 
             assert_eq!(
                 event_count_before, 0,
@@ -280,10 +279,7 @@ fn tst_sec_006_no_lockout_before_threshold() {
     let failed_count: u32 = 4; // 閾値未満
 
     let is_locked = check_account_lockout(failed_count, max_failed_attempts);
-    assert!(
-        !is_locked,
-        "4 回失敗ではアカウントはロックされないはずです"
-    );
+    assert!(!is_locked, "4 回失敗ではアカウントはロックされないはずです");
 }
 
 // =====================================================
@@ -305,12 +301,16 @@ fn tst_sec_007_sql_injection_string_is_parameterized() {
 
     // バインドパラメータは SQL として実行されないため、
     // 文字列がそのまま格納されようとしてもテーブルへの影響はない
-    assert!(!sanitized_login.is_empty(), "サニタイズされた login_id が空です");
-    assert!(!sanitized_password.is_empty(), "サニタイズされた password が空です");
-
-    println!(
-        "TST-sec-007: SQL Injection 防止は sqlx::query! のコンパイル時バインドで保証されます"
+    assert!(
+        !sanitized_login.is_empty(),
+        "サニタイズされた login_id が空です"
     );
+    assert!(
+        !sanitized_password.is_empty(),
+        "サニタイズされた password が空です"
+    );
+
+    println!("TST-sec-007: SQL Injection 防止は sqlx::query! のコンパイル時バインドで保証されます");
 }
 
 // =====================================================
@@ -395,7 +395,10 @@ fn tst_sec_010_expired_jwt_is_rejected() {
     let current_time = chrono::Utc::now().timestamp();
 
     let is_expired = current_time > past_exp;
-    assert!(is_expired, "過去の exp を持つ JWT は期限切れとして扱われるべきです");
+    assert!(
+        is_expired,
+        "過去の exp を持つ JWT は期限切れとして扱われるべきです"
+    );
 }
 
 // =====================================================
@@ -423,8 +426,12 @@ fn tst_sec_011_audit_trail_does_not_contain_personal_name_fields() {
 
     // 個人名フィールドが含まれないことを確認する
     let forbidden_fields = [
-        "worker_name", "full_name", "first_name", "last_name",
-        "personal_name", "real_name",
+        "worker_name",
+        "full_name",
+        "first_name",
+        "last_name",
+        "personal_name",
+        "real_name",
     ];
 
     for field in &forbidden_fields {
@@ -449,9 +456,10 @@ fn tst_sec_011_audit_trail_does_not_contain_personal_name_fields() {
 fn check_audit_trail_access(role: &RoleId) -> Result<(), String> {
     match role {
         RoleId::SystemAdmin | RoleId::QualityAdmin | RoleId::Supervisor => Ok(()),
-        RoleId::Operator | RoleId::Executive | RoleId::MasterAdmin => {
-            Err(format!("ERR-AUTH-003: ロール {:?} は audit trail にアクセスできません", role))
-        }
+        RoleId::Operator | RoleId::Executive | RoleId::MasterAdmin => Err(format!(
+            "ERR-AUTH-003: ロール {:?} は audit trail にアクセスできません",
+            role
+        )),
     }
 }
 
@@ -461,7 +469,10 @@ fn validate_jwt_format(token: &str) -> Result<(), String> {
     if parts.len() == 3 {
         Ok(())
     } else {
-        Err(format!("無効な JWT フォーマット: セグメント数 = {}", parts.len()))
+        Err(format!(
+            "無効な JWT フォーマット: セグメント数 = {}",
+            parts.len()
+        ))
     }
 }
 

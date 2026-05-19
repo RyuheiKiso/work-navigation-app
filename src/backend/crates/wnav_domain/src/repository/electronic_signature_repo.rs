@@ -17,8 +17,5 @@ pub trait ElectronicSignatureRepository: Send + Sync + 'static {
     async fn find_by_id(&self, id: Uuid) -> Result<Option<ElectronicSignature>, DomainError>;
 
     /// イベント ID に紐づく電子サイン一覧を取得する。
-    async fn find_by_event(
-        &self,
-        event_id: Uuid,
-    ) -> Result<Vec<ElectronicSignature>, DomainError>;
+    async fn find_by_event(&self, event_id: Uuid) -> Result<Vec<ElectronicSignature>, DomainError>;
 }

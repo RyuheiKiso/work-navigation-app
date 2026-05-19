@@ -7,9 +7,7 @@ use sqlx::PgPool;
 use uuid::Uuid;
 
 use wnav_domain::{
-    error::DomainError,
-    model::measurement::Measurement,
-    repository::MeasurementRepository,
+    error::DomainError, model::measurement::Measurement, repository::MeasurementRepository,
 };
 
 use crate::row_types::MeasurementRow;
