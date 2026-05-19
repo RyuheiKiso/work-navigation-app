@@ -49,23 +49,23 @@ pub async fn acknowledge_alert(
 ) -> Result<impl IntoResponse, AppError> {
     let now = Utc::now();
 
-    // resolved フラグに応じて status を変更する
+    // resolved フラグに応じて status を変更する（DDL CHECK 制約に合わせて大文字）
     let new_status = if req.resolved {
-        "resolved"
+        "RESOLVED"
     } else {
-        "acknowledged"
+        "ACKNOWLEDGED"
     };
 
     // アラートが存在することを確認してから更新する
     let affected = sqlx::query(
         r#"
-        UPDATE alerts
+        UPDATE andon_alerts
         SET status = $1,
             acknowledged_by = $2,
             acknowledgement_note = $3,
             acknowledged_at = $4,
             updated_at = $4
-        WHERE id = $5 AND deleted_at IS NULL
+        WHERE alert_id = $5 AND deleted_at IS NULL
         "#,
     )
     .bind(new_status)

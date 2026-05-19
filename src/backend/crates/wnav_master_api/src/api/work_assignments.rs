@@ -68,14 +68,16 @@ pub async fn receive_work_assignment(
 
     let server_received_at = Utc::now().timestamp_millis();
 
-    // idempotency_key で重複チェック
-    let existing = sqlx::query(r#"SELECT id FROM work_assignments WHERE idempotency_key = $1"#)
-        .bind(payload.idempotency_key)
-        .fetch_optional(&state.read_pool)
-        .await?;
+    // idempotency_key で重複チェック（DDL: uq_wa_idempotency UNIQUE(external_system, idempotency_key)）
+    let existing = sqlx::query(
+        r#"SELECT assignment_id FROM work_assignments WHERE idempotency_key = $1"#,
+    )
+    .bind(payload.idempotency_key)
+    .fetch_optional(&state.read_pool)
+    .await?;
 
     if let Some(existing_row) = existing {
-        let existing_id: Uuid = existing_row.get("id");
+        let existing_id: Uuid = existing_row.get("assignment_id");
         tracing::info!(
             event = "work_assignment.duplicate",
             idempotency_key = %payload.idempotency_key,
@@ -92,41 +94,41 @@ pub async fn receive_work_assignment(
         ));
     }
 
-    // 新規登録
+    // 新規登録（DDL 列名: assignment_id, external_order_id, external_system, work_pattern_id,
+    //             target_terminal_id, source_payload, idempotency_key, factory_id, received_at）
+    // 必須 NOT NULL 列のうち handler が受け取らない列は暫定値を設定する
     let new_id = Uuid::now_v7();
 
     sqlx::query(
         r#"
         INSERT INTO work_assignments
-            (id, idempotency_key, external_assignment_id, factory_id, worker_id,
-             process_id, scheduled_start_at, scheduled_end_at, payload,
-             server_received_at, created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW())
+            (assignment_id, idempotency_key, external_order_id, external_system,
+             work_pattern_id, target_terminal_id, factory_id,
+             source_payload, received_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
         "#,
     )
     .bind(new_id)
     .bind(payload.idempotency_key)
     .bind(&payload.external_assignment_id)
+    .bind(&payload.external_system)
+    .bind(payload.work_pattern_id)
+    .bind(payload.target_terminal_id)
     .bind(payload.factory_id)
-    .bind(payload.worker_id)
-    .bind(&payload.process_id)
-    .bind(payload.scheduled_start_at)
-    .bind(payload.scheduled_end_at)
     .bind(&payload.payload)
-    .bind(server_received_at)
     .execute(&state.write_pool)
     .await?;
 
-    // SSE ディスパッチログに記録する（terminal-api への配信トリガー）
+    // SSE ディスパッチログに記録する（DDL 列名: dispatch_id, assignment_id, terminal_id, dispatched_at）
     sqlx::query(
         r#"
         INSERT INTO sse_dispatch_log
-            (id, event_type, assignment_id, factory_id, created_at)
-        VALUES (gen_random_uuid(), 'work_assignment_push', $1, $2, NOW())
+            (dispatch_id, assignment_id, terminal_id, dispatched_at)
+        VALUES (gen_random_uuid(), $1, $2, NOW())
         "#,
     )
     .bind(new_id)
-    .bind(payload.factory_id)
+    .bind(payload.target_terminal_id)
     .execute(&state.write_pool)
     .await?;
 

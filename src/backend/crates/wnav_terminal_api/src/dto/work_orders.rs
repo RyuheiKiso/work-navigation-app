@@ -44,6 +44,7 @@ pub struct WorkOrderDto {
 
 /// 作業指示一覧取得のクエリパラメータ（API-work-orders-001）
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct WorkOrderQuery {
     /// ステータスフィルタ（open / in_progress / completed / cancelled）
     pub status: Option<String>,

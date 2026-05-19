@@ -70,6 +70,7 @@ pub async fn list_work_assignments(
         .collect();
 
     // カーソルページング（limit + 1 件取得して has_more を判定する）
+    // DDL 列名: assignment_id(PK), work_pattern_id（sop_id ではない）
     let rows = sqlx::query_as::<
         _,
         (
@@ -81,16 +82,16 @@ pub async fn list_work_assignments(
             Option<Uuid>,
             Option<Uuid>,
             Option<chrono::DateTime<Utc>>,
-            i32,
+            i16,
             String,
             chrono::DateTime<Utc>,
         ),
     >(
         r"
         SELECT
-            wa.id,
-            wa.sop_id,
-            COALESCE(s.name_json ->> 'ja', '') AS sop_name,
+            wa.assignment_id,
+            wa.work_pattern_id,
+            COALESCE(wp.name_json ->> 'ja', '') AS work_pattern_name,
             wa.lot_id,
             l.lot_number,
             wa.suggested_worker_id,
@@ -100,12 +101,12 @@ pub async fn list_work_assignments(
             wa.status,
             wa.received_at
         FROM work_assignments wa
-        LEFT JOIN sops s ON s.id = wa.sop_id
-        LEFT JOIN lots l ON l.id = wa.lot_id
+        LEFT JOIN work_patterns wp ON wp.work_pattern_id = wa.work_pattern_id
+        LEFT JOIN lots l ON l.lot_id = wa.lot_id
         WHERE wa.target_terminal_id = $1
           AND wa.status = ANY($2)
           AND ($3::uuid IS NULL OR wa.received_at > (
-                SELECT received_at FROM work_assignments WHERE id = $3
+                SELECT received_at FROM work_assignments WHERE assignment_id = $3
               ))
         ORDER BY wa.received_at ASC
         LIMIT $4
@@ -128,9 +129,9 @@ pub async fn list_work_assignments(
         .take(limit as usize)
         .map(
             |(
-                id,
-                sop_id,
-                sop_name,
+                assignment_id,
+                work_pattern_id,
+                work_pattern_name,
                 lot_id,
                 lot_number,
                 suggested_worker_id,
@@ -141,15 +142,15 @@ pub async fn list_work_assignments(
                 received_at,
             )| {
                 WorkAssignmentDto {
-                    id,
-                    sop_id,
-                    sop_name,
+                    id: assignment_id,
+                    sop_id: work_pattern_id,
+                    sop_name: work_pattern_name,
                     lot_id,
                     lot_number,
                     suggested_worker_id,
                     suggested_equipment_id,
                     due_at,
-                    priority,
+                    priority: priority as i32,
                     status,
                     received_at,
                 }
@@ -208,12 +209,12 @@ pub async fn ack_work_assignment(
 
     let terminal_id = current_user.device_id.ok_or(AppError::Unauthorized)?;
 
-    // work_assignments の target_terminal_id と JWT.terminal_id が一致することを確認する
+    // work_assignments の target_terminal_id と JWT.terminal_id が一致することを確認する（DDL 列名使用）
     let rows_affected = sqlx::query(
         r"
         UPDATE work_assignments
-        SET status = 'acknowledged', acknowledged_at = $3
-        WHERE id = $1 AND target_terminal_id = $2 AND status != 'acknowledged'
+        SET status = 'accepted', accepted_at = $3
+        WHERE assignment_id = $1 AND target_terminal_id = $2 AND status != 'accepted'
         ",
     )
     .bind(id)
@@ -228,12 +229,12 @@ pub async fn ack_work_assignment(
         return Err(AppError::NotFound);
     }
 
-    // sse_dispatch_log を acknowledged に更新する
+    // sse_dispatch_log を ack 状態に更新する（DDL 列名: delivery_status, ack_at, terminal_id）
     let _ = sqlx::query(
         r"
         UPDATE sse_dispatch_log
-        SET status = 'acknowledged', acknowledged_at = $2
-        WHERE assignment_id = $1 AND target_terminal_id = $3
+        SET delivery_status = 'ack', ack_at = $2
+        WHERE assignment_id = $1 AND terminal_id = $3
         ",
     )
     .bind(id)

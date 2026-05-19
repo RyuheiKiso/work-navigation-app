@@ -31,6 +31,13 @@ export function OperationListPage(): React.ReactElement {
       queryKeyBuilder={(asOf) => queryKeys.master.operations(asOf)}
       columns={columns}
       initialCreateForm={{ operationCode: '', processId: '', nameJa: '', nameEn: '', nameZh: '' }}
+      initialEditForm={(item) => ({
+        operationCode: item.operationCode,
+        processId: item.processId,
+        nameJa: item.nameJson.ja,
+        nameEn: item.nameJson.en,
+        nameZh: item.nameJson.zh,
+      })}
       labelOf={(item) => resolveLocale(item.nameJson, 'ja')}
       validateAndBuildPayload={(form) => {
         if (!form.operationCode) return { ok: false, message: 'オペレーションコードは必須です' };

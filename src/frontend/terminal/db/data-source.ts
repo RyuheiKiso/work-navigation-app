@@ -53,6 +53,11 @@ import { LocalCaseLock } from './entities/LocalCaseLock';
 import { LocalWorkAssignment } from './entities/LocalWorkAssignment';
 import { LocalAppSettings } from './entities/LocalAppSettings';
 
+import { InitialSchema1716034496000 } from './migrations/1716034496000-initial-schema';
+
+// 全マイグレーションを時系列昇順で登録する（端末は migration:revert 非サポート）
+export const ALL_MIGRATIONS = [InitialSchema1716034496000];
+
 // 全エンティティ配列。data-source.ts と migrations 双方で同じインスタンスを参照する
 export const ALL_ENTITIES = [
   LocalWorkEvent,
@@ -118,10 +123,11 @@ export async function initDatabase(): Promise<DataSource> {
     driver: require('expo-sqlite'),
     database: 'wnav.db',
     entities: ALL_ENTITIES,
-    migrations: [],
+    migrations: ALL_MIGRATIONS,
     // synchronize は本番安全性のため必ず false。スキーマ変更は migration ファイルで管理する
     synchronize: false,
-    migrationsRun: false,
+    // 起動時に未適用マイグレーションを自動実行する（07a_TypeORMマイグレーション設計.md §4）
+    migrationsRun: true,
     logging: false,
   });
   await dataSource.initialize();

@@ -62,6 +62,16 @@ export const auditHandlers = [
     }));
   }),
 
+  // DLQ イベントを完全削除（廃棄）する（論理削除ではなく物理削除が仕様）
+  ...route('delete', 'master', '/outbox/dlq/:id', ({ request, params }) => {
+    const authErr = requireAuth(request);
+    if (authErr) return authErr;
+    const idx = db.outboxEvents.findIndex((e) => e.id === params['id'] && e.status === 'dlq');
+    if (idx === -1) return problem(404, 'ERR-DB-002', 'NotFound', 'DLQ イベントが存在しません');
+    db.outboxEvents.splice(idx, 1);
+    return new HttpResponse(null, { status: 204 });
+  }),
+
   ...route('post', 'master', '/outbox/dlq/:id/retry', async ({ request, params }) => {
     const authErr = requireAuth(request);
     if (authErr) return authErr;

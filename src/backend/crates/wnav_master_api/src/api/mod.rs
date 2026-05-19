@@ -6,6 +6,7 @@
 pub mod alerts;
 pub mod auth;
 pub mod capas;
+pub mod resources;
 pub mod health;
 pub mod iqc;
 pub mod master;

@@ -57,7 +57,9 @@ pub struct Violation {
 /// wnav_terminal_api 全エンドポイントで使用するエラー型。
 ///
 /// 全エラーは `IntoResponse` 実装で RFC 9457 Problem Details に変換される。
+// API エラー列挙型は全エラーコードを網羅するため、現時点でハンドラが使用していないバリアントも含む。
 #[derive(Debug, Error)]
+#[allow(dead_code)]
 pub enum AppError {
     // ─── ERR-AUTH ───────────────────────────────────────────────────────────
     /// ERR-AUTH-001: JWT 不正・有効期限切れ・login_id 不存在など（HTTP 401）

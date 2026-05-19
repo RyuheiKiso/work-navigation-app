@@ -202,19 +202,19 @@ COMMENT ON INDEX idx_auth_logs_user_id_occurred_at IS
 -- case_locks インデックス（IDX-017〜018）
 -- =====================================================
 
--- IDX-017: TBL-051 case_locks — terminal_id B-Tree
--- 目的: 端末別の保有 case 一覧取得（BAT-013 処理、デバッグ、監査）
-CREATE INDEX IF NOT EXISTS idx_case_locks_terminal_id
-    ON case_locks USING BTREE (terminal_id);
+-- IDX-017: TBL-051 case_locks — device_id B-Tree
+-- 目的: 端末別の保有 work_order 一覧取得（BAT-013 処理、デバッグ、監査）
+CREATE INDEX IF NOT EXISTS idx_case_locks_device_id
+    ON case_locks USING BTREE (device_id);
 
-COMMENT ON INDEX idx_case_locks_terminal_id IS
-    'IDX-017 — case_locks を terminal_id で検索するインデックス。端末別保有 case の一覧取得に使用。';
+COMMENT ON INDEX idx_case_locks_device_id IS
+    'IDX-017 — case_locks を device_id で検索するインデックス。端末別保有 work_order の一覧取得に使用。';
 
 -- IDX-018: TBL-051 case_locks — heartbeat_at Partial（ACTIVE のみ）
 -- 目的: BAT-013 の EXPIRED 化対象を効率的に取得
 CREATE INDEX IF NOT EXISTS idx_case_locks_heartbeat_at_active
     ON case_locks USING BTREE (heartbeat_at)
-    WHERE lock_status = 'ACTIVE';
+    WHERE status = 'ACTIVE';
 
 COMMENT ON INDEX idx_case_locks_heartbeat_at_active IS
     'IDX-018 — case_locks の heartbeat_at 昇順 Partial インデックス（ACTIVE のみ）。BAT-013 が heartbeat_at < NOW() - INTERVAL ''5 minutes'' で EXPIRED 化対象を絞り込むために使用。';

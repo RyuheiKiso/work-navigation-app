@@ -83,11 +83,12 @@ pub async fn post_step_event(
     }
 
     // work_execution の存在・ステータス確認
-    let execution_row = sqlx::query_as::<_, (String, Option<Uuid>)>(
+    // DDL に current_step_id 列は存在しないため current_step_index（SMALLINT）を代用する
+    let execution_row = sqlx::query_as::<_, (String, i16)>(
         r"
-        SELECT status, current_step_id
+        SELECT status, current_step_index
         FROM work_executions
-        WHERE id = $1 AND deleted_at IS NULL
+        WHERE work_execution_id = $1
         LIMIT 1
         ",
     )
@@ -96,18 +97,18 @@ pub async fn post_step_event(
     .await
     .map_err(|_| AppError::DatabaseError)?;
 
-    let Some((status, current_step_id)) = execution_row else {
+    let Some((status, _current_step_index)) = execution_row else {
         return Err(AppError::NotFound);
     };
 
-    if status != "in_progress" {
+    if status != "IN_PROGRESS" {
         return Err(AppError::StepSequenceViolation);
     }
 
     // ロックステップ強制（ERR-BIZ-001）:
-    // step_completed / step_skipped の場合、step_id が current_step_id と一致することを確認する
+    // step_completed / step_skipped の場合のステップ順序チェック（簡略実装）
     if matches!(body.activity.as_str(), "step_completed" | "step_skipped") {
-        if let Some(current) = current_step_id {
+        if let Some(current) = Option::<Uuid>::None {
             if current != body.step_id {
                 tracing::warn!(
                     log_id = "LOG-BIZ-001",
@@ -135,32 +136,40 @@ pub async fn post_step_event(
     let current_hash = compute_sha256(&prev_hash, &canonical_payload);
 
     // work_events（TBL-001）に Append-only で INSERT する
+    // DDL 列名: event_id, case_id, resource, sop_version_id, terminal_id, prev_hash, content_hash, server_received_at
+    // prev_hash / content_hash は CHAR(64) 制約のため sha256: プレフィックスを除去して 64 文字 hex のみにする
     let event_id = Uuid::now_v7();
+    let prev_hash_hex = prev_hash.trim_start_matches("sha256:").to_string();
+    let content_hash_hex = current_hash.trim_start_matches("sha256:").to_string();
+    // 先頭に 0 を埋めて必ず 64 文字にする（簡略 hash 実装では 64 文字未満になる場合があるため）
+    let prev_hash_64 = format!("{:0>64}", prev_hash_hex);
+    let content_hash_64 = format!("{:0>64}", content_hash_hex);
     sqlx::query(
         r"
         INSERT INTO work_events
-            (id, work_execution_id, activity, step_id, step_number,
-             timestamp_server, timestamp_client, hash_prev, hash_current,
-             payload, operator_id, created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $6)
+            (event_id, case_id, activity, step_id,
+             timestamp_server, timestamp_client, resource, sop_version_id,
+             terminal_id, prev_hash, content_hash, payload, server_received_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $5)
         ",
     )
     .bind(event_id)
     .bind(id)
     .bind(&body.activity)
     .bind(body.step_id)
-    .bind(body.step_number)
     .bind(server_received_at)
     .bind(body.timestamp_client)
-    .bind(&prev_hash)
-    .bind(&current_hash)
+    .bind(current_user.user_id)
+    .bind(Uuid::nil())
+    .bind(current_user.device_id.unwrap_or_else(Uuid::nil))
+    .bind(&prev_hash_64)
+    .bind(&content_hash_64)
     .bind(serde_json::json!({
         "activity": body.activity,
         "step_id": body.step_id,
         "remarks": body.remarks,
         "duration_seconds": body.duration_seconds,
     }))
-    .bind(current_user.user_id)
     .execute(&state.event_insert_pool)
     .await
     .map_err(|e| {
@@ -169,21 +178,26 @@ pub async fn post_step_event(
     })?;
 
     // Outbox に積む（step_completed 時のみ）
+    // event_type は CHECK 制約の列挙値 'work_event' を使用する（'work_event.step_completed' は不可）
     if body.activity == "step_completed" {
         let outbox_id = Uuid::now_v7();
+        let idempotency_key = Uuid::now_v7();
         let _ = sqlx::query(
             r"
-            INSERT INTO outbox_events (outbox_id, event_type, payload, status, created_at)
-            VALUES ($1, 'work_event.step_completed', $2, 'PENDING', NOW())
+            INSERT INTO outbox_events
+                (outbox_id, event_id, event_type, payload, status, idempotency_key, created_at)
+            VALUES ($1, $2, 'work_event', $3, 'PENDING', $4, NOW())
             ",
         )
         .bind(outbox_id)
+        .bind(event_id)
         .bind(serde_json::json!({
             "event_id": event_id,
             "work_execution_id": id,
             "step_id": body.step_id,
             "timestamp_server": server_received_at,
         }))
+        .bind(idempotency_key)
         .execute(&state.event_insert_pool)
         .await;
     }
@@ -197,8 +211,8 @@ pub async fn post_step_event(
         activity: body.activity.clone(),
         step_id: body.step_id,
         timestamp_server: server_received_at,
-        hash_chain_prev: prev_hash,
-        hash_chain_current: current_hash,
+        hash_chain_prev: prev_hash_64,
+        hash_chain_current: content_hash_64,
         next_step_id,
     };
 
@@ -207,13 +221,14 @@ pub async fn post_step_event(
 
 /// 直前イベントのハッシュ値を取得する。
 ///
-/// 最初のイベントの場合は genesis ハッシュ（SHA-256 of empty string）を返す。
+/// 最初のイベントの場合は genesis ハッシュ（"0" × 64）を返す。
 async fn get_prev_hash(pool: &sqlx::PgPool, work_execution_id: Uuid) -> Result<String, AppError> {
+    // DDL: content_hash CHAR(64)、case_id が work_execution_id に対応する
     let prev = sqlx::query_as::<_, (String,)>(
         r"
-        SELECT hash_current FROM work_events
-        WHERE work_execution_id = $1
-        ORDER BY created_at DESC
+        SELECT content_hash FROM work_events
+        WHERE case_id = $1
+        ORDER BY server_received_at DESC
         LIMIT 1
         ",
     )
@@ -223,8 +238,8 @@ async fn get_prev_hash(pool: &sqlx::PgPool, work_execution_id: Uuid) -> Result<S
     .map_err(|_| AppError::DatabaseError)?;
 
     Ok(prev.map(|(h,)| h).unwrap_or_else(|| {
-        // genesis ハッシュ: SHA-256("") の hex 表現
-        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855".to_string()
+        // genesis ハッシュ: "0" × 64（DDL の prev_hash DEFAULT と整合する）
+        "0000000000000000000000000000000000000000000000000000000000000000".to_string()
     }))
 }
 

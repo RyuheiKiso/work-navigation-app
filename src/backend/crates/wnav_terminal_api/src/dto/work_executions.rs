@@ -29,6 +29,7 @@ pub struct WorkEventSummary {
 
 /// 作業開始リクエスト（API-work-execs-001）
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct StartWorkRequest {
     /// 対象作業指示 ID（TBL-006 に open ステータスで存在すること）
     pub work_order_id: Uuid,
@@ -81,6 +82,7 @@ pub struct WorkExecutionDetailData {
 
 /// 作業中断リクエスト（API-work-execs-003）
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct SuspendRequest {
     /// 中断理由コード（equipment_breakdown / material_shortage / quality_issue / emergency / other）
     pub reason_code: String,
@@ -105,6 +107,7 @@ pub struct SuspendData {
 
 /// 作業再開リクエスト（API-work-execs-004）
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct ResumeRequest {
     /// 再開実行者 ID（TBL-016 に存在すること）
     pub resumed_by: Uuid,
@@ -127,6 +130,7 @@ pub struct ResumeData {
 
 /// 作業完了リクエスト（API-work-execs-005）
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct CompleteWorkRequest {
     /// 完了実行者 ID（TBL-016 に存在すること）
     pub completed_by: Uuid,

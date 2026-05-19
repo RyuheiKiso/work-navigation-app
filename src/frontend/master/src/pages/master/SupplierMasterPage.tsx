@@ -31,6 +31,13 @@ export function SupplierMasterPage(): React.ReactElement {
       queryKeyBuilder={(asOf) => queryKeys.master.suppliers(asOf)}
       columns={columns}
       initialCreateForm={{ supplierCode: '', contactEmail: '', nameJa: '', nameEn: '', nameZh: '' }}
+      initialEditForm={(item) => ({
+        supplierCode: item.supplierCode,
+        contactEmail: item.contactEmail ?? '',
+        nameJa: item.nameJson.ja,
+        nameEn: item.nameJson.en,
+        nameZh: item.nameJson.zh,
+      })}
       labelOf={(item) => resolveLocale(item.nameJson, 'ja')}
       validateAndBuildPayload={(form) => {
         if (!form.supplierCode) return { ok: false, message: '仕入先コードは必須です' };

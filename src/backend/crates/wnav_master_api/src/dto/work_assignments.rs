@@ -13,17 +13,20 @@ use uuid::Uuid;
 /// X-Signature-256 ヘッダで HMAC-SHA256 署名を検証する。
 /// idempotency_key で重複排除を行う（同一キーの再送は 200 を返して無視する）。
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct WorkAssignmentPushRequest {
     /// 冪等キー（外部システムが UUID v4 で採番する）
     pub idempotency_key: Uuid,
     /// 作業指示 ID（外部システムの識別子）
     pub external_assignment_id: String,
-    /// 工場 ID
+    /// 送信元システム識別子（例: "SAP_PP"）
+    pub external_system: String,
+    /// 工場 ID（ver1.0.0 では定数 UUID を使用する）
     pub factory_id: Uuid,
-    /// 作業者 ID（割り当て対象）
-    pub worker_id: Uuid,
-    /// 工程 ID
-    pub process_id: String,
+    /// 作業パターン ID（内部の work_pattern_id）
+    pub work_pattern_id: Uuid,
+    /// 配信先端末 ID（target_terminal_id）
+    pub target_terminal_id: Uuid,
     /// 計画開始日時
     pub scheduled_start_at: DateTime<Utc>,
     /// 計画終了日時

@@ -1,5 +1,5 @@
 // NetworkContext。4 段階ネットワーク品質 + Emergency Mode の遷移管理
-import React, { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useReducer, useRef } from 'react';
 import type { NetworkQuality } from '@wnav/shared';
 import { NetworkMonitor } from '../network/NetworkMonitor';
 
@@ -60,6 +60,8 @@ const NetworkContext = createContext<NetworkContextValue | null>(null);
 
 export function NetworkProvider({ children }: { children: React.ReactNode }): JSX.Element {
   const [state, dispatch] = useReducer(networkReducer, initialState);
+  // アプリ起動時刻。lastOnlineAt が null のとき（起動直後から切断）の Emergency Mode 判定基準に使う
+  const mountedAt = useRef(new Date().toISOString());
 
   useEffect(() => {
     const monitor = new NetworkMonitor();
@@ -74,11 +76,12 @@ export function NetworkProvider({ children }: { children: React.ReactNode }): JS
   }, []);
 
   // 5 分以上切断状態が続いたら Emergency Mode に遷移する
+  // lastOnlineAt が null（起動直後からオフライン）の場合はアプリ起動時刻を基準とする
   useEffect(() => {
     if (state.quality !== 'disconnected') return;
-    if (state.lastOnlineAt === null) return;
+    const referenceAt = state.lastOnlineAt ?? mountedAt.current;
     const timer = setTimeout(() => {
-      const last = Date.parse(state.lastOnlineAt ?? '');
+      const last = Date.parse(referenceAt);
       if (Number.isFinite(last) && Date.now() - last >= EMERGENCY_THRESHOLD_MS) {
         dispatch({ type: 'ENTER_EMERGENCY' });
       }

@@ -48,11 +48,19 @@ export function UserManagementPage(): React.ReactElement {
       queryKeyBuilder={() => ['console', 'users']}
       columns={columns}
       initialCreateForm={{ loginId: '', username: '', email: '', role: 'operator', initialPassword: '' }}
+      initialEditForm={(item) => ({
+        loginId: item.loginId,
+        username: item.username,
+        email: item.email ?? '',
+        role: item.role,
+        initialPassword: '',
+      })}
       labelOf={(item) => item.loginId}
       validateAndBuildPayload={(form) => {
         if (!form.loginId || form.loginId.length > 128) return { ok: false, message: 'ログイン ID は 1〜128 文字' };
         if (!form.username) return { ok: false, message: 'ユーザー名は必須です' };
-        if (form.initialPassword.length < 8) return { ok: false, message: '初期パスワードは 8 文字以上' };
+        // 編集時はパスワード未入力を許可（空の場合はサーバー側で変更なし扱い）
+        if (form.initialPassword && form.initialPassword.length < 8) return { ok: false, message: '初期パスワードは 8 文字以上' };
         return {
           ok: true,
           payload: {

@@ -10,6 +10,7 @@ use uuid::Uuid;
 /// activity フィールドで種別を判定する:
 /// - step_completed / step_skipped / evidence_attached / sign_applied / measurement_recorded
 #[derive(Debug, Deserialize, ToSchema)]
+#[allow(dead_code)]
 pub struct StepEventRequest {
     /// activity タイプ（列挙値、自由文字列は不可）
     pub activity: String,

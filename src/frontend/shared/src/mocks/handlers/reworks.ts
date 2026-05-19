@@ -43,10 +43,12 @@ export const reworkHandlers = [
     const { page, perPage } = parsePagination(request);
     const u = new URL(request.url);
     const relatedTo = u.searchParams.get('related_to');
-    // related_to: parent_case_id または rework_case_id に一致するリワークを返す
-    const filtered = relatedTo
-      ? db.reworks.filter((r) => r.parentCaseId === relatedTo || r.reworkCaseId === relatedTo)
-      : db.reworks;
+    const status = u.searchParams.get('status');
+    const assignedTo = u.searchParams.get('assigned_to');
+    let filtered = db.reworks;
+    if (relatedTo) filtered = filtered.filter((r) => r.parentCaseId === relatedTo || r.reworkCaseId === relatedTo);
+    if (status) filtered = filtered.filter((r) => r.status === status);
+    if (assignedTo) filtered = filtered.filter((r) => r.assignedTo === assignedTo);
     const { slice, total } = paginate(filtered, page, perPage);
     return HttpResponse.json(paginatedEnvelope(slice, total, page, perPage));
   }),

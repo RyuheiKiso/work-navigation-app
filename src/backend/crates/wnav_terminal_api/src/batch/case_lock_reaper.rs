@@ -65,7 +65,7 @@ async fn expire_stale_locks(pool: &PgPool) -> Result<u64, sqlx::Error> {
     let result = sqlx::query(
         r"
         UPDATE case_locks
-        SET status = 'EXPIRED', expired_at = NOW(), updated_at = NOW()
+        SET status = 'EXPIRED'
         WHERE status = 'ACTIVE'
           AND heartbeat_at < NOW() - INTERVAL '5 minutes'
         ",

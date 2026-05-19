@@ -9,6 +9,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ErrorBoundary } from '../src/components/ErrorBoundary';
 import { initDatabase } from '../db/data-source';
 import { i18n, initI18n } from '../i18n';
+// 開発環境でのみ MSW を起動する（CLAUDE.md §ADR: MSW msw/native 使用）
+import { server } from '@wnav/shared/mocks/native';
+if (__DEV__) {
+  server.listen({ onUnhandledRequest: 'bypass' });
+}
 import { AuthProvider } from '../contexts/AuthContext';
 import { NetworkProvider } from '../contexts/NetworkContext';
 import { LocaleProvider } from '../contexts/LocaleContext';

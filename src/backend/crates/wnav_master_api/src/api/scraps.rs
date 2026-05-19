@@ -95,22 +95,25 @@ pub async fn create_return_record(
     let new_id = Uuid::now_v7();
     let now = Utc::now();
 
+    // vendor_id は UUID として解析する（supplier_id 文字列から変換する）
+    let vendor_id = Uuid::parse_str(&req.supplier_id)
+        .map_err(|_| AppError::Validation("supplier_id の形式が不正です（UUID が必要です）".to_string()))?;
+
     sqlx::query(
         r#"
-        INSERT INTO return_records
-            (id, lot_id, supplier_id, quantity, reason_code, description, returned_at, created_by, created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        INSERT INTO return_to_vendor_records
+            (rework_id, vendor_id, carrier, tracking_no, returned_at,
+             qc_case_id, prev_hash, content_hash)
+        VALUES ($1, $2, $3, $4, $5, $1,
+                '0000000000000000000000000000000000000000000000000000000000000000',
+                '0000000000000000000000000000000000000000000000000000000000000000')
         "#,
     )
     .bind(new_id)
-    .bind(&req.lot_id)
-    .bind(&req.supplier_id)
-    .bind(req.quantity)
+    .bind(vendor_id)
     .bind(&req.reason_code)
-    .bind(&req.description)
+    .bind(req.description.as_deref().unwrap_or(""))
     .bind(req.returned_at)
-    .bind(user.user_id)
-    .bind(now)
     .execute(&state.write_pool)
     .await?;
 

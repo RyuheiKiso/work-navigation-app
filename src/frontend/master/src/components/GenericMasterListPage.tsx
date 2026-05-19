@@ -15,7 +15,7 @@ import {
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import { Add, Block, Edit } from '@mui/icons-material';
 import type { QueryKey } from '@tanstack/react-query';
-import { useMasterList, useDeprecateMaster, useCreateMaster } from '@/api/useMasterCrud';
+import { useMasterList, useDeprecateMaster, useCreateMaster, useUpdateMaster } from '@/api/useMasterCrud';
 import { MasterListShell } from './MasterListShell';
 import { ImpactRangePreview } from './ImpactRangePreview';
 
@@ -28,7 +28,9 @@ export interface GenericMasterListPageProps<T extends { id: string; deletedAt: s
   columns: GridColDef<T>[];
   // 作成フォームの初期値（呼び出し側が型を制約する）
   initialCreateForm: TCreate;
-  // 作成フォーム本体（state を呼び出し側で保持しない設計）
+  // 既存レコードから編集フォームの初期値を生成（指定時はインライン編集ダイアログが有効になる）
+  initialEditForm?: (item: T) => TCreate;
+  // 作成・編集フォーム本体（state を呼び出し側で保持しない設計）
   renderCreateForm: (state: {
     value: TCreate;
     onChange: (next: TCreate) => void;
@@ -43,7 +45,7 @@ export interface GenericMasterListPageProps<T extends { id: string; deletedAt: s
   fetchImpacts?: (id: string) => Promise<Array<{ type: 'work_order' | 'work_execution' | 'sop_version'; id: string; label: string }>>;
   // 行のステータス表示（任意。デフォルトは「廃止 / 有効」）
   renderStatus?: (item: T) => ReactNode;
-  // 編集画面への遷移パス生成（任意。未指定時は編集ボタンを非表示）
+  // 専用編集画面への遷移パス（任意。initialEditForm と排他。指定時はダイアログ編集を無効化）
   editRoute?: (id: string) => string;
 }
 
@@ -54,6 +56,7 @@ export function GenericMasterListPage<T extends { id: string; deletedAt: string 
   queryKeyBuilder,
   columns,
   initialCreateForm,
+  initialEditForm,
   renderCreateForm,
   validateAndBuildPayload,
   labelOf,
@@ -64,14 +67,25 @@ export function GenericMasterListPage<T extends { id: string; deletedAt: string 
   const [asOfUtc, setAsOfUtc] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [openCreate, setOpenCreate] = useState(false);
+  const [editingItem, setEditingItem] = useState<T | null>(null);
   const [confirmDeprecate, setConfirmDeprecate] = useState<T | null>(null);
   const [createForm, setCreateForm] = useState<TCreate>(initialCreateForm);
+  const [editForm, setEditForm] = useState<TCreate>(initialCreateForm);
   const [createError, setCreateError] = useState<string | null>(null);
+  const [editError, setEditError] = useState<string | null>(null);
 
   const queryKey = queryKeyBuilder(asOfUtc);
   const { data, isLoading, error } = useMasterList<T>(queryKey, endpoint, { asOfUtc, search });
   const deprecateMutation = useDeprecateMaster(endpoint, queryKey);
   const create = useCreateMaster<Partial<T>, T>(endpoint, queryKey);
+  const update = useUpdateMaster<Partial<T>, T>(endpoint, queryKey);
+
+  const openEditDialog = (item: T): void => {
+    if (!initialEditForm) return;
+    setEditingItem(item);
+    setEditForm(initialEditForm(item));
+    setEditError(null);
+  };
 
   const allColumns: GridColDef<T>[] = [
     ...columns,
@@ -107,6 +121,17 @@ export function GenericMasterListPage<T extends { id: string; deletedAt: string 
               編集
             </Button>
           )}
+          {!editRoute && initialEditForm && (
+            <Button
+              size="small"
+              startIcon={<Edit />}
+              onClick={() => openEditDialog(row)}
+              disabled={!!row.deletedAt}
+              aria-label={`${labelOf(row)} を編集`}
+            >
+              編集
+            </Button>
+          )}
           {!row.deletedAt && (
             <Button
               size="small"
@@ -123,19 +148,22 @@ export function GenericMasterListPage<T extends { id: string; deletedAt: string 
     },
   ];
 
-  const submit = (): void => {
+  const submitCreate = (): void => {
     const validation = validateAndBuildPayload(createForm);
-    if (!validation.ok) {
-      setCreateError(validation.message);
-      return;
-    }
+    if (!validation.ok) { setCreateError(validation.message); return; }
     create.mutate(validation.payload, {
-      onSuccess: () => {
-        setOpenCreate(false);
-        setCreateForm(initialCreateForm);
-        setCreateError(null);
-      },
+      onSuccess: () => { setOpenCreate(false); setCreateForm(initialCreateForm); setCreateError(null); },
       onError: (e: unknown) => setCreateError(e instanceof Error ? e.message : '作成に失敗しました'),
+    });
+  };
+
+  const submitEdit = (): void => {
+    if (!editingItem) return;
+    const validation = validateAndBuildPayload(editForm);
+    if (!validation.ok) { setEditError(validation.message); return; }
+    update.mutate({ id: editingItem.id, patch: validation.payload }, {
+      onSuccess: () => { setEditingItem(null); setEditError(null); },
+      onError: (e: unknown) => setEditError(e instanceof Error ? e.message : '更新に失敗しました'),
     });
   };
 
@@ -170,6 +198,7 @@ export function GenericMasterListPage<T extends { id: string; deletedAt: string 
         />
       </Box>
 
+      {/* 新規作成ダイアログ */}
       <Dialog open={openCreate} onClose={() => setOpenCreate(false)} fullWidth maxWidth="sm">
         <DialogTitle>{title} を新規作成</DialogTitle>
         <DialogContent>
@@ -179,15 +208,27 @@ export function GenericMasterListPage<T extends { id: string; deletedAt: string 
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenCreate(false)} aria-label="作成をキャンセル">
-            キャンセル
-          </Button>
-          <Button onClick={submit} variant="contained" disabled={create.isPending} aria-label="保存">
-            保存
-          </Button>
+          <Button onClick={() => setOpenCreate(false)} aria-label="作成をキャンセル">キャンセル</Button>
+          <Button onClick={submitCreate} variant="contained" disabled={create.isPending} aria-label="保存">保存</Button>
         </DialogActions>
       </Dialog>
 
+      {/* インライン編集ダイアログ（initialEditForm が指定されている場合のみ） */}
+      <Dialog open={editingItem !== null} onClose={() => setEditingItem(null)} fullWidth maxWidth="sm">
+        <DialogTitle>{title} を編集</DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} mt={1}>
+            {editError && <Alert severity="error">{editError}</Alert>}
+            {renderCreateForm({ value: editForm, onChange: setEditForm, error: editError, setError: setEditError })}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditingItem(null)} aria-label="編集をキャンセル">キャンセル</Button>
+          <Button onClick={submitEdit} variant="contained" disabled={update.isPending} aria-label="更新">更新</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* 廃止確認ダイアログ */}
       <Dialog open={confirmDeprecate !== null} onClose={() => setConfirmDeprecate(null)} fullWidth maxWidth="sm">
         <DialogTitle>{title} を廃止</DialogTitle>
         <DialogContent>
@@ -201,9 +242,7 @@ export function GenericMasterListPage<T extends { id: string; deletedAt: string 
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setConfirmDeprecate(null)} aria-label="廃止をキャンセル">
-            キャンセル
-          </Button>
+          <Button onClick={() => setConfirmDeprecate(null)} aria-label="廃止をキャンセル">キャンセル</Button>
           <Button
             color="error"
             variant="contained"

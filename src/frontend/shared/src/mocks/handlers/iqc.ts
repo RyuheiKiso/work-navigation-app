@@ -71,7 +71,13 @@ export const iqcHandlers = [
     const authErr = requireAuth(request);
     if (authErr) return authErr;
     const { page, perPage } = parsePagination(request);
-    const { slice, total } = paginate(db.incomingInspections, page, perPage);
+    const u = new URL(request.url);
+    const qcStatus = u.searchParams.get('qc_status');
+    const supplierId = u.searchParams.get('supplier_id');
+    let filtered = db.incomingInspections;
+    if (qcStatus) filtered = filtered.filter((i) => i.qcStatus === qcStatus);
+    if (supplierId) filtered = filtered.filter((i) => i.supplierId === supplierId);
+    const { slice, total } = paginate(filtered, page, perPage);
     return HttpResponse.json(paginatedEnvelope(slice, total, page, perPage));
   }),
 
@@ -180,7 +186,12 @@ export const iqcHandlers = [
     const authErr = requireAuth(request);
     if (authErr) return authErr;
     const { page, perPage } = parsePagination(request);
-    const { slice, total } = paginate(db.concessionApprovals, page, perPage);
+    const u = new URL(request.url);
+    const status = u.searchParams.get('status');
+    const filtered = status
+      ? db.concessionApprovals.filter((c) => c.status === status)
+      : db.concessionApprovals;
+    const { slice, total } = paginate(filtered, page, perPage);
     return HttpResponse.json(paginatedEnvelope(slice, total, page, perPage));
   }),
 

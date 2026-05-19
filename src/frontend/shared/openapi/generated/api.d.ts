@@ -72,6 +72,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 現在のログインユーザー情報取得 */
+        get: operations["getMe"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/work-executions": {
         parameters: {
             query?: never;
@@ -585,6 +602,57 @@ export interface paths {
         patch: operations["updateSamplingPlan"];
         trace?: never;
     };
+    "/master/report-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 帳票テンプレート一覧（SCR-MA-017） */
+        get: operations["listReportTemplates"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/master/rework-sop-mappings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** リワーク対応表一覧（SCR-MA-016） */
+        get: operations["listReworkSopMappings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/master/sops/{id}/impact": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** SOP 廃止前影響範囲確認（dry-run） */
+        get: operations["getSopImpact"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/alerts": {
         parameters: {
             query?: never;
@@ -747,6 +815,23 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["ackWorkAssignment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/iqc/dashboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 受入検査ダッシュボード集計値取得（SCR-MC-011） */
+        get: operations["getIqcDashboard"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2177,6 +2262,27 @@ export interface operations {
             };
         };
     };
+    getMe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ユーザー情報 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserEnvelope"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+        };
+    };
     postWorkExecution: {
         parameters: {
             query?: never;
@@ -3362,6 +3468,91 @@ export interface operations {
             };
         };
     };
+    listReportTemplates: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description テンプレート一覧 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: {
+                            id?: string;
+                            templateCode?: string;
+                            name?: string;
+                            category?: string;
+                            format?: string;
+                            updatedAt?: string;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    listReworkSopMappings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 対応表一覧 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: {
+                            id?: string;
+                            ncCategory?: string;
+                            reworkType?: string;
+                            targetSopId?: string;
+                            targetSopName?: string;
+                            createdAt?: string;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    getSopImpact: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: components["parameters"]["PathId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 影響範囲 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: {
+                            workOrderCount?: number;
+                            workExecutionCount?: number;
+                        };
+                    };
+                };
+            };
+        };
+    };
     listAlerts: {
         parameters: {
             query?: {
@@ -3668,6 +3859,34 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["WorkAssignmentEnvelope"];
+                };
+            };
+        };
+    };
+    getIqcDashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 集計値 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: {
+                            passRate?: number;
+                            failRate?: number;
+                            totalLots?: number;
+                            bySupplier?: unknown[];
+                            failRateTrend?: unknown[];
+                        };
+                    };
                 };
             };
         };
