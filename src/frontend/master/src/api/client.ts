@@ -12,11 +12,28 @@ type Paths = Record<string, unknown>;
 
 const BASE_URL: string = (import.meta.env['VITE_API_BASE_URL'] as string | undefined) ?? '/api/v1';
 
+// MSW は httpOnly Cookie を設定できないため DEV モードのみ sessionStorage でトークンを補完する
+const DEV_TOKEN_KEY = 'wnav_dev_token';
+
+export function storeDevToken(token: string): void {
+  if (import.meta.env.DEV) sessionStorage.setItem(DEV_TOKEN_KEY, token);
+}
+
+export function clearDevToken(): void {
+  if (import.meta.env.DEV) sessionStorage.removeItem(DEV_TOKEN_KEY);
+}
+
 // 全リクエストに Accept-Language と Idempotency-Key 候補のヘッダ補完を行う
 const headerMiddleware: Middleware = {
   async onRequest({ request }) {
     if (!request.headers.has('Accept-Language')) {
       request.headers.set('Accept-Language', navigator.language || 'ja');
+    }
+    // 本番では httpOnly Cookie を使用するが、MSW モックでは Cookie が設定できないため
+    // DEV モードのみ sessionStorage のトークンを Authorization ヘッダに補完する
+    if (import.meta.env.DEV && !request.headers.has('Authorization')) {
+      const token = sessionStorage.getItem(DEV_TOKEN_KEY);
+      if (token) request.headers.set('Authorization', `Bearer ${token}`);
     }
     return request;
   },
@@ -45,6 +62,11 @@ async function request<T>(method: string, path: string, body?: unknown, init?: R
   if (body !== undefined) headers.set('Content-Type', 'application/json');
   if (method !== 'GET' && method !== 'HEAD' && !headers.has('Idempotency-Key')) {
     headers.set('Idempotency-Key', crypto.randomUUID());
+  }
+  // DEV モードのみ: MSW が Cookie を設定できないため sessionStorage のトークンを Bearer ヘッダに補完する
+  if (import.meta.env.DEV && !headers.has('Authorization')) {
+    const token = sessionStorage.getItem(DEV_TOKEN_KEY);
+    if (token) headers.set('Authorization', `Bearer ${token}`);
   }
   const res = await fetch(`${BASE_URL}${path}`, {
     method,

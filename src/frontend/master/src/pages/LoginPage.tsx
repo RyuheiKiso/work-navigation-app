@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Box, Paper, TextField, Button, Typography, Alert, Stack } from '@mui/material';
-import { api, ApiError } from '@/api/client';
+import { api, ApiError, storeDevToken } from '@/api/client';
 import { AUTH_QUERY_KEY } from '@/auth/useAuth';
 
 interface LoginResponse {
@@ -27,7 +27,9 @@ export function LoginPage(): React.ReactElement {
       const result = await api.post<LoginResponse>('/auth/login', { loginId, password, deviceId: 'master-web', factoryId: 'default' });
       return result.data;
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      // DEV モードのみ: MSW が Cookie を設定できないため accessToken を sessionStorage に保存する
+      storeDevToken(data.accessToken);
       await queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
       const fromState = location.state as { from?: string } | null;
       const from = fromState?.from ?? '/';

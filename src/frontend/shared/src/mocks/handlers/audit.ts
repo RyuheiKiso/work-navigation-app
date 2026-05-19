@@ -104,11 +104,27 @@ export const auditHandlers = [
     next_scheduled_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
   }))),
 
-  ...route('get', 'master', '/system/metrics', () => HttpResponse.json(envelope({
-    work_executions_in_progress: db.workExecutions.filter((e) => e.status === 'in_progress').length,
-    open_alerts: db.andonAlerts.filter((a) => a.status === 'open').length,
-    dlq_count: db.outboxEvents.filter((e) => e.status === 'dlq').length,
-  }))),
+  ...route('get', 'master', '/system/metrics', () => {
+    const dlqCount = db.outboxEvents.filter((e) => e.status === 'dlq').length;
+    const andonActiveCount = db.andonAlerts.filter((a) => a.status === 'open').length;
+    const now = Date.now();
+    // 直近10分の時系列ダミーデータを生成する
+    const series = Array.from({ length: 10 }, (_, i) => ({
+      ts: new Date(now - (9 - i) * 60_000).toISOString().slice(11, 16),
+      availability: 99.9 + Math.random() * 0.1,
+      errorRate: Math.random() * 0.1,
+    }));
+    return HttpResponse.json(envelope({
+      availability: 99.92,
+      latencyP95Ms: 230,
+      errorRate: 0.05,
+      errorBudgetRemaining: 78,
+      dlqCount,
+      andonActiveCount,
+      backupStatus: dlqCount > 0 ? 'yellow' : 'green',
+      series,
+    }));
+  }),
 
   ...route('get', 'any', '/healthz', () => HttpResponse.json({ status: 'ok', timestamp: new Date().toISOString() })),
 
