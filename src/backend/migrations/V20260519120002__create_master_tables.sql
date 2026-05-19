@@ -46,28 +46,43 @@ COMMENT ON COLUMN roles.role_name IS 'operator / supervisor / master_admin / qua
 -- DDL-016: TBL-016 users
 -- EN-001 User — 作業員・管理者・システムユーザーを統合管理するマスタ
 CREATE TABLE IF NOT EXISTS users (
-    user_id         UUID            NOT NULL DEFAULT gen_random_uuid(),
-    login_id        VARCHAR(128)    NOT NULL,
-    display_name    VARCHAR(256)    NOT NULL,
-    is_active       BOOLEAN         NOT NULL DEFAULT TRUE,
-    anonymized_at   TIMESTAMPTZ     NULL,
-    created_at      TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
-    updated_at      TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
+    user_id              UUID            NOT NULL DEFAULT gen_random_uuid(),
+    login_id             VARCHAR(128)    NOT NULL,
+    display_name         VARCHAR(256)    NOT NULL,
+    password_hash        VARCHAR(255)    NOT NULL DEFAULT '',
+    pin_hash             VARCHAR(255)    NULL,
+    factory_id           UUID            NOT NULL DEFAULT gen_random_uuid(),
+    roles                JSONB           NOT NULL DEFAULT '[]'::jsonb,
+    failed_login_count   INTEGER         NOT NULL DEFAULT 0,
+    locked_until         TIMESTAMPTZ     NULL,
+    is_active            BOOLEAN         NOT NULL DEFAULT TRUE,
+    anonymized_at        TIMESTAMPTZ     NULL,
+    deleted_at           TIMESTAMPTZ     NULL,
+    created_at           TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
+    updated_at           TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
 
     CONSTRAINT pk_users PRIMARY KEY (user_id),
     CONSTRAINT uq_users_login_id UNIQUE (login_id),
     CONSTRAINT ck_users_display_name_not_empty CHECK (length(trim(display_name)) > 0),
     CONSTRAINT ck_users_anonymized_active CHECK (
         NOT (is_active = TRUE AND anonymized_at IS NOT NULL)
-    )
+    ),
+    CONSTRAINT ck_users_roles_is_array CHECK (jsonb_typeof(roles) = 'array')
 );
 
 COMMENT ON TABLE  users IS 'EN-001 User — 作業員・管理者・システムユーザーマスタ。物理削除禁止。退職後 is_active=FALSE、60日後に BAT-004 が PII を匿名化する。';
-COMMENT ON COLUMN users.user_id        IS 'UUID v7（時系列順）。Rust 側で生成し INSERT する。WorkEvent.resource FK として不変。';
-COMMENT ON COLUMN users.login_id       IS 'ログイン識別子。LDAP 連携時は LDAP DN 形式。匿名化後は内部 UUID 文字列に置換される。';
-COMMENT ON COLUMN users.display_name   IS '表示名。匿名化後は "anonymized-{user_id 前 8 桁}" に置換される。';
-COMMENT ON COLUMN users.is_active      IS '退職・無効化時に FALSE。物理 DELETE は禁止。';
-COMMENT ON COLUMN users.anonymized_at  IS 'PII 匿名化実施時刻。CFG-010 で設定された日数（デフォルト 60 日）経過後に BAT-004 が設定する。';
+COMMENT ON COLUMN users.user_id             IS 'UUID v7（時系列順）。Rust 側で生成し INSERT する。WorkEvent.resource FK として不変。';
+COMMENT ON COLUMN users.login_id            IS 'ログイン識別子。LDAP 連携時は LDAP DN 形式。匿名化後は内部 UUID 文字列に置換される。';
+COMMENT ON COLUMN users.display_name        IS '表示名。匿名化後は "anonymized-{user_id 前 8 桁}" に置換される。';
+COMMENT ON COLUMN users.password_hash       IS 'bcrypt でハッシュ化されたパスワード（コスト係数 12）。ユーザー作成時に必ず設定する。LDAP 認証失敗時のフォールバック認証に使用する。';
+COMMENT ON COLUMN users.pin_hash            IS 'bcrypt でハッシュ化された電子サイン用 PIN（コスト係数 10）。NULL は PIN 未設定。PIN 未設定ユーザーは電子サイン不可。';
+COMMENT ON COLUMN users.factory_id          IS '所属工場の UUID。ver1.0.0 はシングルファクトリー運用のため定数 UUID を使用する。JWT クレームに埋め込み高速認証を実現する。';
+COMMENT ON COLUMN users.roles               IS '付与されているロール名の非正規化 JSONB 配列（例: ["operator","supervisor"]）。高速認証のため denormalize している。user_roles テーブルが正規化ソース。';
+COMMENT ON COLUMN users.failed_login_count  IS 'ブルートフォース対策の連続認証失敗カウンタ。5 回失敗でアカウントを 30 分ロックする。認証成功時に 0 にリセットする。';
+COMMENT ON COLUMN users.locked_until        IS 'アカウントロック解除時刻（UTC）。NULL はロックなし。ログイン時に NOW() と比較してロック中か判定する。';
+COMMENT ON COLUMN users.is_active           IS '退職・無効化時に FALSE。物理 DELETE は禁止。';
+COMMENT ON COLUMN users.anonymized_at       IS 'PII 匿名化実施時刻。CFG-010 で設定された日数（デフォルト 60 日）経過後に BAT-004 が設定する。';
+COMMENT ON COLUMN users.deleted_at          IS '論理削除時刻（UTC）。NULL は現役ユーザー。退職・削除時に BAT-004 または管理者操作で設定する。認証クエリの WHERE 条件に使用する。';
 
 -- =====================================================
 -- TBL-018: skills（作業員スキル定義マスタ）
@@ -148,12 +163,13 @@ COMMENT ON COLUMN user_skills.certified_by   IS '認定者の user_id。supervis
 -- DDL-033: TBL-033 devices
 -- EN-023 Device — ハンディ端末デバイスマスタ
 CREATE TABLE IF NOT EXISTS devices (
-    device_id      UUID         NOT NULL DEFAULT gen_random_uuid(),
-    serial_number  VARCHAR(128) NOT NULL,
-    device_type    VARCHAR(16)  NOT NULL,
-    is_active      BOOLEAN      NOT NULL DEFAULT TRUE,
-    registered_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
-    updated_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+    device_id          UUID         NOT NULL DEFAULT gen_random_uuid(),
+    serial_number      VARCHAR(128) NOT NULL,
+    device_type        VARCHAR(16)  NOT NULL,
+    device_public_key  TEXT         NULL,
+    is_active          BOOLEAN      NOT NULL DEFAULT TRUE,
+    registered_at      TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+    updated_at         TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
 
     CONSTRAINT pk_devices PRIMARY KEY (device_id),
     CONSTRAINT uq_devices_serial UNIQUE (serial_number),
@@ -163,7 +179,8 @@ CREATE TABLE IF NOT EXISTS devices (
 );
 
 COMMENT ON TABLE  devices IS 'EN-023 Device — ハンディ端末デバイスマスタ。work_events.terminal_id の外部キー参照元。ALCOA+ Attributable 要件（どの端末で記録されたかを特定する）。';
-COMMENT ON COLUMN devices.device_type IS 'android / ios / windows の 3 値（CLAUDE.md 対応 OS と一致）。';
+COMMENT ON COLUMN devices.device_type        IS 'android / ios / windows の 3 値（CLAUDE.md 対応 OS と一致）。';
+COMMENT ON COLUMN devices.device_public_key  IS 'base64 エンコードされた Ed25519 公開鍵（32 バイト）。電子サイン作成時のデバイス署名検証に使用する。NULL は公開鍵未登録（デバイス登録前または検証スキップ対象）。';
 
 -- =====================================================
 -- TBL-002: electronic_signs（電子サインレコード・Append-only）
