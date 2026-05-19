@@ -2,6 +2,8 @@
 //
 // GET  /api/v1/work-assignments           — 作業割当一覧（カーソルページング）
 // POST /api/v1/work-assignments/{id}/ack  — 割当確認応答（ACK）
+//
+// SQLX_OFFLINE=true 環境のため sqlx::query() を使用する。cargo sqlx prepare 後に sqlx::query! に切り替えること。
 
 use axum::{
     Extension, Json,

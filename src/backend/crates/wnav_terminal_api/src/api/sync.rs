@@ -2,6 +2,8 @@
 //
 // GET  /api/v1/sync/master          — マスタ差分同期
 // POST /api/v1/sync/outbox/inbound  — ローカル Outbox 送信
+//
+// SQLX_OFFLINE=true 環境のため sqlx::query() を使用する。cargo sqlx prepare 後に sqlx::query! に切り替えること。
 
 use axum::{
     Extension, Json,

@@ -1,6 +1,8 @@
 // ステップイベント API（API-step-events-001）ハンドラ（03_作業実行API仕様.md §8）
 //
 // POST /api/v1/work-executions/{id}/events — ステップ完了イベント記録
+//
+// SQLX_OFFLINE=true 環境のため sqlx::query() を使用する。cargo sqlx prepare 後に sqlx::query! に切り替えること。
 
 use axum::{
     Extension, Json,

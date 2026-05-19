@@ -12,6 +12,7 @@ import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ProcessListPage } from '@/pages/master/ProcessListPage';
 import { OperationListPage } from '@/pages/master/OperationListPage';
 import { ProductListPage } from '@/pages/master/ProductListPage';
+import { SopListPage } from '@/pages/master/SopListPage';
 import { SopEditPage } from '@/pages/master/SopEditPage';
 import { SopImportPage } from '@/pages/master/SopImportPage';
 import { SopPreviewPage } from '@/pages/master/SopPreviewPage';
@@ -65,6 +66,7 @@ export function App(): React.ReactElement {
         <Route path="/master/processes" element={<RoleGuard roles={['master_admin']}><ProcessListPage /></RoleGuard>} />
         <Route path="/master/operations" element={<RoleGuard roles={['master_admin']}><OperationListPage /></RoleGuard>} />
         <Route path="/master/products" element={<RoleGuard roles={['master_admin']}><ProductListPage /></RoleGuard>} />
+        <Route path="/master/sops" element={<RoleGuard roles={['master_admin', 'quality_admin']}><SopListPage /></RoleGuard>} />
         <Route path="/master/sops/new" element={<RoleGuard roles={['master_admin']}><SopEditPage /></RoleGuard>} />
         <Route path="/master/sops/:id/edit" element={<RoleGuard roles={['master_admin']}><SopEditPage /></RoleGuard>} />
         <Route path="/master/sops/import" element={<RoleGuard roles={['master_admin']}><SopImportPage /></RoleGuard>} />

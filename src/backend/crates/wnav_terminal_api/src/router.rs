@@ -5,8 +5,10 @@
 
 use axum::{
     Router,
-    routing::{get, post},
+    routing::{get, post, put},
 };
+use utoipa::OpenApi;
+use utoipa_swagger_ui::SwaggerUi;
 
 use crate::{
     api::{
@@ -15,6 +17,85 @@ use crate::{
     },
     state::AppState,
 };
+
+/// OpenAPI ドキュメント定義（utoipa 自動生成）
+///
+/// GET /api/v1/openapi.json で配信する。
+#[derive(OpenApi)]
+#[openapi(
+    info(
+        title = "wnav_terminal_api",
+        version = "0.1.0",
+        description = "作業ナビゲーションシステム 端末 API（ハンディ端末向け）",
+    ),
+    paths(
+        auth::login,
+        auth::refresh,
+        auth::logout,
+        work_orders::list_work_orders,
+        work_orders::create_work_order,
+        work_orders::get_work_order,
+        work_executions::start_work_execution,
+        work_executions::get_work_execution,
+        work_executions::suspend_work_execution,
+        work_executions::resume_work_execution,
+        work_executions::complete_work_execution,
+        work_executions::heartbeat_work_execution,
+        step_events::post_step_event,
+        evidences::upload_evidence,
+        electronic_signatures::create_electronic_signature,
+        electronic_signatures::list_electronic_signatures,
+        electronic_signatures::get_electronic_signature,
+        sync::sync_master,
+        sync::sync_outbox_inbound,
+        work_assignments::list_work_assignments,
+        work_assignments::ack_work_assignment,
+        sse::sse_assignments,
+        andon::create_andon_alert,
+        kaizen::create_kaizen_proposal,
+        health::healthz,
+        health::readyz,
+    ),
+    tags(
+        (name = "auth", description = "認証・認可"),
+        (name = "work-orders", description = "作業指示"),
+        (name = "work-executions", description = "作業実行"),
+        (name = "step-events", description = "ステップイベント"),
+        (name = "evidences", description = "エビデンス"),
+        (name = "electronic-signatures", description = "電子サイン"),
+        (name = "sync", description = "同期"),
+        (name = "work-assignments", description = "作業割当"),
+        (name = "sse", description = "SSE"),
+        (name = "andon", description = "アンドン"),
+        (name = "kaizen", description = "改善提案"),
+        (name = "health", description = "ヘルスチェック"),
+    ),
+    security(
+        ("bearer_auth" = [])
+    ),
+    modifiers(&BearerSecurityAddon),
+)]
+struct ApiDoc;
+
+/// Bearer JWT 認証スキームを OpenAPI components に登録するモディファイア
+struct BearerSecurityAddon;
+
+impl utoipa::Modify for BearerSecurityAddon {
+    fn modify(&self, openapi: &mut utoipa::openapi::OpenApi) {
+        // components が存在しない場合は新規作成する
+        let components = openapi.components.get_or_insert_with(Default::default);
+        // "bearer_auth" という名前で Bearer JWT スキームを登録する
+        components.add_security_scheme(
+            "bearer_auth",
+            utoipa::openapi::security::SecurityScheme::Http(
+                utoipa::openapi::security::HttpBuilder::new()
+                    .scheme(utoipa::openapi::security::HttpAuthScheme::Bearer)
+                    .bearer_format("JWT")
+                    .build(),
+            ),
+        );
+    }
+}
 
 /// wnav_terminal_api の全エンドポイントを登録した Router<AppState> を返す。
 ///
@@ -52,6 +133,11 @@ pub fn create_router() -> Router<AppState> {
         .route(
             "/work-executions/{id}/complete",
             post(work_executions::complete_work_execution),
+        )
+        // ─── ハートビート（API-work-execs-006）────────────────────────
+        .route(
+            "/work-executions/{id}/heartbeat",
+            put(work_executions::heartbeat_work_execution),
         )
         // ─── ステップイベント ──────────────────────────────────────────
         .route(
@@ -108,10 +194,17 @@ pub fn create_router() -> Router<AppState> {
             "/nonconformities",
             post(nonconformities::register_nonconformity),
         )
+        // ─── OpenAPI JSON 配信 ────────────────────────────────────────
+        .route(
+            "/openapi.json",
+            get(|| async { axum::Json(ApiDoc::openapi()) }),
+        )
         // ─── システム ─────────────────────────────────────────────────
         .route("/readyz", get(health::readyz));
 
     Router::new()
+        // Swagger UI（/swagger-ui で OpenAPI ドキュメントを閲覧する）
+        .merge(SwaggerUi::new("/swagger-ui").url("/api/v1/openapi.json", ApiDoc::openapi()))
         // /healthz は /api/v1 プレフィックスなし（liveness probe 用）
         .route("/healthz", get(health::healthz))
         .route("/api/v1/healthz", get(health::healthz))

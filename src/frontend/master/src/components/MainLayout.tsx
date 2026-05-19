@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useMemo } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Box,
@@ -14,8 +14,10 @@ import {
   Typography,
   Divider,
   Collapse,
+  Tooltip,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import EngineeringIcon from '@mui/icons-material/Engineering';
@@ -30,7 +32,9 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import type { UserRole } from '@wnav/shared/types';
 import { useUiStore } from '@/stores/uiStore';
-import { useAuth } from '@/auth/useAuth';
+import { useAuth, useInvalidateAuth } from '@/auth/useAuth';
+import { api } from '@/api/client';
+import { clearDevToken } from '@/api/client';
 import { RBACBadge } from './RBACBadge';
 
 const DRAWER_WIDTH = 260;
@@ -93,7 +97,20 @@ const MENU_GROUPS: MenuGroup[] = [
 export function MainLayout(): React.ReactElement {
   const { sidebarOpen, toggleSidebar } = useUiStore();
   const { user } = useAuth();
+  const invalidateAuth = useInvalidateAuth();
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await api.post('/auth/logout', {});
+    } catch {
+      // ログアウト API の失敗はクライアント側のセッションを削除すれば十分
+    }
+    clearDevToken();
+    await invalidateAuth();
+    navigate('/login', { replace: true });
+  };
 
   const visibleGroups = useMemo(() => {
     if (!user) return [];
@@ -114,6 +131,16 @@ export function MainLayout(): React.ReactElement {
             WNAV マスタ管理
           </Typography>
           {user && <RBACBadge roles={user.roles} />}
+          <Tooltip title={`ログアウト (${user?.loginId ?? ''})`}>
+            <IconButton
+              color="inherit"
+              onClick={() => { void handleLogout(); }}
+              aria-label="ログアウト"
+              sx={{ ml: 1 }}
+            >
+              <LogoutIcon />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Drawer
