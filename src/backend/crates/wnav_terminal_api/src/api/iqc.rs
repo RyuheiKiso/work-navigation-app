@@ -27,6 +27,20 @@ use crate::{
 ///
 /// 現場端末からの入荷ロット受入登録。Idempotency-Key ヘッダ必須。
 /// event_insert_pool に INSERT する（app_event_insert ロール）。
+#[utoipa::path(
+    post,
+    path = "/api/v1/iqc/incoming-inspections",
+    operation_id = "createInspection",
+    request_body = CreateInspectionRequest,
+    responses(
+        (status = 201, description = "入荷検査開始成功", body = InspectionCreatedResponse),
+        (status = 401, description = "認証エラー"),
+        (status = 422, description = "バリデーションエラー"),
+        (status = 409, description = "ビジネスルール違反"),
+    ),
+    security(("bearer_auth" = [])),
+    tag = "iqc",
+)]
 pub async fn create_inspection(
     State(state): State<AppState>,
     Json(req): Json<CreateInspectionRequest>,
@@ -88,6 +102,23 @@ pub async fn create_inspection(
 ///
 /// 現場端末からのサンプル測定値 1 個を Append-only で記録する。
 /// event_insert_pool に INSERT する（app_event_insert ロール）。
+#[utoipa::path(
+    post,
+    path = "/api/v1/iqc/incoming-inspections/{id}/measurements",
+    operation_id = "addMeasurement",
+    params(
+        ("id" = uuid::Uuid, Path, description = "検査 ID"),
+    ),
+    request_body = AddMeasurementRequest,
+    responses(
+        (status = 201, description = "測定値追加成功", body = MeasurementResponse),
+        (status = 401, description = "認証エラー"),
+        (status = 404, description = "検査が見つからない"),
+        (status = 422, description = "バリデーションエラー"),
+    ),
+    security(("bearer_auth" = [])),
+    tag = "iqc",
+)]
 pub async fn add_measurement(
     State(state): State<AppState>,
     Path(id): Path<Uuid>,

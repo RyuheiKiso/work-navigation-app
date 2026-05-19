@@ -169,6 +169,90 @@ pub enum AppError {
     /// Idempotency-Key ヘッダが欠落している（書き込みリクエストで必須）
     #[error("Idempotency-Key header is required")]
     MissingIdempotencyKey,
+
+    // ─── ERR-VAL (IQC追加) ──────────────────────────────────────────────────
+    /// ERR-VAL-027: ロット不在（HTTP 404）
+    #[error("Lot not found")]
+    LotNotFound,
+
+    /// ERR-VAL-028: サンプリングプラン不在（HTTP 404）
+    #[error("Sampling plan not found")]
+    SamplingPlanNotFound,
+
+    /// ERR-VAL-029: AQL スナップショット不正（HTTP 422）
+    #[error("AQL table snapshot invalid")]
+    AqlSnapshotInvalid,
+
+    /// ERR-VAL-030: 測定数不足（HTTP 422）
+    #[error("Measurement count below required sample size")]
+    MeasurementCountInsufficient,
+
+    /// ERR-VAL-031: 特採有効期限切れ（HTTP 409）
+    #[error("Concession validity expired")]
+    ConcessionExpired,
+
+    // ─── ERR-BIZ (IQC/リワーク追加) ─────────────────────────────────────────
+    /// ERR-BIZ-015: QC 不合格ロットによる後工程ハードゲート（HTTP 409）
+    #[error("Lot blocked: QC not passed")]
+    LotBlockedNotPassed,
+
+    /// ERR-BIZ-016: IQC 未実施（HTTP 409）
+    #[error("IQC inspection not performed")]
+    InspectionNotPerformed,
+
+    /// ERR-BIZ-017: IQC 判定済み（HTTP 409）
+    #[error("IQC inspection already judged")]
+    AlreadyJudged,
+
+    /// ERR-BIZ-018: スクリーニングロット分割必要（HTTP 409）
+    #[error("Screening lot split required")]
+    ScreeningSplitRequired,
+
+    /// ERR-BIZ-019: ディスポジション決定済み（HTTP 409）
+    #[error("Disposition already decided")]
+    DispositionAlreadyDecided,
+
+    /// ERR-BIZ-020: リワークケース ID 親と同一（HTTP 409）
+    #[error("Rework case ID must differ from parent")]
+    ReworkCaseSameAsParent,
+
+    /// ERR-BIZ-021: ディスポジション Two-Person Integrity 違反（HTTP 422）
+    #[error("Disposition signers must be different users")]
+    DispositionSameSigner,
+
+    /// ERR-BIZ-022: リワーク最大回数超過（HTTP 409）
+    #[error("Rework maximum count exceeded")]
+    ReworkMaxCountExceeded,
+
+    /// ERR-BIZ-023: リワーク検証者が作業者と同一（HTTP 422）
+    #[error("Rework verifier must differ from worker")]
+    ReworkVerifierSameAsWorker,
+
+    /// ERR-BIZ-024: スクラップ立会人が作業者と同一（HTTP 422）
+    #[error("Scrap witness must differ from worker")]
+    ScrapWitnessSameAsWorker,
+
+    /// ERR-BIZ-025: 返品伝票番号未記入（HTTP 422）
+    #[error("Return tracking number is required")]
+    ReturnTrackingNoMissing,
+
+    // ─── ERR-EXT ────────────────────────────────────────────────────────────
+    /// ERR-EXT-001: 親機システム応答なし（HTTP 503）
+    #[error("Parent system unavailable")]
+    ParentSystemUnavailable,
+
+    /// ERR-EXT-002: LDAP/AD 応答なし（HTTP 503）
+    #[error("LDAP unavailable")]
+    LdapUnavailable,
+
+    // ─── ERR-SYS (追加) ──────────────────────────────────────────────────────
+    /// ERR-SYS-003: 帳票生成失敗（HTTP 500）
+    #[error("Report generation failed")]
+    ReportGenerationFailed,
+
+    /// ERR-SYS-004: テンプレート整合性エラー（HTTP 500）
+    #[error("Template integrity error")]
+    TemplateIntegrityError,
 }
 
 impl AppError {
@@ -201,6 +285,26 @@ impl AppError {
             AppError::DlqOverflow => "ERR-SYS-005",
             AppError::NotFound => "ERR-NOT-FOUND",
             AppError::MissingIdempotencyKey => "ERR-VAL-001",
+            AppError::LotNotFound => "ERR-VAL-027",
+            AppError::SamplingPlanNotFound => "ERR-VAL-028",
+            AppError::AqlSnapshotInvalid => "ERR-VAL-029",
+            AppError::MeasurementCountInsufficient => "ERR-VAL-030",
+            AppError::ConcessionExpired => "ERR-VAL-031",
+            AppError::LotBlockedNotPassed => "ERR-BIZ-015",
+            AppError::InspectionNotPerformed => "ERR-BIZ-016",
+            AppError::AlreadyJudged => "ERR-BIZ-017",
+            AppError::ScreeningSplitRequired => "ERR-BIZ-018",
+            AppError::DispositionAlreadyDecided => "ERR-BIZ-019",
+            AppError::ReworkCaseSameAsParent => "ERR-BIZ-020",
+            AppError::DispositionSameSigner => "ERR-BIZ-021",
+            AppError::ReworkMaxCountExceeded => "ERR-BIZ-022",
+            AppError::ReworkVerifierSameAsWorker => "ERR-BIZ-023",
+            AppError::ScrapWitnessSameAsWorker => "ERR-BIZ-024",
+            AppError::ReturnTrackingNoMissing => "ERR-BIZ-025",
+            AppError::ParentSystemUnavailable => "ERR-EXT-001",
+            AppError::LdapUnavailable => "ERR-EXT-002",
+            AppError::ReportGenerationFailed => "ERR-SYS-003",
+            AppError::TemplateIntegrityError => "ERR-SYS-004",
         }
     }
 
@@ -224,25 +328,48 @@ impl AppError {
             | AppError::CapaAlreadyClosed
             | AppError::CaseOccupied
             | AppError::ForeignKeyViolation => StatusCode::CONFLICT,
-            AppError::NotFound => StatusCode::NOT_FOUND,
+            AppError::NotFound
+            | AppError::LotNotFound
+            | AppError::SamplingPlanNotFound => StatusCode::NOT_FOUND,
+            AppError::AqlSnapshotInvalid
+            | AppError::MeasurementCountInsufficient
+            | AppError::DispositionSameSigner
+            | AppError::ReworkVerifierSameAsWorker
+            | AppError::ScrapWitnessSameAsWorker
+            | AppError::ReturnTrackingNoMissing => StatusCode::UNPROCESSABLE_ENTITY,
+            AppError::ConcessionExpired
+            | AppError::LotBlockedNotPassed
+            | AppError::InspectionNotPerformed
+            | AppError::AlreadyJudged
+            | AppError::ScreeningSplitRequired
+            | AppError::DispositionAlreadyDecided
+            | AppError::ReworkCaseSameAsParent
+            | AppError::ReworkMaxCountExceeded => StatusCode::CONFLICT,
             AppError::RateLimited => StatusCode::TOO_MANY_REQUESTS,
-            AppError::DlqOverflow => StatusCode::SERVICE_UNAVAILABLE,
+            AppError::DlqOverflow
+            | AppError::ParentSystemUnavailable
+            | AppError::LdapUnavailable => StatusCode::SERVICE_UNAVAILABLE,
             AppError::DatabaseError
             | AppError::HashChainBroken
             | AppError::OptimisticLockFailure
-            | AppError::InternalServerError => StatusCode::INTERNAL_SERVER_ERROR,
+            | AppError::InternalServerError
+            | AppError::ReportGenerationFailed
+            | AppError::TemplateIntegrityError => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
 
     /// ログレベルを返す（ログ出力の分岐に使用する）
     fn log_level(&self) -> LogLevel {
         match self {
-            AppError::HashChainBroken => LogLevel::Critical,
+            AppError::HashChainBroken | AppError::TemplateIntegrityError => LogLevel::Critical,
             AppError::DatabaseError
             | AppError::OptimisticLockFailure
             | AppError::InternalServerError
             | AppError::AccountLocked
-            | AppError::DlqOverflow => LogLevel::Error,
+            | AppError::DlqOverflow
+            | AppError::ReportGenerationFailed
+            | AppError::ParentSystemUnavailable
+            | AppError::LdapUnavailable => LogLevel::Error,
             AppError::Unauthorized
             | AppError::PinVerificationFailed
             | AppError::Forbidden
@@ -256,13 +383,29 @@ impl AppError {
             | AppError::CapaAlreadyClosed
             | AppError::CaseOccupied
             | AppError::ForeignKeyViolation
-            | AppError::RateLimited => LogLevel::Warn,
+            | AppError::RateLimited
+            | AppError::LotBlockedNotPassed
+            | AppError::InspectionNotPerformed
+            | AppError::AlreadyJudged
+            | AppError::ScreeningSplitRequired
+            | AppError::DispositionAlreadyDecided
+            | AppError::ReworkCaseSameAsParent
+            | AppError::ReworkMaxCountExceeded
+            | AppError::DispositionSameSigner
+            | AppError::ReworkVerifierSameAsWorker
+            | AppError::ScrapWitnessSameAsWorker
+            | AppError::ReturnTrackingNoMissing
+            | AppError::ConcessionExpired => LogLevel::Warn,
             AppError::RequiredFieldMissing(_)
             | AppError::ValueOutOfRange(_)
             | AppError::InvalidFormat(_)
             | AppError::MaxLengthExceeded(_)
             | AppError::MissingIdempotencyKey
-            | AppError::NotFound => LogLevel::Info,
+            | AppError::NotFound
+            | AppError::LotNotFound
+            | AppError::SamplingPlanNotFound
+            | AppError::AqlSnapshotInvalid
+            | AppError::MeasurementCountInsufficient => LogLevel::Info,
         }
     }
 

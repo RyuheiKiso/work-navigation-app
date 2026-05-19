@@ -17,6 +17,19 @@ use crate::{
 ///
 /// 現場端末からの非適合品起票。Append-only で TBL-013（nonconformities）に記録する。
 /// event_insert_pool に INSERT する（app_event_insert ロール）。
+#[utoipa::path(
+    post,
+    path = "/api/v1/nonconformities",
+    operation_id = "registerNonconformity",
+    request_body = RegisterNonconformityRequest,
+    responses(
+        (status = 201, description = "非適合品登録成功", body = NonconformityResponse),
+        (status = 401, description = "認証エラー"),
+        (status = 422, description = "バリデーションエラー"),
+    ),
+    security(("bearer_auth" = [])),
+    tag = "nonconformities",
+)]
 pub async fn register_nonconformity(
     State(state): State<AppState>,
     Json(req): Json<RegisterNonconformityRequest>,

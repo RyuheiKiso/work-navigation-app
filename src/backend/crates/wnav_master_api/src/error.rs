@@ -57,6 +57,29 @@ pub enum AppError {
     #[error("Rate limit exceeded")]
     RateLimited,
 
+    // ── IQC ビジネスルール ──────────────────────────────────────────────────
+    /// ERR-BIZ-017: IQC 判定済み（HTTP 409）
+    #[error("IQC inspection already judged")]
+    AlreadyJudged,
+
+    // ── 外部システム ─────────────────────────────────────────────────────────
+    /// ERR-EXT-001: 親機システム応答なし（HTTP 503）
+    #[error("Parent system unavailable")]
+    ParentSystemUnavailable,
+
+    /// ERR-EXT-002: LDAP/AD 応答なし（HTTP 503）
+    #[error("LDAP unavailable")]
+    LdapUnavailable,
+
+    // ── 帳票生成 ────────────────────────────────────────────────────────────
+    /// ERR-SYS-003: 帳票生成失敗（HTTP 500）
+    #[error("Report generation failed")]
+    ReportGenerationFailed,
+
+    /// ERR-SYS-004: テンプレート整合性エラー（HTTP 500）
+    #[error("Template integrity error")]
+    TemplateIntegrityError,
+
     // ── サーバーエラー ────────────────────────────────────────────────────
     /// データベースエラー
     #[error("Database error: {0}")]
@@ -79,8 +102,14 @@ impl AppError {
             Self::TwoPersonIntegrityViolation | Self::InvalidStateTransition(_) => {
                 StatusCode::UNPROCESSABLE_ENTITY
             }
+            Self::AlreadyJudged => StatusCode::CONFLICT,
             Self::RateLimited => StatusCode::TOO_MANY_REQUESTS,
-            Self::Database(_) | Self::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
+            Self::ParentSystemUnavailable | Self::LdapUnavailable => {
+                StatusCode::SERVICE_UNAVAILABLE
+            }
+            Self::ReportGenerationFailed | Self::TemplateIntegrityError | Self::Database(_) | Self::Internal(_) => {
+                StatusCode::INTERNAL_SERVER_ERROR
+            }
         }
     }
 
@@ -100,7 +129,12 @@ impl AppError {
             Self::InvalidStateTransition(_) => {
                 "https://errors.wnav.example.com/business/invalid-state-transition"
             }
+            Self::AlreadyJudged => "https://errors.wnav.example.com/ERR-BIZ-017",
             Self::RateLimited => "https://errors.wnav.example.com/rate-limit/exceeded",
+            Self::ParentSystemUnavailable => "https://errors.wnav.example.com/ERR-EXT-001",
+            Self::LdapUnavailable => "https://errors.wnav.example.com/ERR-EXT-002",
+            Self::ReportGenerationFailed => "https://errors.wnav.example.com/ERR-SYS-003",
+            Self::TemplateIntegrityError => "https://errors.wnav.example.com/ERR-SYS-004",
             Self::Database(_) => "https://errors.wnav.example.com/server/database-error",
             Self::Internal(_) => "https://errors.wnav.example.com/server/internal-error",
         }
@@ -118,7 +152,12 @@ impl AppError {
             Self::InvalidSignature => "Invalid Signature",
             Self::TwoPersonIntegrityViolation => "Two-Person Integrity Violation",
             Self::InvalidStateTransition(_) => "Invalid State Transition",
+            Self::AlreadyJudged => "Already Judged",
             Self::RateLimited => "Rate Limit Exceeded",
+            Self::ParentSystemUnavailable => "Parent System Unavailable",
+            Self::LdapUnavailable => "LDAP Unavailable",
+            Self::ReportGenerationFailed => "Report Generation Failed",
+            Self::TemplateIntegrityError => "Template Integrity Error",
             Self::Database(_) => "Database Error",
             Self::Internal(_) => "Internal Server Error",
         }
@@ -140,7 +179,21 @@ impl AppError {
                 "The submitter and approver must be different users (FR-AU-007).".to_string()
             }
             Self::InvalidStateTransition(msg) => msg.clone(),
+            Self::AlreadyJudged => "IQC inspection has already been judged.".to_string(),
             Self::RateLimited => "Too many requests. Please wait before retrying.".to_string(),
+            Self::ParentSystemUnavailable => {
+                "The parent system is currently unavailable. Retry later.".to_string()
+            }
+            Self::LdapUnavailable => {
+                "LDAP authentication is unavailable. Local authentication fallback applied."
+                    .to_string()
+            }
+            Self::ReportGenerationFailed => {
+                "Report generation failed. The operation will be retried automatically.".to_string()
+            }
+            Self::TemplateIntegrityError => {
+                "Report template integrity check failed. Contact system administrator.".to_string()
+            }
             Self::Database(_) => "A database error occurred. Please try again later.".to_string(),
             Self::Internal(_) => {
                 "An internal server error occurred. Please try again later.".to_string()

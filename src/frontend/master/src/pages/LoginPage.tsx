@@ -4,16 +4,21 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Box, Paper, TextField, Button, Typography, Alert, Stack } from '@mui/material';
 import { api, ApiError, storeDevToken } from '@/api/client';
-import { AUTH_QUERY_KEY } from '@/auth/useAuth';
+import { AUTH_QUERY_KEY, type AuthUser } from '@/auth/useAuth';
+import type { UserRole } from '@wnav/shared/types';
 
+// AuthLoginResponse の必要フィールドのみ定義する（shared/types の AuthLoginResponse は refreshToken 等を含むが未使用）
 interface LoginResponse {
   accessToken: string;
   tokenType: string;
   expiresIn: number;
   userId: string;
+  roles: UserRole[];
+  factoryId: string;
 }
 
-// ログイン画面（認証不要）。JWT は httpOnly Cookie として保管されるため、フォーム送信成功後は /auth/me を再取得。
+// ログイン画面（認証不要）。本番では httpOnly Cookie でセッション管理するため /auth/me への再フェッチで認証状態を確定する。
+// DEV/MSW 環境では Cookie が設定できないため setQueryData でキャッシュに直接書き込んで競合を回避する。
 export function LoginPage(): React.ReactElement {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,10 +32,20 @@ export function LoginPage(): React.ReactElement {
       const result = await api.post<LoginResponse>('/auth/login', { loginId, password, deviceId: 'master-web', factoryId: 'default' });
       return result.data;
     },
-    onSuccess: async (data) => {
-      // DEV モードのみ: MSW が Cookie を設定できないため accessToken を sessionStorage に保存する
+    onSuccess: (data) => {
       storeDevToken(data.accessToken);
-      await queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
+      // invalidateQueries ではなく setQueryData で直接書き込む。
+      // ログイン画面では AuthGuard が非マウントのためリフェッチが発火せず、
+      // キャッシュが null のまま遷移すると AuthGuard が /login へリダイレクトするループが起きる。
+      const authUser: AuthUser = {
+        id: data.userId,
+        loginId,
+        role: data.roles[0] ?? ('operator' as UserRole),
+        roles: data.roles,
+        locale: 'ja',
+        factoryId: data.factoryId,
+      };
+      queryClient.setQueryData(AUTH_QUERY_KEY, authUser);
       const fromState = location.state as { from?: string } | null;
       const from = fromState?.from ?? '/';
       navigate(from, { replace: true });

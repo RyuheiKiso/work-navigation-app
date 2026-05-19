@@ -9,6 +9,8 @@ use sqlx::PgPool;
 use wnav_auth::JwtKeyStore;
 use wnav_config::TerminalApiConfig;
 
+use crate::middleware::RateLimiter;
+
 /// wnav_terminal_api の依存注入コンテナ。
 ///
 /// axum Router に `.with_state(state)` で渡す。
@@ -26,4 +28,6 @@ pub struct AppState {
     pub jwt_key_store: Arc<JwtKeyStore>,
     /// アプリケーション設定（wnav_config クレートから読み込み済み）
     pub config: Arc<TerminalApiConfig>,
+    /// レート制限（トークンバケット方式）
+    pub rate_limiter: Arc<RateLimiter>,
 }

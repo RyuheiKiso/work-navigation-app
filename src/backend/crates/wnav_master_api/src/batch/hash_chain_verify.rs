@@ -4,6 +4,7 @@
 // 全 case_id のハッシュチェーンを検証し、破断を検知した場合は tracing::error! でアラートを出す。
 // SQLX_OFFLINE=true 環境のため sqlx::query() 動的クエリを使用する。
 
+use chrono::{Datelike, Utc, Weekday};
 use sqlx::PgPool;
 use std::time::Duration;
 
@@ -16,8 +17,14 @@ pub async fn run(write_pool: PgPool, read_pool: PgPool, cron_expr: String) {
     );
 
     loop {
-        // 週次（7 日周期）で実行する
-        tokio::time::sleep(Duration::from_secs(7 * 24 * 3600)).await;
+        // cron 式を解析して次回実行までの待機時間を計算する
+        let sleep_duration = next_sleep_duration(&cron_expr);
+        tracing::info!(
+            bat_id = "BAT-001",
+            sleep_secs = sleep_duration.as_secs(),
+            "次回ハッシュチェーン検証まで待機します",
+        );
+        tokio::time::sleep(sleep_duration).await;
 
         tracing::info!(bat_id = "BAT-001", "ハッシュチェーン全量検証を開始します");
 
@@ -33,6 +40,108 @@ pub async fn run(write_pool: PgPool, read_pool: PgPool, cron_expr: String) {
         .execute(&write_pool)
         .await;
     }
+}
+
+/// cron 式を解析して次回実行時刻までの Duration を計算する。
+///
+/// 対応パターン（5 フィールド: min hour dom month dow）:
+/// - "0 3 * * 1" → 毎週月曜 03:00 UTC
+/// - その他は警告ログを出して 7 日待機をフォールバックとする。
+fn next_sleep_duration(cron_expr: &str) -> Duration {
+    // 週次パターン "0 3 * * 1" を解析する
+    let parsed = parse_weekly_cron(cron_expr);
+    match parsed {
+        Some((minute, hour, weekday)) => {
+            duration_until_next_weekday_time(weekday, hour, minute)
+        }
+        None => {
+            tracing::warn!(
+                bat_id = "BAT-001",
+                cron = %cron_expr,
+                "cron 式を解析できませんでした。7 日待機をフォールバックとして使用します",
+            );
+            Duration::from_secs(7 * 24 * 3600)
+        }
+    }
+}
+
+/// cron 式（5 フィールド形式）から週次スケジュール（minute, hour, weekday）を解析する。
+///
+/// フォーマット: "MIN HOUR DOM MONTH DOW" where DOM="*" and MONTH="*"
+/// DOW: 0=日 1=月 2=火 3=水 4=木 5=金 6=土
+/// 解析できない場合は None を返す。
+fn parse_weekly_cron(expr: &str) -> Option<(u32, u32, Weekday)> {
+    let fields: Vec<&str> = expr.split_whitespace().collect();
+    if fields.len() != 5 {
+        return None;
+    }
+
+    // DOM と MONTH は "*" であることを確認する
+    if fields[2] != "*" || fields[3] != "*" {
+        return None;
+    }
+
+    let minute: u32 = fields[0].parse().ok()?;
+    let hour: u32 = fields[1].parse().ok()?;
+    let dow: u32 = fields[4].parse().ok()?;
+
+    if minute >= 60 || hour >= 24 || dow > 6 {
+        return None;
+    }
+
+    // chrono::Weekday に変換する（0=日 1=月 ... 6=土）
+    let weekday = match dow {
+        0 => Weekday::Sun,
+        1 => Weekday::Mon,
+        2 => Weekday::Tue,
+        3 => Weekday::Wed,
+        4 => Weekday::Thu,
+        5 => Weekday::Fri,
+        6 => Weekday::Sat,
+        _ => return None,
+    };
+
+    Some((minute, hour, weekday))
+}
+
+/// 次回の指定曜日・時刻（UTC）までの Duration を計算する。
+fn duration_until_next_weekday_time(weekday: Weekday, hour: u32, minute: u32) -> Duration {
+    let now = Utc::now();
+
+    // 現在の曜日番号（0=Mon, 6=Sun）
+    let now_weekday_num = now.weekday().num_days_from_monday();
+    // 目標曜日番号（0=Mon, 6=Sun）
+    let target_weekday_num = weekday.num_days_from_monday();
+
+    // 目標曜日まで何日後か計算する
+    let days_diff = if target_weekday_num > now_weekday_num {
+        target_weekday_num - now_weekday_num
+    } else if target_weekday_num < now_weekday_num {
+        7 - (now_weekday_num - target_weekday_num)
+    } else {
+        // 同じ曜日: 現在時刻が目標時刻を過ぎていれば 7 日後、そうでなければ今日
+        0
+    };
+
+    // 目標時刻（UTC）を構築する
+    let target_naive = now
+        .date_naive()
+        .and_hms_opt(hour, minute, 0)
+        .expect("and_hms_opt: 有効な時刻")
+        + chrono::Duration::days(i64::from(days_diff));
+    let target_datetime =
+        chrono::DateTime::<Utc>::from_naive_utc_and_offset(target_naive, Utc);
+
+    // 目標時刻が現在以前であれば（同曜日で時刻が過ぎている場合）7 日後に設定する
+    let target_datetime = if target_datetime <= now {
+        target_datetime + chrono::Duration::weeks(1)
+    } else {
+        target_datetime
+    };
+
+    let diff = target_datetime - now;
+    // chrono::Duration を std::time::Duration に変換する（負の場合はフォールバック）
+    diff.to_std().unwrap_or(Duration::from_secs(7 * 24 * 3600))
 }
 
 /// ハッシュチェーン検証の実処理

@@ -24,6 +24,9 @@
 #![allow(clippy::must_use_candidate)]
 // 例外: wildcard_imports は utoipa の path マクロ内で発生するため許容
 #![allow(clippy::wildcard_imports)]
+// 例外: DTO フィールド・エラーバリアント・ミドルウェアヘルパー関数は API 実装として宣言されている
+// 全量接続後に削除すること
+#![allow(dead_code)]
 
 mod api;
 mod batch;

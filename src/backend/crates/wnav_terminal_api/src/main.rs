@@ -127,11 +127,16 @@ async fn main() -> anyhow::Result<()> {
     let config_arc = Arc::new(config.clone());
     // BAT-003 用に Arc を事前にクローンしておく（AppState に移動させる前に取得する）
     let config_arc_for_batch = Arc::clone(&config_arc);
+
+    // レートリミッターを初期化する（デフォルト 600 rpm = 10 req/sec）
+    let rate_limiter = crate::middleware::RateLimiter::new(600);
+
     let state = AppState {
         event_insert_pool: event_insert_pool.clone(),
         read_pool,
         jwt_key_store,
         config: config_arc,
+        rate_limiter,
     };
 
     // ─────────────────────────────────────────────────────────────────────────

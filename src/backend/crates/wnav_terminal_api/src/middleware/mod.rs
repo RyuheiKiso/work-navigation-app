@@ -52,6 +52,11 @@ pub fn apply_middleware(
                 state.clone(),
                 auth::auth_middleware,
             ))
+            // 3b. RateLimitMiddleware: レート制限（ERR-SYS-002）
+            .layer(axum::middleware::from_fn_with_state(
+                state.clone(),
+                rate_limit::rate_limit_middleware,
+            ))
             // 4. IdempotencyMiddleware: Idempotency-Key 検証・キャッシュ照合
             // State<AppState> エクストラクタを使用するため from_fn_with_state が必要
             .layer(axum::middleware::from_fn_with_state(
@@ -157,6 +162,11 @@ impl RateLimiter {
             buckets: std::sync::Mutex::new(std::collections::HashMap::new()),
             rpm,
         })
+    }
+
+    /// 設定された rpm 値を返す。
+    pub fn rpm(&self) -> u32 {
+        self.rpm
     }
 
     /// トークンを消費する。成功時は true、レート超過時は false を返す。

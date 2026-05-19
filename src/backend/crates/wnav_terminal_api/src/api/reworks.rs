@@ -22,6 +22,21 @@ use crate::{
 /// 現場端末からのリワーク作業開始記録。Idempotency-Key ヘッダ必須。
 /// ディスポジションが REWORK 判定済みであることを確認してから開始する。
 /// event_insert_pool に INSERT する（app_event_insert ロール）。
+#[utoipa::path(
+    post,
+    path = "/api/v1/reworks",
+    operation_id = "createRework",
+    request_body = CreateReworkRequest,
+    responses(
+        (status = 201, description = "リワーク作業開始成功", body = ReworkResponse),
+        (status = 401, description = "認証エラー"),
+        (status = 404, description = "ディスポジションが見つからない"),
+        (status = 409, description = "ビジネスルール違反"),
+        (status = 422, description = "バリデーションエラー"),
+    ),
+    security(("bearer_auth" = [])),
+    tag = "reworks",
+)]
 pub async fn create_rework(
     State(state): State<AppState>,
     Json(req): Json<CreateReworkRequest>,
@@ -89,6 +104,21 @@ pub async fn create_rework(
 /// 現場端末での再検査結果を Append-only で記録する。
 /// Two-Person Integrity（BR-BUS-042）: verifier_id ≠ リワーク実施者。
 /// event_insert_pool に INSERT する（app_event_insert ロール）。
+#[utoipa::path(
+    post,
+    path = "/api/v1/rework-verifications",
+    operation_id = "createReworkVerification",
+    request_body = CreateReworkVerificationRequest,
+    responses(
+        (status = 201, description = "リワーク再検査記録成功", body = VerificationResponse),
+        (status = 401, description = "認証エラー"),
+        (status = 404, description = "リワークが見つからない"),
+        (status = 409, description = "ビジネスルール違反"),
+        (status = 422, description = "Two-Person Integrity 違反"),
+    ),
+    security(("bearer_auth" = [])),
+    tag = "reworks",
+)]
 pub async fn create_rework_verification(
     State(state): State<AppState>,
     Json(req): Json<CreateReworkVerificationRequest>,

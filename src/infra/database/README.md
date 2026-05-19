@@ -21,10 +21,10 @@ src/infra/database/
 │   └── 02_create_app_roles.sql         # グループロール作成 + ログインロール追加
 ├── migrations/                         # sqlx migrate 形式 SQL（61 本）
 │   ├── V20260517120000__create_extensions.sql
-│   ├── ...（V20260517120060 まで連番）
-│   └── V20260517120060__seed_step_type_definitions.sql
+│   ├── ...（V20260517120070 まで連番・71 本）
+│   └── V20260517120070__create_app_read_only_role.sql
 ├── scripts/
-│   ├── apply_migrations.sh             # マイグレーション実行ラッパー
+│   ├── apply_migrations.sh                 # sqlx migrate 実行ラッパー
 │   ├── backup.sh                           # BAT-005 日次バックアップ（AES-256-GCM 暗号化・90日保持）
 │   ├── restore.sh                          # リストア（5 ステップ）
 │   ├── failover.sh                         # Active/Standby フェイルオーバ
@@ -39,7 +39,6 @@ src/infra/database/
 │   ├── case_locks_expire.sql               # BAT-013 case_locks ハートビートタイムアウト
 │   ├── work_assignments_expire.sql         # BAT-015 作業指示期限切れ
 │   ├── rework_cost_aggregate.sql           # BAT-011 リワーク原価集計
-│   ├── apply_migrations.sh                 # sqlx migrate 実行ラッパー
 │   └── health_check.sh                     # pg_isready ヘルスチェック
 └── json-schemas/                       # JSONB 列の JSON Schema 定義（15 本）
     ├── instruction_text.v1.schema.json

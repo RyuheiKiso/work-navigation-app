@@ -1,5 +1,5 @@
 #!/bin/bash
-# BAT-003: 日次 03:00 JST に NAS へ証拠ファイルを rsync 同期する
+# evidence_rsync.sh — 証拠ファイル NAS 同期スクリプト（日次 03:00 JST）
 # docs/04_概要設計/08_運用方式設計/04_バックアップ・リストア方式.md 参照
 set -euo pipefail
 
