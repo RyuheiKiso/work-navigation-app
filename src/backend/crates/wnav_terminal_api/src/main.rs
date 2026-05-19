@@ -112,13 +112,14 @@ async fn main() -> anyhow::Result<()> {
     );
 
     // ─────────────────────────────────────────────────────────────────────────
-    // JWT キーストア初期化（検証専用。terminal-api は JWT を発行しない）
+    // JWT キーストア初期化（aud="terminal-api" / RS256 秘密鍵 + 公開鍵）
+    // terminal-api は login / refresh で terminal-api 宛て JWT を発行する
     // ─────────────────────────────────────────────────────────────────────────
-    let jwt_key_store = Arc::new(JwtKeyStore::new(
+    let jwt_key_store = Arc::new(JwtKeyStore::with_signing_key(
+        config.jwt_private.private_key.expose(),
         config.shared.jwt_public.public_key.expose(),
-        // kid は将来的に YAML から動的に取得する。現時点では固定値を使用する
-        "default",
-        "terminal-api",
+        "2026-Q2",       // 鍵ローテーション識別子（90 日ごとに更新）
+        "terminal-api",  // aud クレームの値（master-api トークンを拒否する）
     ));
 
     // ─────────────────────────────────────────────────────────────────────────

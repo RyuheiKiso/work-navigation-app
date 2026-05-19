@@ -298,8 +298,8 @@ pub struct SharedConfig {
 // ────────────────────────────────────────────────────────────────
 
 /// wnav_terminal_api の設定型
-/// database.write および jwt_private_key を型として持たない
-/// 誤ったフィールドへのアクセスはコンパイルエラーになる
+/// database.write を型として持たない（コンパイル時にマスタ書き込み混入を防止する）
+/// jwt_private は terminal_api の login 発行（aud="terminal-api"）に必要
 #[derive(Debug, Clone, Deserialize)]
 pub struct TerminalApiConfig {
     // 両バイナリ共通の設定（flatten によりトップレベルキーとして展開される）
@@ -309,6 +309,8 @@ pub struct TerminalApiConfig {
     pub server: TerminalServerConfig,
     // event_insert + read ロールのみ（write ロールは存在しない）
     pub database: TerminalDatabaseConfig,
+    // RS256 秘密鍵（aud="terminal-api" JWT 発行に使用。master_api の秘密鍵とは別）
+    pub jwt_private: JwtPrivateConfig,
     // Idempotency-Key キャッシュ（terminal_api 専用）
     pub idempotency: IdempotencyConfig,
     // Outbox コンシューマ（terminal_api 専用）

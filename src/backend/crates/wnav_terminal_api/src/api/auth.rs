@@ -172,10 +172,19 @@ pub async fn login(
     .execute(&state.event_insert_pool)
     .await;
 
-    // JWT は terminal-api では検証のみで発行しない
-    // 発行は将来的に専用エンドポイントまたは master-api 経由で行う
-    // 現時点では仮の JWT 文字列を返す
-    let access_token = format!("jwt.terminal.{user_id}");
+    // RS256 署名済み JWT を発行する（aud="terminal-api"、TTL 28800 秒 = 8 時間）
+    let cmd = wnav_auth::JwtIssueCmd {
+        user_id,
+        roles: roles.clone(),
+        factory_id,
+        device_id: Some(body.device_id),
+        kid: "2026-Q2".to_string(),
+        audience: "terminal-api".to_string(),
+    };
+    let access_token = state
+        .jwt_key_store
+        .issue(cmd, 28800)
+        .map_err(|_| AppError::InternalServerError)?;
 
     let data = LoginData {
         access_token,
@@ -233,8 +242,29 @@ pub async fn refresh(
         return Err(AppError::Unauthorized);
     }
 
-    // 新しいアクセストークンを生成する
-    let access_token = format!("jwt.terminal.{user_id}");
+    // RS256 署名済みアクセストークンを再発行する（TTL 28800 秒 = 8 時間）
+    let roles_row = sqlx::query_as::<_, (Vec<String>,)>(
+        "SELECT roles FROM users WHERE id = $1 AND deleted_at IS NULL LIMIT 1",
+    )
+    .bind(user_id)
+    .fetch_optional(&state.read_pool)
+    .await
+    .map_err(|_| AppError::DatabaseError)?
+    .map(|(r,)| r)
+    .unwrap_or_default();
+
+    let cmd = wnav_auth::JwtIssueCmd {
+        user_id,
+        roles: roles_row,
+        factory_id: _factory_id,
+        device_id: None,
+        kid: "2026-Q2".to_string(),
+        audience: "terminal-api".to_string(),
+    };
+    let access_token = state
+        .jwt_key_store
+        .issue(cmd, 28800)
+        .map_err(|_| AppError::InternalServerError)?;
 
     let data = RefreshData {
         access_token,

@@ -42,12 +42,13 @@ pub fn apply_middleware(
 
     router.layer(
         ServiceBuilder::new()
-            // 1. TraceLayer: X-Trace-Id 付与・構造化ログ出力
+            // 1. TraceLayer: HTTP スパン自動記録（tower_http）
             .layer(TraceLayer::new_for_http())
+            // 1b. TracingMiddleware: X-Trace-Id 付与・構造化ログ出力
+            .layer(axum::middleware::from_fn(tracing_mw::tracing_middleware))
             // 2. CorsLayer: CORS ヘッダ付与
             .layer(cors)
             // 3. AuthMiddleware: JWT 検証・CurrentUser 注入
-            // State<AppState> エクストラクタを使用するため from_fn_with_state が必要
             .layer(axum::middleware::from_fn_with_state(
                 state.clone(),
                 auth::auth_middleware,
@@ -58,7 +59,6 @@ pub fn apply_middleware(
                 rate_limit::rate_limit_middleware,
             ))
             // 4. IdempotencyMiddleware: Idempotency-Key 検証・キャッシュ照合
-            // State<AppState> エクストラクタを使用するため from_fn_with_state が必要
             .layer(axum::middleware::from_fn_with_state(
                 state,
                 idempotency::idempotency_middleware,

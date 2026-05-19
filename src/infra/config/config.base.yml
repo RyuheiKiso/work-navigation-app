@@ -65,12 +65,16 @@ cors:
   max_age_sec: 3600
 
 # ── JWT（RS256） ──────────────────────────────────────────────────────
-jwt:
+# jwt_public は SharedConfig に含まれ両バイナリが使用する（検証用公開鍵）
+jwt_public:
   algorithm: "RS256"
   ttl_sec: 28800                         # 8h
   public_key:
     secret_ref: "env:WNAV_BE_JWT_PUBLIC_KEY"
-  # private_key は master_api 専用（TerminalApiConfig 構造体に含まれない）
+# jwt_private は両バイナリが JWT 発行に使用する（aud クレームで識別）
+# terminal_api: aud="terminal-api" / master_api: aud="master-api"
+# 本番では別の秘密鍵ペアを使用することを推奨する（WNAV_BE_JWT_SECRET_TERMINAL / _MASTER で分離）
+jwt_private:
   private_key:
     secret_ref: "env:WNAV_BE_JWT_SECRET"
 
