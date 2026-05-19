@@ -139,7 +139,7 @@ pub async fn create_electronic_signature(
     sqlx::query(
         r"
         INSERT INTO electronic_signs
-            (id, signer_id, signed_content_hash, context_type, context_id,
+            (sign_id, signer_id, signed_content_hash, context_type, context_id,
              step_id, signed_at, timestamp_client, device_id, created_at)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $7)
         ",
@@ -208,10 +208,10 @@ pub async fn get_electronic_signature(
         ),
     >(
         r"
-        SELECT id, signer_id, signed_content_hash, context_type, context_id,
+        SELECT sign_id, signer_id, signed_content_hash, context_type, context_id,
                step_id, signed_at, device_id
         FROM electronic_signs
-        WHERE id = $1
+        WHERE sign_id = $1
         LIMIT 1
         ",
     )
@@ -299,7 +299,7 @@ pub async fn list_electronic_signatures(
         ),
     >(
         r"
-        SELECT id, signer_id, signed_content_hash, context_type, context_id,
+        SELECT sign_id, signer_id, signed_content_hash, context_type, context_id,
                step_id, signed_at, device_id
         FROM electronic_signs
         WHERE ($1::uuid IS NULL OR signer_id = $1)

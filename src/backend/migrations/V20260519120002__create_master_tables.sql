@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash        VARCHAR(255)    NOT NULL DEFAULT '',
     pin_hash             VARCHAR(255)    NULL,
     factory_id           UUID            NOT NULL DEFAULT gen_random_uuid(),
-    roles                JSONB           NOT NULL DEFAULT '[]'::jsonb,
+    roles                TEXT[]          NOT NULL DEFAULT '{}',
     failed_login_count   INTEGER         NOT NULL DEFAULT 0,
     locked_until         TIMESTAMPTZ     NULL,
     is_active            BOOLEAN         NOT NULL DEFAULT TRUE,
@@ -66,8 +66,7 @@ CREATE TABLE IF NOT EXISTS users (
     CONSTRAINT ck_users_display_name_not_empty CHECK (length(trim(display_name)) > 0),
     CONSTRAINT ck_users_anonymized_active CHECK (
         NOT (is_active = TRUE AND anonymized_at IS NOT NULL)
-    ),
-    CONSTRAINT ck_users_roles_is_array CHECK (jsonb_typeof(roles) = 'array')
+    )
 );
 
 COMMENT ON TABLE  users IS 'EN-001 User — 作業員・管理者・システムユーザーマスタ。物理削除禁止。退職後 is_active=FALSE、60日後に BAT-004 が PII を匿名化する。';
@@ -189,34 +188,31 @@ COMMENT ON COLUMN devices.device_public_key  IS 'base64 エンコードされた
 -- DDL-002: TBL-002 electronic_signs
 -- EN-015 ElectronicSign — 電子サインレコード。Append-only。ALCOA+ 承認証拠。
 CREATE TABLE IF NOT EXISTS electronic_signs (
-    sign_id         UUID        NOT NULL DEFAULT gen_random_uuid(),
-    signer_id       UUID        NOT NULL,
-    signed_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    sign_purpose    VARCHAR(64) NOT NULL,
-    target_type     VARCHAR(32) NOT NULL,
-    target_id       UUID        NOT NULL,
-    sign_method     VARCHAR(32) NOT NULL DEFAULT 'PIN',
-    credential_hash CHAR(64)    NOT NULL,
-    ip_address      INET        NULL,
-    device_id       UUID        NULL,
+    sign_id              UUID        NOT NULL DEFAULT gen_random_uuid(),
+    signer_id            UUID        NOT NULL,
+    signed_content_hash  TEXT        NOT NULL DEFAULT '',
+    context_type         VARCHAR(64) NOT NULL DEFAULT '',
+    context_id           UUID        NOT NULL DEFAULT gen_random_uuid(),
+    step_id              UUID        NULL,
+    signed_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    timestamp_client     TIMESTAMPTZ NULL,
+    sign_method          VARCHAR(32) NOT NULL DEFAULT 'PIN',
+    ip_address           INET        NULL,
+    device_id            UUID        NULL,
+    created_at           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
     CONSTRAINT pk_electronic_signs PRIMARY KEY (sign_id),
     CONSTRAINT fk_electronic_signs_signer FOREIGN KEY (signer_id)
         REFERENCES users (user_id) ON DELETE RESTRICT,
     CONSTRAINT fk_electronic_signs_device FOREIGN KEY (device_id)
         REFERENCES devices (device_id) ON DELETE RESTRICT,
-    CONSTRAINT ck_electronic_signs_purpose CHECK (
-        sign_purpose IN (
-            'step_completed_approval',
-            'work_completed_approval',
-            'master_publish_approval',
-            'suspension_approval',
-            'capa_closure_approval',
-            'nonconformity_closure_approval'
+    CONSTRAINT ck_electronic_signs_context_type CHECK (
+        context_type IN (
+            'step_sign',
+            'work_complete_sign',
+            'approval_sign',
+            'quality_check_sign'
         )
-    ),
-    CONSTRAINT ck_electronic_signs_target_type CHECK (
-        target_type IN ('work_event', 'master_version', 'suspension', 'capa', 'nonconformity')
     ),
     CONSTRAINT ck_electronic_signs_method CHECK (
         sign_method IN ('PIN', 'BIOMETRIC', 'PASSWORD', 'HARDWARE_TOKEN')
@@ -225,8 +221,46 @@ CREATE TABLE IF NOT EXISTS electronic_signs (
 
 COMMENT ON TABLE  electronic_signs IS 'EN-015 ElectronicSign — 電子サインレコード。Append-only。ALCOA+ Original / Attributable 要件。sign_id は master_versions・suspensions・capas から FK 参照される。';
 COMMENT ON COLUMN electronic_signs.sign_purpose    IS '署名目的の列挙値。';
-COMMENT ON COLUMN electronic_signs.credential_hash IS '認証資格情報のハッシュ（生 PIN・パスワードは保存しない）。';
-COMMENT ON COLUMN electronic_signs.ip_address      IS '署名時のクライアント IP。プライバシー保護のため /24 マスクを推奨（アプリ層で制御）。';
+COMMENT ON COLUMN electronic_signs.signed_content_hash IS '署名対象コンテンツの SHA-256 ハッシュ（"sha256:" プレフィックス + hex 64 文字）。';
+COMMENT ON COLUMN electronic_signs.context_type         IS '署名コンテキスト種別（step_sign / work_complete_sign / approval_sign / quality_check_sign）。';
+COMMENT ON COLUMN electronic_signs.context_id           IS '署名対象リソースの UUID（context_type に対応するレコード ID）。';
+COMMENT ON COLUMN electronic_signs.ip_address           IS '署名時のクライアント IP。プライバシー保護のため /24 マスクを推奨（アプリ層で制御）。';
+
+-- =====================================================
+-- TBL-035: refresh_tokens（JWT リフレッシュトークン管理）
+-- =====================================================
+CREATE TABLE IF NOT EXISTS refresh_tokens (
+    id          UUID        NOT NULL DEFAULT gen_random_uuid(),
+    user_id     UUID        NOT NULL,
+    factory_id  UUID        NOT NULL,
+    device_id   UUID        NULL,
+    is_revoked  BOOLEAN     NOT NULL DEFAULT FALSE,
+    expires_at  TIMESTAMPTZ NOT NULL,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT pk_refresh_tokens PRIMARY KEY (id),
+    CONSTRAINT fk_refresh_tokens_user FOREIGN KEY (user_id)
+        REFERENCES users (user_id) ON DELETE RESTRICT
+);
+
+COMMENT ON TABLE  refresh_tokens IS 'JWT リフレッシュトークン管理。有効期限 7 日。is_revoked=TRUE でログアウト済みを表す。';
+COMMENT ON COLUMN refresh_tokens.is_revoked IS 'TRUE: ログアウト済み・無効化済み。FALSE: 有効。';
+
+-- =====================================================
+-- TBL-036: jwt_blacklist（失効 JWT jti ブラックリスト）
+-- =====================================================
+CREATE TABLE IF NOT EXISTS jwt_blacklist (
+    jti         TEXT        NOT NULL,
+    user_id     UUID        NOT NULL,
+    revoked_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT pk_jwt_blacklist PRIMARY KEY (jti),
+    CONSTRAINT fk_jwt_blacklist_user FOREIGN KEY (user_id)
+        REFERENCES users (user_id) ON DELETE RESTRICT
+);
+
+COMMENT ON TABLE  jwt_blacklist IS '失効 JWT の jti ブラックリスト。ログアウト時に INSERT、JWT 検証時に照合する。';
 
 -- =====================================================
 -- TBL-004: master_versions（SOP・Step 版数管理）

@@ -74,6 +74,37 @@ export const evidenceHandlers = [
     return HttpResponse.json(envelope(evidence), { status: 201 });
   }),
 
+  // master アプリからの承認サイン（approval_sign）: signer_id をサーバー側で解決する前提でリクエスト形式が異なる
+  ...route('post', 'master', '/electronic-signs', async ({ request }) => {
+    const authErr = requireAuth(request);
+    if (authErr) return authErr;
+    const body = (await request.json().catch(() => null)) as { context_type?: string; context_id?: string; signature_base64?: string; pin?: string } | null;
+    if (!body?.context_type || !body.context_id) {
+      return problem(422, 'ERR-VAL-001', 'Required field missing', 'context_type と context_id は必須です');
+    }
+    const idem = await withIdempotency<{ id: string }>(request, body);
+    if (idem.conflict) return idem.conflict;
+    if (idem.cached) return HttpResponse.json(envelope(idem.cached.response), { status: idem.cached.status });
+
+    const signedAt = new Date().toISOString();
+    const lastBlock = db.hashChainBlocks[db.hashChainBlocks.length - 1];
+    const prevHash = lastBlock?.contentHash ?? '0'.repeat(64);
+    const signId = uuidv7();
+    const block = {
+      id: uuidv7(),
+      blockNumber: db.hashChainBlocks.length + 1,
+      prevHash,
+      contentHash: 'mock-' + signId.replaceAll('-', '').padEnd(64, '0').slice(0, 64),
+      payload: JSON.stringify({ signId }),
+      createdAt: signedAt,
+    };
+    db.hashChainBlocks.push(block);
+    // ページが期待する形式は { id: string } のため id フィールドで統一する
+    const response = { id: signId };
+    storeIdempotency(idem.key, idem.bodyHash, response, 201);
+    return HttpResponse.json(envelope(response), { status: 201 });
+  }),
+
   ...route('post', 'terminal', '/electronic-signs', async ({ request }) => {
     const authErr = requireAuth(request);
     if (authErr) return authErr;

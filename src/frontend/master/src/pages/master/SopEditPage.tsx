@@ -273,7 +273,7 @@ export function SopEditPage(): React.ReactElement {
             variant="contained"
             onClick={() =>
               saveSopMutation.mutate({
-                sopCode: `SOP-${Date.now()}`,
+                sopCode: `SOP-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
                 nameJson: { ja: '新規 SOP', en: '', zh: '' },
                 descriptionJson: { ja: '', en: '', zh: '' },
                 sopType: 'STANDARD',
