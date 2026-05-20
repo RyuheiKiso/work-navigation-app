@@ -1,0 +1,46 @@
+diff --git a/node_modules/@react-native-windows/cli/lib-commonjs/utils/deploy.js b/node_modules/@react-native-windows/cli/lib-commonjs/utils/deploy.js
+index ee5cad4..233aecf 100644
+--- a/node_modules/@react-native-windows/cli/lib-commonjs/utils/deploy.js
++++ b/node_modules/@react-native-windows/cli/lib-commonjs/utils/deploy.js
+@@ -292,15 +292,24 @@ async function deployToDesktop(options, verbose, config, buildTools) {
+         const appxRecipe = getAppxRecipePath(options, projectName);
+         const ideFolder = `${buildTools.installationPath}\\Common7\\IDE`;
+         const deployAppxRecipeExePath = `${ideFolder}\\DeployAppRecipe.exe`;
+-        if (vsVersion.gte(version_1.default.fromString('16.8.30906.45')) &&
++        // Patch: VS 2022 BuildTools の DeployAppRecipe.exe は NuGet.VisualStudio.Contracts の
++        // bindingRedirect が 17.14.3.0 を要求するのに、実体が 17.14.0.0 のため FileLoadException で失敗する。
++        // Common7\IDE\CommonExtensions\Microsoft\NuGet 配下の DLL バージョン不整合バグへの回避策として、
++        // 常に PowerShell + Add-AppxPackage によるレジスト経路にフォールバックさせる。
++        const useDeployAppRecipeExe = false;
++        if (useDeployAppRecipeExe &&
++            vsVersion.gte(version_1.default.fromString('16.8.30906.45')) &&
+             fs_1.default.existsSync(deployAppxRecipeExePath)) {
+             await (0, commandWithProgress_1.commandWithProgress)((0, commandWithProgress_1.newSpinner)('Deploying'), `Deploying ${appxRecipe}`, deployAppxRecipeExePath, [appxRecipe], verbose, 'DeployRecipeFailure');
+         }
+         else {
+             // Install the app package's dependencies before attempting to deploy.
+             await (0, commandWithProgress_1.runPowerShellScriptFunction)('Installing dependent framework packages', windowsStoreAppUtils, `Install-AppDependencies ${appxManifestPath} ${appPackageFolder} ${options.arch}`, verbose, 'InstallAppDependenciesFailure');
+-            await build.buildSolution(buildTools, slnFile, 
+-            /* options.release ? 'Release' : */ 'Debug', options.arch, { DeployLayout: 'true' }, verbose, 'deploy', options.buildLogDirectory);
++            // Patch: sln 全体に対する MSBuild の Deploy ターゲット呼び出しは vcxproj 側の
++            // Microsoft.ReactNative.Uwp.CppApp.targets が "app.Build.appxrecipe 無し" で必ず失敗する
++            // (vcxproj は AppX 成果物を出さないため)。wapproj 出力の AppxManifest.xml を
++            // Add-AppxPackage -Register で直接登録することで MSBuild Deploy 経路を回避する。
++            await (0, commandWithProgress_1.commandWithProgress)((0, commandWithProgress_1.newSpinner)('Registering app package'), `Registering ${appxManifestPath}`, commandWithProgress_1.powershell, ['-NoProfile', '-Command', `Add-AppxPackage -Register '${appxManifestPath}' -ForceUpdateFromAnyVersion`], verbose, 'DeployRecipeFailure');
+         }
+     }
+     const appFamilyName = (0, child_process_1.execSync)(`${commandWithProgress_1.powershell} -NoProfile -c $(Get-AppxPackage -Name ${appName}).PackageFamilyName`)
+diff --git a/node_modules/@react-native-windows/cli/lib-commonjs/utils/vsInstalls.js b/node_modules/@react-native-windows/cli/lib-commonjs/utils/vsInstalls.js
+index 622a7ec..f57b476 100644
+--- a/node_modules/@react-native-windows/cli/lib-commonjs/utils/vsInstalls.js
++++ b/node_modules/@react-native-windows/cli/lib-commonjs/utils/vsInstalls.js
+@@ -74,6 +74,9 @@ function enumerateVsInstalls(opts) {
+     if (opts.requires) {
+         args.push(`-requires ${opts.requires.join(' ')}`);
+     }
++    // Patch: include BuildTools / TestAgent / TeamExplorer SKUs which vswhere
++    // excludes by default. Required to detect standalone Build Tools for VS 2022.
++    args.push('-products *');
+     if (opts.latest) {
+         args.push('-latest');
+     }
