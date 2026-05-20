@@ -1,6 +1,0 @@
-*.md
-scripts/
-json-schemas/
-migrations/
-config/postgresql.standby.conf
-config/recovery.conf.template
